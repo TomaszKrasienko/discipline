@@ -1,4 +1,5 @@
 using discipline.centre.activityrules.application.ActivityRules.DTOs;
+using discipline.centre.activityrules.application.ActivityRules.DTOs.Responses;
 using discipline.centre.activityrules.domain;
 using discipline.centre.activityrules.domain.ValueObjects;
 using discipline.centre.activityrules.domain.ValueObjects.ActivityRules;
@@ -28,4 +29,11 @@ internal static class ActivityRuleDocumentMappingExtensions
             SelectedDays = document.SelectedDays?.ToList(),
             Stages = document.Stages?.Select(x => x.MapAsDto()).ToList()
         };
+
+    internal static ActivityRuleResponseDto AsResponseDto(this ActivityRuleDocument document)
+        => new(document.Id, document.Title, document.Note, document.Mode, document.SelectedDays?.ToArray(), 
+            document.Stages.Select(x => x.AsResponseDto()).ToList());
+
+    private static StageResponseDto AsResponseDto(this StageDocument document)
+        => new(document.StageId, document.Title, document.Index);
 }

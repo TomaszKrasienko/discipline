@@ -10,7 +10,7 @@ using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 
 namespace discipline.centre.dailytrackers.application.DailyTrackers.Commands;
 
-public sealed record CreateActivityFromActivityRuleCommand(UserId UserId, ActivityId ActivityId, ActivityRuleId ActivityRuleId) : ICommand;
+public sealed record CreateActivityFromActivityRuleCommand(UserId UserId, ActivityId? ActivityId, ActivityRuleId ActivityRuleId) : ICommand;
 
 internal sealed class CreateActivityFromActivityRuleCommandHandler(
     IClock clock, IActivityRulesApiClient apiClient,
@@ -18,6 +18,11 @@ internal sealed class CreateActivityFromActivityRuleCommandHandler(
 {
     public async Task HandleAsync(CreateActivityFromActivityRuleCommand command, CancellationToken cancellationToken = default)
     {
+        if (command.ActivityId is null)
+        {
+            command = command with { ActivityId = ActivityId.New() };
+        }
+        
         var activityRule = await apiClient.GetActivityRuleByIdAsync(command.ActivityRuleId, command.UserId);
         
         if (activityRule is null)

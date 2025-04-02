@@ -10,19 +10,12 @@ internal sealed class IdentityContext : IIdentityContext
     private readonly UserId? _userId;
     public bool IsAuthenticated { get; }
     public string? Status { get; }
-    public UserId GetUser()
-    {            
-        if (_userId is null)
-        {
-            throw new UnauthorizedException();
-        }
-
-        return _userId;
-    }
+    public UserId? GetUser()
+        =>  _userId ?? null;
 
     public IdentityContext(IHttpContextAccessor httpContextAccessor)
     {
-        if (httpContextAccessor?.HttpContext is null)
+        if (httpContextAccessor.HttpContext is null)
         {
             return;
         }
@@ -37,7 +30,7 @@ internal sealed class IdentityContext : IIdentityContext
 
         if (!Ulid.TryParse(user.Identity?.Name, out var userId))
         {
-            throw new ArgumentException("Invalid userId format");
+            return;
         }
 
         _userId = new UserId(userId);

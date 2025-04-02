@@ -59,10 +59,10 @@ Content-Type: application/json
 
 {
   "details": {
-      "title": "Rule 165",
+      "title": "Rule1 1",
       "note": "string"
     },
-  "mode": "FirstDayOfWeek"
+  "mode": "EveryDay"
 }
 
 ###

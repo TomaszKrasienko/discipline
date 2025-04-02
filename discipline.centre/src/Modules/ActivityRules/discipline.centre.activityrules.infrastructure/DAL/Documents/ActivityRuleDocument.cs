@@ -26,5 +26,5 @@ internal sealed record ActivityRuleDocument : IDocument
     public IEnumerable<int>? SelectedDays{ get; init; }
     
     [BsonElement("stages")] 
-    public IEnumerable<StageDocument>? Stages { get; init; }
+    public required IEnumerable<StageDocument> Stages { get; init; }
 }

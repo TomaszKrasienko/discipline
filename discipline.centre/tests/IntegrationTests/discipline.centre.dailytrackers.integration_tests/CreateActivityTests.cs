@@ -57,6 +57,7 @@ public sealed class CreateActivityTests() : BaseTestsController("daily-trackers-
                 ActivityId = Ulid.NewUlid().ToString(),
                 IsChecked = false,
                 Title = createActivityDto.Details.Title,
+                Stages = []
             }]
         };
         

@@ -14,18 +14,18 @@ namespace discipline.centre.activityrules.domain;
 
 public sealed class ActivityRule : AggregateRoot<ActivityRuleId, Ulid>
 {
-    private List<Stage>? _stages;
+    private readonly List<Stage> _stages = [];
     public UserId UserId { get; }
     public Details Details { get; private set; }
     public Mode Mode { get; private set; }
     public SelectedDays? SelectedDays { get; private set; }
-    public IReadOnlyList<Stage>? Stages => _stages;
+    public IReadOnlyList<Stage> Stages => _stages.ToArray();
     
     /// <summary>
     /// Constructor for mapping to mongo documents
     /// </summary>
     public ActivityRule(ActivityRuleId id, UserId userId, Details details,
-        Mode mode, SelectedDays? selectedDays, List<Stage>? stages) : this(id, userId, details, mode, selectedDays)
+        Mode mode, SelectedDays? selectedDays, List<Stage> stages) : this(id, userId, details, mode, selectedDays)
     {        
         _stages = stages;   
     }
@@ -42,16 +42,13 @@ public sealed class ActivityRule : AggregateRoot<ActivityRuleId, Ulid>
     }
     
     public static ActivityRule Create(ActivityRuleId id, UserId userId, ActivityRuleDetailsSpecification details, string mode, 
-        List<int>? selectedDays = null, List<StageSpecification>? stages = null)
+        List<int>? selectedDays, List<StageSpecification> stages)
     {
         Validate(mode, selectedDays);
         var activityRuleDetails = Details.Create(details.Title, details.Note);
         var days = selectedDays is not null ? SelectedDays.Create(selectedDays) : null;
         var activityRule = new ActivityRule(id, userId, activityRuleDetails, mode, days);
-        if (stages is not null)
-        {
-            activityRule.AddStages(stages);
-        }
+        activityRule.AddStages(stages);
         
         return activityRule;
     }
@@ -88,7 +85,6 @@ public sealed class ActivityRule : AggregateRoot<ActivityRuleId, Ulid>
         CheckRule(new StagesMustHaveOrderedIndexRule(_stages, stage));
         CheckRule(new StageTitleMustBeUniqueRule(_stages, stage));
         var newStage = Stage.Create(StageId.New(), stage.Title, stage.Index);
-        _stages ??= [];
         _stages.Add(newStage);
         return newStage;
     }
