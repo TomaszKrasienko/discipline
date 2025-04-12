@@ -18,25 +18,23 @@ public sealed class ActivityRule : AggregateRoot<ActivityRuleId, Ulid>
     public UserId UserId { get; }
     public Details Details { get; private set; }
     public SelectedMode Mode { get; private set; }
-    public SelectedDays? SelectedDays { get; private set; }
     public IReadOnlyList<Stage> Stages => _stages.ToArray();
     
     /// <summary>
     /// Constructor for mapping to mongo documents
     /// </summary>
     public ActivityRule(ActivityRuleId id, UserId userId, Details details,
-        SelectedMode mode, SelectedDays? selectedDays, List<Stage> stages) : this(id, userId, details, mode, selectedDays)
+        SelectedMode mode, List<Stage> stages) : this(id, userId, details, mode)
     {        
         _stages = stages;   
     }
     
     private ActivityRule(ActivityRuleId id, UserId userId, Details details,
-        SelectedMode mode, SelectedDays? selectedDays) : base(id)
+        SelectedMode mode) : base(id)
     {        
         UserId = userId;
         Details = details;  
         Mode = mode;
-        SelectedDays = selectedDays;
         
         AddDomainEvent(new ActivityRuleCreated(id, userId));
     }
@@ -44,7 +42,6 @@ public sealed class ActivityRule : AggregateRoot<ActivityRuleId, Ulid>
     public static ActivityRule Create(ActivityRuleId id, UserId userId, ActivityRuleDetailsSpecification details, string mode, 
         List<int>? selectedDays, List<StageSpecification> stages)
     {
-        Validate(mode, selectedDays);
         var activityRuleDetails = Details.Create(details.Title, details.Note);
         var days = selectedDays is not null ? SelectedDays.Create(selectedDays) : null;
         var activityRule = new ActivityRule(id, userId, activityRuleDetails, mode, days);
@@ -60,22 +57,12 @@ public sealed class ActivityRule : AggregateRoot<ActivityRuleId, Ulid>
             throw new DomainException("ActivityRule.NoChanges",
                 "Activity rule has no changes");
         }
-        Validate(mode, selectedDays);
         Details = Details.Create(details.Title, details.Note);
         Mode = mode;
-        SelectedDays = selectedDays is not null ? SelectedDays.Create(selectedDays) : null;
     }
     
-    private static void Validate(string mode, List<int>? selectedDays)
-    {
-        CheckRule(new ModeCannotHaveFilledSelectedDays(mode, selectedDays));
-        CheckRule(new ModeMustHaveFilledSelectedDays(mode, selectedDays));   
-    }
-    
-    public bool HasChanges(ActivityRuleDetailsSpecification details, string? mode, List<int>? selectedDays = null)
-        => (Details.HasChanges(details.Title, details.Note))
-       || (Mode.Value != mode)
-       || (SelectedDays?.HasChanges(selectedDays) ?? selectedDays is not null);
+    public bool HasChanges(ActivityRuleDetailsSpecification details)
+        => (Details.HasChanges(details.Title, details.Note));
 
     private void AddStages(List<StageSpecification> stages)
         => stages.ForEach(x => AddStage(x));
