@@ -11,10 +11,10 @@ public sealed class ModeTests
     public void Create_GivenAvailableNoEmptyValue_ShouldReturnModeWithValue()
     {
         //arrange
-        var value = Mode.EveryDayMode;
+        var value = SelectedMode.EveryDayMode;
         
         //act
-        var result = Mode.Create(value.Value);
+        var result = SelectedMode.Create(value.Value);
         
         //assert
         result.Value.ShouldBe(value.Value);
@@ -24,7 +24,7 @@ public sealed class ModeTests
     public void Create_GivenEmptyValue_ShouldThrowDomainExceptionWithCodeActivityRuleModeEmpty()
     {
         //act
-        var exception = Record.Exception(() => Mode.Create(string.Empty));
+        var exception = Record.Exception(() => SelectedMode.Create(string.Empty));
         
         //assert
         exception.ShouldBeOfType<DomainException>();
@@ -35,7 +35,7 @@ public sealed class ModeTests
     public void Create_GivenUnavailableValue_ShouldThrowDomainExceptionWithCodeActivityRuleModeUnavailable()
     {
         //act
-        var exception = Record.Exception(() => Mode.Create("test"));
+        var exception = Record.Exception(() => SelectedMode.Create("test"));
         
         //assert
         exception.ShouldBeOfType<DomainException>();

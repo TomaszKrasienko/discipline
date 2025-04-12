@@ -11,17 +11,17 @@ public partial class HasChangesTests
         yield return
         [
             ActivityRule.Create(ActivityRuleId.New(), UserId.New(), new ActivityRuleDetailsSpecification("test_title",
-                    null), Mode.EveryDayMode, null),
+                    null), SelectedMode.EveryDayMode, null, []),
             new HasChangesParameters(new ActivityRuleDetailsSpecification("test_title", null),
-                Mode.EveryDayMode, null)
+                SelectedMode.EveryDayMode, null)
         ];
         
         yield return
         [
             ActivityRule.Create(ActivityRuleId.New(), UserId.New(), new ActivityRuleDetailsSpecification("test_title",
-                    "test_note"),Mode.CustomMode, [1,2,3]),
+                    "test_note"),SelectedMode.CustomMode, [1,2,3], []),
             new HasChangesParameters(new ActivityRuleDetailsSpecification("test_title", "test_note"),
-                Mode.CustomMode, [1,2,3])
+                SelectedMode.CustomMode, [1,2,3])
         ];
     }
 
@@ -30,57 +30,57 @@ public partial class HasChangesTests
         yield return
         [
             ActivityRule.Create(ActivityRuleId.New(), UserId.New(), new ActivityRuleDetailsSpecification("test_title",
-                    null), Mode.EveryDayMode, null),
+                    null), SelectedMode.EveryDayMode, null, []),
             new HasChangesParameters(new ActivityRuleDetailsSpecification("test_title1", null),
-                Mode.EveryDayMode, null)
+                SelectedMode.EveryDayMode, null)
         ];
         
         yield return
         [
             ActivityRule.Create(ActivityRuleId.New(), UserId.New(), new ActivityRuleDetailsSpecification("test_title", 
-                    null), Mode.EveryDayMode, null),
+                    null), SelectedMode.EveryDayMode, null, []),
             new HasChangesParameters(new ActivityRuleDetailsSpecification("test_title", "test_note"),
-                Mode.EveryDayMode, null)
+                SelectedMode.EveryDayMode, null)
         ];
         
         yield return
         [
             ActivityRule.Create(ActivityRuleId.New(), UserId.New(), new ActivityRuleDetailsSpecification("test_title",
-                    "test_note"), Mode.EveryDayMode, null),
+                    "test_note"), SelectedMode.EveryDayMode, null, []),
             new HasChangesParameters(new ActivityRuleDetailsSpecification("test_title", "test_note1"),
-                Mode.EveryDayMode, null)
+                SelectedMode.EveryDayMode, null)
         ];
                 
         yield return
         [
             ActivityRule.Create(ActivityRuleId.New(), UserId.New(), new ActivityRuleDetailsSpecification("test_title", 
-                    "test_note"), Mode.EveryDayMode, null),
+                    "test_note"), SelectedMode.EveryDayMode, null, []),
             new HasChangesParameters(new ActivityRuleDetailsSpecification("test_title", "test_note"),
-                Mode.FirstDayOfMonth, null)
+                SelectedMode.FirstDayOfMonth, null)
         ];
         
         yield return
         [
             ActivityRule.Create(ActivityRuleId.New(), UserId.New(), new ActivityRuleDetailsSpecification("test_title",
-                    null), Mode.CustomMode, [1,2]),
+                    null), SelectedMode.CustomMode, [1,2], []),
             new HasChangesParameters(new ActivityRuleDetailsSpecification("test_title", null),
-                Mode.EveryDayMode, null)
+                SelectedMode.EveryDayMode, null)
         ];
         
         yield return
         [
             ActivityRule.Create(ActivityRuleId.New(), UserId.New(), new ActivityRuleDetailsSpecification("test_title", 
-                    null),Mode.CustomMode, [1,2]),
+                    null),SelectedMode.CustomMode, [1,2], []),
             new HasChangesParameters(new ActivityRuleDetailsSpecification("test_title", null),
-                Mode.CustomMode, [2,3])
+                SelectedMode.CustomMode, [2,3])
         ];
         
         yield return
         [
             ActivityRule.Create(ActivityRuleId.New(), UserId.New(), new ActivityRuleDetailsSpecification("test_title", 
-                    null),Mode.EveryDayMode, null),
+                    null),SelectedMode.EveryDayMode, null, []),
             new HasChangesParameters(new ActivityRuleDetailsSpecification("test_title", null),
-                Mode.CustomMode, [1,2])
+                SelectedMode.CustomMode, [1,2])
         ];
     }
 

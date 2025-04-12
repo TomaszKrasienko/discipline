@@ -22,7 +22,8 @@ public sealed class GetByIdActivityRuleTests() : BaseTestsController("activity-r
         //arrange
         var user = await AuthorizeWithFreeSubscriptionPicked();
         var activityRule = ActivityRule.Create(ActivityRuleId.New(), user.Id,
-            new ActivityRuleDetailsSpecification("test_title", null), Mode.EveryDayMode);
+            new ActivityRuleDetailsSpecification("test_title", null), SelectedMode.EveryDayMode,
+            null, []);
         
         await TestAppDb.GetCollection<ActivityRuleDocument>()
             .InsertOneAsync(activityRule.MapAsDocument());

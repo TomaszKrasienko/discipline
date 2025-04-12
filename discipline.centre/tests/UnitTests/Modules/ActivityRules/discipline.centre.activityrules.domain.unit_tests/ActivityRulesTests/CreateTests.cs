@@ -38,7 +38,7 @@ public partial class CreateTests
         
         //act
         var result = ActivityRule.Create(activityRuleId, userId, new ActivityRuleDetailsSpecification("test_title",
-            null), Mode.EveryDayMode);
+            null), SelectedMode.EveryDayMode, null, []);
         
         //assert
         var @event = result.DomainEvents.FirstOrDefault(x => x is ActivityRuleCreated);
@@ -66,7 +66,7 @@ public partial class CreateTests
     {
         //act
         var exception = Record.Exception(() => ActivityRule.Create(ActivityRuleId.New(), UserId.New(), 
-            new ActivityRuleDetailsSpecification("test_title", null), mode, null));
+            new ActivityRuleDetailsSpecification("test_title", null), mode, null,[]));
         
         //assert
         exception.ShouldBeOfType<DomainException>();
@@ -79,7 +79,7 @@ public partial class CreateTests
     {
         //act
         var exception = Record.Exception(() => ActivityRule.Create(ActivityRuleId.New(), UserId.New(), 
-            new ActivityRuleDetailsSpecification("test_title", null), mode, [1,2,3]));
+            new ActivityRuleDetailsSpecification("test_title", null), mode, [1,2,3],[]));
         
         //assert
         exception.ShouldBeOfType<DomainException>();

@@ -11,12 +11,12 @@ public partial class CreateActivityRuleCommandValidatorTests
         yield return
         [
             new CreateActivityRuleCommand(UserId.New(), ActivityRuleId.New(), 
-                new ActivityRuleDetailsSpecification("test_title", null), "Mode", null, null)
+                new ActivityRuleDetailsSpecification("test_title", null), "Mode", null, [])
         ];
         yield return
         [
             new CreateActivityRuleCommand(UserId.New(), ActivityRuleId.New(), new ActivityRuleDetailsSpecification(
-                "test_titel", "test_note"), "Mode", [1,2], null)
+                "test_titel", "test_note"), "Mode", [1,2], [])
         ];
     }
     
@@ -26,14 +26,14 @@ public partial class CreateActivityRuleCommandValidatorTests
         [
             new CreateActivityRuleCommand(UserId.New(), ActivityRuleId.New(), 
                 new ActivityRuleDetailsSpecification(string.Empty, null),
-                "test_mode", null, null),
+                "test_mode", null, []),
             $"{nameof(CreateActivityRuleCommand.Details)}.{nameof(ActivityRuleDetailsSpecification.Title)}"
         ];
         
         yield return
         [
             new CreateActivityRuleCommand(UserId.New(), ActivityRuleId.New(), new ActivityRuleDetailsSpecification(
-                    "test_title", null), string.Empty, null, null),
+                    "test_title", null), string.Empty, null, []),
             nameof(CreateActivityRuleCommand.Mode)
         ];
     }

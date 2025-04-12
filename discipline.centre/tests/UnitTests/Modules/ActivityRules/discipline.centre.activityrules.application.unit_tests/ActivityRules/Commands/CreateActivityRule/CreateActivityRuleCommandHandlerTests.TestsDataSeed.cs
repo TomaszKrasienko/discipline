@@ -13,31 +13,31 @@ public partial class CreateActivityRuleCommandHandlerTests
         yield return
         [
             new CreateActivityRuleCommand(UserId.New(), ActivityRuleId.New(), new ActivityRuleDetailsSpecification(
-                string.Empty, null), Mode.EveryDayMode, null,null)
+                string.Empty, null), SelectedMode.EveryDayMode, null,[])
         ];
         
         yield return
         [
             new CreateActivityRuleCommand(UserId.New(), ActivityRuleId.New(), new ActivityRuleDetailsSpecification(
-                "Rule title", null), string.Empty, null,null)
+                "Rule title", null), string.Empty, null,[])
         ];
         
         yield return
         [
             new CreateActivityRuleCommand(UserId.New(), ActivityRuleId.New(), new ActivityRuleDetailsSpecification(
-                "Rule title", null), "test_mode", null,null)
+                "Rule title", null), "test_mode", null,[])
         ];
         
         yield return
         [
             new CreateActivityRuleCommand(UserId.New(), ActivityRuleId.New(), new ActivityRuleDetailsSpecification(
-                "Rule title", null), Mode.CustomMode, null,null)
+                "Rule title", null), SelectedMode.CustomMode, null,[])
         ];
         
         yield return
         [
             new CreateActivityRuleCommand(UserId.New(), ActivityRuleId.New(), new ActivityRuleDetailsSpecification(
-                "Rule title", null), Mode.EveryDayMode, [1,2],null)
+                "Rule title", null), SelectedMode.EveryDayMode, [1,2],[])
         ];
     }
 }

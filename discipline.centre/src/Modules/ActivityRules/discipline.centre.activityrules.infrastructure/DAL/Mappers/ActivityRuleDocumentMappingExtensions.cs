@@ -17,7 +17,7 @@ internal static class ActivityRuleDocumentMappingExtensions
             Details.Create(document.Title, document.Note), 
             document.Mode,
             document.SelectedDays is not null ? SelectedDays.Create(document.SelectedDays.ToList()) : null,
-            document.Stages?.Select(x => x.MapAsEntity()).ToList()); 
+            document.Stages.Select(x => x.MapAsEntity()).ToList()); 
     
     internal static ActivityRuleDto MapAsDto(this ActivityRuleDocument document)
         => new()

@@ -20,8 +20,8 @@ internal static class ActivityRuleDocumentFakeDataFactory
             .RuleFor(f => f.Note, v => v.Random.String(length: 10, minChar: 'A', maxChar: 'z'))
             .RuleFor(f => f.Mode,
                 v => selectedDays is null
-                    ? v.PickRandom<string>(Mode.AvailableModes.Keys.Where(x => x != Mode.CustomMode).ToList())
-                    : Mode.CustomMode)
+                    ? v.PickRandom<string>(SelectedMode.AvailableModes.Keys.Where(x => x != SelectedMode.CustomMode).ToList())
+                    : SelectedMode.CustomMode)
             .RuleFor(f => f.SelectedDays, v => selectedDays)
             .RuleFor(f => f.UserId, v => Ulid.NewUlid().ToString());
 }

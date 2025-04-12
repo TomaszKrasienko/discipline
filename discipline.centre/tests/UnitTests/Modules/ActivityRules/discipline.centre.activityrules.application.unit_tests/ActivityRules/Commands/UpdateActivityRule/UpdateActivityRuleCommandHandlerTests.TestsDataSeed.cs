@@ -15,13 +15,13 @@ public partial class UpdateActivityRuleCommandHandlerTests
         yield return
         [
             new UpdateActivityRuleCommand(UserId.New(), ActivityRuleId.New(),
-                new ActivityRuleDetailsSpecification("test_title", null), Mode.EveryDayMode, null)
+                new ActivityRuleDetailsSpecification("test_title", null), SelectedMode.EveryDayMode, null)
         ];
         
         yield return
         [
             new UpdateActivityRuleCommand(UserId.New(), ActivityRuleId.New(), 
-                new ActivityRuleDetailsSpecification("test_title", "test_note"), Mode.CustomMode, [1, 2, 3])
+                new ActivityRuleDetailsSpecification("test_title", "test_note"), SelectedMode.CustomMode, [1, 2, 3])
         ];
     }
     
@@ -54,14 +54,14 @@ public partial class UpdateActivityRuleCommandHandlerTests
         yield return
         [
             new UpdateActivityRuleCommand(UserId.New(), ActivityRuleId.New(),  
-                new ActivityRuleDetailsSpecification(string.Empty, null),Mode.EveryDayMode, null)
+                new ActivityRuleDetailsSpecification(string.Empty, null),SelectedMode.EveryDayMode, null)
         ];
         
         yield return
         [
             new UpdateActivityRuleCommand(UserId.New(), ActivityRuleId.New(),
                 new ActivityRuleDetailsSpecification(new string('t', 31), null), 
-                Mode.EveryDayMode, null)
+                SelectedMode.EveryDayMode, null)
         ];
         
         yield return
@@ -81,7 +81,7 @@ public partial class UpdateActivityRuleCommandHandlerTests
         [
             new UpdateActivityRuleCommand(UserId.New(), ActivityRuleId.New(), 
                 new ActivityRuleDetailsSpecification("test_title", null),
-                Mode.CustomMode, null)
+                SelectedMode.CustomMode, null)
         ];
     }
 }

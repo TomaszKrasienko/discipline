@@ -25,7 +25,7 @@ public partial class CreateActivityRuleCommandHandlerTests
     {
         //arrange
         var command = new CreateActivityRuleCommand(UserId.New(), ActivityRuleId.New(), 
-            new ActivityRuleDetailsSpecification("test_title", "test_note"), Mode.CustomMode, [1], 
+            new ActivityRuleDetailsSpecification("test_title", "test_note"), SelectedMode.CustomMode, [1], 
             [new StageSpecification("test_stage_title", 1)]);
         
         _readWriteActivityRuleRepository
@@ -50,7 +50,7 @@ public partial class CreateActivityRuleCommandHandlerTests
     {
         //arrange
         var command = new CreateActivityRuleCommand(UserId.New(), ActivityRuleId.New(), 
-            new ActivityRuleDetailsSpecification("test_title", "test_note"), Mode.CustomMode, [1], 
+            new ActivityRuleDetailsSpecification("test_title", "test_note"), SelectedMode.CustomMode, [1], 
             [new StageSpecification("test_stage_title", 1)]);
         
         _readWriteActivityRuleRepository
@@ -74,7 +74,7 @@ public partial class CreateActivityRuleCommandHandlerTests
         //arrange
         var command = new CreateActivityRuleCommand(UserId.New(), ActivityRuleId.New(), 
             new ActivityRuleDetailsSpecification("Rule title", "Rule note"),
-            Mode.EveryDayMode, null, null);
+            SelectedMode.EveryDayMode, null, []);
         _readWriteActivityRuleRepository
             .ExistsAsync(command.Details.Title, command.UserId, default)
             .Returns(true);
@@ -92,7 +92,7 @@ public partial class CreateActivityRuleCommandHandlerTests
     {
         //arrange
        var command = new CreateActivityRuleCommand(UserId.New(), ActivityRuleId.New(), new ActivityRuleDetailsSpecification(
-           "Rule title", "Rule note"), Mode.EveryDayMode, null, null);
+           "Rule title", "Rule note"), SelectedMode.EveryDayMode, null, []);
        _readWriteActivityRuleRepository
             .ExistsAsync(command.Details.Title, command.UserId, CancellationToken.None)
             .Returns(true);

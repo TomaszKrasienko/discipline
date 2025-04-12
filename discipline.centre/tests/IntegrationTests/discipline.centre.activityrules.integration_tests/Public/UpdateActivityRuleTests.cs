@@ -31,7 +31,7 @@ public sealed class UpdateActivityRuleTests() : BaseTestsController("activity-ru
             .InsertOneAsync(activityRuleDocument with {UserId = user.Id.ToString()});
 
         var request = new UpdateActivityRuleDto(new ActivityRuleDetailsSpecification("new_test_title", "new_test_note"),
-            Mode.CustomMode, [0]);
+            SelectedMode.CustomMode, [0]);
 
         //act
         var response = await HttpClient.PutAsJsonAsync($"api/activity-rules-module/activity-rules/{activityRule.Id.ToString()}", request);
@@ -73,7 +73,7 @@ public sealed class UpdateActivityRuleTests() : BaseTestsController("activity-ru
     {
         //arrange
         var request = new UpdateActivityRuleDto(new ActivityRuleDetailsSpecification(string.Empty, null),
-            Mode.EveryDayMode, null);
+            SelectedMode.EveryDayMode, null);
         await AuthorizeWithFreeSubscriptionPicked();
         
         //act
@@ -88,7 +88,7 @@ public sealed class UpdateActivityRuleTests() : BaseTestsController("activity-ru
     {
         //arrange
         var request = new UpdateActivityRuleDto(new ActivityRuleDetailsSpecification("new_test_title", null),
-            Mode.EveryDayMode, null);
+            SelectedMode.EveryDayMode, null);
 
         //act
         var response = await HttpClient.PutAsJsonAsync($"api/activity-rules-module/activity-rules/{ActivityRuleId.New().ToString()}", request);
@@ -102,7 +102,7 @@ public sealed class UpdateActivityRuleTests() : BaseTestsController("activity-ru
     {
         //arrange
         var request = new UpdateActivityRuleDto(new ActivityRuleDetailsSpecification("test_title", null),
-            Mode.EveryDayMode, null);
+            SelectedMode.EveryDayMode, null);
         await AuthorizeWithoutSubscription();
         
         //act

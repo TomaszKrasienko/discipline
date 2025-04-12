@@ -11,7 +11,7 @@ public static class UpdateActivityRuleDtoFakeDataFactory
     public static UpdateActivityRuleDto Get()
     {
         var mode = new Faker()
-            .PickRandom<string>(Mode.AvailableModes.Keys);
+            .PickRandom<string>(SelectedMode.AvailableModes.Keys);
 
         var random = new Random();
         var selectedDaysCount = random.Next(1, 6);
@@ -25,7 +25,7 @@ public static class UpdateActivityRuleDtoFakeDataFactory
             .CustomInstantiator(v => new UpdateActivityRuleDto(
                 new ActivityRuleDetailsSpecification(v.Lorem.Word(), v.Lorem.Word()),
                 mode,
-                mode == Mode.CustomMode ? days : null));
+                mode == SelectedMode.CustomMode ? days : null));
 
         return faker.Generate(1).Single();
     }

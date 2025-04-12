@@ -11,7 +11,7 @@ using FluentValidation;
 namespace discipline.centre.activityrules.application.ActivityRules.Commands;
 
 public sealed record CreateActivityRuleCommand(UserId UserId, ActivityRuleId Id, ActivityRuleDetailsSpecification Details, 
-    string Mode, List<int>? SelectedDays, List<StageSpecification>? Stages) : ICommand;
+    string Mode, List<int>? SelectedDays, List<StageSpecification> Stages) : ICommand;
     
 public sealed class CreateActivityRuleCommandValidator : AbstractValidator<CreateActivityRuleCommand>
 {

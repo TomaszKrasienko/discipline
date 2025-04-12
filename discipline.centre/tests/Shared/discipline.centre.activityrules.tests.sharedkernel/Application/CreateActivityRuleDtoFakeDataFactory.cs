@@ -12,7 +12,7 @@ public static class CreateActivityRuleDtoFakeDataFactory
     {
         //todo: add stages
         var mode = new Faker()
-            .PickRandom<string>(Mode.AvailableModes.Keys);
+            .PickRandom<string>(SelectedMode.AvailableModes.Keys);
 
         var random = new Random();
         var selectedDaysCount = random.Next(1, 6);
@@ -26,7 +26,7 @@ public static class CreateActivityRuleDtoFakeDataFactory
             .CustomInstantiator(v => new CreateActivityRuleDto(
                 new ActivityRuleDetailsSpecification(v.Lorem.Word(), v.Lorem.Word()),
                 mode,
-                mode == Mode.CustomMode ? days : null,
+                mode == SelectedMode.CustomMode ? days : null,
                 null));
 
         return faker.Generate(1).Single();

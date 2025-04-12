@@ -14,7 +14,7 @@ public sealed class AddStageTests
     {
         //arrange
         var activityRule = ActivityRule.Create(ActivityRuleId.New(), UserId.New(), 
-            new ActivityRuleDetailsSpecification("test_title", null), Mode.EveryDayMode, 
+            new ActivityRuleDetailsSpecification("test_title", null), SelectedMode.EveryDayMode, 
             null, [new StageSpecification("test_stage_title1", 1)]);
 
         var title = "test_stage_title2";
@@ -34,8 +34,8 @@ public sealed class AddStageTests
     {
         //arrange
         var activityRule = ActivityRule.Create(ActivityRuleId.New(), UserId.New(), 
-            new ActivityRuleDetailsSpecification("test_title", null), Mode.EveryDayMode,
-            null, null);
+            new ActivityRuleDetailsSpecification("test_title", null), SelectedMode.EveryDayMode,
+            null, []);
 
         var title = "test_stage_title";
         var index = 1;
@@ -54,7 +54,7 @@ public sealed class AddStageTests
     {
         //arrange
         var activityRule = ActivityRule.Create(ActivityRuleId.New(), UserId.New(), 
-            new ActivityRuleDetailsSpecification("test_title", null), Mode.EveryDayMode, 
+            new ActivityRuleDetailsSpecification("test_title", null), SelectedMode.EveryDayMode, 
             null, [new StageSpecification("test_stage1", 1)]);
         
         //act
@@ -70,7 +70,7 @@ public sealed class AddStageTests
     {
         //arrange
         var activityRule = ActivityRule.Create(ActivityRuleId.New(), UserId.New(), 
-            new ActivityRuleDetailsSpecification("test_title", null), Mode.EveryDayMode, 
+            new ActivityRuleDetailsSpecification("test_title", null), SelectedMode.EveryDayMode, 
             null, [new StageSpecification("test_stage1", 1)]);
         
         //act

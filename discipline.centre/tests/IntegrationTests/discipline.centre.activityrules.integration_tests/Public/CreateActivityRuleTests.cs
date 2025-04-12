@@ -22,7 +22,7 @@ public sealed class CreateActivityRuleTests() : BaseTestsController("activity-ru
         //arrange
         var user = await AuthorizeWithFreeSubscriptionPicked();
         var command = new CreateActivityRuleDto( new ActivityRuleDetailsSpecification("test_title", 
-            "test_note"), Mode.EveryDayMode, null, null);
+            "test_note"), SelectedMode.EveryDayMode, null, []);
          
         //act
         var response = await HttpClient.PostAsJsonAsync("api/activity-rules-module/activity-rules", command);
@@ -52,7 +52,7 @@ public sealed class CreateActivityRuleTests() : BaseTestsController("activity-ru
             
         await TestAppDb.GetCollection<ActivityRuleDocument>().InsertOneAsync(activityRuleDocument with { UserId = user.Id.ToString() });
         var command = new CreateActivityRuleDto(new ActivityRuleDetailsSpecification(activityRule.Details.Title,
-            null), Mode.EveryDayMode, null, null);
+            null), SelectedMode.EveryDayMode, null, []);
          
         //act
         var response = await HttpClient.PostAsJsonAsync("api/activity-rules-module/activity-rules", command);
@@ -67,7 +67,7 @@ public sealed class CreateActivityRuleTests() : BaseTestsController("activity-ru
         //arrange
         await AuthorizeWithFreeSubscriptionPicked();
         var command = new CreateActivityRuleDto(new ActivityRuleDetailsSpecification(string.Empty, 
-            null), Mode.EveryDayMode, null, null);
+            null), SelectedMode.EveryDayMode, null, []);
          
         //act
         var response = await HttpClient.PostAsJsonAsync("api/activity-rules-module/activity-rules", command);
@@ -81,7 +81,7 @@ public sealed class CreateActivityRuleTests() : BaseTestsController("activity-ru
     {
         //arrange
         var command = new CreateActivityRuleDto(new ActivityRuleDetailsSpecification("test_title", 
-            null), Mode.EveryDayMode, null, null);
+            null), SelectedMode.EveryDayMode, null, []);
         
         //act
         var response = await HttpClient.PostAsJsonAsync("api/activity-rules-module/activity-rules", command);
@@ -96,7 +96,7 @@ public sealed class CreateActivityRuleTests() : BaseTestsController("activity-ru
         //arrange
         await AuthorizeWithoutSubscription();
         var command = new CreateActivityRuleDto(new ActivityRuleDetailsSpecification("test_title", null),
-            Mode.EveryDayMode, null, null);
+            SelectedMode.EveryDayMode, null, []);
         
         //act
         var response = await HttpClient.PostAsJsonAsync("api/activity-rules-module/activity-rules", command);
