@@ -39,29 +39,34 @@ public sealed class ActivityRule : AggregateRoot<ActivityRuleId, Ulid>
         AddDomainEvent(new ActivityRuleCreated(id, userId));
     }
     
-    public static ActivityRule Create(ActivityRuleId id, UserId userId, ActivityRuleDetailsSpecification details, string mode, 
-        List<int>? selectedDays, List<StageSpecification> stages)
+    public static ActivityRule Create(ActivityRuleId id, 
+        UserId userId, 
+        ActivityRuleDetailsSpecification details, 
+        ActivityRuleModeSpecification mode, 
+        List<StageSpecification> stages)
     {
         var activityRuleDetails = Details.Create(details.Title, details.Note);
-        var days = selectedDays is not null ? SelectedDays.Create(selectedDays) : null;
-        var activityRule = new ActivityRule(id, userId, activityRuleDetails, mode, days);
+        var activityRuleMode = SelectedMode.Create(mode.Mode, mode.Days);
+        var activityRule = new ActivityRule(id, userId, activityRuleDetails, activityRuleMode);
         activityRule.AddStages(stages);
         
         return activityRule;
     }
 
-    public void Edit(ActivityRuleDetailsSpecification details, string mode, List<int>? selectedDays = null)
+    public void Edit(ActivityRuleDetailsSpecification details, 
+        ActivityRuleModeSpecification mode)
     {
-        if (!HasChanges(details, mode, selectedDays))
+        if (!HasChanges(details, mode))
         {
             throw new DomainException("ActivityRule.NoChanges",
                 "Activity rule has no changes");
         }
         Details = Details.Create(details.Title, details.Note);
-        Mode = mode;
+        Mode = SelectedMode.Create(mode.Mode, mode.Days);;
     }
     
-    public bool HasChanges(ActivityRuleDetailsSpecification details)
+    public bool HasChanges(ActivityRuleDetailsSpecification details,
+        ActivityRuleModeSpecification mode)
         => (Details.HasChanges(details.Title, details.Note));
 
     private void AddStages(List<StageSpecification> stages)

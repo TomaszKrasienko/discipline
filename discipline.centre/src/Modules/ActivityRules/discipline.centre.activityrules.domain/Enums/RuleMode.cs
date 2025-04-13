@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using discipline.centre.activityrules.domain.ValueObjects.ActivityRules;
 
 namespace discipline.centre.activityrules.domain.Enums;
@@ -24,6 +25,17 @@ public sealed record RuleMode
         Value = value;
         IsDaysRequired = isDaysRequired;
     }
-    
-    
+
+    //TODO: Tests
+    public static RuleMode Parse(string value) => value switch
+    {
+        nameof(EveryDayMode) => EveryDayMode,
+        nameof(FirstDayOfWeekMode) => FirstDayOfWeekMode,
+        nameof(LastDayOfWeekMode) => LastDayOfWeekMode,
+        nameof(CustomMode) => CustomMode,
+        nameof(FirstDayOfMonth) => FirstDayOfMonth,
+        nameof(LastDayOfMonthMode) => LastDayOfMonthMode,
+        //TODO: Custom exception
+        _ => throw new ArgumentException($"Invalid value: {value}")
+    };
 }

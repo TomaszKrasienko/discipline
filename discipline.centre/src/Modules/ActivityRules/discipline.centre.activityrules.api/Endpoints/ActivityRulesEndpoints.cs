@@ -1,6 +1,8 @@
 using discipline.centre.activityrules.api;
 using discipline.centre.activityrules.application.ActivityRules.Commands;
 using discipline.centre.activityrules.application.ActivityRules.DTOs;
+using discipline.centre.activityrules.application.ActivityRules.DTOs.Requests;
+using discipline.centre.activityrules.application.ActivityRules.DTOs.Requests.Create;
 using discipline.centre.activityrules.application.ActivityRules.DTOs.Responses;
 using discipline.centre.activityrules.application.ActivityRules.Queries;
 using discipline.centre.shared.abstractions.CQRS;
@@ -21,7 +23,7 @@ internal static class ActivityRulesEndpoints
     
     internal static WebApplication MapActivityRulesEndpoints(this WebApplication app)
     {
-        app.MapPost($"api/{ActivityRulesTag}", async (CreateActivityRuleDto command, IHttpContextAccessor httpContext, 
+        app.MapPost($"api/{ActivityRulesTag}", async (CreateActivityRuleRequestDto command, IHttpContextAccessor httpContext, 
                 ICqrsDispatcher dispatcher, CancellationToken cancellationToken, IIdentityContext identityContext) => 
             {
                 var activityRuleId = ActivityRuleId.New();
@@ -37,6 +39,7 @@ internal static class ActivityRulesEndpoints
                 
                 return Results.CreatedAtRoute(nameof(GetActivityRuleById), new {activityRuleId = activityRuleId.ToString()}, null);
             })
+            .AddEndpointFilter<>()
             .Produces(StatusCodes.Status201Created, typeof(void))
             .Produces(StatusCodes.Status400BadRequest, typeof(ProblemDetails))
             .Produces(StatusCodes.Status401Unauthorized, typeof(void))

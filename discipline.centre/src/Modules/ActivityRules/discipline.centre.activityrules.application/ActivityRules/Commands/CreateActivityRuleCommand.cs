@@ -10,8 +10,11 @@ using FluentValidation;
 
 namespace discipline.centre.activityrules.application.ActivityRules.Commands;
 
-public sealed record CreateActivityRuleCommand(UserId UserId, ActivityRuleId Id, ActivityRuleDetailsSpecification Details, 
-    string Mode, List<int>? SelectedDays, List<StageSpecification> Stages) : ICommand;
+public sealed record CreateActivityRuleCommand(UserId UserId, 
+    ActivityRuleId Id, 
+    ActivityRuleDetailsSpecification Details,
+    ActivityRuleModeSpecification Mode, 
+    List<StageSpecification> Stages) : ICommand;
     
 public sealed class CreateActivityRuleCommandValidator : AbstractValidator<CreateActivityRuleCommand>
 {
@@ -25,11 +28,6 @@ public sealed class CreateActivityRuleCommandValidator : AbstractValidator<Creat
         RuleFor(x => x.Details.Title)
             .MaximumLength(30)
             .WithMessage("Activity rule \"Title\" has invalid length");
-        
-        RuleFor(x => x.Mode)
-            .NotNull()
-            .NotEmpty()
-            .WithMessage("Activity rule \"Mode\" can not be null or empty");
     }
 }
 
@@ -47,7 +45,7 @@ internal sealed class CreateActivityRuleCommandHandler(
         }
 
         var activity = ActivityRule.Create(command.Id, command.UserId, command.Details,
-            command.Mode, command.SelectedDays, command.Stages);
+            command.Mode, command.Stages);
         await readWriteActivityRuleRepository.AddAsync(activity, cancellationToken);
         await eventProcessor.PublishAsync(activity.DomainEvents.Select(x
             => x.MapAsIntegrationEvent()).ToArray());

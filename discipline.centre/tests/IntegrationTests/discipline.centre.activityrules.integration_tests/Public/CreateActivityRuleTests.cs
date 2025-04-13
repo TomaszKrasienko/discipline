@@ -1,6 +1,8 @@
 using System.Net;
 using System.Net.Http.Json;
 using discipline.centre.activityrules.application.ActivityRules.DTOs;
+using discipline.centre.activityrules.application.ActivityRules.DTOs.Requests;
+using discipline.centre.activityrules.application.ActivityRules.DTOs.Requests.Create;
 using discipline.centre.activityrules.domain;
 using discipline.centre.activityrules.domain.Specifications;
 using discipline.centre.activityrules.domain.ValueObjects.ActivityRules;
@@ -21,7 +23,7 @@ public sealed class CreateActivityRuleTests() : BaseTestsController("activity-ru
     {
         //arrange
         var user = await AuthorizeWithFreeSubscriptionPicked();
-        var command = new CreateActivityRuleDto( new ActivityRuleDetailsSpecification("test_title", 
+        var command = new CreateActivityRuleRequestDto( new ActivityRuleDetailsSpecification("test_title", 
             "test_note"), SelectedMode.EveryDayMode, null, []);
          
         //act
@@ -51,7 +53,7 @@ public sealed class CreateActivityRuleTests() : BaseTestsController("activity-ru
         var activityRuleDocument = activityRule.MapAsDocument();
             
         await TestAppDb.GetCollection<ActivityRuleDocument>().InsertOneAsync(activityRuleDocument with { UserId = user.Id.ToString() });
-        var command = new CreateActivityRuleDto(new ActivityRuleDetailsSpecification(activityRule.Details.Title,
+        var command = new CreateActivityRuleRequestDto(new ActivityRuleDetailsSpecification(activityRule.Details.Title,
             null), SelectedMode.EveryDayMode, null, []);
          
         //act
@@ -66,7 +68,7 @@ public sealed class CreateActivityRuleTests() : BaseTestsController("activity-ru
     {
         //arrange
         await AuthorizeWithFreeSubscriptionPicked();
-        var command = new CreateActivityRuleDto(new ActivityRuleDetailsSpecification(string.Empty, 
+        var command = new CreateActivityRuleRequestDto(new ActivityRuleDetailsSpecification(string.Empty, 
             null), SelectedMode.EveryDayMode, null, []);
          
         //act
@@ -80,7 +82,7 @@ public sealed class CreateActivityRuleTests() : BaseTestsController("activity-ru
     public async Task Create_Unauthorized_ShouldReturn401UnauthorizedStatusCode()
     {
         //arrange
-        var command = new CreateActivityRuleDto(new ActivityRuleDetailsSpecification("test_title", 
+        var command = new CreateActivityRuleRequestDto(new ActivityRuleDetailsSpecification("test_title", 
             null), SelectedMode.EveryDayMode, null, []);
         
         //act
@@ -95,7 +97,7 @@ public sealed class CreateActivityRuleTests() : BaseTestsController("activity-ru
     {
         //arrange
         await AuthorizeWithoutSubscription();
-        var command = new CreateActivityRuleDto(new ActivityRuleDetailsSpecification("test_title", null),
+        var command = new CreateActivityRuleRequestDto(new ActivityRuleDetailsSpecification("test_title", null),
             SelectedMode.EveryDayMode, null, []);
         
         //act
