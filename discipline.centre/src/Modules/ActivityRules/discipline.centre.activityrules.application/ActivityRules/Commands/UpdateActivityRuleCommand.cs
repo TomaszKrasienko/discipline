@@ -8,8 +8,10 @@ using FluentValidation;
 
 namespace discipline.centre.activityrules.application.ActivityRules.Commands;
 
-public sealed record UpdateActivityRuleCommand(UserId UserId, ActivityRuleId Id, ActivityRuleDetailsSpecification Details, 
-    string Mode, List<int>? SelectedDays) : ICommand;
+public sealed record UpdateActivityRuleCommand(UserId UserId, 
+    ActivityRuleId Id, 
+    ActivityRuleDetailsSpecification Details,
+    ActivityRuleModeSpecification Mode) : ICommand;
 
 public sealed class UpdateActivityRuleCommandValidator : AbstractValidator<UpdateActivityRuleCommand>
 {
@@ -40,11 +42,8 @@ internal sealed class UpdateActivityRuleCommandHandler(
         {
             throw new NotFoundException("UpdateActivityRule.ActivityRule", nameof(activityRule), command.Id.ToString());
         }
-
-        if (activityRule.HasChanges(command.Details, command.Mode, command.SelectedDays))
-        {
-            activityRule.Edit(command.Details, command.Mode, command.SelectedDays);
-            await readWriteActivityRuleRepository.UpdateAsync(activityRule, cancellationToken);
-        }
+        
+        activityRule.Edit(command.Details, command.Mode);
+        await readWriteActivityRuleRepository.UpdateAsync(activityRule, cancellationToken);
     }
 }

@@ -10,7 +10,7 @@ public sealed class SelectedMode : ValueObject
     public RuleMode Mode { get; }
     public IReadOnlySet<DayOfWeek>? Days { get; }
 
-    internal static SelectedMode Create(RuleMode mode, HashSet<int>? days)
+    public static SelectedMode Create(RuleMode mode, HashSet<int>? days)
     {
         CheckRule(new RuleModeRequireSelectedDaysRule(mode, days));
         foreach (var day in days ?? [])
@@ -28,6 +28,10 @@ public sealed class SelectedMode : ValueObject
         Mode = mode;
         Days = days;
     }
+    
+    internal bool HasChanges(RuleMode mode, IReadOnlySet<DayOfWeek>? days)
+        => Mode != mode
+        || days is null ? Days is not null : Days?.SequenceEqual(days) ?? true;
 
     protected override IEnumerable<object?> GetAtomicValues()
     {

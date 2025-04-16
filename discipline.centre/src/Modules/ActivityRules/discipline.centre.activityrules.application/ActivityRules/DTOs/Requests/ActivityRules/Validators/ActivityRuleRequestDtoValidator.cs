@@ -1,10 +1,10 @@
 using FluentValidation;
 
-namespace discipline.centre.activityrules.application.ActivityRules.DTOs.Requests.Create.Validators;
+namespace discipline.centre.activityrules.application.ActivityRules.DTOs.Requests.ActivityRules.Validators;
 
-internal sealed class CreateActivityRuleRequestDtoValidator : AbstractValidator<CreateActivityRuleRequestDto>
+internal sealed class ActivityRuleRequestDtoValidator : AbstractValidator<ActivityRuleRequestDto>
 {
-    public CreateActivityRuleRequestDtoValidator()
+    public ActivityRuleRequestDtoValidator()
     {
         RuleFor(x => x.Details)
             .NotNull()
@@ -14,7 +14,7 @@ internal sealed class CreateActivityRuleRequestDtoValidator : AbstractValidator<
         When(x => x.Details is not null, () =>
         {
             RuleFor(x => x.Details)
-                .SetValidator(new CreateActivityRuleDetailsRequestDtoValidator());
+                .SetValidator(new ActivityRuleDetailsRequestDtoValidator());
         });
         
         RuleFor(x => x.Mode)
@@ -25,7 +25,7 @@ internal sealed class CreateActivityRuleRequestDtoValidator : AbstractValidator<
         When(x => x.Mode is not null, () =>
         {
             RuleFor(x => x.Mode)
-                .SetValidator(new CreateActivityRuleModeRequestDtoValidator());
+                .SetValidator(new ActivityRuleModeRequestDtoValidator());
         });
     }
 }

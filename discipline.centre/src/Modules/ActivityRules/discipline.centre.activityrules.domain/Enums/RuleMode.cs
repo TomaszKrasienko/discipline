@@ -5,13 +5,13 @@ namespace discipline.centre.activityrules.domain.Enums;
 
 public sealed record RuleMode
 {
-    public static RuleMode EveryDayMode => new("EveryDay", false);
+    public static RuleMode EveryDay => new("EveryDay", false);
     
-    public static RuleMode FirstDayOfWeekMode => new("FirstDayOfWeek", false);
+    public static RuleMode FirstDayOfWeek => new("FirstDayOfWeek", false);
     
-    public static RuleMode LastDayOfWeekMode => new("LastDayOfWeek", false);
+    public static RuleMode LastDayOfWeek => new("LastDayOfWeek", false);
 
-    public static RuleMode CustomMode => new("Custom", true);
+    public static RuleMode Custom => new("Custom", true);
 
     public static RuleMode FirstDayOfMonth => new("FirstDayOfMonth", false);
     
@@ -29,10 +29,10 @@ public sealed record RuleMode
     //TODO: Tests
     public static RuleMode Parse(string value) => value switch
     {
-        nameof(EveryDayMode) => EveryDayMode,
-        nameof(FirstDayOfWeekMode) => FirstDayOfWeekMode,
-        nameof(LastDayOfWeekMode) => LastDayOfWeekMode,
-        nameof(CustomMode) => CustomMode,
+        nameof(EveryDay) => EveryDay,
+        nameof(FirstDayOfWeek) => FirstDayOfWeek,
+        nameof(LastDayOfWeek) => LastDayOfWeek,
+        nameof(Custom) => Custom,
         nameof(FirstDayOfMonth) => FirstDayOfMonth,
         nameof(LastDayOfMonthMode) => LastDayOfMonthMode,
         //TODO: Custom exception

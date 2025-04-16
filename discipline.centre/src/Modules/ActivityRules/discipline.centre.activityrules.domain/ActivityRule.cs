@@ -42,13 +42,11 @@ public sealed class ActivityRule : AggregateRoot<ActivityRuleId, Ulid>
     public static ActivityRule Create(ActivityRuleId id, 
         UserId userId, 
         ActivityRuleDetailsSpecification details, 
-        ActivityRuleModeSpecification mode, 
-        List<StageSpecification> stages)
+        ActivityRuleModeSpecification mode)
     {
         var activityRuleDetails = Details.Create(details.Title, details.Note);
         var activityRuleMode = SelectedMode.Create(mode.Mode, mode.Days);
         var activityRule = new ActivityRule(id, userId, activityRuleDetails, activityRuleMode);
-        activityRule.AddStages(stages);
         
         return activityRule;
     }
@@ -56,21 +54,9 @@ public sealed class ActivityRule : AggregateRoot<ActivityRuleId, Ulid>
     public void Edit(ActivityRuleDetailsSpecification details, 
         ActivityRuleModeSpecification mode)
     {
-        if (!HasChanges(details, mode))
-        {
-            throw new DomainException("ActivityRule.NoChanges",
-                "Activity rule has no changes");
-        }
         Details = Details.Create(details.Title, details.Note);
         Mode = SelectedMode.Create(mode.Mode, mode.Days);;
     }
-    
-    public bool HasChanges(ActivityRuleDetailsSpecification details,
-        ActivityRuleModeSpecification mode)
-        => (Details.HasChanges(details.Title, details.Note));
-
-    private void AddStages(List<StageSpecification> stages)
-        => stages.ForEach(x => AddStage(x));
 
     public Stage AddStage(StageSpecification stage)
     {

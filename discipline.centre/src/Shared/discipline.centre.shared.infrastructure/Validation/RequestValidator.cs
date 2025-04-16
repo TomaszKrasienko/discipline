@@ -1,17 +1,11 @@
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace discipline.centre.shared.infrastructure.Validation;
 
-internal sealed class RequestValidator<TRequest>(IServiceProvider serviceProvider) : IEndpointFilter
+public sealed class RequestValidator<TRequest>(IServiceProvider serviceProvider) : IEndpointFilter
 {
-    public void Validate<TRequest>(TRequest request)
-    {
-        
-    }
-
     public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
     {
         var request = context.GetArgument<TRequest>(0);
@@ -32,5 +26,6 @@ internal sealed class RequestValidator<TRequest>(IServiceProvider serviceProvide
                 validationResult.ToDictionary());
         }
             
+        return await next(context);
     }
 }

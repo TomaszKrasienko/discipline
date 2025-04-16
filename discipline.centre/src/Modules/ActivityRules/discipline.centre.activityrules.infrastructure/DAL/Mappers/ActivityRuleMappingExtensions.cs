@@ -12,8 +12,8 @@ internal static class ActivityRuleMappingExtensions
             UserId = entity.UserId.ToString(),
             Title = entity.Details.Title,
             Note = entity.Details.Note,
-            Mode = entity.Mode,
-            SelectedDays = entity.SelectedDays?.Values.Select(x => (int)x),
+            Mode = entity.Mode.Mode.Value,
+            SelectedDays = entity.Mode.Days?.Select(x => (int)x),
             Stages = entity.Stages.Select(x => x.MapAsDocument())
         };
 }

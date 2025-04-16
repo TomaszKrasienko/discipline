@@ -53,26 +53,19 @@ Content-Type: application/json
 
 ###
 # @name create_activity_rule
-POST {{host_address}}/api/activity-rules-module/activity-rules
+POST {{host_address}}/api/activity-rules
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
   "details": {
-      "title": "Rule4",
-      "note": "string"
-    },
-  "mode": "Custom",
-  "selectedDays":[1,2],
-  "stages":[
-    {
-      "title": "stage1",
-      "index": 1
-    },
-    {
-      "title": "stage2",
-      "index": 2
-    }
+    "title": "My first new rule",
+    "note": "without any notes"
+  },
+  "mode": {
+    "mode": "EveryDay"
+  },
+  "stages": [
   ]
 }
 

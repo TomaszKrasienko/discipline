@@ -1,6 +1,7 @@
 using discipline.centre.activityrules.application.ActivityRules.DTOs;
 using discipline.centre.activityrules.application.ActivityRules.DTOs.Responses;
 using discipline.centre.activityrules.domain;
+using discipline.centre.activityrules.domain.Enums;
 using discipline.centre.activityrules.domain.ValueObjects;
 using discipline.centre.activityrules.domain.ValueObjects.ActivityRules;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
@@ -15,8 +16,7 @@ internal static class ActivityRuleDocumentMappingExtensions
             ActivityRuleId.Parse(document.Id),
             UserId.Parse(document.UserId),
             Details.Create(document.Title, document.Note), 
-            document.Mode,
-            document.SelectedDays is not null ? SelectedDays.Create(document.SelectedDays.ToList()) : null,
+            SelectedMode.Create(RuleMode.Parse(document.Mode), document.SelectedDays?.ToHashSet()),
             document.Stages.Select(x => x.MapAsEntity()).ToList()); 
     
     internal static ActivityRuleDto MapAsDto(this ActivityRuleDocument document)

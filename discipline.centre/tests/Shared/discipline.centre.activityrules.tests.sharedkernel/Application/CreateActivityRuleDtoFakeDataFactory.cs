@@ -1,6 +1,7 @@
 using Bogus;
 using discipline.centre.activityrules.application.ActivityRules.DTOs;
 using discipline.centre.activityrules.application.ActivityRules.DTOs.Requests;
+using discipline.centre.activityrules.application.ActivityRules.DTOs.Requests.ActivityRules;
 using discipline.centre.activityrules.application.ActivityRules.DTOs.Requests.Create;
 using discipline.centre.activityrules.domain.Specifications;
 using discipline.centre.activityrules.domain.ValueObjects;
@@ -10,7 +11,7 @@ namespace discipline.centre.activityrules.tests.sharedkernel.Application;
 
 public static class CreateActivityRuleDtoFakeDataFactory
 {
-    public static CreateActivityRuleRequestDto Get()
+    public static ActivityRuleRequestDto Get()
     {
         //todo: add stages
         var mode = new Faker()
@@ -24,8 +25,8 @@ public static class CreateActivityRuleDtoFakeDataFactory
             days.Add(i);
         }
 
-        var faker = new Faker<CreateActivityRuleRequestDto>()
-            .CustomInstantiator(v => new CreateActivityRuleRequestDto(
+        var faker = new Faker<ActivityRuleRequestDto>()
+            .CustomInstantiator(v => new ActivityRuleRequestDto(
                 new ActivityRuleDetailsSpecification(v.Lorem.Word(), v.Lorem.Word()),
                 mode,
                 mode == SelectedMode.CustomMode ? days : null,

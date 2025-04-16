@@ -13,8 +13,7 @@ namespace discipline.centre.activityrules.application.ActivityRules.Commands;
 public sealed record CreateActivityRuleCommand(UserId UserId, 
     ActivityRuleId Id, 
     ActivityRuleDetailsSpecification Details,
-    ActivityRuleModeSpecification Mode, 
-    List<StageSpecification> Stages) : ICommand;
+    ActivityRuleModeSpecification Mode) : ICommand;
     
 public sealed class CreateActivityRuleCommandValidator : AbstractValidator<CreateActivityRuleCommand>
 {
@@ -45,7 +44,7 @@ internal sealed class CreateActivityRuleCommandHandler(
         }
 
         var activity = ActivityRule.Create(command.Id, command.UserId, command.Details,
-            command.Mode, command.Stages);
+            command.Mode);
         await readWriteActivityRuleRepository.AddAsync(activity, cancellationToken);
         await eventProcessor.PublishAsync(activity.DomainEvents.Select(x
             => x.MapAsIntegrationEvent()).ToArray());
