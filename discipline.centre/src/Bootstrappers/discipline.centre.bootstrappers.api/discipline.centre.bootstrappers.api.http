@@ -59,7 +59,7 @@ Content-Type: application/json
 
 {
   "details": {
-    "title": "My first new rule",
+    "title": "My third new rule",
     "note": "without any notes"
   },
   "mode": {
@@ -70,18 +70,35 @@ Content-Type: application/json
 }
 
 ###
-GET {{host_address}}/api/activity-rules-module/activity-rules
+GET {{host_address}}/api/activity-rules
 Authorization: Bearer {{token}}
 
 ###
 @activity_rule_id = {{create_activity_rule.response.headers.x-resource-id}}
 
 ###
+PUT {{host_address}}/api/activity-rules/{{activity_rule_id}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "details": {
+    "title": "My second new rule",
+    "note": "without any notes"
+  },
+  "mode": {
+    "mode": "EveryDay"
+  },
+  "stages": [
+  ]
+}
+
+###
 DELETE {{host_address}}/api/activity-rules-module/activity-rules/{{activity_rule_id}}
 Authorization: Bearer {{token}}
 
 ###
-GET {{host_address}}/api/activity-rules-module/activity-rules/{{activity_rule_id}}
+GET {{host_address}}/api/activity-rules/{{activity_rule_id}}
 Authorization: Bearer {{token}}
 
 ###

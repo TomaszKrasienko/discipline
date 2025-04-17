@@ -55,7 +55,7 @@ internal static class ActivityRulesEndpoints
             .RequireAuthorization()
             .RequireAuthorization(UserStatePolicy.Name);
 
-        app.MapPut($"api/{ActivityRulesModule.ModuleName}/{ActivityRulesTag}/{{activityRuleId:ulid}}", async (Ulid activityRuleId, UpdateActivityRuleDto dto,
+        app.MapPut($"api/{ActivityRulesTag}/{{activityRuleId:ulid}}", async (Ulid activityRuleId, UpdateActivityRuleDto dto,
             CancellationToken cancellationToken, ICqrsDispatcher dispatcher, IIdentityContext identityContext) =>
         {
             var stronglyActivityRuleId = new ActivityRuleId(activityRuleId);

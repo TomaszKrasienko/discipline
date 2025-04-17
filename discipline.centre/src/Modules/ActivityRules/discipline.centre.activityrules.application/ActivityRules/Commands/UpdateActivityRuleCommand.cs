@@ -40,7 +40,14 @@ internal sealed class UpdateActivityRuleCommandHandler(
 
         if (activityRule is null)
         {
-            throw new NotFoundException("UpdateActivityRule.ActivityRule", nameof(activityRule), command.Id.ToString());
+            throw new NotFoundException("UpdateActivityRule.ActivityRuleNotFound", nameof(activityRule), command.Id.ToString());
+        }
+        
+        var isTitleExists = await readWriteActivityRuleRepository.ExistsAsync(command.Details.Title, command.UserId, cancellationToken);
+        if (isTitleExists && activityRule.Details.Title != command.Details.Title)
+        {
+            throw new AlreadyRegisteredException("UpdateActivityRule.NotUniqueTitle",
+                $"Activity rule with title: {command.Details.Title} already registered");
         }
         
         activityRule.Edit(command.Details, command.Mode);

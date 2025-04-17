@@ -39,7 +39,7 @@ internal sealed class CreateActivityRuleCommandHandler(
         var isExists = await readWriteActivityRuleRepository.ExistsAsync(command.Details.Title, command.UserId, cancellationToken);
         if (isExists)
         {
-            throw new AlreadyRegisteredException("CreateActivityRule.Title",
+            throw new AlreadyRegisteredException("CreateActivityRule.NotUniqueTitle",
                 $"Activity rule with title: {command.Details.Title} already registered");
         }
 
