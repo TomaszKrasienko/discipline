@@ -22,11 +22,9 @@ public sealed class CreateActivityRuleCommandValidator : AbstractValidator<Creat
         RuleFor(x => x.Details.Title)
             .NotNull()
             .NotEmpty()
-            .WithMessage("Activity rule \"Title\" can not be null or empty");
-        
-        RuleFor(x => x.Details.Title)
+            .WithMessage("Activity rule \"Title\" can not be null or empty")
             .MaximumLength(30)
-            .WithMessage("Activity rule \"Title\" has invalid length");
+            .WithMessage("Activity rule \"Title\" cannot be longer than 30 characters.");
     }
 }
 
