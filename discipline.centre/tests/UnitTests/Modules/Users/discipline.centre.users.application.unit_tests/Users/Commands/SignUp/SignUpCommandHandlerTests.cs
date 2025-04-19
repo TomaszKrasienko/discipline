@@ -64,8 +64,8 @@ public sealed class SignUpCommandHandlerTests
         var exception = await Record.ExceptionAsync(async () => await Act(command));
         
         // Assert
-        exception.ShouldBeOfType<AlreadyRegisteredException>();
-        ((AlreadyRegisteredException)exception).Code.ShouldBe("SignUpCommand.Email");
+        exception.ShouldBeOfType<NotUniqueException>();
+        ((NotUniqueException)exception).Code.ShouldBe("SignUpCommand.Email");
     }
     
     [Fact]

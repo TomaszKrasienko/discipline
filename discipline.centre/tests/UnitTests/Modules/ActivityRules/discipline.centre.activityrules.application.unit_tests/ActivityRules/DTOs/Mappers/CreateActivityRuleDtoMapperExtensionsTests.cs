@@ -4,7 +4,7 @@ using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using Shouldly;
 using Xunit;
 
-namespace discipline.centre.activityrules.application.unit_tests.ActivityRules.DTOs;
+namespace discipline.centre.activityrules.application.unit_tests.ActivityRules.DTOs.Mappers;
 
 public sealed class CreateActivityRuleDtoMapperExtensionsTests
 {
@@ -23,7 +23,6 @@ public sealed class CreateActivityRuleDtoMapperExtensionsTests
         result.Id.ShouldBe(activityRuleId);
         result.UserId.ShouldBe(userId);
         result.Details.Title.ShouldBe(dto.Details.Title);
-        result.Mode.ShouldBe(dto.Mode);
-        result.SelectedDays.ShouldBeEquivalentTo(dto.SelectedDays);
+        result.Mode.Mode.ShouldBe(dto.Mode);
     }
 }

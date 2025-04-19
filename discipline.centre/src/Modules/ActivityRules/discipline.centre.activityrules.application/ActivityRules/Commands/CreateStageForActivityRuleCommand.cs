@@ -12,26 +12,6 @@ public sealed record CreateStageForActivityRuleCommand(UserId UserId,
     string Title, 
     int? Index) : ICommand;
 
-internal sealed class CreateStageForActivityRuleCommandValidator : AbstractValidator<CreateStageForActivityRuleCommand>
-{
-    public CreateStageForActivityRuleCommandValidator()
-    {
-        RuleFor(x => x.Title)
-            .NotNull()
-            .NotEmpty()
-            .WithMessage("Activity rule stage \"Title\" cannot be null or empty.")
-            .MaximumLength(20)
-            .WithMessage("Activity rule stage \"Title\" cannot be longer than 20 characters.");
-
-        When(x => x.Index is not null, () =>
-        {
-            RuleFor(x => x.Index)
-                .GreaterThan(0)
-                .WithMessage("Activity rule \"Index\" must be greater than zero.");
-        });
-    }
-}
-
 internal sealed class CreateStageForActivityRuleCommandHandler(
     IReadWriteActivityRuleRepository readWriteActivityRuleRepository) : ICommandHandler<CreateStageForActivityRuleCommand>
 {
@@ -42,7 +22,7 @@ internal sealed class CreateStageForActivityRuleCommandHandler(
 
         if (activityRule is null)
         {
-            throw new NotFoundException("CreateStageForActivityRule.ActivityRuleNotFound", nameof(activityRule), command.ActivityRuleId.ToString());
+            throw new NotFoundException("CreateStageForActivityRule.ActivityRuleNotFound", command.ActivityRuleId.ToString());
         }
     }
 }

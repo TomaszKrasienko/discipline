@@ -2,8 +2,8 @@ using discipline.centre.shared.abstractions.SharedKernel;
 
 namespace discipline.centre.shared.infrastructure.Validation;
 
-public class ValidationException(string code, string message, IDictionary<string, string[]> validationParams) 
-    : DisciplineException(code, message)
+public sealed class ValidationException(IReadOnlyDictionary<string, string> errors) 
+    : DisciplineException("ValidationException")
 {
-    public IDictionary<string, string[]> ValidationParams => validationParams;
+    public IReadOnlyDictionary<string, string> Errors => errors;
 }

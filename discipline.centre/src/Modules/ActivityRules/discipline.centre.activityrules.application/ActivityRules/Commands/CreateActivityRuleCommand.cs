@@ -14,19 +14,6 @@ public sealed record CreateActivityRuleCommand(UserId UserId,
     ActivityRuleId Id, 
     ActivityRuleDetailsSpecification Details,
     ActivityRuleModeSpecification Mode) : ICommand;
-    
-public sealed class CreateActivityRuleCommandValidator : AbstractValidator<CreateActivityRuleCommand>
-{
-    public CreateActivityRuleCommandValidator()
-    {
-        RuleFor(x => x.Details.Title)
-            .NotNull()
-            .NotEmpty()
-            .WithMessage("Activity rule \"Title\" can not be null or empty")
-            .MaximumLength(30)
-            .WithMessage("Activity rule \"Title\" cannot be longer than 30 characters.");
-    }
-}
 
 internal sealed class CreateActivityRuleCommandHandler(
     IReadWriteActivityRuleRepository readWriteActivityRuleRepository,
@@ -37,8 +24,7 @@ internal sealed class CreateActivityRuleCommandHandler(
         var isExists = await readWriteActivityRuleRepository.ExistsAsync(command.Details.Title, command.UserId, cancellationToken);
         if (isExists)
         {
-            throw new AlreadyRegisteredException("CreateActivityRule.NotUniqueTitle",
-                $"Activity rule with title: {command.Details.Title} already registered");
+            throw new NotUniqueException("CreateActivityRule.NotUniqueTitle",command.Details.Title);
         }
 
         var activity = ActivityRule.Create(command.Id, command.UserId, command.Details,

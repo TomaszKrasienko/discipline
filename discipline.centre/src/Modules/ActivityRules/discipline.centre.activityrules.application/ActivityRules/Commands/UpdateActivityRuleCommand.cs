@@ -12,25 +12,6 @@ public sealed record UpdateActivityRuleCommand(UserId UserId,
     ActivityRuleId Id, 
     ActivityRuleDetailsSpecification Details,
     ActivityRuleModeSpecification Mode) : ICommand;
-
-public sealed class UpdateActivityRuleCommandValidator : AbstractValidator<UpdateActivityRuleCommand>
-{
-    public UpdateActivityRuleCommandValidator()
-    {
-        RuleFor(x => x.Details.Title)
-            .NotNull()
-            .NotEmpty()
-            .WithMessage("Activity rule \"Title\" can not be null or empty");
-        RuleFor(x => x.Details.Title)
-            .MaximumLength(30)
-            .WithMessage("Activity rule \"Title\" has invalid length");
-        RuleFor(x => x.Mode)
-            .NotNull()
-            .NotEmpty()
-            .WithMessage("Activity rule \"Mode\" can not be null or empty");
-    }
-}
-
 internal sealed class UpdateActivityRuleCommandHandler(
     IReadWriteActivityRuleRepository readWriteActivityRuleRepository) : ICommandHandler<UpdateActivityRuleCommand>
 {
@@ -40,14 +21,13 @@ internal sealed class UpdateActivityRuleCommandHandler(
 
         if (activityRule is null)
         {
-            throw new NotFoundException("UpdateActivityRule.ActivityRuleNotFound", nameof(activityRule), command.Id.ToString());
+            throw new NotFoundException("UpdateActivityRule.ActivityRuleNotFound", command.Id.ToString());
         }
         
         var isTitleExists = await readWriteActivityRuleRepository.ExistsAsync(command.Details.Title, command.UserId, cancellationToken);
         if (isTitleExists && activityRule.Details.Title != command.Details.Title)
         {
-            throw new AlreadyRegisteredException("UpdateActivityRule.NotUniqueTitle",
-                $"Activity rule with title: {command.Details.Title} already registered");
+            throw new NotUniqueException("UpdateActivityRule.NotUniqueTitle", command.Details.Title);
         }
         
         activityRule.Edit(command.Details, command.Mode);

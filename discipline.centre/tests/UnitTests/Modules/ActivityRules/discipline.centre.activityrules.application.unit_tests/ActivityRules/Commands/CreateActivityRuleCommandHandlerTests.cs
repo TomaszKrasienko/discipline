@@ -83,8 +83,8 @@ public partial class CreateActivityRuleCommandHandlerTests
         var exception = await Record.ExceptionAsync(async () => await Act(command));
         
         //assert
-        exception.ShouldBeOfType<AlreadyRegisteredException>();
-        ((AlreadyRegisteredException)exception).Code.ShouldBe("CreateActivityRule.Title");
+        exception.ShouldBeOfType<NotUniqueException>();
+        ((NotUniqueException)exception).Code.ShouldBe("CreateActivityRule.Title");
     }
     
     [Fact]

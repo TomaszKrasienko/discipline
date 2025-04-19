@@ -18,9 +18,8 @@ internal sealed class ValidationCommandHandlerDecorator<TCommand>(
             var validationResult = await validator.ValidateAsync(command, cancellationToken);
             if (!validationResult.IsValid)
             {
-                throw new ValidationException($"{command.GetType().Name}.Validation",
-                    "There was an error while validation",
-                    validationResult.ToDictionary());
+                throw new ValidationException(validationResult.Errors
+                    .ToDictionary(x => x.PropertyName, y=> y.ErrorMessage));
             }
         }
         else

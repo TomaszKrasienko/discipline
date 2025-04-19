@@ -24,12 +24,6 @@
       <Compile Update="ActivityRules\Commands\UpdateActivityRule\UpdateActivityRuleCommandValidatorTests.TestsDataSeed.cs">
         <DependentUpon>UpdateActivityRuleCommandValidatorTests.cs</DependentUpon>
       </Compile>
-      <Compile Update="ActivityRules\Commands\CreateActivityRule\CreateActivityRuleCommandValidatorTests.TestsDataSeed.cs">
-        <DependentUpon>CreateActivityRuleCommandValidatorTests.cs</DependentUpon>
-      </Compile>
-      <Compile Update="ActivityRules\Commands\CreateActivityRule\CreateActivityRuleCommandHandlerTests.TestsDataSeed.cs">
-        <DependentUpon>CreateActivityRuleCommandHandlerTests.cs</DependentUpon>
-      </Compile>
       <Compile Update="ActivityRules\Commands\UpdateActivityRule\UpdateActivityRuleCommandHandlerTests.TestsDataSeed.cs">
         <DependentUpon>UpdateActivityRuleCommandHandlerTests.cs</DependentUpon>
       </Compile>
@@ -38,6 +32,10 @@
     <ItemGroup>
       <ProjectReference Include="..\..\..\..\..\src\Modules\ActivityRules\discipline.centre.activityrules.application\discipline.centre.activityrules.application.csproj" />
       <ProjectReference Include="..\..\..\..\Shared\discipline.centre.activityrules.tests.sharedkernel\discipline.centre.activityrules.tests.sharedkernel.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="ActivityRules\Commands\CreateActivityRule\" />
     </ItemGroup>
 
 </Project>

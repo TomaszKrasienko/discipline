@@ -2,13 +2,13 @@ using FluentValidation;
 
 namespace discipline.centre.activityrules.application.ActivityRules.DTOs.Requests.ActivityRules.Validators;
 
-internal sealed class ActivityRuleRequestDtoValidator : AbstractValidator<ActivityRuleRequestDto>
+public sealed class ActivityRuleRequestDtoValidator : AbstractValidator<ActivityRuleRequestDto>
 {
     public ActivityRuleRequestDtoValidator()
     {
         RuleFor(x => x.Details)
             .NotNull()
-            .WithMessage("Details cannot be null.");
+            .WithMessage("Validation.NullDetails");
 
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         When(x => x.Details is not null, () =>
@@ -19,7 +19,7 @@ internal sealed class ActivityRuleRequestDtoValidator : AbstractValidator<Activi
         
         RuleFor(x => x.Mode)
             .NotNull()
-            .WithMessage("Mode cannot be null.");
+            .WithMessage("Validation.NullMode");
 
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         When(x => x.Mode is not null, () =>

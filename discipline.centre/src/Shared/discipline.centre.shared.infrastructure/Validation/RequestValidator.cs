@@ -21,9 +21,8 @@ public sealed class RequestValidator<TRequest>(IServiceProvider serviceProvider)
         var validationResult = await validator.ValidateAsync(request);
         if (!validationResult.IsValid)
         {
-            throw new ValidationException($"{request?.GetType().Name}.Validation",
-                "There was an error while validation",
-                validationResult.ToDictionary());
+            throw new ValidationException(validationResult.Errors
+                .ToDictionary(x => x.PropertyName, y=> y.ErrorMessage));
         }
             
         return await next(context);
