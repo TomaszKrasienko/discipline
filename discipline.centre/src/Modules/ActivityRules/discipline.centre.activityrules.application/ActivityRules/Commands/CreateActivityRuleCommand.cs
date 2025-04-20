@@ -29,6 +29,7 @@ internal sealed class CreateActivityRuleCommandHandler(
 
         var activity = ActivityRule.Create(command.Id, command.UserId, command.Details,
             command.Mode);
+        
         await readWriteActivityRuleRepository.AddAsync(activity, cancellationToken);
         await eventProcessor.PublishAsync(activity.DomainEvents.Select(x
             => x.MapAsIntegrationEvent()).ToArray());

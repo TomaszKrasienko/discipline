@@ -10,5 +10,12 @@ public sealed class ActivityRuleModeRequestDtoValidator : AbstractValidator<Acti
             .NotNull()
             .NotEmpty()
             .WithMessage("Validation.EmptyActivityRuleMode");
+
+        When(x => x.Days is not null, () =>
+        {
+            RuleFor(field => field.Days)
+                .Must(days => !days!.Any(d => d > (int)DayOfWeek.Saturday))
+                .WithMessage("Validation.ActivityRuleDaysOutOfRange");
+        });
     }
 }

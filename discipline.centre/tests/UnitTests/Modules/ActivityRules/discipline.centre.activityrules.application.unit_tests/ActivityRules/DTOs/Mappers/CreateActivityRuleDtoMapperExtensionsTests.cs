@@ -5,14 +5,13 @@ using Shouldly;
 using Xunit;
 
 namespace discipline.centre.activityrules.application.unit_tests.ActivityRules.DTOs.Mappers;
-
 public sealed class CreateActivityRuleDtoMapperExtensionsTests
 {
     [Fact]
-    public void MapAsCommand_GivenCreateActivityRuleDtoWithActivityRuleIdAndUserId_ShouldReturnCreateActivityRuleCommand()
+    public void GivenCreateActivityRuleRequestDtoWithoutSelectedDays_WhenAsCommand_ShouldReturnCreateActivityRuleCommand()
     {
         //arrange
-        var dto = CreateActivityRuleDtoFakeDataFactory.Get();
+        var dto = ActivityRuleRequestDtoFakeDataFactory.Get();
         var activityRuleId = ActivityRuleId.New();
         var userId = UserId.New();
         
@@ -23,6 +22,29 @@ public sealed class CreateActivityRuleDtoMapperExtensionsTests
         result.Id.ShouldBe(activityRuleId);
         result.UserId.ShouldBe(userId);
         result.Details.Title.ShouldBe(dto.Details.Title);
-        result.Mode.Mode.ShouldBe(dto.Mode);
+        result.Details.Note.ShouldBe(dto.Details.Note);
+        result.Mode.Mode.Value.ShouldBe(dto.Mode.Mode);
+        result.Mode.Days.ShouldBeNull();
+    }
+    
+    [Fact]
+    public void GivenCreateActivityRuleRequestDtoWithSelectedDays_WhenAsCommand_ShouldReturnCreateActivityRuleCommand()
+    {
+        //arrange
+        var dto = ActivityRuleRequestDtoFakeDataFactory.Get()
+            .WithCustomMode();
+        var activityRuleId = ActivityRuleId.New();
+        var userId = UserId.New();
+        
+        //act
+        var result = dto.MapAsCommand(userId, activityRuleId);
+        
+        //assert
+        result.Id.ShouldBe(activityRuleId);
+        result.UserId.ShouldBe(userId);
+        result.Details.Title.ShouldBe(dto.Details.Title);
+        result.Details.Note.ShouldBe(dto.Details.Note);
+        result.Mode.Mode.Value.ShouldBe(dto.Mode.Mode);
+        result.Mode.Days.ShouldBeEquivalentTo(dto.Mode.Days);
     }
 }

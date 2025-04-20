@@ -4,7 +4,7 @@ using discipline.centre.activityrules.domain.Enums;
 
 namespace discipline.centre.activityrules.tests.sharedkernel.Application;
 
-public static class CreateActivityRuleDtoFakeDataFactory
+public static class ActivityRuleRequestDtoFakeDataFactory
 {
     public static ActivityRuleRequestDto Get(bool withNote = false)
     {
@@ -22,8 +22,12 @@ public static class CreateActivityRuleDtoFakeDataFactory
 
     public static ActivityRuleRequestDto WithCustomMode(this ActivityRuleRequestDto dto)
     {
-        var days = Enum.GetValues<DayOfWeek>();
-        
-        dto with {}  
+        var days = Enum.GetValues<DayOfWeek>().Select(x => (int)x).ToList();
+        var faker = new Faker();
+
+        var numberOfDays = faker.Random.Int(days.Count);
+        var selectedDays = faker.PickRandom(days, numberOfDays).ToList();
+
+        return dto with { Mode = new ActivityRuleModeRequestDto(RuleMode.Custom.Value, selectedDays) };
     } 
 }

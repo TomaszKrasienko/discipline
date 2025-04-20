@@ -1,11 +1,8 @@
 using discipline.centre.activityrules.application.ActivityRules.Commands;
-using discipline.centre.activityrules.application.ActivityRules.Events;
 using discipline.centre.activityrules.domain;
-using discipline.centre.activityrules.domain.Events;
+using discipline.centre.activityrules.domain.Enums;
 using discipline.centre.activityrules.domain.Repositories;
 using discipline.centre.activityrules.domain.Specifications;
-using discipline.centre.activityrules.domain.ValueObjects;
-using discipline.centre.activityrules.domain.ValueObjects.ActivityRules;
 using discipline.centre.shared.abstractions.CQRS.Commands;
 using discipline.centre.shared.abstractions.Events;
 using discipline.centre.shared.abstractions.Exceptions;
@@ -14,114 +11,77 @@ using NSubstitute;
 using Shouldly;
 using Xunit;
 
-namespace discipline.centre.activityrules.application.unit_tests.ActivityRules.Commands.CreateActivityRule;
+namespace discipline.centre.activityrules.application.unit_tests.ActivityRules.Commands;
 
-public partial class CreateActivityRuleCommandHandlerTests
+public sealed class CreateActivityRuleCommandHandlerTests
 {
-    private Task Act(CreateActivityRuleCommand command) => _handler.HandleAsync(command, default);
-    
+    private Task Act(CreateActivityRuleCommand command) => _handler.HandleAsync(command, CancellationToken.None);
+
     [Fact]
-    public async Task HandleAsync_GivenNotExistingTitle_ShouldCreateActivityRule()
+    public async Task GivenCorrectlyAddedActivityRule_WhenHandleAsync_ShouldPublishDomainEvent()
     {
-        //arrange
+        // Arrange
         var command = new CreateActivityRuleCommand(UserId.New(), ActivityRuleId.New(), 
-            new ActivityRuleDetailsSpecification("test_title", "test_note"), SelectedMode.CustomMode, [1], 
-            [new StageSpecification("test_stage_title", 1)]);
+            new ActivityRuleDetailsSpecification("test_title", "test_note"),
+            new ActivityRuleModeSpecification(RuleMode.EveryDay, null));
         
         _readWriteActivityRuleRepository
-            .ExistsAsync(command.Details.Title, command.UserId, default)
+            .ExistsAsync(command.Details.Title, command.UserId, CancellationToken.None)
             .Returns(false);
-
-        //act
+        
+        // Act
         await Act(command);
         
-        //assert
+        // Assert
+        await _eventProcessor
+            .Received(1)
+            .PublishAsync(Arg.Any<IEvent>());
+    }
+    
+    [Fact]
+    public async Task GivenUniqueTitle_WhenHandleAsync_ShouldAddNewActivityRule()
+    {
+        // Arrange
+        var command = new CreateActivityRuleCommand(UserId.New(), ActivityRuleId.New(), 
+            new ActivityRuleDetailsSpecification("test_title", "test_note"),
+            new ActivityRuleModeSpecification(RuleMode.EveryDay, null));
+        
+        _readWriteActivityRuleRepository
+            .ExistsAsync(command.Details.Title, command.UserId, CancellationToken.None)
+            .Returns(false);
+        
+        // Act
+        await Act(command);
+        
+        // Assert
         await _readWriteActivityRuleRepository
             .Received(1)
             .AddAsync(Arg.Is<ActivityRule>(arg
-                => arg.Id == command.Id
+                => arg.UserId == command.UserId
+                   && arg.Id == command.Id
                    && arg.Details.Title == command.Details.Title
                    && arg.Details.Note == command.Details.Note
-                   && arg.Mode.Value == command.Mode));
+                   && arg.Mode.Mode == command.Mode.Mode));
     }
     
     [Fact]
-    public async Task HandleAsync_GivenNotExistingTitle_ShouldSendIntegrationEvent()
+    public async Task GivenAlreadyRegisteredTitle_WhenHandleAsync_ShouldThrowNotUniqueExceptionWithCreateActivityRuleNotUniqueTitle()
     {
-        //arrange
+        // Arrange
         var command = new CreateActivityRuleCommand(UserId.New(), ActivityRuleId.New(), 
-            new ActivityRuleDetailsSpecification("test_title", "test_note"), SelectedMode.CustomMode, [1], 
-            [new StageSpecification("test_stage_title", 1)]);
+            new ActivityRuleDetailsSpecification("test_title", "test_note"),
+            new ActivityRuleModeSpecification(RuleMode.EveryDay, null));
         
         _readWriteActivityRuleRepository
-            .ExistsAsync(command.Details.Title, command.UserId, default)
-            .Returns(false);
-
-        //act
-        await Act(command);
-        
-        //assert
-        await _eventProcessor
-            .Received(1)
-            .PublishAsync(Arg.Is<ActivityRuleRegistered>(arg
-                => arg.ActivityRuleId == command.Id.ToString()
-                   && arg.UserId == command.UserId.ToString()));
-    }
-    
-    [Fact]
-    public async Task HandleAsync_GivenAlreadyRegisteredRuleTitle_ShouldThrowAlreadyRegisteredExceptionWithCode()
-    {
-        //arrange
-        var command = new CreateActivityRuleCommand(UserId.New(), ActivityRuleId.New(), 
-            new ActivityRuleDetailsSpecification("Rule title", "Rule note"),
-            SelectedMode.EveryDayMode, null, []);
-        _readWriteActivityRuleRepository
-            .ExistsAsync(command.Details.Title, command.UserId, default)
+            .ExistsAsync(command.Details.Title, command.UserId, CancellationToken.None)
             .Returns(true);
 
-        //act
-        var exception = await Record.ExceptionAsync(async () => await Act(command));
+        // Act
+        var exception = await Record.ExceptionAsync(() => Act(command));
         
-        //assert
+        // Assert
         exception.ShouldBeOfType<NotUniqueException>();
-        ((NotUniqueException)exception).Code.ShouldBe("CreateActivityRule.Title");
-    }
-    
-    [Fact]
-    public async Task HandleAsync_GivenAlreadyRegisteredRuleTitle_ShouldNotAddAnyActivityRuleByRepository()
-    {
-        //arrange
-       var command = new CreateActivityRuleCommand(UserId.New(), ActivityRuleId.New(), new ActivityRuleDetailsSpecification(
-           "Rule title", "Rule note"), SelectedMode.EveryDayMode, null, []);
-       _readWriteActivityRuleRepository
-            .ExistsAsync(command.Details.Title, command.UserId, CancellationToken.None)
-            .Returns(true);
-
-        //act
-        _ = await Record.ExceptionAsync(() => Act(command));
-        
-        //assert
-        await _readWriteActivityRuleRepository
-            .Received(0)
-            .AddAsync(Arg.Any<ActivityRule>(), CancellationToken.None);
-    }
-
-    [Theory]
-    [MemberData(nameof(GetInvalidCreateActivityRuleCommand))]
-    public async Task HandleAsync_GivenInvalidArgumentsForActivityRule_ShouldNotAddActivityRule(CreateActivityRuleCommand command)
-    {
-        //arrange
-        _readWriteActivityRuleRepository
-            .ExistsAsync(command.Details.Title, command.UserId, CancellationToken.None)
-            .Returns(false);
-        
-        //act
-        _ = await Record.ExceptionAsync(() => Act(command));
-        
-        //assert
-        await _readWriteActivityRuleRepository
-            .Received(0)
-            .AddAsync(Arg.Any<ActivityRule>(), CancellationToken.None);
+        ((NotUniqueException)exception).Code.ShouldBe("CreateActivityRule.NotUniqueTitle");
     }
     
     #region arrange

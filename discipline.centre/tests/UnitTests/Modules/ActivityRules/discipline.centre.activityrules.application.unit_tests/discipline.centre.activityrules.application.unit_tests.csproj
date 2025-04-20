@@ -21,21 +21,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="ActivityRules\Commands\UpdateActivityRule\UpdateActivityRuleCommandValidatorTests.TestsDataSeed.cs">
-        <DependentUpon>UpdateActivityRuleCommandValidatorTests.cs</DependentUpon>
-      </Compile>
-      <Compile Update="ActivityRules\Commands\UpdateActivityRule\UpdateActivityRuleCommandHandlerTests.TestsDataSeed.cs">
-        <DependentUpon>UpdateActivityRuleCommandHandlerTests.cs</DependentUpon>
-      </Compile>
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\..\..\..\..\src\Modules\ActivityRules\discipline.centre.activityrules.application\discipline.centre.activityrules.application.csproj" />
       <ProjectReference Include="..\..\..\..\Shared\discipline.centre.activityrules.tests.sharedkernel\discipline.centre.activityrules.tests.sharedkernel.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="ActivityRules\Commands\CreateActivityRule\" />
+      <Folder Include="ActivityRules\Commands\UpdateActivityRule\" />
     </ItemGroup>
 
 </Project>

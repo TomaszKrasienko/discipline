@@ -66,7 +66,7 @@ internal static class ActivityRulesEndpoints
                 return Results.Unauthorized();
             }
             
-            await dispatcher.HandleAsync(dto.MapAsCommand(userId, stronglyActivityRuleId), cancellationToken);
+            await dispatcher.HandleAsync(dto.AsCommand(userId, stronglyActivityRuleId), cancellationToken);
 
             return Results.NoContent();
         })
