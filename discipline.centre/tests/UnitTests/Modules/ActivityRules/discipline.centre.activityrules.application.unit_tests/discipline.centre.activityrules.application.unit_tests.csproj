@@ -25,9 +25,4 @@
       <ProjectReference Include="..\..\..\..\Shared\discipline.centre.activityrules.tests.sharedkernel\discipline.centre.activityrules.tests.sharedkernel.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="ActivityRules\Commands\CreateActivityRule\" />
-      <Folder Include="ActivityRules\Commands\UpdateActivityRule\" />
-    </ItemGroup>
-
 </Project>

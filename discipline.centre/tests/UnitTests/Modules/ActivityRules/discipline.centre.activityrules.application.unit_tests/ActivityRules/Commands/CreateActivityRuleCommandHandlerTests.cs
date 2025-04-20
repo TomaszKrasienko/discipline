@@ -18,7 +18,7 @@ public sealed class CreateActivityRuleCommandHandlerTests
     private Task Act(CreateActivityRuleCommand command) => _handler.HandleAsync(command, CancellationToken.None);
 
     [Fact]
-    public async Task GivenCorrectlyAddedActivityRule_WhenHandleAsync_ShouldPublishDomainEvent()
+    public async Task GivenCorrectlyAddedActivityRule_WhenHandleAsync_ShouldPublishIntegrationEvent()
     {
         // Arrange
         var command = new CreateActivityRuleCommand(UserId.New(), ActivityRuleId.New(), 
@@ -65,7 +65,7 @@ public sealed class CreateActivityRuleCommandHandlerTests
     }
     
     [Fact]
-    public async Task GivenAlreadyRegisteredTitle_WhenHandleAsync_ShouldThrowNotUniqueExceptionWithCreateActivityRuleNotUniqueTitle()
+    public async Task GivenAlreadyRegisteredTitle_WhenHandleAsync_ShouldThrowNotUniqueExceptionWithCodeCreateActivityRuleNotUniqueTitle()
     {
         // Arrange
         var command = new CreateActivityRuleCommand(UserId.New(), ActivityRuleId.New(), 
@@ -84,7 +84,7 @@ public sealed class CreateActivityRuleCommandHandlerTests
         ((NotUniqueException)exception).Code.ShouldBe("CreateActivityRule.NotUniqueTitle");
     }
     
-    #region arrange
+    #region Arrange
     private readonly IReadWriteActivityRuleRepository _readWriteActivityRuleRepository;
     private readonly IEventProcessor _eventProcessor;
     private readonly ICommandHandler<CreateActivityRuleCommand> _handler;

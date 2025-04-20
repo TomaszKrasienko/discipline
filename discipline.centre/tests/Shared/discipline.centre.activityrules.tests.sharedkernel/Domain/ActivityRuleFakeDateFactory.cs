@@ -22,7 +22,7 @@ public static class ActivityRuleFakeDataFactory
                 UserId.New(), 
                 new ActivityRuleDetailsSpecification(arg.Random.String2(length: 10), arg.Lorem.Word()),
                 selectedDays is null 
-                    ? arg.PickRandom<string>(SelectedMode.AvailableModes.Keys.Where(x => x != SelectedMode.CustomMode).ToList()) 
+                    ? arg.PickRandom<string>(SelectedMode.CustomMode.Keys.Where(x => x != SelectedMode.CustomMode).ToList()) 
                     : SelectedMode.CustomMode,
                 selectedDays,
                 []));

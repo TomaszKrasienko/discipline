@@ -37,7 +37,7 @@ internal sealed class GetActiveModesByDayQueryHandler : IQueryHandler<GetActiveM
         }
         if(query.Day.Day == lastDayOfMonth)
         {
-            modes.Add(RuleMode.LastDayOfMonthMode.Value);
+            modes.Add(RuleMode.LastDayOfMonth.Value);
         }
         
         var day = (query.Day.DayOfWeek == 0 ? 7 : (int)query.Day.DayOfWeek);

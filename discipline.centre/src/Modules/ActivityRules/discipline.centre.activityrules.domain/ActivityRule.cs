@@ -55,7 +55,9 @@ public sealed class ActivityRule : AggregateRoot<ActivityRuleId, Ulid>
         ActivityRuleModeSpecification mode)
     {
         Details = Details.Create(details.Title, details.Note);
-        Mode = SelectedMode.Create(mode.Mode, mode.Days);;
+        Mode = SelectedMode.Create(mode.Mode, mode.Days);
+        
+        AddDomainEvent(new ActivityRuleModeChanged(Id, UserId, Mode.Mode, Mode.Days));
     }
 
     public Stage AddStage(StageSpecification stage)

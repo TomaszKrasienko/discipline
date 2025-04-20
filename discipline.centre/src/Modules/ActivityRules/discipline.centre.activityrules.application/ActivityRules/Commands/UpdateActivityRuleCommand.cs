@@ -1,10 +1,10 @@
-using discipline.centre.activityrules.domain;
+using discipline.centre.activityrules.application.ActivityRules.Events;
 using discipline.centre.activityrules.domain.Repositories;
 using discipline.centre.activityrules.domain.Specifications;
 using discipline.centre.shared.abstractions.CQRS.Commands;
+using discipline.centre.shared.abstractions.Events;
 using discipline.centre.shared.abstractions.Exceptions;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
-using FluentValidation;
 
 namespace discipline.centre.activityrules.application.ActivityRules.Commands;
 
@@ -13,7 +13,8 @@ public sealed record UpdateActivityRuleCommand(UserId UserId,
     ActivityRuleDetailsSpecification Details,
     ActivityRuleModeSpecification Mode) : ICommand;
 internal sealed class UpdateActivityRuleCommandHandler(
-    IReadWriteActivityRuleRepository readWriteActivityRuleRepository) : ICommandHandler<UpdateActivityRuleCommand>
+    IReadWriteActivityRuleRepository readWriteActivityRuleRepository,
+    IEventProcessor eventProcessor) : ICommandHandler<UpdateActivityRuleCommand>
 {
     public async Task HandleAsync(UpdateActivityRuleCommand command, CancellationToken cancellationToken = default)
     {
@@ -31,6 +32,9 @@ internal sealed class UpdateActivityRuleCommandHandler(
         }
         
         activityRule.Edit(command.Details, command.Mode);
+        
         await readWriteActivityRuleRepository.UpdateAsync(activityRule, cancellationToken);
+        await eventProcessor.PublishAsync(activityRule.DomainEvents.Select(x
+            => x.MapAsIntegrationEvent()).ToArray());
     }
 }

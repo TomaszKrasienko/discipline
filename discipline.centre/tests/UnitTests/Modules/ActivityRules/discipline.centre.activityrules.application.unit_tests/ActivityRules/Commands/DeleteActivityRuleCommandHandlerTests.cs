@@ -10,7 +10,7 @@ using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using Xunit;
 
-namespace discipline.centre.activityrules.application.unit_tests.ActivityRules.Commands.DeleteActivityRule;
+namespace discipline.centre.activityrules.application.unit_tests.ActivityRules.Commands;
 
 public sealed class DeleteActivityRuleCommandHandlerTests
 {

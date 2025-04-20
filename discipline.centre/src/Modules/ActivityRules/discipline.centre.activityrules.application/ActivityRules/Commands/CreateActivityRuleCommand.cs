@@ -6,7 +6,6 @@ using discipline.centre.shared.abstractions.CQRS.Commands;
 using discipline.centre.shared.abstractions.Events;
 using discipline.centre.shared.abstractions.Exceptions;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
-using FluentValidation;
 
 namespace discipline.centre.activityrules.application.ActivityRules.Commands;
 
@@ -27,11 +26,11 @@ internal sealed class CreateActivityRuleCommandHandler(
             throw new NotUniqueException("CreateActivityRule.NotUniqueTitle",command.Details.Title);
         }
 
-        var activity = ActivityRule.Create(command.Id, command.UserId, command.Details,
+        var activityRule = ActivityRule.Create(command.Id, command.UserId, command.Details,
             command.Mode);
         
-        await readWriteActivityRuleRepository.AddAsync(activity, cancellationToken);
-        await eventProcessor.PublishAsync(activity.DomainEvents.Select(x
+        await readWriteActivityRuleRepository.AddAsync(activityRule, cancellationToken);
+        await eventProcessor.PublishAsync(activityRule.DomainEvents.Select(x
             => x.MapAsIntegrationEvent()).ToArray());
     }
 }
