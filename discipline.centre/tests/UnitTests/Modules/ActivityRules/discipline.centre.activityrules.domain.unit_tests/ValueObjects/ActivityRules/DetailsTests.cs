@@ -8,7 +8,7 @@ namespace discipline.centre.activityrules.domain.unit_tests.ValueObjects.Activit
 public sealed class DetailsTests
 {
     [Fact]
-    public void Create_GivenValidParameters_ShouldReturnDetailsWithValues()
+    public void GivenValidParameters_WhenCreate_ThenReturnDetailsWithValues()
     {
         //arrange
         var title = "test_title";
@@ -23,24 +23,24 @@ public sealed class DetailsTests
     }
 
     [Fact]
-    public void Create_GivenEmptyTitle_ShouldReturnDomainExceptionWithCodeActivityRuleDetailsTitleEmpty()
+    public void GivenEmptyTitle_WhenCreate_ThenThrowDomainExceptionWithCodeActivityRuleDetailsTitleEmpty()
     {
         //act
         var exception = Record.Exception(() => Details.Create(string.Empty, null));
         
         //assert
         exception.ShouldBeOfType<DomainException>();
-        ((DomainException)exception).Code.ShouldBe("ActivityRule.Details.Title.Empty");
+        ((DomainException)exception).Code.ShouldBe("ActivityRule.Details.EmptyTitle");
     }
     
     [Fact]
-    public void Create_GivenTitleLongerThan30_ShouldReturnDomainExceptionWithCodeActivityRuleDetailsTitleTooLong()
+    public void GivenTitleLongerThan30_WhenCreate_WhenThrowDomainExceptionWithCodeActivityRuleDetailsTitleTooLong()
     {
         //act
         var exception = Record.Exception(() => Details.Create(new string('t', 31), null));
         
         //assert
         exception.ShouldBeOfType<DomainException>();
-        ((DomainException)exception).Code.ShouldBe("ActivityRule.Details.Title.TooLong");
+        ((DomainException)exception).Code.ShouldBe("ActivityRule.Details.TitleTooLong");
     }
 }

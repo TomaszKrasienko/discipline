@@ -1,4 +1,3 @@
-using discipline.centre.activityrules.domain.ValueObjects;
 using discipline.centre.activityrules.domain.ValueObjects.Stages;
 using discipline.centre.shared.abstractions.SharedKernel;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
@@ -8,7 +7,7 @@ namespace discipline.centre.activityrules.domain;
 public sealed class Stage : Entity<StageId, Ulid>
 {
     public Title Title { get; private set; }
-    public OrderIndex Index { get; set; }
+    public OrderIndex Index { get; private set; }
 
     /// <summary>
     /// <remarks>Use only for Mongo purposes</remarks>
@@ -18,7 +17,8 @@ public sealed class Stage : Entity<StageId, Ulid>
         Title = title;
         Index = index;
     }
-    
+
     internal static Stage Create(StageId stageId, string title, int index)
-        => new (stageId, title, index);
+        => new(stageId, title, index);
+    
 }

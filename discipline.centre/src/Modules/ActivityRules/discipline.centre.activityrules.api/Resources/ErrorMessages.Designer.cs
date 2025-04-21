@@ -98,5 +98,53 @@ namespace discipline.centre.activityrules.api.Resources {
                 return ResourceManager.GetString("Validation.NullMode", resourceCulture);
             }
         }
+        
+        internal static string ActivityRule_Details_EmptyTitle {
+            get {
+                return ResourceManager.GetString("ActivityRule.Details.EmptyTitle", resourceCulture);
+            }
+        }
+        
+        internal static string ActivityRule_Details_TitleTooLong {
+            get {
+                return ResourceManager.GetString("ActivityRule.Details.TitleTooLong", resourceCulture);
+            }
+        }
+        
+        internal static string ActivityRules_Mode_RuleModeRequireSelectedDays {
+            get {
+                return ResourceManager.GetString("ActivityRules.Mode.RuleModeRequireSelectedDays", resourceCulture);
+            }
+        }
+        
+        internal static string ActivityRule_Mode_SelectedDayOutOfRange {
+            get {
+                return ResourceManager.GetString("ActivityRule.Mode.SelectedDayOutOfRange", resourceCulture);
+            }
+        }
+        
+        internal static string ActivityRule_Stage_Title_EmptyValue {
+            get {
+                return ResourceManager.GetString("ActivityRule.Stage.Title.EmptyValue", resourceCulture);
+            }
+        }
+        
+        internal static string ActivityRule_Stage_Title_ValueTooLong {
+            get {
+                return ResourceManager.GetString("ActivityRule.Stage.Title.ValueTooLong", resourceCulture);
+            }
+        }
+        
+        internal static string ActivityRule_Stage_Index_ValueBelowOne {
+            get {
+                return ResourceManager.GetString("ActivityRule.Stage.Index.ValueBelowOne", resourceCulture);
+            }
+        }
+        
+        internal static string ActivityRule_Stages_StageTitleMustBeUnique {
+            get {
+                return ResourceManager.GetString("ActivityRule.Stages.StageTitleMustBeUnique", resourceCulture);
+            }
+        }
     }
 }

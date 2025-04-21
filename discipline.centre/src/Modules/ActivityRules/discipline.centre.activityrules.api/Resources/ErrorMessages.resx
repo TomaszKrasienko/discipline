@@ -45,4 +45,28 @@
     <data name="Validation.NullMode" xml:space="preserve">
         <value>Activity rule 'Mode cannot be null</value>
     </data>
+    <data name="ActivityRule.Details.EmptyTitle" xml:space="preserve">
+        <value>Activity rule 'Title' cannot be empty</value>
+    </data>
+    <data name="ActivityRule.Details.TitleTooLong" xml:space="preserve">
+        <value>Activity rule 'Title' cannot exceed 30 characters</value>
+    </data>
+    <data name="ActivityRules.Mode.RuleModeRequireSelectedDays" xml:space="preserve">
+        <value>Activity rule mode require selected days</value>
+    </data>
+    <data name="ActivityRule.Mode.SelectedDayOutOfRange" xml:space="preserve">
+        <value>At least one activity rule selected day is out of range </value>
+    </data>
+    <data name="ActivityRule.Stage.Title.EmptyValue" xml:space="preserve">
+        <value>Activity rule stage 'Title' cannot be empty</value>
+    </data>
+    <data name="ActivityRule.Stage.Title.ValueTooLong" xml:space="preserve">
+        <value>Activity rule stage 'Title' cannot exceed 30 characters</value>
+    </data>
+    <data name="ActivityRule.Stage.Index.ValueBelowOne" xml:space="preserve">
+        <value>Activity rule stage 'OrderIndex' value must be positive</value>
+    </data>
+    <data name="ActivityRule.Stages.StageTitleMustBeUnique" xml:space="preserve">
+        <value>Activity rule stage 'Title' must be unique</value>
+    </data>
 </root>

@@ -60,12 +60,16 @@ public sealed class ActivityRule : AggregateRoot<ActivityRuleId, Ulid>
         AddDomainEvent(new ActivityRuleModeChanged(Id, UserId, Mode.Mode, Mode.Days));
     }
 
-    public Stage AddStage(StageSpecification stage)
+    public Stage AddStage(string title)
     {
-        CheckRule(new StagesMustHaveOrderedIndexRule(_stages, stage));
-        CheckRule(new StageTitleMustBeUniqueRule(_stages, stage));
-        var newStage = Stage.Create(StageId.New(), stage.Title, stage.Index);
-        _stages.Add(newStage);
-        return newStage;
+        CheckRule(new StageTitleMustBeUniqueRule(_stages, title));
+        var index = Stages
+            .Select(x => x.Index.Value)
+            .Max(x => x);
+
+        var stage = Stage.Create(StageId.New(), title, index + 1);
+        _stages.Add(stage);
+        
+        return stage;
     }
 }

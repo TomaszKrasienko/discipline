@@ -5,8 +5,7 @@ namespace discipline.centre.activityrules.domain.Rules.ActivityRules;
 
 internal sealed class SelectedDayCanNotBeOutOfRangeRule(int value) : IBusinessRule
 {
-    public Exception Exception => new DomainException("ActivityRule.SelectedDay.OutOfRange",
-        $"Selected day: {value} is out of range for selected day");
+    public Exception Exception => new DomainException("ActivityRule.Mode.SelectedDayOutOfRange");
 
     public bool IsBroken()
         => value is < (int)DayOfWeek.Sunday or > (int)DayOfWeek.Saturday;

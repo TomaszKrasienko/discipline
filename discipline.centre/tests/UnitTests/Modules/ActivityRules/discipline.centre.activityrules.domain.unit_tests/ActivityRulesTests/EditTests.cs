@@ -1,5 +1,5 @@
+using discipline.centre.activityrules.domain.Enums;
 using discipline.centre.activityrules.domain.Specifications;
-using discipline.centre.activityrules.domain.ValueObjects.ActivityRules;
 using discipline.centre.activityrules.tests.sharedkernel.Domain;
 using discipline.centre.shared.abstractions.SharedKernel.Exceptions;
 using Shouldly;
@@ -7,107 +7,115 @@ using Xunit;
 
 namespace discipline.centre.activityrules.domain.unit_tests.ActivityRulesTests;
 
-public partial class EditTests
+public sealed class EditTests
 {
-    [Theory]
-    [MemberData(nameof(GetValidEditActivityRulesData))]
-    public void Edit_GivenValidaArguments_ShouldChangeActivityRule(EditActivityRuleParams parameters)
+    [Fact]
+    public void GivenValidArgumentsForModeWithoutDays_WhenEdit_ThenReturnActivityRuleWithValues()
     {
-        //arrange
+        // Arrange
         var activityRule = ActivityRuleFakeDataFactory.Get();
+        var details = new ActivityRuleDetailsSpecification("test_title",
+            "test_note");
+        var mode = new ActivityRuleModeSpecification(RuleMode.EveryDay, null);
         
-        //act
-        activityRule.Edit(parameters.Details, parameters.Mode, parameters.SelectedDays);
+        // Act
+        activityRule.Edit(details, mode);
         
-        //assert
-        activityRule.Details.Title.ShouldBe(parameters.Details.Title);
-        activityRule.Details.Note.ShouldBe(parameters.Details.Note);
-        activityRule.Mode.Value.ShouldBe(parameters.Mode);
-        CompareSelectedDays(parameters.SelectedDays, activityRule.SelectedDays).ShouldBeTrue();
+        // Assert
+        activityRule.Details.Title.ShouldBe(details.Title);
+        activityRule.Details.Note.ShouldBe(details.Note);
+        activityRule.Mode.Mode.ShouldBe(mode.Mode);
+        activityRule.Mode.Days.ShouldBeNull();
     }
 
-    [Theory]
-    [MemberData(nameof(GetEditChangedParameters))]
-    public void Edit_HasAtLeastOneChangedParameter_ShouldNotThrowException(ActivityRule activityRule, 
-        EditActivityRuleParams parameters)
-    {
-        //act
-        var exception = Record.Exception(() => activityRule.Edit(parameters.Details, parameters.Mode, 
-            parameters.SelectedDays));
-        
-        //assert
-        exception.ShouldBeNull();
-    }
-    
-    [Theory]
-    [MemberData(nameof(GetEditUnchangedParameters))]
-    public void Edit_HasUnchangedParameters_ShouldThrowDomainExceptionWithCode(ActivityRule activityRule, 
-        EditActivityRuleParams parameters)
-    {
-        //act
-        var exception = Record.Exception(() => activityRule.Edit(parameters.Details, parameters.Mode, parameters.SelectedDays));
-        
-        //assert
-        exception.ShouldBeOfType<DomainException>();
-        ((DomainException)exception).Code.ShouldBe("ActivityRule.NoChanges");
-    }
-    
-    [Theory]
-    [MemberData(nameof(GetInvalidEditActivityRulesData))]
-    public void Edit_GivenInvalidArgument_ShouldReturnDomainExceptionWithCode(EditActivityRuleParams parameters, string code)
-    {
-        //arrange
+    [Fact]
+    public void GivenValidArgumentsForModeWithDays_WhenEdit_ThenReturnActivityRuleWithValues()
+    {        
+        // Arrange
         var activityRule = ActivityRuleFakeDataFactory.Get();
+        var details = new ActivityRuleDetailsSpecification("test_title",
+            "test_note");
+        var mode = new ActivityRuleModeSpecification(RuleMode.Custom, [1,2,3]);
         
-        //act
-        var exception = Record.Exception(() => activityRule.Edit( parameters.Details, parameters.Mode, parameters.SelectedDays));
+        // Act
+        activityRule.Edit(details, mode);
         
-        //assert
-        exception.ShouldBeOfType<DomainException>();
-        ((DomainException)exception).Code.ShouldBe(code);
+        // Assert
+        activityRule.Details.Title.ShouldBe(details.Title);
+        activityRule.Details.Note.ShouldBe(details.Note);
+        activityRule.Mode.Mode.ShouldBe(mode.Mode);
+        activityRule.Mode.Days.ShouldBeEquivalentTo(mode.Days);
     }
 
-    [Theory]
-    [MemberData(nameof(GetValidModesForSelectedDays))]
-    public void Edit_GivenModeForSelectedDaysAndNullSelectedDays_ShouldThrowDomainExceptionWithCode(string mode)
+    [Fact]
+    public void GivenEmptyTitle_WhenCreate_ThenThrowDomainExceptionWithCodeActivityRuleDetailsEmptyTitle()
     {
-        //arrange
+        // Arrange
         var activityRule = ActivityRuleFakeDataFactory.Get();
+        var (details, mode) = GetFilledParams(); 
         
-        //act
-        var exception = Record.Exception(() => activityRule.Edit(new ActivityRuleDetailsSpecification("test_title", 
-            null), mode, null));
+        // Act
+        var exception = Record.Exception(() => activityRule.Edit(details with {Title = string.Empty}, mode));
         
-        //assert
+        // Assert
         exception.ShouldBeOfType<DomainException>();
-        ((DomainException)exception).Code.ShouldBe("ActivityRule.Mode.RequireSelectedDays");
+        ((DomainException)exception).Code.ShouldBe("ActivityRule.Details.EmptyTitle");
     }
 
-    [Theory]
-    [MemberData(nameof(GetInvalidModesForSelectedDays))]
-    public void Edit_GivenInvalidModeForSelectedDays_ShouldThrowDomainExceptionWithCode(string mode)
+    [Fact]
+    public void GivenTitleLongerThan30Characters_WhenCreate_ThenThrowDomainExceptionWithCodeActivityRuleDetailsTitleTooLonge()
     {
-        //arrange
+        // Arrange
         var activityRule = ActivityRuleFakeDataFactory.Get();
+        var (details, mode) = GetFilledParams();
         
-        //act
-        var exception = Record.Exception(() => activityRule.Edit(new ActivityRuleDetailsSpecification("test_title", 
-            null), mode, [1,2,3]));
+        // Act
+        var exception = Record.Exception(() => activityRule.Edit(details with {Title = new string('t', 31)}, mode));
         
-        //assert
+        // Assert
         exception.ShouldBeOfType<DomainException>();
-        ((DomainException)exception).Code.ShouldBe("ActivityRule.Mode.RequireSelectedDays");
+        ((DomainException)exception).Code.ShouldBe("ActivityRule.Details.TitleTooLong");
     }
-    
-    private static bool CompareSelectedDays(List<int>? provided, SelectedDays? src)
-    {
-        if(provided is null && src is null)
-        {
-            return true;
-        }
 
-        return provided?.Count == src?.Values.Count 
-               && provided!.OrderBy(x => x).SequenceEqual(src!.Values.OrderBy(x => x).Select(x => (int)x));
+    [Fact]
+    public void GivenModeWithRequiredDaysAndNullDays_WhenCreate_ThenThrowDomainExceptionWithCodeActivityRulesModeRuleModeRequireSelectedDays()
+    {
+        // Arrange
+        var activityRule = ActivityRuleFakeDataFactory.Get();
+        var (details, mode) = GetFilledParams();
+        
+        // Act
+        var exception = Record.Exception(() => activityRule.Edit(details, mode with { Mode = RuleMode.Custom }));
+        
+        // Assert
+        exception.ShouldBeOfType<DomainException>();
+        ((DomainException)exception).Code.ShouldBe("ActivityRules.Mode.RuleModeRequireSelectedDays");
+    }
+
+    [Fact]
+    public void GivenSelectedDaysOutOfRange_WhenCreate_ThenThrowDomainExceptionWithCodeActivityRuleModeSelectedDayOutOfRange()
+    {
+        // Arrange
+        var activityRule = ActivityRuleFakeDataFactory.Get();
+        var (details, mode) = GetFilledParams();
+        
+        // Act
+        var exception = Record.Exception(() => activityRule.Edit(details, new ActivityRuleModeSpecification(Mode: RuleMode.Custom, Days: [7])));
+        
+        // Assert
+        exception.ShouldBeOfType<DomainException>();
+        ((DomainException)exception).Code.ShouldBe("ActivityRules.Mode.RuleModeSelectedDayOutOfRange");
+    }
+
+    private static ActivityRuleEditTestsParams GetFilledParams()
+    {
+        var details = new ActivityRuleDetailsSpecification("test_title",
+            "test_note");
+        var mode = new ActivityRuleModeSpecification(RuleMode.Custom, [1,2,3]);
+        return new ActivityRuleEditTestsParams(details, mode);
     }
 }
 
+public record ActivityRuleEditTestsParams(
+    ActivityRuleDetailsSpecification Details,
+    ActivityRuleModeSpecification Mode);

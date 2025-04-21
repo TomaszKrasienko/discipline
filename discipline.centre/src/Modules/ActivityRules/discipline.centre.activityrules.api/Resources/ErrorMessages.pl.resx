@@ -38,4 +38,28 @@
     <data name="Validation.NullMode" xml:space="preserve">
         <value>Sekcja 'Mode' nie może być pusta</value>
     </data>
+    <data name="ActivityRule.Details.EmptyTitle" xml:space="preserve">
+        <value>'Tytuł' reguły aktywności nie może być pusty</value>
+    </data>
+    <data name="ActivityRule.Details.TitleTooLong" xml:space="preserve">
+        <value>'Tytuł' reguły aktywności nie może przekraczać 30 znaków</value>
+    </data>
+    <data name="ActivityRules.Mode.RuleModeRequireSelectedDays" xml:space="preserve">
+        <value>Wybrany typ reguły aktywności wymaga wybrania dni</value>
+    </data>
+    <data name="ActivityRule.Mode.SelectedDayOutOfRange" xml:space="preserve">
+        <value>Conajmniej jeden z wybranych dni reguły aktywności jest poza zakresem </value>
+    </data>
+    <data name="ActivityRule.Stage.Title.EmptyValue" xml:space="preserve">
+        <value>'Tytuł' etapu reguły aktywności nie może być pusty</value>
+    </data>
+    <data name="ActivityRule.Stage.Title.ValueTooLong" xml:space="preserve">
+        <value>'Tytuł' etapu reguły aktywności nie może przekraczać 30 znaków</value>
+    </data>
+    <data name="ActivityRule.Stage.Index.ValueBelowOne" xml:space="preserve">
+        <value>Indeks reguły aktywności nie musi być równy lub większy jeden</value>
+    </data>
+    <data name="ActivityRule.Stages.StageTitleMustBeUnique" xml:space="preserve">
+        <value>'Tytuł' etapu reguły aktywności musi być unikalny</value>
+    </data>
 </root>

@@ -5,8 +5,7 @@ namespace discipline.centre.activityrules.domain.Rules.Stages;
 
 internal sealed class IndexCannotBeLessThan1Rule(int value) : IBusinessRule
 {
-    public Exception Exception => new DomainException("ActivityRule.Stage.Index.LessThanOne",
-        "Stage index cannot be less than 1.");
+    public Exception Exception => new DomainException("ActivityRule.Stage.Index.ValueBelowOne");
 
     public bool IsBroken()
         => value < 1;
