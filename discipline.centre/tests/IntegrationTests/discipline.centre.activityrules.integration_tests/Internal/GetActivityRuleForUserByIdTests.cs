@@ -19,7 +19,7 @@ public sealed class GetActivityRuleForUserByIdTests() : BaseTestsController("act
         //arrange
         var activityRule = ActivityRuleFakeDataFactory.Get();
         await TestAppDb.GetCollection<ActivityRuleDocument>()
-            .InsertOneAsync(activityRule.MapAsDocument());
+            .InsertOneAsync(activityRule.AsDocument());
         
         Authorize();
         

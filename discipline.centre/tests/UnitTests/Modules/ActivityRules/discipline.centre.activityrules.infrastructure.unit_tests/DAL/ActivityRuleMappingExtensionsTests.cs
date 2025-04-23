@@ -9,47 +9,45 @@ namespace discipline.centre.activityrules.infrastructure.unit_tests.DAL;
 public sealed class ActivityRuleMappingExtensionsTests
 {
     [Fact]
-    public void AsDocument_GivenActivityRuleWithoutSelectedDays_ShouldReturnActivityRuleDocumentWithNullSelectedDays()
+    public void GivenActivityRuleWithoutSelectedDays_WhenAsDocument_ThenReturnActivityRuleDocumentWithNullSelectedDays()
     {
         //arrange
         var activityRule = ActivityRuleFakeDataFactory.Get();
         
         //act
-        var result = activityRule.MapAsDocument();
+        var result = activityRule.AsDocument();
         
         //assert
         result.Id.ShouldBe(activityRule.Id.ToString());
         result.UserId.ShouldBe(activityRule.UserId.ToString());
-        result.Title.ShouldBe(activityRule.Details.Title);
-        result.Note.ShouldBe(activityRule.Details.Note);
-        result.Mode.ShouldBe(activityRule.Mode.Value);
-        result.SelectedDays.ShouldBeNull();
-        result.Stages.ShouldBeNull();
+        result.Details.Title.ShouldBe(activityRule.Details.Title);
+        result.Details.Note.ShouldBe(activityRule.Details.Note);
+        result.SelectedMode.Mode.ShouldBe(activityRule.Mode.Mode.Value);
+        result.SelectedMode.DaysOfWeek.ShouldBeNull();
     }
     
     [Fact]
-    public void AsDocument_GivenActivityRuleWithSelectedDays_ShouldReturnActivityRuleDocument()
+    public void GivenActivityRuleWithSelectedDays_WhenAsDocument_ShouldReturnActivityRuleDocument()
     {
         //arrange
         List<int> selectedDays = [0, 1, 2];
-        var activityRule = ActivityRuleFakeDataFactory.Get(true, selectedDays);
-        var stage = StageFakeDataFactory.Get(1);
-        var newStage = activityRule.AddStage(new StageSpecification(stage.Title, stage.Index));
+        var activityRule = ActivityRuleFakeDataFactory.Get(true, selectedDays.ToHashSet());
         
         //act
-        var result = activityRule.MapAsDocument();
+        var result = activityRule.AsDocument();
         
         //assert
         result.Id.ShouldBe(activityRule.Id.ToString());
         result.UserId.ShouldBe(activityRule.UserId.ToString());
-        result.Mode.ShouldBe(activityRule.Mode.Value);
-        result.Title.ShouldBe(activityRule.Details.Title);
-        result.Note.ShouldBe(activityRule.Details.Note);
-        result.SelectedDays!.Contains(selectedDays[0]).ShouldBeTrue();
-        result.SelectedDays!.Contains(selectedDays[1]).ShouldBeTrue();
-        result.SelectedDays!.Contains(selectedDays[2]).ShouldBeTrue();
-        result.Stages!.First().StageId.ShouldBe(newStage.Id.ToString());
-        result.Stages!.First().Title.ShouldBe(stage.Title);
-        result.Stages!.First().Index.ShouldBe(stage.Index.Value);
+        result.Details.Title.ShouldBe(activityRule.Details.Title);
+        result.Details.Note.ShouldBe(activityRule.Details.Note);
+        result.SelectedMode.Mode.ShouldBe(activityRule.Mode.Mode.Value);
+        result.SelectedMode.DaysOfWeek.ShouldBeEquivalentTo(selectedDays);
+    }
+
+    [Fact]
+    public void GivenActivityRuleWithStae_WhenAsDocument_ThenActivityRuleShouldHaveStage()
+    {
+        
     }
 }

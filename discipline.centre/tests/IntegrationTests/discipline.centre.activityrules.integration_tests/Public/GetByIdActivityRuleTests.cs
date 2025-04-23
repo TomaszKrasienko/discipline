@@ -26,7 +26,7 @@ public sealed class GetByIdActivityRuleTests() : BaseTestsController("activity-r
             null, []);
         
         await TestAppDb.GetCollection<ActivityRuleDocument>()
-            .InsertOneAsync(activityRule.MapAsDocument());
+            .InsertOneAsync(activityRule.AsDocument());
         
         //act
         var response = await HttpClient.GetAsync($"api/activity-rules-module/activity-rules/{activityRule.Id.ToString()}");

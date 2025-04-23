@@ -20,7 +20,7 @@ public sealed class ActivityRuleDocumentMappingExtensionsTests
         //assert
         result.Id.ShouldBe(ActivityRuleId.Parse(activityRuleDocument.Id));
         result.UserId.ShouldBe(UserId.Parse(activityRuleDocument.UserId));
-        result.Details.Title.ShouldBe(activityRuleDocument.Title);
+        result.Details.Title.ShouldBe(activityRuleDocument.Details);
         result.Details.Note.ShouldBe(activityRuleDocument.Note);
         result.Mode.Value.ShouldBe(activityRuleDocument.Mode);
         result.SelectedDays.ShouldBeNull();
@@ -38,7 +38,7 @@ public sealed class ActivityRuleDocumentMappingExtensionsTests
         {
             Id = activityRuleDocument.Id,
             UserId = activityRuleDocument.UserId,
-            Title = activityRuleDocument.Title,
+            Details = activityRuleDocument.Details,
             Note = activityRuleDocument.Note,
             Mode = activityRuleDocument.Mode,
             SelectedDays = activityRuleDocument.SelectedDays,
@@ -51,7 +51,7 @@ public sealed class ActivityRuleDocumentMappingExtensionsTests
         //assert
         result.Id.ShouldBe(ActivityRuleId.Parse(activityRuleDocument.Id));
         result.UserId.ShouldBe(UserId.Parse(activityRuleDocument.UserId));
-        result.Details.Title.ShouldBe(activityRuleDocument.Title);
+        result.Details.Title.ShouldBe(activityRuleDocument.Details);
         result.Details.Note.ShouldBe(activityRuleDocument.Note);
         result.Mode.Value.ShouldBe(activityRuleDocument.Mode);
         result.SelectedDays!.Values.Select(x => (int)x).SequenceEqual(selectedDays).ShouldBeTrue();
@@ -71,7 +71,7 @@ public sealed class ActivityRuleDocumentMappingExtensionsTests
         
         //assert
         result.ActivityRuleId.ShouldBe(ActivityRuleId.Parse(activityRuleDocument.Id));
-        result.Title.ShouldBe(activityRuleDocument.Title);
+        result.Title.ShouldBe(activityRuleDocument.Details);
         result.Note.ShouldBe(activityRuleDocument.Note);
         result.Mode.ShouldBe(activityRuleDocument.Mode);
         result.SelectedDays.ShouldBeNull();
@@ -88,7 +88,7 @@ public sealed class ActivityRuleDocumentMappingExtensionsTests
         {
             Id = activityRuleDocument.Id,
             UserId = activityRuleDocument.UserId,
-            Title = activityRuleDocument.Title,
+            Details = activityRuleDocument.Details,
             Note = activityRuleDocument.Note,
             Mode = activityRuleDocument.Mode,
             SelectedDays = activityRuleDocument.SelectedDays,
@@ -100,7 +100,7 @@ public sealed class ActivityRuleDocumentMappingExtensionsTests
         
         //assert
         result.ActivityRuleId.ShouldBe(ActivityRuleId.Parse(activityRuleDocument.Id));
-        result.Title.ShouldBe(activityRuleDocument.Title);
+        result.Title.ShouldBe(activityRuleDocument.Details);
         result.Mode.ShouldBe(activityRuleDocument.Mode);
         result.SelectedDays!.Contains(selectedDays[0]).ShouldBeTrue();
         result.SelectedDays!.Contains(selectedDays[1]).ShouldBeTrue();

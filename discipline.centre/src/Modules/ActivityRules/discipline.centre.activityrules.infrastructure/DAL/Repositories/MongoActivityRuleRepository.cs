@@ -11,7 +11,7 @@ internal sealed class MongoActivityRuleRepository(
 {
     public Task AddAsync(ActivityRule activityRule, CancellationToken cancellationToken = default)
         => context.GetCollection<ActivityRuleDocument>()
-            .InsertOneAsync(activityRule.MapAsDocument(),
+            .InsertOneAsync(activityRule.AsDocument(),
                 null,
                 cancellationToken);
 
@@ -19,7 +19,7 @@ internal sealed class MongoActivityRuleRepository(
         => await context.GetCollection<ActivityRuleDocument>()
             .FindOneAndReplaceAsync(x 
                     => x.Id == activityRule.Id.ToString(),
-                activityRule.MapAsDocument(),
+                activityRule.AsDocument(),
                 null,
                 cancellationToken);
 
@@ -31,7 +31,7 @@ internal sealed class MongoActivityRuleRepository(
     public Task<bool> ExistsAsync(string title, UserId userId, CancellationToken cancellationToken = default)
         => context.GetCollection<ActivityRuleDocument>()
             .Find(x 
-                => x.Title == title
+                => x.Details == title
                 && x.UserId == userId.ToString()).AnyAsync(cancellationToken);
 
     public async Task<ActivityRule?> GetByIdAsync(ActivityRuleId id, UserId userId, CancellationToken cancellationToken = default)

@@ -21,7 +21,7 @@ public sealed class CreateActivityFromActivityRuleTests() : BaseTestsController(
         //arrange
         var user = await AuthorizeWithFreeSubscriptionPicked();
         var activityRule = ActivityRuleFakeDataFactory.Get();
-        var activityRuleDocument = activityRule.MapAsDocument();
+        var activityRuleDocument = activityRule.AsDocument();
         await TestAppDb.GetCollection<ActivityRuleDocument>("activity-rules-module")
             .InsertOneAsync(activityRuleDocument with {UserId = user.Id.ToString()});
         

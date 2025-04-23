@@ -15,7 +15,7 @@ internal static class ActivityRuleDocumentMappingExtensions
         => new(
             ActivityRuleId.Parse(document.Id),
             UserId.Parse(document.UserId),
-            Details.Create(document.Title, document.Note), 
+            Details.Create(document.Details, document.Note), 
             SelectedMode.Create(RuleMode.Parse(document.Mode), document.SelectedDays?.ToHashSet()),
             document.Stages.Select(x => x.MapAsEntity()).ToList()); 
     
@@ -23,7 +23,7 @@ internal static class ActivityRuleDocumentMappingExtensions
         => new()
         {
             ActivityRuleId = ActivityRuleId.Parse(document.Id),
-            Title = document.Title,
+            Title = document.Details,
             Note = document.Note,
             Mode = document.Mode,
             SelectedDays = document.SelectedDays?.ToList(),
@@ -31,7 +31,7 @@ internal static class ActivityRuleDocumentMappingExtensions
         };
 
     internal static ActivityRuleResponseDto AsResponseDto(this ActivityRuleDocument document)
-        => new(document.Id, document.Title, document.Note, document.Mode, document.SelectedDays?.ToArray(), 
+        => new(document.Id, document.Details, document.Note, document.Mode, document.SelectedDays?.ToArray(), 
             document.Stages.Select(x => x.AsResponseDto()).ToList());
 
     private static StageResponseDto AsResponseDto(this StageDocument document)

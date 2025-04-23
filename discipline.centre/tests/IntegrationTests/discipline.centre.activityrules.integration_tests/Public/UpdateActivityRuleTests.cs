@@ -25,7 +25,7 @@ public sealed class UpdateActivityRuleTests() : BaseTestsController("activity-ru
         //arrange
         var activityRule = ActivityRuleFakeDataFactory.Get();
         var user = await AuthorizeWithFreeSubscriptionPicked();
-        var activityRuleDocument = activityRule.MapAsDocument();
+        var activityRuleDocument = activityRule.AsDocument();
 
         await TestAppDb.GetCollection<ActivityRuleDocument>()
             .InsertOneAsync(activityRuleDocument with {UserId = user.Id.ToString()});
@@ -43,7 +43,7 @@ public sealed class UpdateActivityRuleTests() : BaseTestsController("activity-ru
             .GetCollection<ActivityRuleDocument>()
             .Find(x => x.Id.ToString() == activityRule.Id.ToString())
             .SingleOrDefaultAsync(); 
-        updatedActivityRuleDocument.Title.ShouldBe(request.Details.Title);
+        updatedActivityRuleDocument.Details.ShouldBe(request.Details.Title);
         updatedActivityRuleDocument.Note.ShouldBe(request.Details.Note);
         updatedActivityRuleDocument.Mode.ShouldBe(request.Mode);
         updatedActivityRuleDocument.SelectedDays!.First().ShouldBe(request.SelectedDays![0]);
@@ -55,7 +55,7 @@ public sealed class UpdateActivityRuleTests() : BaseTestsController("activity-ru
         //arrange
         var activityRule = ActivityRuleFakeDataFactory.Get();
         await TestAppDb.GetCollection<ActivityRuleDocument>()
-            .InsertOneAsync(activityRule.MapAsDocument());
+            .InsertOneAsync(activityRule.AsDocument());
 
         await AuthorizeWithFreeSubscriptionPicked();
         var request = new UpdateActivityRuleDto( new ActivityRuleDetailsSpecification("new_test_title",

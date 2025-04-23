@@ -23,7 +23,7 @@ public sealed class DeleteActivityRuleTests() : BaseTestsController("activity-ru
             new ActivityRuleDetailsSpecification("test_title",null), SelectedMode.EveryDayMode, null, []);
         
         await TestAppDb.GetCollection<ActivityRuleDocument>()
-            .InsertOneAsync(activityRule.MapAsDocument());
+            .InsertOneAsync(activityRule.AsDocument());
         
         //act
         var response = await HttpClient.DeleteAsync($"api/activity-rules-module/activity-rules/{activityRule.Id.ToString()}");
