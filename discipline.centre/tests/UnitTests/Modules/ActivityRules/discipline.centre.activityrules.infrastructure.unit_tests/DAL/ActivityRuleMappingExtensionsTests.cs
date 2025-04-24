@@ -11,13 +11,13 @@ public sealed class ActivityRuleMappingExtensionsTests
     [Fact]
     public void GivenActivityRuleWithoutSelectedDays_WhenAsDocument_ThenReturnActivityRuleDocumentWithNullSelectedDays()
     {
-        //arrange
+        // Arrange
         var activityRule = ActivityRuleFakeDataFactory.Get();
         
-        //act
+        // Act
         var result = activityRule.AsDocument();
         
-        //assert
+        // Assert
         result.Id.ShouldBe(activityRule.Id.ToString());
         result.UserId.ShouldBe(activityRule.UserId.ToString());
         result.Details.Title.ShouldBe(activityRule.Details.Title);
@@ -29,14 +29,14 @@ public sealed class ActivityRuleMappingExtensionsTests
     [Fact]
     public void GivenActivityRuleWithSelectedDays_WhenAsDocument_ShouldReturnActivityRuleDocument()
     {
-        //arrange
+        // Arrange
         List<int> selectedDays = [0, 1, 2];
         var activityRule = ActivityRuleFakeDataFactory.Get(true, selectedDays.ToHashSet());
         
-        //act
+        // Act
         var result = activityRule.AsDocument();
         
-        //assert
+        // Assert
         result.Id.ShouldBe(activityRule.Id.ToString());
         result.UserId.ShouldBe(activityRule.UserId.ToString());
         result.Details.Title.ShouldBe(activityRule.Details.Title);
@@ -46,8 +46,25 @@ public sealed class ActivityRuleMappingExtensionsTests
     }
 
     [Fact]
-    public void GivenActivityRuleWithStae_WhenAsDocument_ThenActivityRuleShouldHaveStage()
+    public void GivenActivityRuleWithStage_WhenAsDocument_ThenActivityRuleShouldHaveStage()
     {
+        // Arrange
+        var activityRule = ActivityRuleFakeDataFactory.Get().WithStage();
+        var stage = activityRule.Stages.Single();
         
+        // Act
+        var result = activityRule.AsDocument();
+        
+        // Assert
+        result.Id.ShouldBe(activityRule.Id.ToString());
+        result.UserId.ShouldBe(activityRule.UserId.ToString());
+        result.Details.Title.ShouldBe(activityRule.Details.Title);
+        result.Details.Note.ShouldBe(activityRule.Details.Note);
+        result.SelectedMode.Mode.ShouldBe(activityRule.Mode.Mode.Value);
+        
+        var stageDocument = result.Stages.Single();
+        stageDocument.StageId.ShouldBe(stage.Id.Value.ToString());
+        stageDocument.Title.ShouldBe(stage.Title.Value);
+        stageDocument.Index.ShouldBe(stage.Index.Value);
     }
 }

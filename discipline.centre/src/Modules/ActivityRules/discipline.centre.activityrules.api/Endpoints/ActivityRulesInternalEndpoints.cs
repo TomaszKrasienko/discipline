@@ -1,13 +1,11 @@
-using System.Globalization;
 using discipline.centre.activityrules.application.ActivityRules.Queries;
 using discipline.centre.shared.abstractions.CQRS;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using Microsoft.AspNetCore.Http;
 using discipline.centre.activityrules.api;
 using discipline.centre.activityrules.application.ActivityRules.DTOs;
+using discipline.centre.activityrules.application.ActivityRules.DTOs.Responses;
 using discipline.centre.shared.infrastructure.Auth.Const;
-using Microsoft.AspNetCore.Authorization;
-// ReSharper disable RouteTemplates.RouteParameterConstraintNotResolved
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.AspNetCore.Builder;
@@ -33,7 +31,7 @@ internal static class ActivityRulesInternalEndpoints
 
                     return result is null ? Results.NotFound() : Results.Ok(result);
                 })
-            .Produces(StatusCodes.Status200OK, typeof(ActivityRuleDto))
+            .Produces(StatusCodes.Status200OK, typeof(ActivityRuleResponseDto))
             .Produces(StatusCodes.Status401Unauthorized, typeof(void))
             .Produces(StatusCodes.Status404NotFound, typeof(void))
             .WithName("GetActivityRuleForUserById")

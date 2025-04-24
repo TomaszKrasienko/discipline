@@ -31,7 +31,7 @@ internal sealed class MongoActivityRuleRepository(
     public Task<bool> ExistsAsync(string title, UserId userId, CancellationToken cancellationToken = default)
         => context.GetCollection<ActivityRuleDocument>()
             .Find(x 
-                => x.Details == title
+                => x.Details.Title == title
                 && x.UserId == userId.ToString()).AnyAsync(cancellationToken);
 
     public async Task<ActivityRule?> GetByIdAsync(ActivityRuleId id, UserId userId, CancellationToken cancellationToken = default)
@@ -40,5 +40,5 @@ internal sealed class MongoActivityRuleRepository(
                     => x.Id == id.Value.ToString()
                     && x.UserId == userId.ToString())
                 .FirstOrDefaultAsync(cancellationToken))?
-            .MapAsEntity();
+            .AsEntity();
 }

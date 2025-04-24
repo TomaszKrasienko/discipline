@@ -9,103 +9,84 @@ namespace discipline.centre.activityrules.infrastructure.unit_tests.DAL;
 public sealed class ActivityRuleDocumentMappingExtensionsTests
 {
     [Fact]
-    public void AsEntity_GivenActivityRuleDocumentWithoutSelectedDays_ShouldReturnActivityRuleWithEmptySelectedDays()
+    public void GivenActivityRuleDocumentWithoutSelectedDays_WhenAsEntity_ShouldReturnActivityRuleWithNullSelectedDays()
     {
-        //arrange
+        // Arrange
         var activityRuleDocument = ActivityRuleDocumentFakeDataFactory.Get();
         
-        //act
-        var result = activityRuleDocument.MapAsEntity();
+        // Act
+        var entity = activityRuleDocument.AsEntity();
         
-        //assert
-        result.Id.ShouldBe(ActivityRuleId.Parse(activityRuleDocument.Id));
-        result.UserId.ShouldBe(UserId.Parse(activityRuleDocument.UserId));
-        result.Details.Title.ShouldBe(activityRuleDocument.Details);
-        result.Details.Note.ShouldBe(activityRuleDocument.Note);
-        result.Mode.Value.ShouldBe(activityRuleDocument.Mode);
-        result.SelectedDays.ShouldBeNull();
-        result.Stages.ShouldBeNull();
+        // Assert
+        entity.Id.ShouldBe(ActivityRuleId.Parse(activityRuleDocument.Id));
+        entity.UserId.ShouldBe(UserId.Parse(activityRuleDocument.UserId));
+        entity.Details.Title.ShouldBe(activityRuleDocument.Details.Title);
+        entity.Details.Note.ShouldBe(activityRuleDocument.Details.Note);
+        entity.Mode.Mode.Value.ShouldBe(activityRuleDocument.SelectedMode.Mode);
+        entity.Mode.Days.ShouldBeNull();
+        entity.Stages.ShouldBeEmpty();
     }
     
     [Fact]
-    public void AsEntity_GivenActivityRuleDocumentWithSelectedDays_ShouldReturnActivityRule()
+    public void GivenActivityRuleDocumentWithSelectedDays_WhenAsEntity_ShouldReturnActivityRuleWithSelectedDays()
     {
-        //arrange
+        // Arrange
         List<int> selectedDays = [0, 1, 2];
-        var activityRuleDocument = ActivityRuleDocumentFakeDataFactory.Get(selectedDays);
-        var stageDocument = StageDocumentFakeDataFactory.Get();
-        activityRuleDocument = new()
-        {
-            Id = activityRuleDocument.Id,
-            UserId = activityRuleDocument.UserId,
-            Details = activityRuleDocument.Details,
-            Note = activityRuleDocument.Note,
-            Mode = activityRuleDocument.Mode,
-            SelectedDays = activityRuleDocument.SelectedDays,
-            Stages = [stageDocument]
-        };
+        var activityRuleDocument = ActivityRuleDocumentFakeDataFactory.Get(false, selectedDays.ToHashSet());
         
-        //act
-        var result = activityRuleDocument.MapAsEntity();
+        // Act
+        var entity = activityRuleDocument.AsEntity();
         
-        //assert
-        result.Id.ShouldBe(ActivityRuleId.Parse(activityRuleDocument.Id));
-        result.UserId.ShouldBe(UserId.Parse(activityRuleDocument.UserId));
-        result.Details.Title.ShouldBe(activityRuleDocument.Details);
-        result.Details.Note.ShouldBe(activityRuleDocument.Note);
-        result.Mode.Value.ShouldBe(activityRuleDocument.Mode);
-        result.SelectedDays!.Values.Select(x => (int)x).SequenceEqual(selectedDays).ShouldBeTrue();
-        result.Stages![0].Id.ShouldBe(StageId.Parse(stageDocument.StageId));
-        result.Stages![0].Title.Value.ShouldBe(stageDocument.Title);
-        result.Stages![0].Index.Value.ShouldBe(stageDocument.Index);
+        // Assert
+        entity.Id.ShouldBe(ActivityRuleId.Parse(activityRuleDocument.Id));
+        entity.UserId.ShouldBe(UserId.Parse(activityRuleDocument.UserId));
+        entity.Details.Title.ShouldBe(activityRuleDocument.Details.Title);
+        entity.Details.Note.ShouldBe(activityRuleDocument.Details.Note);
+        entity.Mode.Mode.Value.ShouldBe(activityRuleDocument.SelectedMode.Mode);
+        entity.Mode.Days.ShouldBeEquivalentTo(selectedDays);
+    }
+
+    [Fact]
+    public void GivenActivityRuleDocumentWithStages_WhenAsEntity_ShouldReturnActivityRuleWithStages()
+    {
+        // Arrange
+        var activityRuleDocument = ActivityRuleDocumentFakeDataFactory.Get().WithStage();
+        var stageDocument = activityRuleDocument.Stages.Single();
+        
+        // Act
+        var entity = activityRuleDocument.AsEntity();
+        
+        // Assert
+        entity.Id.ShouldBe(ActivityRuleId.Parse(activityRuleDocument.Id));
+        entity.UserId.ShouldBe(UserId.Parse(activityRuleDocument.UserId));
+        entity.Details.Title.ShouldBe(activityRuleDocument.Details.Title);
+        entity.Details.Note.ShouldBe(activityRuleDocument.Details.Note);
+        entity.Mode.Mode.Value.ShouldBe(activityRuleDocument.SelectedMode.Mode);
+        var stage = entity.Stages.Single();
+        stage.Id.ToString().ShouldBe(stageDocument.StageId);
+        stage.Title.Value.ShouldBe(stageDocument.Title);
+        stage.Index.Value.ShouldBe(stageDocument.Index);
     }
     
     [Fact]
-    public void MapAsDto_GivenActivityRuleDocumentWithoutSelectedDays_ShouldReturnActivityRuleDtoWithSelectedDaysAsNull()
+    public void GivenActivityRuleDocumentWithSelectedDaysAndStage_WhenAsResponseDto_ShouldReturnActivityRuleResponseDtoWithSelectedDaysAndStage()
     {
-        //arrange
+        // Arrange
         var activityRuleDocument = ActivityRuleDocumentFakeDataFactory.Get();
+        var stageDocument = activityRuleDocument.Stages.Single();
         
-        //act
-        var result = activityRuleDocument.MapAsDto();
+        // Act
+        var dto = activityRuleDocument.AsResponseDto();
         
-        //assert
-        result.ActivityRuleId.ShouldBe(ActivityRuleId.Parse(activityRuleDocument.Id));
-        result.Title.ShouldBe(activityRuleDocument.Details);
-        result.Note.ShouldBe(activityRuleDocument.Note);
-        result.Mode.ShouldBe(activityRuleDocument.Mode);
-        result.SelectedDays.ShouldBeNull();
-    }
-    
-    [Fact]
-    public void MapAsDto_GivenActivityRuleDocumentWithSelectedDays_ShouldReturnActivityRuleDto()
-    {
-        //arrange
-        List<int> selectedDays = [1, 4];
-        var activityRuleDocument = ActivityRuleDocumentFakeDataFactory.Get(selectedDays);
-        var stageDocument = StageDocumentFakeDataFactory.Get();
-        activityRuleDocument = new()
-        {
-            Id = activityRuleDocument.Id,
-            UserId = activityRuleDocument.UserId,
-            Details = activityRuleDocument.Details,
-            Note = activityRuleDocument.Note,
-            Mode = activityRuleDocument.Mode,
-            SelectedDays = activityRuleDocument.SelectedDays,
-            Stages = [stageDocument]
-        };
-        
-        //act
-        var result = activityRuleDocument.MapAsDto();
-        
-        //assert
-        result.ActivityRuleId.ShouldBe(ActivityRuleId.Parse(activityRuleDocument.Id));
-        result.Title.ShouldBe(activityRuleDocument.Details);
-        result.Mode.ShouldBe(activityRuleDocument.Mode);
-        result.SelectedDays!.Contains(selectedDays[0]).ShouldBeTrue();
-        result.SelectedDays!.Contains(selectedDays[1]).ShouldBeTrue();
-        result.Stages![0].StageId.ShouldBe(StageId.Parse(stageDocument.StageId));
-        result.Stages![0].Title.ShouldBe(stageDocument.Title);
-        result.Stages![0].Index.ShouldBe(stageDocument.Index);
+        // Assert
+        dto.ActivityRuleId.ShouldBe(activityRuleDocument.Id);
+        dto.Details.Title.ShouldBe(activityRuleDocument.Details.Title);
+        dto.Details.Note.ShouldBe(activityRuleDocument.Details.Note);
+        dto.Mode.Mode.ShouldBe(activityRuleDocument.SelectedMode.Mode);
+        dto.Mode.Days.ShouldBeEquivalentTo(activityRuleDocument.SelectedMode.DaysOfWeek);
+        var stage = dto.Stages.Single();
+        stage.StageId.ShouldBe(stageDocument.StageId);
+        stage.Title.ShouldBe(stageDocument.Title);
+        stage.Index.ShouldBe(stageDocument.Index);
     }
 }

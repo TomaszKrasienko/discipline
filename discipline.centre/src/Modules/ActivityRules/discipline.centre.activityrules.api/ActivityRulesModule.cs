@@ -1,4 +1,4 @@
-using discipline.centre.activityrules.application.ActivityRules.DTOs;
+using discipline.centre.activityrules.application.ActivityRules.DTOs.Responses;
 using discipline.centre.activityrules.application.ActivityRules.Queries;
 using discipline.centre.shared.abstractions.CQRS;
 using discipline.centre.shared.abstractions.Modules;
@@ -26,7 +26,7 @@ internal sealed class ActivityRulesModule : IModule
             .MapActivityRulesInternalEndpoints();
         
         app.UseModuleRequest()
-            .MapModuleRequest<GetActivityRuleByIdQuery, ActivityRuleDto>("activity-rules/get",(query, sp) 
-                => sp.GetRequiredService<ICqrsDispatcher>().SendAsync(query, default));
+            .MapModuleRequest<GetActivityRuleByIdQuery, ActivityRuleResponseDto>("activity-rules/get",(query, sp) 
+                => sp.GetRequiredService<ICqrsDispatcher>().SendAsync(query, CancellationToken.None));
     }
 }

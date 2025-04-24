@@ -1,4 +1,5 @@
 using discipline.centre.activityrules.application.ActivityRules.Commands;
+using discipline.centre.activityrules.application.ActivityRules.DTOs.Requests;
 using discipline.centre.activityrules.domain.Enums;
 using discipline.centre.activityrules.domain.Specifications;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
