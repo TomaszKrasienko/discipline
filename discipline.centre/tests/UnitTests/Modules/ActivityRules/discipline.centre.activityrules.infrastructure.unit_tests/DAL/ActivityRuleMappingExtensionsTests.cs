@@ -1,5 +1,6 @@
 using discipline.centre.activityrules.domain;
 using discipline.centre.activityrules.domain.Specifications;
+using discipline.centre.activityrules.tests.sharedkernel.DataValidators;
 using discipline.centre.activityrules.tests.sharedkernel.Domain;
 using Shouldly;
 using Xunit;
@@ -42,7 +43,7 @@ public sealed class ActivityRuleMappingExtensionsTests
         result.Details.Title.ShouldBe(activityRule.Details.Title);
         result.Details.Note.ShouldBe(activityRule.Details.Note);
         result.SelectedMode.Mode.ShouldBe(activityRule.Mode.Mode.Value);
-        result.SelectedMode.DaysOfWeek.ShouldBeEquivalentTo(selectedDays);
+        result.SelectedMode.DaysOfWeek!.ToList().IsEqual(selectedDays);
     }
 
     [Fact]

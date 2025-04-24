@@ -43,7 +43,7 @@ public sealed class ActivityRuleDetailsRequestDtoValidatorTests
     public void GivenTitleLongerThan30Characters_WhenTestValidate_ShouldHaveErrorForTitleWithCodeValidation_ActivityRuleTitleTooLong()
     {
         // Arrange
-        var dto = new ActivityRuleDetailsRequestDto(string.Empty, null);
+        var dto = new ActivityRuleDetailsRequestDto(new string('t', 31), null);
         
         // Act
         var result = _validator.TestValidate(dto);

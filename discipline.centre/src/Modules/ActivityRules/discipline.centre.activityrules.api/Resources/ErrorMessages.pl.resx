@@ -62,4 +62,7 @@
     <data name="ActivityRule.Stages.StageTitleMustBeUnique" xml:space="preserve">
         <value>'Tytuł' etapu reguły aktywności musi być unikalny</value>
     </data>
+    <data name="ActivityRules.Mode.RuleModeSelectedDayOutOfRange" xml:space="preserve">
+        <value>Wybrany numer dnia: {0} dla reguły aktywności wychodzi poza zakres</value>
+    </data>
 </root>

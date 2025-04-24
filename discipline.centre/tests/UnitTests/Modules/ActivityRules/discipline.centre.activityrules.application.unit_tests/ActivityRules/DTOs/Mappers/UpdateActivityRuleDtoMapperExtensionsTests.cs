@@ -1,5 +1,6 @@
 using discipline.centre.activityrules.application.ActivityRules.DTOs;
 using discipline.centre.activityrules.tests.sharedkernel.Application;
+using discipline.centre.activityrules.tests.sharedkernel.DataValidators;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using Shouldly;
 using Xunit;
@@ -46,6 +47,6 @@ public sealed class UpdateActivityRuleDtoMapperExtensionsTests
         result.Details.Title.ShouldBe(dto.Details.Title);
         result.Details.Note.ShouldBe(dto.Details.Note);
         result.Mode.Mode.Value.ShouldBe(dto.Mode.Mode);
-        result.Mode.Days.ShouldBeEquivalentTo(dto.Mode.Days);
+        result.Mode.Days!.ToList().IsEqual(dto.Mode.Days).ShouldBeTrue();
     }
 }

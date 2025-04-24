@@ -146,5 +146,11 @@ namespace discipline.centre.activityrules.api.Resources {
                 return ResourceManager.GetString("ActivityRule.Stages.StageTitleMustBeUnique", resourceCulture);
             }
         }
+        
+        internal static string ActivityRules_Mode_RuleModeSelectedDayOutOfRange {
+            get {
+                return ResourceManager.GetString("ActivityRules.Mode.RuleModeSelectedDayOutOfRange", resourceCulture);
+            }
+        }
     }
 }

@@ -32,18 +32,18 @@ public sealed class CreateTests
         
         // Assert
         exception.ShouldBeOfType<DomainException>();
-        ((DomainException)exception).Code.ShouldBe("ActivityRule.Stage.TitleTooLong");
+        ((DomainException)exception).Code.ShouldBe("ActivityRule.Stage.Title.EmptyValue");
     }
     
     [Fact]
     public void GivenTitleLongerThan30Characters_WhenCreate_ThenThrowDomainExceptionWithCodeActivityRuleTitleTooLong()
     {
         // Act
-        var exception = Record.Exception(() => Stage.Create(StageId.New(), string.Empty, 1));
+        var exception = Record.Exception(() => Stage.Create(StageId.New(), new string('t', 31) , 1));
         
         // Assert
         exception.ShouldBeOfType<DomainException>();
-        ((DomainException)exception).Code.ShouldBe("ActivityRule.Stage.TitleTooLong");
+        ((DomainException)exception).Code.ShouldBe("ActivityRule.Stage.Title.ValueTooLong");
     }
     
     [Fact]

@@ -15,7 +15,7 @@ public static class ActivityRuleRequestDtoFakeDataFactory
         var faker = new Faker<ActivityRuleRequestDto>()
             .CustomInstantiator(v => new ActivityRuleRequestDto(
                 new ActivityRuleDetailsRequestDto(v.Lorem.Word(), withNote ? v.Lorem.Sentence() : null),
-                new ActivityRuleModeRequestDto(v.PickRandom(noDayRuleModes), null)));
+                new ActivityRuleModeRequestDto(v.PickRandom<string>(noDayRuleModes.ToArray()), null)));
 
         return faker.Generate();
     }
@@ -25,7 +25,7 @@ public static class ActivityRuleRequestDtoFakeDataFactory
         var days = Enum.GetValues<DayOfWeek>().Select(x => (int)x).ToList();
         var faker = new Faker();
 
-        var numberOfDays = faker.Random.Int(days.Count);
+        var numberOfDays = faker.Random.Int(min:days.Count, max:days.Count);
         var selectedDays = faker.PickRandom(days, numberOfDays).ToList();
 
         return dto with { Mode = new ActivityRuleModeRequestDto(RuleMode.Custom.Value, selectedDays) };

@@ -1,4 +1,3 @@
-using discipline.centre.activityrules.api;
 using discipline.centre.activityrules.application.ActivityRules.Commands;
 using discipline.centre.activityrules.application.ActivityRules.DTOs;
 using discipline.centre.activityrules.application.ActivityRules.DTOs.Requests;
@@ -84,8 +83,8 @@ internal static class ActivityRulesEndpoints
         .RequireAuthorization()
         .RequireAuthorization(UserStatePolicy.Name);
 
-        app.MapDelete($"api/{ActivityRulesTag}/{{activityRuleId:ulid}}", async (
-            Ulid activityRuleId, CancellationToken cancellationToken, ICqrsDispatcher dispatcher, IIdentityContext identityContext) =>
+        app.MapDelete($"api/{ActivityRulesTag}/{{activityRuleId:ulid}}", async (Ulid activityRuleId, 
+                CancellationToken cancellationToken, ICqrsDispatcher dispatcher, IIdentityContext identityContext) =>
         {
             var stronglyActivityRuleId = new ActivityRuleId(activityRuleId);
             var userId = identityContext.GetUser();

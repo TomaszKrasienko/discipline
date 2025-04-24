@@ -1,5 +1,6 @@
 using discipline.centre.activityrules.domain.Enums;
 using discipline.centre.activityrules.domain.Specifications;
+using discipline.centre.activityrules.tests.sharedkernel.DataValidators;
 using discipline.centre.shared.abstractions.SharedKernel.Exceptions;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using Shouldly;
@@ -50,7 +51,7 @@ public sealed class CreateTests
         result.Details.Title.ShouldBe(details.Title);
         result.Details.Note.ShouldBe(details.Note);
         result.Mode.Mode.ShouldBe(mode.Mode);
-        result.Mode.Days.ShouldBeEquivalentTo(mode.Days);
+        result.Mode.Days.IsEqual(mode.Days?.ToList()).ShouldBeTrue();
     }
 
     [Fact]
@@ -85,11 +86,11 @@ public sealed class CreateTests
     public void GivenModeWithRequiredDaysAndNullDays_WhenCreate_ThenThrowDomainExceptionWithCodeActivityRulesModeRuleModeRequireSelectedDays()
     {
         // Arrange
-        var (activityId, userId, details, mode) = GetFilledParams();
+        var (activityId, userId, details, _) = GetFilledParams();
         
         // Act
         var exception = Record.Exception(() => ActivityRule.Create(activityId, userId,
-            details, mode with { Mode = RuleMode.Custom }));
+            details, new ActivityRuleModeSpecification(Mode: RuleMode.Custom, Days: null)));
         
         // Assert
         exception.ShouldBeOfType<DomainException>();
@@ -100,7 +101,7 @@ public sealed class CreateTests
     public void GivenSelectedDaysOutOfRange_WhenCreate_ThenThrowDomainExceptionWithCodeActivityRuleModeSelectedDayOutOfRange()
     {
         // Arrange
-        var  (activityId, userId, details, mode) = GetFilledParams();
+        var  (activityId, userId, details, _) = GetFilledParams();
         
         // Act
         var exception = Record.Exception(() => ActivityRule.Create(activityId, userId, details,

@@ -17,7 +17,7 @@ internal static class ActivityRuleDocumentMappingExtensions
             document.Stages.Select(x => x.AsEntity()).ToList());
 
     private static Details AsEntity(this ActivityRuleDetailsDocument document)
-        => Details.Create(document.Title, document.Title);
+        => Details.Create(document.Title, document.Note);
     
     private static SelectedMode AsEntity(this ActivityRuleSelectedModeDocument document)
         => SelectedMode.Create(RuleMode.Parse(document.Mode), document.DaysOfWeek?.ToHashSet());
@@ -32,7 +32,7 @@ internal static class ActivityRuleDocumentMappingExtensions
             document.Stages.Select(x => x.AsResponseDto()).ToList());
 
     private static DetailsResponseDto AsResponseDto(this ActivityRuleDetailsDocument document)
-        => new(document.Title, document.Title);
+        => new(document.Title, document.Note);
     
     private static SelectedModeResponseDto AsResponseDto(this ActivityRuleSelectedModeDocument document)
         => new(document.Mode, document.DaysOfWeek?.ToHashSet());

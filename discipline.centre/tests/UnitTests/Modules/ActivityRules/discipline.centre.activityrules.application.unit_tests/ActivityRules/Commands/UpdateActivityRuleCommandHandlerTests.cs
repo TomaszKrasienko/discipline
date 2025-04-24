@@ -26,6 +26,7 @@ public sealed class UpdateActivityRuleCommandHandlerTests
         var cancellationToken = CancellationToken.None;
         
         var activityRule = ActivityRuleFakeDataFactory.Get();
+        activityRule.ClearDomainEvents();
         
         var command = new UpdateActivityRuleCommand(UserId.New(), activityRule.Id, 
             new ActivityRuleDetailsSpecification("test_title", "test_note"),
@@ -106,7 +107,7 @@ public sealed class UpdateActivityRuleCommandHandlerTests
         
         // Assert
         exception.ShouldBeOfType<NotUniqueException>();
-        ((NotFoundException)exception).Code.ShouldBe("UpdateActivityRule.NotUniqueTitle");
+        ((NotUniqueException)exception).Code.ShouldBe("UpdateActivityRule.NotUniqueTitle");
     }
     
     [Fact]

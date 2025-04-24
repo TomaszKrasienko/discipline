@@ -69,4 +69,7 @@
     <data name="ActivityRule.Stages.StageTitleMustBeUnique" xml:space="preserve">
         <value>Activity rule stage 'Title' must be unique</value>
     </data>
+    <data name="ActivityRules.Mode.RuleModeSelectedDayOutOfRange" xml:space="preserve">
+        <value>Activity rule selected day with number: {0} is out of range</value>
+    </data>
 </root>

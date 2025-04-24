@@ -21,4 +21,6 @@ public sealed class Stage : Entity<StageId, Ulid>
     internal static Stage Create(StageId stageId, string title, int index)
         => new(stageId, title, index);
     
+    internal void UpdateIndex(int index)
+        => Index = index;
 }

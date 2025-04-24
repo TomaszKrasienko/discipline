@@ -34,7 +34,7 @@ public sealed class ActivityRuleModeRequestDtoValidatorTests
         result.ShouldHaveValidationErrorFor(x => x.Mode);
         result.Errors
             .Any(x 
-                => x.PropertyName == nameof(ActivityRuleDetailsRequestDto.Title) 
+                => x.PropertyName == nameof(ActivityRuleModeRequestDto.Mode) 
                 && x.ErrorMessage == "Validation.EmptyActivityRuleMode")
             .ShouldBeTrue();
     }
@@ -49,10 +49,10 @@ public sealed class ActivityRuleModeRequestDtoValidatorTests
         var result = _validator.TestValidate(dto);
         
         // Assert
-        result.ShouldHaveValidationErrorFor(x => x.Mode);
+        result.ShouldHaveValidationErrorFor(x => x.Days);
         result.Errors
             .Any(x 
-                => x.PropertyName == nameof(ActivityRuleDetailsRequestDto.Title) 
+                => x.PropertyName == nameof(ActivityRuleModeRequestDto.Days) 
                 && x.ErrorMessage == "Validation.ActivityRuleDaysOutOfRange")
             .ShouldBeTrue();
     }

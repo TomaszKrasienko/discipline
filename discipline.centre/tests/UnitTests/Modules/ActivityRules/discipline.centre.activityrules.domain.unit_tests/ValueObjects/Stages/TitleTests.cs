@@ -28,7 +28,7 @@ public sealed class TitleTests
         
         // Assert
         exception.ShouldBeOfType<DomainException>();
-        ((DomainException)exception).Code.ShouldBe("ActivityRule.Stage.TitleTooLong");
+        ((DomainException)exception).Code.ShouldBe("ActivityRule.Stage.Title.EmptyValue");
     }
 
     [Fact]
@@ -39,6 +39,6 @@ public sealed class TitleTests
         
         // Assert
         exception.ShouldBeOfType<DomainException>();
-        ((DomainException)exception).Code.ShouldBe("ActivityRule.Stage.TitleTooLong");
+        ((DomainException)exception).Code.ShouldBe("ActivityRule.Stage.Title.ValueTooLong");
     }
 }

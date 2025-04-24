@@ -1,4 +1,5 @@
 using discipline.centre.activityrules.infrastructure.DAL.Documents;
+using discipline.centre.activityrules.tests.sharedkernel.DataValidators;
 using discipline.centre.activityrules.tests.sharedkernel.Infrastructure;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using Shouldly;
@@ -43,7 +44,7 @@ public sealed class ActivityRuleDocumentMappingExtensionsTests
         entity.Details.Title.ShouldBe(activityRuleDocument.Details.Title);
         entity.Details.Note.ShouldBe(activityRuleDocument.Details.Note);
         entity.Mode.Mode.Value.ShouldBe(activityRuleDocument.SelectedMode.Mode);
-        entity.Mode.Days.ShouldBeEquivalentTo(selectedDays);
+        entity.Mode.Days.IsEqual(selectedDays).ShouldBeTrue();
     }
 
     [Fact]
@@ -72,7 +73,8 @@ public sealed class ActivityRuleDocumentMappingExtensionsTests
     public void GivenActivityRuleDocumentWithSelectedDaysAndStage_WhenAsResponseDto_ShouldReturnActivityRuleResponseDtoWithSelectedDaysAndStage()
     {
         // Arrange
-        var activityRuleDocument = ActivityRuleDocumentFakeDataFactory.Get();
+        var activityRuleDocument = ActivityRuleDocumentFakeDataFactory.Get()
+            .WithStage();
         var stageDocument = activityRuleDocument.Stages.Single();
         
         // Act
@@ -83,7 +85,7 @@ public sealed class ActivityRuleDocumentMappingExtensionsTests
         dto.Details.Title.ShouldBe(activityRuleDocument.Details.Title);
         dto.Details.Note.ShouldBe(activityRuleDocument.Details.Note);
         dto.Mode.Mode.ShouldBe(activityRuleDocument.SelectedMode.Mode);
-        dto.Mode.Days.ShouldBeEquivalentTo(activityRuleDocument.SelectedMode.DaysOfWeek);
+        dto.Mode.Days?.ToList().IsEqual(activityRuleDocument.SelectedMode.DaysOfWeek?.ToList()).ShouldBeTrue();
         var stage = dto.Stages.Single();
         stage.StageId.ShouldBe(stageDocument.StageId);
         stage.Title.ShouldBe(stageDocument.Title);

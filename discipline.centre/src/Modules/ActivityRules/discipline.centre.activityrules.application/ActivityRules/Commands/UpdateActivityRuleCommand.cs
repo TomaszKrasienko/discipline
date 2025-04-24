@@ -34,6 +34,7 @@ internal sealed class UpdateActivityRuleCommandHandler(
         activityRule.Edit(command.Details, command.Mode);
         
         await readWriteActivityRuleRepository.UpdateAsync(activityRule, cancellationToken);
+        
         await eventProcessor.PublishAsync(activityRule.DomainEvents.Select(x
             => x.MapAsIntegrationEvent()).ToArray());
     }

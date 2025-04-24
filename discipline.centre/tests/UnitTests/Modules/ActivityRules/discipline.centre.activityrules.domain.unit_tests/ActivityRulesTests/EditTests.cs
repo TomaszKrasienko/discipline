@@ -1,5 +1,6 @@
 using discipline.centre.activityrules.domain.Enums;
 using discipline.centre.activityrules.domain.Specifications;
+using discipline.centre.activityrules.tests.sharedkernel.DataValidators;
 using discipline.centre.activityrules.tests.sharedkernel.Domain;
 using discipline.centre.shared.abstractions.SharedKernel.Exceptions;
 using Shouldly;
@@ -44,7 +45,7 @@ public sealed class EditTests
         activityRule.Details.Title.ShouldBe(details.Title);
         activityRule.Details.Note.ShouldBe(details.Note);
         activityRule.Mode.Mode.ShouldBe(mode.Mode);
-        activityRule.Mode.Days.ShouldBeEquivalentTo(mode.Days);
+        activityRule.Mode.Days.IsEqual(mode.Days?.ToList()).ShouldBeTrue();
     }
 
     [Fact]
@@ -85,7 +86,8 @@ public sealed class EditTests
         var (details, mode) = GetFilledParams();
         
         // Act
-        var exception = Record.Exception(() => activityRule.Edit(details, mode with { Mode = RuleMode.Custom }));
+        var exception = Record.Exception(() => activityRule.Edit(details, 
+            new ActivityRuleModeSpecification(Mode: RuleMode.Custom, Days: null)));
         
         // Assert
         exception.ShouldBeOfType<DomainException>();

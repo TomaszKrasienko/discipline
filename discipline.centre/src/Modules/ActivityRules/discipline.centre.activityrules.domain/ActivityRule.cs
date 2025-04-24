@@ -63,13 +63,34 @@ public sealed class ActivityRule : AggregateRoot<ActivityRuleId, Ulid>
     public Stage AddStage(string title)
     {
         CheckRule(new StageTitleMustBeUniqueRule(_stages, title));
-        var index = Stages
-            .Select(x => x.Index.Value)
-            .Max(x => x);
+        var index = Stages.Count == 0 
+            ? 0 
+            : Stages
+                .Select(x => x.Index.Value)
+                .Max(x => x);
 
         var stage = Stage.Create(StageId.New(), title, index + 1);
         _stages.Add(stage);
         
         return stage;
+    }
+
+    public void RemoveStage(StageId stageId)
+    {
+        var stage = Stages.SingleOrDefault(x => x.Id == stageId);
+
+        if (stage is null)
+        {
+            throw new DomainException("ActivityRule.StagesNotFound");
+        }
+        
+        _stages.Remove(stage);
+
+        foreach (var s in _stages
+                     .OrderBy(x => x.Index.Value)
+                     .Select((value, index) => new { value, index }))
+        {
+            s.value.UpdateIndex(s.index + 1);
+        }
     }
 }

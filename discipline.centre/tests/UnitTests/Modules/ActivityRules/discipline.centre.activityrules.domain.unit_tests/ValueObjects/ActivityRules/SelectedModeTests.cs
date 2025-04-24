@@ -1,5 +1,6 @@
 using discipline.centre.activityrules.domain.Enums;
 using discipline.centre.activityrules.domain.ValueObjects.ActivityRules;
+using discipline.centre.activityrules.tests.sharedkernel.DataValidators;
 using discipline.centre.shared.abstractions.SharedKernel.Exceptions;
 using Shouldly;
 using Xunit;
@@ -20,7 +21,7 @@ public sealed class SelectedModeTests
         
         // Assert
         result.Mode.ShouldBe(mode);
-        result.Days.ShouldBeEquivalentTo(days);
+        result.Days.IsEqual(days).ShouldBeTrue();
     }
     
     [Fact]
@@ -56,6 +57,6 @@ public sealed class SelectedModeTests
         
         // Assert
         exception.ShouldBeOfType<DomainException>();
-        ((DomainException)exception).Code.ShouldBe("ActivityRule.Mode.SelectedDayOutOfRange");
+        ((DomainException)exception).Code.ShouldBe("ActivityRules.Mode.RuleModeSelectedDayOutOfRange");
     }
 }
