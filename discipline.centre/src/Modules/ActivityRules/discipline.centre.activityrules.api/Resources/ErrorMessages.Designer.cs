@@ -152,5 +152,11 @@ namespace discipline.centre.activityrules.api.Resources {
                 return ResourceManager.GetString("ActivityRules.Mode.RuleModeSelectedDayOutOfRange", resourceCulture);
             }
         }
+        
+        internal static string ActivityRule_StageNotFound {
+            get {
+                return ResourceManager.GetString("ActivityRule.StageNotFound", resourceCulture);
+            }
+        }
     }
 }

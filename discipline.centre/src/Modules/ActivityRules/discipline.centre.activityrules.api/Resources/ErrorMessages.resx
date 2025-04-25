@@ -72,4 +72,7 @@
     <data name="ActivityRules.Mode.RuleModeSelectedDayOutOfRange" xml:space="preserve">
         <value>Activity rule selected day with number: {0} is out of range</value>
     </data>
+    <data name="ActivityRule.StageNotFound" xml:space="preserve">
+        <value>Activity ryle stage with 'ID': {0} not found</value>
+    </data>
 </root>

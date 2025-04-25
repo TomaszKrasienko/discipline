@@ -75,13 +75,13 @@ public sealed class ActivityRule : AggregateRoot<ActivityRuleId, Ulid>
         return stage;
     }
 
-    public void RemoveStage(StageId stageId)
+    public bool RemoveStage(StageId stageId)
     {
         var stage = Stages.SingleOrDefault(x => x.Id == stageId);
 
         if (stage is null)
         {
-            throw new DomainException("ActivityRule.StagesNotFound");
+            return false;
         }
         
         _stages.Remove(stage);
@@ -92,5 +92,7 @@ public sealed class ActivityRule : AggregateRoot<ActivityRuleId, Ulid>
         {
             s.value.UpdateIndex(s.index + 1);
         }
+        
+        return true;
     }
 }

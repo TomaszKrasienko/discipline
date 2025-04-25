@@ -65,4 +65,7 @@
     <data name="ActivityRules.Mode.RuleModeSelectedDayOutOfRange" xml:space="preserve">
         <value>Wybrany numer dnia: {0} dla reguły aktywności wychodzi poza zakres</value>
     </data>
+    <data name="ActivityRule.StageNotFound" xml:space="preserve">
+        <value>Etap reguły aktywności z ID: {0} nie istnieje</value>
+    </data>
 </root>
