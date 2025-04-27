@@ -8,7 +8,7 @@ public sealed record DeleteActivityRuleStageCommand(UserId UserId,
     ActivityRuleId ActivityRuleId, 
     StageId StageId) : ICommand;
 
-internal sealed class DeletActivityRuleStageCommandHandler(
+internal sealed class DeleteActivityRuleStageCommandHandler(
     IReadWriteActivityRuleRepository readWriteActivityRuleRepository) : ICommandHandler<DeleteActivityRuleStageCommand>
 {
     public async Task HandleAsync(DeleteActivityRuleStageCommand command, CancellationToken cancellationToken)
@@ -21,6 +21,11 @@ internal sealed class DeletActivityRuleStageCommandHandler(
             return;
         }
         
-        activityRule
+        var isSuccess = activityRule.RemoveStage(command.StageId);
+
+        if (isSuccess)
+        {
+            await readWriteActivityRuleRepository.UpdateAsync(activityRule, cancellationToken);
+        }
     }
 }

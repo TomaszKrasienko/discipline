@@ -158,4 +158,5 @@ DELETE {{host_address}}/api/daily-trackers-module/daily-trackers/01JPQY82R24CYBB
 Authorization: Bearer {{token}}
 
 ###
-GET http://localhost:7001/activity-rules-module/activity-rules-internal/01JPQTFWDB91AF1QVHYP8T8Z36/01JQ4RP49JFBE8NMDQSTTAZQWA
+GET {{host_address}}/api/activity-rules/modes
+Authorization: Bearer {{token}}

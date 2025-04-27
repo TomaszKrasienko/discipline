@@ -109,6 +109,34 @@ internal static class ActivityRulesEndpoints
         })
         .RequireAuthorization()
         .RequireAuthorization(UserStatePolicy.Name);
+        
+        app.MapDelete($"api/{ActivityRulesTag}/{{activityRuleId:ulid}}/stages/{{stageId:ulid}}", async (Ulid activityRuleId, 
+                Ulid stageId, CancellationToken cancellationToken, ICqrsDispatcher dispatcher, IIdentityContext identityContext) =>
+            {
+                var stronglyActivityRuleId = new ActivityRuleId(activityRuleId);
+                var stronglyStageId = new StageId(stageId);
+                var userId = identityContext.GetUser();
+
+                if (userId is null)
+                {
+                    return Results.Unauthorized();
+                }
+            
+                await dispatcher.HandleAsync(new DeleteActivityRuleStageCommand(userId, stronglyActivityRuleId, stronglyStageId), cancellationToken);
+
+                return Results.NoContent();
+            })
+            .Produces(StatusCodes.Status204NoContent, typeof(void))
+            .Produces(StatusCodes.Status401Unauthorized, typeof(void))
+            .Produces(StatusCodes.Status403Forbidden, typeof(void))
+            .WithName("DeleteActivityRuleStag")
+            .WithTags(ActivityRulesTag)
+            .WithOpenApi(operation => new (operation)
+            {
+                Description = "Removes activity rule stage"
+            })
+            .RequireAuthorization()
+            .RequireAuthorization(UserStatePolicy.Name);
 
         app.MapGet($"api/{ActivityRulesTag}", async (CancellationToken cancellationToken, 
                 ICqrsDispatcher dispatcher, IIdentityContext identityContext) =>
@@ -163,6 +191,24 @@ internal static class ActivityRulesEndpoints
             .RequireAuthorization()
             .RequireAuthorization(UserStatePolicy.Name);
 
+        app.MapGet($"api/{ActivityRulesTag}/modes", async (CancellationToken cancellationToken,
+                ICqrsDispatcher dispatcher) =>
+            {
+                var result = await dispatcher.SendAsync(new GetRuleModesQuery(), cancellationToken);
+                return Results.Ok(result);
+            })
+            .Produces(StatusCodes.Status200OK, typeof(void))
+            .Produces(StatusCodes.Status401Unauthorized, typeof(void))
+            .Produces(StatusCodes.Status404NotFound, typeof(ProblemDetails))
+            .WithName("GetActivityRuleModes")
+            .WithTags(ActivityRulesTag)
+            .WithOpenApi(operation => new(operation)
+            {
+                Description = "Retrieves all activity rules modes"
+            })
+            .RequireAuthorization()
+            .RequireAuthorization(UserStatePolicy.Name);
+        
         return app;
     }
 }
