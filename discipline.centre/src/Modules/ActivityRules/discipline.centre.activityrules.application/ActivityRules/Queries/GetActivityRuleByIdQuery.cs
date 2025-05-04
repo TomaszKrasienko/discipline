@@ -1,7 +1,0 @@
-using discipline.centre.activityrules.application.ActivityRules.DTOs.Responses;
-using discipline.centre.shared.abstractions.CQRS.Queries;
-using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
-
-namespace discipline.centre.activityrules.application.ActivityRules.Queries;
-
-public sealed record GetActivityRuleByIdQuery(UserId UserId, ActivityRuleId ActivityRuleId) : IQuery<ActivityRuleResponseDto?>;
