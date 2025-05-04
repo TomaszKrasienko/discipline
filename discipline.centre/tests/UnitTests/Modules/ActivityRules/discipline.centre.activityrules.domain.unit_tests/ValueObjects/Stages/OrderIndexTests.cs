@@ -8,26 +8,26 @@ namespace discipline.centre.activityrules.domain.unit_tests.ValueObjects.Stages;
 public sealed class OrderIndexTests
 {
     [Fact]
-    public void Create_GivenValidValue_ShouldReturnOrderIndexWithValue()
+    public void GivenPositiveValue_WhenCreate_ThenReturnOrderIndexWithValue()
     {
-        //arrange
-        var value = 1;
+        // Arrange
+        const int value = 1;
         
-        //act
+        // Act
         var result = OrderIndex.Create(value);
         
-        //assert
+        // Assert
         result.Value.ShouldBe(value);
     }
 
     [Fact]
-    public void Create_GivenValueBelowOne_ShouldReturnDomainExceptionWithCodeActivityRuleStageIndexLessThanOne()
+    public void GivenValueNegativeOrZero_WhenCreate_ThenThrowDomainExceptionWithCodeActivityRuleStageIndexLessThanOne()
     {
-        //act
-        var exception = Record.Exception(() => OrderIndex.Create(-1));
+        // Act
+        var exception = Record.Exception(() => OrderIndex.Create(0));
         
-        //assert
+        // Assert
         exception.ShouldBeOfType<DomainException>();
-        ((DomainException)exception).Code.ShouldBe("ActivityRule.Stage.Index.LessThanOne");
+        ((DomainException)exception).Code.ShouldBe("ActivityRule.Stage.Index.ValueBelowOne");
     }
 }

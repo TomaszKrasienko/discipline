@@ -5,7 +5,7 @@ namespace discipline.centre.activityrules.domain.ValueObjects.Stages;
 
 public sealed class OrderIndex : ValueObject
 {
-    private int _index;
+    private readonly int _index;
 
     public int Value
     {

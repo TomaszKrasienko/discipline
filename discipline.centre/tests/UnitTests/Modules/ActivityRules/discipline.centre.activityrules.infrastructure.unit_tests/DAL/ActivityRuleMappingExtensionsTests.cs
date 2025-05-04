@@ -1,5 +1,6 @@
 using discipline.centre.activityrules.domain;
 using discipline.centre.activityrules.domain.Specifications;
+using discipline.centre.activityrules.tests.sharedkernel.DataValidators;
 using discipline.centre.activityrules.tests.sharedkernel.Domain;
 using Shouldly;
 using Xunit;
@@ -9,47 +10,62 @@ namespace discipline.centre.activityrules.infrastructure.unit_tests.DAL;
 public sealed class ActivityRuleMappingExtensionsTests
 {
     [Fact]
-    public void AsDocument_GivenActivityRuleWithoutSelectedDays_ShouldReturnActivityRuleDocumentWithNullSelectedDays()
+    public void GivenActivityRuleWithoutSelectedDays_WhenAsDocument_ThenReturnActivityRuleDocumentWithNullSelectedDays()
     {
-        //arrange
+        // Arrange
         var activityRule = ActivityRuleFakeDataFactory.Get();
         
-        //act
-        var result = activityRule.MapAsDocument();
+        // Act
+        var result = activityRule.AsDocument();
         
-        //assert
+        // Assert
         result.Id.ShouldBe(activityRule.Id.ToString());
         result.UserId.ShouldBe(activityRule.UserId.ToString());
-        result.Title.ShouldBe(activityRule.Details.Title);
-        result.Note.ShouldBe(activityRule.Details.Note);
-        result.Mode.ShouldBe(activityRule.Mode.Value);
-        result.SelectedDays.ShouldBeNull();
-        result.Stages.ShouldBeNull();
+        result.Details.Title.ShouldBe(activityRule.Details.Title);
+        result.Details.Note.ShouldBe(activityRule.Details.Note);
+        result.SelectedMode.Mode.ShouldBe(activityRule.Mode.Mode.Value);
+        result.SelectedMode.DaysOfWeek.ShouldBeNull();
     }
     
     [Fact]
-    public void AsDocument_GivenActivityRuleWithSelectedDays_ShouldReturnActivityRuleDocument()
+    public void GivenActivityRuleWithSelectedDays_WhenAsDocument_ShouldReturnActivityRuleDocument()
     {
-        //arrange
+        // Arrange
         List<int> selectedDays = [0, 1, 2];
-        var activityRule = ActivityRuleFakeDataFactory.Get(true, selectedDays);
-        var stage = StageFakeDataFactory.Get(1);
-        var newStage = activityRule.AddStage(new StageSpecification(stage.Title, stage.Index));
+        var activityRule = ActivityRuleFakeDataFactory.Get(true, selectedDays.ToHashSet());
         
-        //act
-        var result = activityRule.MapAsDocument();
+        // Act
+        var result = activityRule.AsDocument();
         
-        //assert
+        // Assert
         result.Id.ShouldBe(activityRule.Id.ToString());
         result.UserId.ShouldBe(activityRule.UserId.ToString());
-        result.Mode.ShouldBe(activityRule.Mode.Value);
-        result.Title.ShouldBe(activityRule.Details.Title);
-        result.Note.ShouldBe(activityRule.Details.Note);
-        result.SelectedDays!.Contains(selectedDays[0]).ShouldBeTrue();
-        result.SelectedDays!.Contains(selectedDays[1]).ShouldBeTrue();
-        result.SelectedDays!.Contains(selectedDays[2]).ShouldBeTrue();
-        result.Stages!.First().StageId.ShouldBe(newStage.Id.ToString());
-        result.Stages!.First().Title.ShouldBe(stage.Title);
-        result.Stages!.First().Index.ShouldBe(stage.Index.Value);
+        result.Details.Title.ShouldBe(activityRule.Details.Title);
+        result.Details.Note.ShouldBe(activityRule.Details.Note);
+        result.SelectedMode.Mode.ShouldBe(activityRule.Mode.Mode.Value);
+        result.SelectedMode.DaysOfWeek!.ToList().IsEqual(selectedDays);
+    }
+
+    [Fact]
+    public void GivenActivityRuleWithStage_WhenAsDocument_ThenActivityRuleShouldHaveStage()
+    {
+        // Arrange
+        var activityRule = ActivityRuleFakeDataFactory.Get().WithStage();
+        var stage = activityRule.Stages.Single();
+        
+        // Act
+        var result = activityRule.AsDocument();
+        
+        // Assert
+        result.Id.ShouldBe(activityRule.Id.ToString());
+        result.UserId.ShouldBe(activityRule.UserId.ToString());
+        result.Details.Title.ShouldBe(activityRule.Details.Title);
+        result.Details.Note.ShouldBe(activityRule.Details.Note);
+        result.SelectedMode.Mode.ShouldBe(activityRule.Mode.Mode.Value);
+        
+        var stageDocument = result.Stages.Single();
+        stageDocument.StageId.ShouldBe(stage.Id.Value.ToString());
+        stageDocument.Title.ShouldBe(stage.Title.Value);
+        stageDocument.Index.ShouldBe(stage.Index.Value);
     }
 }

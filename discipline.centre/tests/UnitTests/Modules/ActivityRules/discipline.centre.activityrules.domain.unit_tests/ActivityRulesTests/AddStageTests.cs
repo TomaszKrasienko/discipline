@@ -1,5 +1,7 @@
+using discipline.centre.activityrules.domain.Enums;
 using discipline.centre.activityrules.domain.Specifications;
 using discipline.centre.activityrules.domain.ValueObjects.ActivityRules;
+using discipline.centre.activityrules.tests.sharedkernel.Domain;
 using discipline.centre.shared.abstractions.SharedKernel.Exceptions;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using Shouldly;
@@ -10,73 +12,50 @@ namespace discipline.centre.activityrules.domain.unit_tests.ActivityRulesTests;
 public sealed class AddStageTests
 {
     [Fact]
-    public void ShouldAddStage_WhenStageIsNotNull()
+    public void GivenUniqueTitle_WhenAddStage_ShouldAddStageWithValidIndex()
     {
-        //arrange
-        var activityRule = ActivityRule.Create(ActivityRuleId.New(), UserId.New(), 
-            new ActivityRuleDetailsSpecification("test_title", null), Mode.EveryDayMode, 
-            null, [new StageSpecification("test_stage_title1", 1)]);
+        // Arrange
+        var activityRule = ActivityRuleFakeDataFactory.Get();
+        activityRule.AddStage("test_stage_1");
+        const string title = "test_stage_title2";
+        
+        // Act
+        activityRule.AddStage(title);
+        
+        // Assert
+        var stage = activityRule.Stages.SingleOrDefault(x => x.Title == title);
+        stage.ShouldNotBeNull();
+        stage.Index.Value.ShouldBe(2);
+    }
 
-        var title = "test_stage_title2";
-        var index = 2;
-        
-        //act
-        activityRule.AddStage(new StageSpecification(title, index));
-        
-        //assert
-        activityRule.Stages.ShouldNotBeNull();
-        activityRule.Stages[1].Title.Value.ShouldBe(title);
-        activityRule.Stages[1].Index.Value.ShouldBe(index);
-    }
-    
     [Fact]
-    public void ShouldCreateStagesListAndAddStage_WhenStageIsNull()
+    public void GivenFirstStage_WhenAddStage_ShouldAddStageWithFirstIndex()
     {
-        //arrange
-        var activityRule = ActivityRule.Create(ActivityRuleId.New(), UserId.New(), 
-            new ActivityRuleDetailsSpecification("test_title", null), Mode.EveryDayMode,
-            null, null);
+        // Arrange
+        var activityRule = ActivityRuleFakeDataFactory.Get();
+        const string title = "test_stage_title";
+        
+        // Act
+        activityRule.AddStage(title);
+        
+        // Assert
+        var stage = activityRule.Stages.SingleOrDefault(x => x.Title == title);
+        stage.ShouldNotBeNull();
+        stage.Index.Value.ShouldBe(1);
+    }
 
-        var title = "test_stage_title";
-        var index = 1;
-        
-        //act
-        activityRule.AddStage(new StageSpecification(title, index));
-        
-        //assert
-        activityRule.Stages.ShouldNotBeNull();
-        activityRule.Stages[0].Title.Value.ShouldBe(title);
-        activityRule.Stages[0].Index.Value.ShouldBe(index);
-    }
-    
     [Fact]
-    public void ShouldThrowDomainExceptionWithCodeActivityRuleStagesMustHaveOrderedIndex_WhenStageHasInvalidIndex()
+    public void GivenNotUniqueTitle_WhenAddStage_ShouldThrowDomainExceptionWithCodeActivityRuleStagesStageTitleMustBeUnique()
     {
-        //arrange
-        var activityRule = ActivityRule.Create(ActivityRuleId.New(), UserId.New(), 
-            new ActivityRuleDetailsSpecification("test_title", null), Mode.EveryDayMode, 
-            null, [new StageSpecification("test_stage1", 1)]);
+        // Arrange
+        var activityRule = ActivityRuleFakeDataFactory.Get();
+        const string title = "test_stage_title";
+        activityRule.AddStage(title);
         
-        //act
-        var exception = Record.Exception(() => activityRule.AddStage(new StageSpecification("test_stage3", 3)));
+        // Act
+        var exception = Record.Exception(() => activityRule.AddStage(title));
         
-        //assert
-        exception.ShouldBeOfType<DomainException>();
-        ((DomainException)exception).Code.ShouldBe("ActivityRule.Stages.MustHaveOrderedIndex");
-    }
-    
-    [Fact]
-    public void ShouldThrowDomainExceptionWithCodeActivityRuleStagesStageTitleMustBeUnique_WhenStageHasNotUniqueTitle()
-    {
-        //arrange
-        var activityRule = ActivityRule.Create(ActivityRuleId.New(), UserId.New(), 
-            new ActivityRuleDetailsSpecification("test_title", null), Mode.EveryDayMode, 
-            null, [new StageSpecification("test_stage1", 1)]);
-        
-        //act
-        var exception = Record.Exception(() => activityRule.AddStage(new StageSpecification("test_stage1", 2)));
-        
-        //assert
+        // Assert
         exception.ShouldBeOfType<DomainException>();
         ((DomainException)exception).Code.ShouldBe("ActivityRule.Stages.StageTitleMustBeUnique");
     }

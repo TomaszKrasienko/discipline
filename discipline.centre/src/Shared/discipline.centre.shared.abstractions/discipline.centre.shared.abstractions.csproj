@@ -11,4 +11,7 @@
       <PackageReference Include="Ulid"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <IternalsVisibleTo Include="discipline.centre.activityrules.application.unit_tests"/>
+    </ItemGroup>
 </Project>

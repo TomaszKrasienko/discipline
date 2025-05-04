@@ -19,7 +19,7 @@ internal static class ActivityMappingExtensions
             Note = activity.Details.Note,
             IsChecked = activity.IsChecked,
             ParentActivityRuleId = activity.ParentActivityRuleId?.ToString(),
-            Stages = activity.Stages?.Select(AsDocument).ToList()
+            Stages = activity.Stages.Select(AsDocument).ToList()
         };
     
     private static StageDocument AsDocument(this Stage stage)

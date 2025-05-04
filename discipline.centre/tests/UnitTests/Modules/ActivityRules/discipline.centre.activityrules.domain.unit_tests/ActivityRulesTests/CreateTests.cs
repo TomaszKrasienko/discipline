@@ -1,7 +1,6 @@
-using discipline.centre.activityrules.domain.Events;
+using discipline.centre.activityrules.domain.Enums;
 using discipline.centre.activityrules.domain.Specifications;
-using discipline.centre.activityrules.domain.ValueObjects;
-using discipline.centre.activityrules.domain.ValueObjects.ActivityRules;
+using discipline.centre.activityrules.tests.sharedkernel.DataValidators;
 using discipline.centre.shared.abstractions.SharedKernel.Exceptions;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using Shouldly;
@@ -9,114 +8,123 @@ using Xunit;
 
 namespace discipline.centre.activityrules.domain.unit_tests.ActivityRulesTests;
 
-public partial class CreateTests
+public sealed class CreateTests
 {
-    [Theory]
-    [MemberData(nameof(GetValidCreateActivityRulesData))]
-    public void GivenValidaArguments_ShouldReturnActivityRuleWithValues(CreateActivityRuleParams parameters)
+    [Fact]
+    public void GivenValidArgumentsForModeWithoutDays_WhenCreate_ThenReturnActivityRuleWithValues()
     {
-        //act
-        var result = ActivityRule.Create(parameters.Id!, parameters.UserId!, parameters.Details, 
-            parameters.Mode, parameters.SelectedDays, parameters.Stages);
+        // Arrange
+        var activityRuleId = ActivityRuleId.New();
+        var userId = UserId.New();
+        var details = new ActivityRuleDetailsSpecification("test_title",
+            "test_note");
+        var mode = new ActivityRuleModeSpecification(RuleMode.EveryDay, null);
         
-        //assert
-        result.Id.ShouldBe(parameters.Id);
-        result.UserId.ShouldBe(parameters.UserId);
-        result.Details.Title.ShouldBe(parameters.Details.Title);
-        result.Details.Note.ShouldBe(parameters.Details.Note);
-        result.Mode.Value.ShouldBe(parameters.Mode);
-        CompareSelectedDays(parameters.SelectedDays, result.SelectedDays).ShouldBeTrue();
-        CompareStages(parameters.Stages, result.Stages?.ToList()).ShouldBeTrue();
+        // Act
+        var result = ActivityRule.Create(activityRuleId, userId, details, mode);
+        
+        // Assert
+        result.Id.ShouldBe(activityRuleId);
+        result.UserId.ShouldBe(userId);
+        result.Details.Title.ShouldBe(details.Title);
+        result.Details.Note.ShouldBe(details.Note);
+        result.Mode.Mode.ShouldBe(mode.Mode);
+        result.Mode.Days.ShouldBeNull();
     }
 
     [Fact]
-    public void GivenValidaArguments_ShouldAddDomainEventActivityRuleCreated()
-    {
-        //arrange
+    public void GivenValidArgumentsForModeWithDays_WhenCreate_ThenReturnActivityRuleWithValues()
+    {        
+        // Arrange
         var activityRuleId = ActivityRuleId.New();
         var userId = UserId.New();
+        var details = new ActivityRuleDetailsSpecification("test_title",
+            "test_note");
+        var mode = new ActivityRuleModeSpecification(RuleMode.Custom, [1,2,3]);
         
-        //act
-        var result = ActivityRule.Create(activityRuleId, userId, new ActivityRuleDetailsSpecification("test_title",
-            null), Mode.EveryDayMode);
+        // Act
+        var result = ActivityRule.Create(activityRuleId, userId, details, mode);
         
-        //assert
-        var @event = result.DomainEvents.FirstOrDefault(x => x is ActivityRuleCreated);
-        @event.ShouldNotBeNull();
-        ((ActivityRuleCreated)@event).ActivityRuleId.ShouldBe(activityRuleId);
-        ((ActivityRuleCreated)@event).UserId.ShouldBe(userId);
+        // Assert
+        result.Id.ShouldBe(activityRuleId);
+        result.UserId.ShouldBe(userId);
+        result.Details.Title.ShouldBe(details.Title);
+        result.Details.Note.ShouldBe(details.Note);
+        result.Mode.Mode.ShouldBe(mode.Mode);
+        result.Mode.Days.IsEqual(mode.Days?.ToList()).ShouldBeTrue();
     }
-    
-    [Theory]
-    [MemberData(nameof(GetInvalidCreateActivityRulesData))]
-    public void GivenInvalidArgument_ShouldReturnDomainExceptionWithCode(CreateActivityRuleParams parameters, string code)
+
+    [Fact]
+    public void GivenEmptyTitle_WhenCreate_ThenThrowDomainExceptionWithCodeActivityRuleDetailsEmptyTitle()
     {
-        //act
-        var exception = Record.Exception(() => ActivityRule.Create(parameters.Id!, parameters.UserId!, parameters.Details,
-            parameters.Mode, parameters.SelectedDays, parameters.Stages));
+        var (activityId, userId, details, mode) = GetFilledParams(); 
         
-        //assert
+        // Act
+        var exception = Record.Exception(() => ActivityRule.Create(activityId, userId, 
+            details with {Title = string.Empty}, mode));
+        
+        // Assert
         exception.ShouldBeOfType<DomainException>();
-        ((DomainException)exception).Code.ShouldBe(code);
+        ((DomainException)exception).Code.ShouldBe("ActivityRule.Details.EmptyTitle");
     }
-    
-    [Theory]
-    [MemberData(nameof(GetValidModesForSelectedDays))]
-    public void GivenModeForSelectedDaysAndNullSelectedDays_ShouldThrowDomainExceptionWithCode(string mode)
+
+    [Fact]
+    public void GivenTitleLongerThan30Characters_WhenCreate_ThenThrowDomainExceptionWithCodeActivityRuleDetailsTitleTooLonge()
     {
-        //act
-        var exception = Record.Exception(() => ActivityRule.Create(ActivityRuleId.New(), UserId.New(), 
-            new ActivityRuleDetailsSpecification("test_title", null), mode, null));
+        var (activityId, userId, details, mode) = GetFilledParams(); 
         
-        //assert
-        exception.ShouldBeOfType<DomainException>();
-        ((DomainException)exception).Code.ShouldBe("ActivityRule.Mode.RequireSelectedDays");
-    }
-
-    [Theory]
-    [MemberData(nameof(GetInvalidModesForSelectedDays))]
-    public void GivenInvalidModeForSelectedDays_ShouldThrowDomainExceptionWithCode(string mode)
-    {
-        //act
-        var exception = Record.Exception(() => ActivityRule.Create(ActivityRuleId.New(), UserId.New(), 
-            new ActivityRuleDetailsSpecification("test_title", null), mode, [1,2,3]));
+        // Act
+        var exception = Record.Exception(() => ActivityRule.Create(activityId, userId, 
+            details with {Title = new string('t', 31)}, mode));
         
-        //assert
+        // Assert
         exception.ShouldBeOfType<DomainException>();
-        ((DomainException)exception).Code.ShouldBe("ActivityRule.Mode.RequireSelectedDays");
-    }
- 
-    private static bool CompareSelectedDays(List<int>? provided, SelectedDays? src)
-    {
-        if(provided is null && src is null)
-        {
-            return true;
-        }
-
-        return provided?.Count == src?.Values.Count 
-               && provided!.OrderBy(x => x).SequenceEqual(src!.Values.OrderBy(x => x).Select(x => (int)x));
+        ((DomainException)exception).Code.ShouldBe("ActivityRule.Details.TitleTooLong");
     }
 
-    private static bool CompareStages(List<StageSpecification>? provided, List<Stage>? src)
+    [Fact]
+    public void GivenModeWithRequiredDaysAndNullDays_WhenCreate_ThenThrowDomainExceptionWithCodeActivityRulesModeRuleModeRequireSelectedDays()
     {
-        if(provided is null && src is null)
-        {
-            return true;
-        }
+        // Arrange
+        var (activityId, userId, details, _) = GetFilledParams();
+        
+        // Act
+        var exception = Record.Exception(() => ActivityRule.Create(activityId, userId,
+            details, new ActivityRuleModeSpecification(Mode: RuleMode.Custom, Days: null)));
+        
+        // Assert
+        exception.ShouldBeOfType<DomainException>();
+        ((DomainException)exception).Code.ShouldBe("ActivityRules.Mode.RuleModeRequireSelectedDays");
+    }
 
-        if ((src is null && provided is not null) || (provided is null && src is not null))
-        {
-            return false;
-        }
+    [Fact]
+    public void GivenSelectedDaysOutOfRange_WhenCreate_ThenThrowDomainExceptionWithCodeActivityRuleModeSelectedDayOutOfRange()
+    {
+        // Arrange
+        var  (activityId, userId, details, _) = GetFilledParams();
+        
+        // Act
+        var exception = Record.Exception(() => ActivityRule.Create(activityId, userId, details,
+            new ActivityRuleModeSpecification(Mode: RuleMode.Custom, Days: [7])));
+        
+        // Assert
+        exception.ShouldBeOfType<DomainException>();
+        ((DomainException)exception).Code.ShouldBe("ActivityRules.Mode.RuleModeSelectedDayOutOfRange");
+    }
 
-        foreach (var srcStage in src!)
-        {
-            if (!(provided!.Exists(x => x.Index == srcStage.Index
-                                   && x.Title == srcStage.Title)))
-            {
-                return false;
-            }
-        }
-        return true;
+    private static ActivityRuleCreateTestsParams GetFilledParams()
+    {
+        var activityRuleId = ActivityRuleId.New();
+        var userId = UserId.New();
+        var details = new ActivityRuleDetailsSpecification("test_title",
+            "test_note");
+        var mode = new ActivityRuleModeSpecification(RuleMode.Custom, [1,2,3]);
+        return new ActivityRuleCreateTestsParams(activityRuleId, userId, details, mode);
     }
 }
+
+public record ActivityRuleCreateTestsParams(
+    ActivityRuleId ActivityRuleId,
+    UserId UserId,
+    ActivityRuleDetailsSpecification Details,
+    ActivityRuleModeSpecification Mode);

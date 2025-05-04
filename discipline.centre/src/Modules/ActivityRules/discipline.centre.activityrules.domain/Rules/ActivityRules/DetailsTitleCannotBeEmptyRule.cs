@@ -5,8 +5,7 @@ namespace discipline.centre.activityrules.domain.Rules.ActivityRules;
 
 internal sealed class DetailsTitleCannotBeEmptyRule(string value) : IBusinessRule
 {
-    public Exception Exception => new DomainException("ActivityRule.Details.Title.Empty",
-        "Activity title cannot be empty.");
+    public Exception Exception => new DomainException("ActivityRule.Details.EmptyTitle");
 
     public bool IsBroken()
         => string.IsNullOrWhiteSpace(value);

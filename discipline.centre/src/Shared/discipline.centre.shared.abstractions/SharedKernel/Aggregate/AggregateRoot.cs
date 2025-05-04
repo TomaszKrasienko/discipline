@@ -13,7 +13,7 @@ public abstract class AggregateRoot<TIdentifier, TValue>(TIdentifier id) : Entit
     protected void AddDomainEvent(DomainEvent @event)
         => _domainEvents.Add(@event);
 
-    protected void ClearDomainEvents()
+    public void ClearDomainEvents()
         => _domainEvents.Clear();
 }
 

@@ -1,4 +1,3 @@
-using discipline.centre.activityrules.domain.Rules;
 using discipline.centre.activityrules.domain.Rules.Stages;
 using discipline.centre.shared.abstractions.SharedKernel;
 
@@ -14,7 +13,7 @@ public sealed class Title : ValueObject
         private init
         {
             CheckRule(new TitleCanNotBeEmptyRule(value));
-            CheckRule(new TitleCannotBeLongerThan20(value));
+            CheckRule(new TitleCannotBeLongerThan30(value));
             _value = value;
         }
     }

@@ -5,34 +5,55 @@ using Xunit;
 
 namespace discipline.centre.activityrules.domain.unit_tests.StageTests;
 
-public partial class CreateTests
+public sealed class CreateTests
 {
     [Fact]
-    public void Create_GivenValidArguments_ShouldReturnStageWithValues()
+    public void GivenValidArguments_WhenCreate_ThenReturnStageWithValues()
     {
-        //arrange
+        // Arrange
         var id = StageId.New();
-        var title = "test_stage_value";
-        var index = 1;
+        const string title = "test_stage_value";
+        const int index = 1;
         
-        //act
+        // Act
         var result = Stage.Create(id, title, index);
         
-        //assert
+        // Assert
         result.Id.ShouldBe(id);
         result.Title.Value.ShouldBe(title);
         result.Index.Value.ShouldBe(index);
     }
-
-    [Theory]
-    [MemberData(nameof(GetInvalidCreateStageData))]
-    public void Create_GivenInvalidArguments_ShouldThrowDomainExceptionWithCode(CreateStageParams parameters, string code)
+    
+    [Fact]
+    public void GivenEmptyTitle_WhenCreate_ThenThrowDomainExceptionActivityRuleStageTitleTooLong()
     {
-        //act
-        var exception = Record.Exception(() => Stage.Create(parameters.StageId, parameters.Title, parameters.Index));
+        // Act
+        var exception = Record.Exception(() => Stage.Create(StageId.New(), string.Empty, 1));
         
-        //assert
+        // Assert
         exception.ShouldBeOfType<DomainException>();
-        ((DomainException)exception).Code.ShouldBe(code);
+        ((DomainException)exception).Code.ShouldBe("ActivityRule.Stage.Title.EmptyValue");
+    }
+    
+    [Fact]
+    public void GivenTitleLongerThan30Characters_WhenCreate_ThenThrowDomainExceptionWithCodeActivityRuleTitleTooLong()
+    {
+        // Act
+        var exception = Record.Exception(() => Stage.Create(StageId.New(), new string('t', 31) , 1));
+        
+        // Assert
+        exception.ShouldBeOfType<DomainException>();
+        ((DomainException)exception).Code.ShouldBe("ActivityRule.Stage.Title.ValueTooLong");
+    }
+    
+    [Fact]
+    public void GivenNegativeOrderIndex_WhenCreate_ThenThrowDomainExceptionWithCodeActivityRuleStageIndexLessThanOne()
+    {
+        // Act
+        var exception = Record.Exception(() => Stage.Create(StageId.New(), "test_stage_value", -1));
+        
+        // Assert
+        exception.ShouldBeOfType<DomainException>();
+        ((DomainException)exception).Code.ShouldBe("ActivityRule.Stage.Index.ValueBelowOne");
     }
 }

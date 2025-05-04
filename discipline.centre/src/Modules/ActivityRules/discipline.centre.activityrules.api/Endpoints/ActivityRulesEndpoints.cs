@@ -1,12 +1,15 @@
-using discipline.centre.activityrules.api;
 using discipline.centre.activityrules.application.ActivityRules.Commands;
 using discipline.centre.activityrules.application.ActivityRules.DTOs;
+using discipline.centre.activityrules.application.ActivityRules.DTOs.Requests;
+using discipline.centre.activityrules.application.ActivityRules.DTOs.Requests.ActivityRules;
+using discipline.centre.activityrules.application.ActivityRules.DTOs.Responses;
 using discipline.centre.activityrules.application.ActivityRules.Queries;
 using discipline.centre.shared.abstractions.CQRS;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.shared.infrastructure.Auth;
 using discipline.centre.shared.infrastructure.IdentityContext.Abstractions;
 using discipline.centre.shared.infrastructure.ResourceHeader;
+using discipline.centre.shared.infrastructure.Validation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,17 +23,23 @@ internal static class ActivityRulesEndpoints
     
     internal static WebApplication MapActivityRulesEndpoints(this WebApplication app)
     {
-        app.MapPost($"api/{ActivityRulesModule.ModuleName}/{ActivityRulesTag}", async (CreateActivityRuleDto command, IHttpContextAccessor httpContext, 
+        app.MapPost($"api/{ActivityRulesTag}", async (ActivityRuleRequestDto command, IHttpContextAccessor httpContext, 
                 ICqrsDispatcher dispatcher, CancellationToken cancellationToken, IIdentityContext identityContext) => 
             {
                 var activityRuleId = ActivityRuleId.New();
                 var userId = identityContext.GetUser();
+
+                if (userId is null)
+                {
+                    return Results.Unauthorized();
+                }
                 
                 await dispatcher.HandleAsync(command.MapAsCommand(userId, activityRuleId), cancellationToken);
                 httpContext.AddResourceIdHeader(activityRuleId.ToString());
                 
                 return Results.CreatedAtRoute(nameof(GetActivityRuleById), new {activityRuleId = activityRuleId.ToString()}, null);
             })
+            .AddEndpointFilter<RequestValidator<ActivityRuleRequestDto>>()
             .Produces(StatusCodes.Status201Created, typeof(void))
             .Produces(StatusCodes.Status400BadRequest, typeof(ProblemDetails))
             .Produces(StatusCodes.Status401Unauthorized, typeof(void))
@@ -45,13 +54,18 @@ internal static class ActivityRulesEndpoints
             .RequireAuthorization()
             .RequireAuthorization(UserStatePolicy.Name);
 
-        app.MapPut($"api/{ActivityRulesModule.ModuleName}/{ActivityRulesTag}/{{activityRuleId:ulid}}", async (Ulid activityRuleId, UpdateActivityRuleDto dto,
+        app.MapPut($"api/{ActivityRulesTag}/{{activityRuleId:ulid}}", async (Ulid activityRuleId, UpdateActivityRuleDto dto,
             CancellationToken cancellationToken, ICqrsDispatcher dispatcher, IIdentityContext identityContext) =>
         {
             var stronglyActivityRuleId = new ActivityRuleId(activityRuleId);
             var userId = identityContext.GetUser();
+
+            if (userId is null)
+            {
+                return Results.Unauthorized();
+            }
             
-            await dispatcher.HandleAsync(dto.MapAsCommand(userId, stronglyActivityRuleId), cancellationToken);
+            await dispatcher.HandleAsync(dto.AsCommand(userId, stronglyActivityRuleId), cancellationToken);
 
             return Results.NoContent();
         })
@@ -69,11 +83,16 @@ internal static class ActivityRulesEndpoints
         .RequireAuthorization()
         .RequireAuthorization(UserStatePolicy.Name);
 
-        app.MapDelete($"api/{ActivityRulesModule.ModuleName}/{ActivityRulesTag}/{{activityRuleId:ulid}}", async (
-            Ulid activityRuleId, CancellationToken cancellationToken, ICqrsDispatcher dispatcher, IIdentityContext identityContext) =>
+        app.MapDelete($"api/{ActivityRulesTag}/{{activityRuleId:ulid}}", async (Ulid activityRuleId, 
+                CancellationToken cancellationToken, ICqrsDispatcher dispatcher, IIdentityContext identityContext) =>
         {
             var stronglyActivityRuleId = new ActivityRuleId(activityRuleId);
             var userId = identityContext.GetUser();
+
+            if (userId is null)
+            {
+                return Results.Unauthorized();
+            }
             
             await dispatcher.HandleAsync(new DeleteActivityRuleCommand(userId, stronglyActivityRuleId), cancellationToken);
 
@@ -90,14 +109,73 @@ internal static class ActivityRulesEndpoints
         })
         .RequireAuthorization()
         .RequireAuthorization(UserStatePolicy.Name);
+        
+        app.MapDelete($"api/{ActivityRulesTag}/{{activityRuleId:ulid}}/stages/{{stageId:ulid}}", async (Ulid activityRuleId, 
+                Ulid stageId, CancellationToken cancellationToken, ICqrsDispatcher dispatcher, IIdentityContext identityContext) =>
+            {
+                var stronglyActivityRuleId = new ActivityRuleId(activityRuleId);
+                var stronglyStageId = new StageId(stageId);
+                var userId = identityContext.GetUser();
 
-        app.MapGet($"api/{ActivityRulesModule.ModuleName}/{ActivityRulesTag}/{{activityRuleId:ulid}}", async (Ulid activityRuleId,
+                if (userId is null)
+                {
+                    return Results.Unauthorized();
+                }
+            
+                await dispatcher.HandleAsync(new DeleteActivityRuleStageCommand(userId, stronglyActivityRuleId, stronglyStageId), cancellationToken);
+
+                return Results.NoContent();
+            })
+            .Produces(StatusCodes.Status204NoContent, typeof(void))
+            .Produces(StatusCodes.Status401Unauthorized, typeof(void))
+            .Produces(StatusCodes.Status403Forbidden, typeof(void))
+            .WithName("DeleteActivityRuleStag")
+            .WithTags(ActivityRulesTag)
+            .WithOpenApi(operation => new (operation)
+            {
+                Description = "Removes activity rule stage"
+            })
+            .RequireAuthorization()
+            .RequireAuthorization(UserStatePolicy.Name);
+
+        app.MapGet($"api/{ActivityRulesTag}", async (CancellationToken cancellationToken, 
+                ICqrsDispatcher dispatcher, IIdentityContext identityContext) =>
+            {   
+                var userId = identityContext.GetUser();
+
+                if (userId is null)
+                {
+                    return Results.Unauthorized();
+                }
+                
+                var result = await dispatcher.SendAsync(new GetActivityRulesQuery(userId), cancellationToken);
+                
+                return Results.Ok(result);
+            })            
+            .Produces(StatusCodes.Status200OK, typeof(IReadOnlyCollection<ActivityRuleResponseDto>))
+            .Produces(StatusCodes.Status401Unauthorized, typeof(void))
+            .Produces(StatusCodes.Status403Forbidden, typeof(void))
+            .WithName("GetActivityRules")
+            .WithTags(ActivityRulesTag)
+            .WithOpenApi(operation => new (operation)
+            {
+                Description = "Get activity rules collection" 
+            })
+            .RequireAuthorization()
+            .RequireAuthorization(UserStatePolicy.Name);
+        
+        app.MapGet($"api/{ActivityRulesTag}/{{activityRuleId:ulid}}", async (Ulid activityRuleId,
                 CancellationToken cancellationToken, ICqrsDispatcher dispatcher, IIdentityContext identityContext) =>
             {   
                 var stronglyActivityRuleId = new ActivityRuleId(activityRuleId);
-                var stronglyUserId = identityContext.GetUser();
+                var userId = identityContext.GetUser();
+
+                if (userId is null)
+                {
+                    return Results.Unauthorized();
+                }
                 
-                var result = await dispatcher.SendAsync(new GetActivityRuleByIdQuery(stronglyUserId, stronglyActivityRuleId), cancellationToken);
+                var result = await dispatcher.SendAsync(new GetActivityRuleByIdQuery(userId, stronglyActivityRuleId), cancellationToken);
                 
                 return result is null ? Results.NotFound() : Results.Ok(result);
             })            
@@ -113,6 +191,24 @@ internal static class ActivityRulesEndpoints
             .RequireAuthorization()
             .RequireAuthorization(UserStatePolicy.Name);
 
+        app.MapGet($"api/{ActivityRulesTag}/modes", async (CancellationToken cancellationToken,
+                ICqrsDispatcher dispatcher) =>
+            {
+                var result = await dispatcher.SendAsync(new GetRuleModesQuery(), cancellationToken);
+                return Results.Ok(result);
+            })
+            .Produces(StatusCodes.Status200OK, typeof(void))
+            .Produces(StatusCodes.Status401Unauthorized, typeof(void))
+            .Produces(StatusCodes.Status404NotFound, typeof(ProblemDetails))
+            .WithName("GetActivityRuleModes")
+            .WithTags(ActivityRulesTag)
+            .WithOpenApi(operation => new(operation)
+            {
+                Description = "Retrieves all activity rules modes"
+            })
+            .RequireAuthorization()
+            .RequireAuthorization(UserStatePolicy.Name);
+        
         return app;
     }
 }

@@ -14,82 +14,85 @@ namespace discipline.centre.activityrules.domain;
 
 public sealed class ActivityRule : AggregateRoot<ActivityRuleId, Ulid>
 {
-    private List<Stage>? _stages;
+    private readonly List<Stage> _stages = [];
     public UserId UserId { get; }
     public Details Details { get; private set; }
-    public Mode Mode { get; private set; }
-    public SelectedDays? SelectedDays { get; private set; }
-    public IReadOnlyList<Stage>? Stages => _stages;
+    public SelectedMode Mode { get; private set; }
+    public IReadOnlyList<Stage> Stages => _stages.ToArray();
     
     /// <summary>
     /// Constructor for mapping to mongo documents
     /// </summary>
     public ActivityRule(ActivityRuleId id, UserId userId, Details details,
-        Mode mode, SelectedDays? selectedDays, List<Stage>? stages) : this(id, userId, details, mode, selectedDays)
+        SelectedMode mode, List<Stage> stages) : this(id, userId, details, mode)
     {        
         _stages = stages;   
     }
     
     private ActivityRule(ActivityRuleId id, UserId userId, Details details,
-        Mode mode, SelectedDays? selectedDays) : base(id)
+        SelectedMode mode) : base(id)
     {        
         UserId = userId;
         Details = details;  
         Mode = mode;
-        SelectedDays = selectedDays;
         
         AddDomainEvent(new ActivityRuleCreated(id, userId));
     }
     
-    public static ActivityRule Create(ActivityRuleId id, UserId userId, ActivityRuleDetailsSpecification details, string mode, 
-        List<int>? selectedDays = null, List<StageSpecification>? stages = null)
+    public static ActivityRule Create(ActivityRuleId id, 
+        UserId userId, 
+        ActivityRuleDetailsSpecification details, 
+        ActivityRuleModeSpecification mode)
     {
-        Validate(mode, selectedDays);
         var activityRuleDetails = Details.Create(details.Title, details.Note);
-        var days = selectedDays is not null ? SelectedDays.Create(selectedDays) : null;
-        var activityRule = new ActivityRule(id, userId, activityRuleDetails, mode, days);
-        if (stages is not null)
-        {
-            activityRule.AddStages(stages);
-        }
+        var activityRuleMode = SelectedMode.Create(mode.Mode, mode.Days);
+        var activityRule = new ActivityRule(id, userId, activityRuleDetails, activityRuleMode);
         
         return activityRule;
     }
 
-    public void Edit(ActivityRuleDetailsSpecification details, string mode, List<int>? selectedDays = null)
+    public void Edit(ActivityRuleDetailsSpecification details, 
+        ActivityRuleModeSpecification mode)
     {
-        if (!HasChanges(details, mode, selectedDays))
-        {
-            throw new DomainException("ActivityRule.NoChanges",
-                "Activity rule has no changes");
-        }
-        Validate(mode, selectedDays);
         Details = Details.Create(details.Title, details.Note);
-        Mode = mode;
-        SelectedDays = selectedDays is not null ? SelectedDays.Create(selectedDays) : null;
+        Mode = SelectedMode.Create(mode.Mode, mode.Days);
+        
+        AddDomainEvent(new ActivityRuleModeChanged(Id, UserId, Mode.Mode, Mode.Days));
     }
-    
-    private static void Validate(string mode, List<int>? selectedDays)
+
+    public Stage AddStage(string title)
     {
-        CheckRule(new ModeCannotHaveFilledSelectedDays(mode, selectedDays));
-        CheckRule(new ModeMustHaveFilledSelectedDays(mode, selectedDays));   
+        CheckRule(new StageTitleMustBeUniqueRule(_stages, title));
+        var index = Stages.Count == 0 
+            ? 0 
+            : Stages
+                .Select(x => x.Index.Value)
+                .Max(x => x);
+
+        var stage = Stage.Create(StageId.New(), title, index + 1);
+        _stages.Add(stage);
+        
+        return stage;
     }
-    
-    public bool HasChanges(ActivityRuleDetailsSpecification details, string? mode, List<int>? selectedDays = null)
-        => (Details.HasChanges(details.Title, details.Note))
-       || (Mode.Value != mode)
-       || (SelectedDays?.HasChanges(selectedDays) ?? selectedDays is not null);
 
-    private void AddStages(List<StageSpecification> stages)
-        => stages.ForEach(x => AddStage(x));
-
-    public Stage AddStage(StageSpecification stage)
+    public bool RemoveStage(StageId stageId)
     {
-        CheckRule(new StagesMustHaveOrderedIndexRule(_stages, stage));
-        CheckRule(new StageTitleMustBeUniqueRule(_stages, stage));
-        var newStage = Stage.Create(StageId.New(), stage.Title, stage.Index);
-        _stages ??= [];
-        _stages.Add(newStage);
-        return newStage;
+        var stage = Stages.SingleOrDefault(x => x.Id == stageId);
+
+        if (stage is null)
+        {
+            return false;
+        }
+        
+        _stages.Remove(stage);
+
+        foreach (var s in _stages
+                     .OrderBy(x => x.Index.Value)
+                     .Select((value, index) => new { value, index }))
+        {
+            s.value.UpdateIndex(s.index + 1);
+        }
+        
+        return true;
     }
 }

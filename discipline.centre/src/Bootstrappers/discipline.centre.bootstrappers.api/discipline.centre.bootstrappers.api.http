@@ -53,27 +53,54 @@ Content-Type: application/json
 
 ###
 # @name create_activity_rule
-POST {{host_address}}/api/activity-rules-module/activity-rules
+POST {{host_address}}/api/activity-rules
 Authorization: Bearer {{token}}
+Accept-Language: pl
 Content-Type: application/json
 
 {
   "details": {
-      "title": "rule 10f1irst1 day",
-      "note": "string"
-    },
-  "mode": "FirstDayOfWeek"
+    "title": "",
+    "note": "without any notes"
+  },
+  "mode": {
+    "mode": ""
+  },
+  "stages": [
+  ]
 }
+
+###
+GET {{host_address}}/api/activity-rules
+Authorization: Bearer {{token}}
 
 ###
 @activity_rule_id = {{create_activity_rule.response.headers.x-resource-id}}
 
 ###
-DELETE {{host_address}}/api/activity-rules-module/activity-rules/{{activity_rule_id}}
+PUT {{host_address}}/api/activity-rules/{{activity_rule_id}}
+Authorization: Bearer {{token}}
+Accept-Language: pl
+Content-Type: application/json
+
+{
+  "details": {
+    "title": "My second new rule",
+    "note": "without any notes"
+  },
+  "mode": {
+    "mode": "EveryDay"
+  },
+  "stages": [
+  ]
+}
+
+###
+DELETE {{host_address}}/api/activity-rules/{{activity_rule_id}}
 Authorization: Bearer {{token}}
 
 ###
-GET {{host_address}}/api/activity-rules-module/activity-rules/{{activity_rule_id}}
+GET {{host_address}}/api/activity-rules/{{activity_rule_id}}
 Authorization: Bearer {{token}}
 
 ###
@@ -128,4 +155,8 @@ Authorization: Bearer {{token}}
 
 ###
 DELETE {{host_address}}/api/daily-trackers-module/daily-trackers/01JPQY82R24CYBB25R15ESWHEN/activities/01JPQY82QGBRRH2V0796QVSSDD
+Authorization: Bearer {{token}}
+
+###
+GET {{host_address}}/api/activity-rules/modes
 Authorization: Bearer {{token}}

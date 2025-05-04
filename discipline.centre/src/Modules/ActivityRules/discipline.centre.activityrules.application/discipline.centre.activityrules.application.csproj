@@ -14,5 +14,8 @@
     <ItemGroup>
         <InternalsVisibleTo Include="discipline.centre.activityrules.application.unit_tests"/>
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="ActivityRules\DTOs\Requests\Stages\" />
+    </ItemGroup>
 
 </Project>

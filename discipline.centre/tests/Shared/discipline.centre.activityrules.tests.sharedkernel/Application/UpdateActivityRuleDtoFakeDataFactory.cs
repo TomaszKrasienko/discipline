@@ -1,32 +1,34 @@
 using Bogus;
-using discipline.centre.activityrules.application.ActivityRules.DTOs;
-using discipline.centre.activityrules.domain.Specifications;
-using discipline.centre.activityrules.domain.ValueObjects;
-using discipline.centre.activityrules.domain.ValueObjects.ActivityRules;
+using discipline.centre.activityrules.application.ActivityRules.DTOs.Requests;
+using discipline.centre.activityrules.application.ActivityRules.DTOs.Requests.ActivityRules;
+using discipline.centre.activityrules.domain.Enums;
 
 namespace discipline.centre.activityrules.tests.sharedkernel.Application;
 
 public static class UpdateActivityRuleDtoFakeDataFactory
 {
-    public static UpdateActivityRuleDto Get()
+    public static UpdateActivityRuleDto Get(bool withNote = false)
     {
-        var mode = new Faker()
-            .PickRandom<string>(Mode.AvailableModes.Keys);
-
-        var random = new Random();
-        var selectedDaysCount = random.Next(1, 6);
-        List<int> days = [];
-        for (int i = 0; i < selectedDaysCount; i++)
-        {
-            days.Add(i);
-        }
-
+        var noDayRuleModes = RuleMode.AvailableModes
+            .Where(x => !x.IsDaysRequired)
+            .Select(x => x.Value);
+        
         var faker = new Faker<UpdateActivityRuleDto>()
             .CustomInstantiator(v => new UpdateActivityRuleDto(
-                new ActivityRuleDetailsSpecification(v.Lorem.Word(), v.Lorem.Word()),
-                mode,
-                mode == Mode.CustomMode ? days : null));
+                new ActivityRuleDetailsRequestDto(v.Lorem.Word(), withNote ? v.Lorem.Sentence() : null),
+                new ActivityRuleModeRequestDto(v.PickRandom(noDayRuleModes), null)));
 
-        return faker.Generate(1).Single();
+        return faker.Generate();
     }
+    
+    public static UpdateActivityRuleDto WithCustomMode(this UpdateActivityRuleDto dto)
+    {
+        var days = Enum.GetValues<DayOfWeek>().Select(x => (int)x).ToList();
+        var faker = new Faker();
+
+        var numberOfDays = faker.Random.Int(days.Count);
+        var selectedDays = faker.PickRandom(days, numberOfDays).ToList();
+
+        return dto with { Mode = new ActivityRuleModeRequestDto(RuleMode.Custom.Value, selectedDays) };
+    } 
 }

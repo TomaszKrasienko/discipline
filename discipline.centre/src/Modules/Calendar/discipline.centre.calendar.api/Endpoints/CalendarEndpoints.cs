@@ -31,9 +31,16 @@ internal static class CalendarEndpoints
             {
                  return Results.UnprocessableEntity(validationResult.Errors);
             }
+            
+            var userId = identityContext.GetUser();
+
+            if (userId is null)
+            {
+                return Results.Unauthorized();
+            }
 
             var eventId = CalendarEventId.New();
-            await cqrsDispatcher.HandleAsync(dto.AsCommand(identityContext.GetUser(), day, eventId), cancellationToken);
+            await cqrsDispatcher.HandleAsync(dto.AsCommand(userId, day, eventId), cancellationToken);
 
             return Results.NoContent();
         })

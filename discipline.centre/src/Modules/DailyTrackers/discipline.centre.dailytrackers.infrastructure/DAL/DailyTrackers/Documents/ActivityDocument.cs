@@ -22,5 +22,5 @@ public sealed record ActivityDocument : IDocument
     public string? ParentActivityRuleId { get; init; }
 
     [BsonElement("stages")]
-    public IEnumerable<StageDocument>? Stages { get; set; }
+    public required IEnumerable<StageDocument> Stages { get; init; }
 }

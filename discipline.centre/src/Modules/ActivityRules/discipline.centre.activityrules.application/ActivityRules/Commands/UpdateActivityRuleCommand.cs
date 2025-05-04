@@ -1,36 +1,20 @@
-using discipline.centre.activityrules.domain;
+using discipline.centre.activityrules.application.ActivityRules.Events;
 using discipline.centre.activityrules.domain.Repositories;
 using discipline.centre.activityrules.domain.Specifications;
 using discipline.centre.shared.abstractions.CQRS.Commands;
+using discipline.centre.shared.abstractions.Events;
 using discipline.centre.shared.abstractions.Exceptions;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
-using FluentValidation;
 
 namespace discipline.centre.activityrules.application.ActivityRules.Commands;
 
-public sealed record UpdateActivityRuleCommand(UserId UserId, ActivityRuleId Id, ActivityRuleDetailsSpecification Details, 
-    string Mode, List<int>? SelectedDays) : ICommand;
-
-public sealed class UpdateActivityRuleCommandValidator : AbstractValidator<UpdateActivityRuleCommand>
-{
-    public UpdateActivityRuleCommandValidator()
-    {
-        RuleFor(x => x.Details.Title)
-            .NotNull()
-            .NotEmpty()
-            .WithMessage("Activity rule \"Title\" can not be null or empty");
-        RuleFor(x => x.Details.Title)
-            .MaximumLength(30)
-            .WithMessage("Activity rule \"Title\" has invalid length");
-        RuleFor(x => x.Mode)
-            .NotNull()
-            .NotEmpty()
-            .WithMessage("Activity rule \"Mode\" can not be null or empty");
-    }
-}
-
+public sealed record UpdateActivityRuleCommand(UserId UserId, 
+    ActivityRuleId Id, 
+    ActivityRuleDetailsSpecification Details,
+    ActivityRuleModeSpecification Mode) : ICommand;
 internal sealed class UpdateActivityRuleCommandHandler(
-    IReadWriteActivityRuleRepository readWriteActivityRuleRepository) : ICommandHandler<UpdateActivityRuleCommand>
+    IReadWriteActivityRuleRepository readWriteActivityRuleRepository,
+    IEventProcessor eventProcessor) : ICommandHandler<UpdateActivityRuleCommand>
 {
     public async Task HandleAsync(UpdateActivityRuleCommand command, CancellationToken cancellationToken = default)
     {
@@ -38,13 +22,20 @@ internal sealed class UpdateActivityRuleCommandHandler(
 
         if (activityRule is null)
         {
-            throw new NotFoundException("UpdateActivityRule.ActivityRule", nameof(activityRule), command.Id.ToString());
+            throw new NotFoundException("UpdateActivityRule.ActivityRuleNotFound", command.Id.ToString());
         }
-
-        if (activityRule.HasChanges(command.Details, command.Mode, command.SelectedDays))
+        
+        var isTitleExists = await readWriteActivityRuleRepository.ExistsAsync(command.Details.Title, command.UserId, cancellationToken);
+        if (isTitleExists && activityRule.Details.Title != command.Details.Title)
         {
-            activityRule.Edit(command.Details, command.Mode, command.SelectedDays);
-            await readWriteActivityRuleRepository.UpdateAsync(activityRule, cancellationToken);
+            throw new NotUniqueException("UpdateActivityRule.NotUniqueTitle", command.Details.Title);
         }
+        
+        activityRule.Edit(command.Details, command.Mode);
+        
+        await readWriteActivityRuleRepository.UpdateAsync(activityRule, cancellationToken);
+        
+        await eventProcessor.PublishAsync(activityRule.DomainEvents.Select(x
+            => x.MapAsIntegrationEvent()).ToArray());
     }
 }

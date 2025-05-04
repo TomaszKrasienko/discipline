@@ -5,8 +5,7 @@ namespace discipline.centre.activityrules.domain.Rules.ActivityRules;
 
 internal sealed class DetailsTitleCannotBeLongerThan30Rule(string value) : IBusinessRule
 {
-    public Exception Exception => new DomainException("ActivityRule.Details.Title.TooLong",
-        $"Title: {value} is longer than 30.");
+    public Exception Exception => new DomainException("ActivityRule.Details.TitleTooLong");
     public bool IsBroken()
         => value.Length > 30;
 }

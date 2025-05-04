@@ -8,37 +8,37 @@ namespace discipline.centre.activityrules.domain.unit_tests.ValueObjects.Stages;
 public sealed class TitleTests
 {
     [Fact]
-    public void Create_GivenValidValue_ShouldReturnTitleWithValue()
+    public void GivenValidValue_WhenCreate_ThenReturnTitleWithValue()
     {
-        //arrange
-        var value = "test_title";
+        // Arrange
+        const string value = "test_title";
         
-        //act
+        // Act
         var result = Title.Create(value);
         
-        //assert
+        // Assert
         result.Value.ShouldBe(value);
     }
 
     [Fact]
-    public void Create_GivenEmptyValue_ShouldThrowDomainExceptionWithActivityRuleTitleEmpty()
+    public void GivenEmptyValue_WhenCreate_ThenThrowDomainExceptionActivityRuleStageTitleTooLong()
     {
-        //act
+        // Act
         var exception = Record.Exception(() => Title.Create(string.Empty));
         
-        //assert
+        // Assert
         exception.ShouldBeOfType<DomainException>();
-        ((DomainException)exception).Code.ShouldBe("ActivityRule.Stage.Title.Empty");
+        ((DomainException)exception).Code.ShouldBe("ActivityRule.Stage.Title.EmptyValue");
     }
 
     [Fact]
-    public void Create_GivenValueLongerThan30Characters_ShouldThrowDomainExceptionWithCodeActivityRuleTitleTooLong()
+    public void GivenValueLongerThan30Characters_WhenCreate_ThenThrowDomainExceptionWithCodeActivityRuleTitleTooLong()
     {
-        //act
+        // Act
         var exception = Record.Exception(() => Title.Create(new string('t', 31)));
         
-        //assert
+        // Assert
         exception.ShouldBeOfType<DomainException>();
-        ((DomainException)exception).Code.ShouldBe("ActivityRule.Stage.Title.TooLong");
+        ((DomainException)exception).Code.ShouldBe("ActivityRule.Stage.Title.ValueTooLong");
     }
 }

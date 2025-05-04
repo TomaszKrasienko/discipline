@@ -26,7 +26,7 @@ public static class SharedServicesInfrastructureConfigExtensions
             .AddJwtAuth(configuration)
             .AddSerializer()
             .AddDistributedCache(configuration)
-            .AddExceptionsHandling()
+            .AddExceptionsHandling(assemblies)
             .AddValidation(assemblies)
             .AddIdentityContext()
             .AddConstraints()

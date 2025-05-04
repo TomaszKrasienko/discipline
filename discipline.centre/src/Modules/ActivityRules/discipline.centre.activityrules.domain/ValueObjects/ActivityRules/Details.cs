@@ -29,7 +29,8 @@ public sealed class Details : ValueObject
         => new (title, note);
     
     internal bool HasChanges(string title, string? note)
-        => _title != title || Note != note;
+        => _title != title 
+        || Note != note;
 
     protected override IEnumerable<object?> GetAtomicValues()
     {

@@ -62,7 +62,14 @@ internal static class UsersEndpoints
                 IIdentityContext identityContext, ICqrsDispatcher commandDispatcher, CancellationToken cancellationToken) =>
             {
                 var subscriptionOrderId = SubscriptionOrderId.New();
-                await commandDispatcher.HandleAsync(dto.MapAsCommand(identityContext.GetUser(), subscriptionOrderId),
+                var userId = identityContext.GetUser();
+
+                if (userId is null)
+                {
+                    return Results.Unauthorized();
+                }
+                
+                await commandDispatcher.HandleAsync(dto.MapAsCommand(userId, subscriptionOrderId),
                     cancellationToken);
                 
                 return Results.Ok();

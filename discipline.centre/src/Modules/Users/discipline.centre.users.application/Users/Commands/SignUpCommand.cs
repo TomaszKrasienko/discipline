@@ -62,7 +62,7 @@ internal sealed class SignUpCommandHandler(
         var doesEmailExist = await readWriteUserRepository.DoesEmailExistAsync(command.Email, cancellationToken);
         if (doesEmailExist)
         {
-            throw new AlreadyRegisteredException("SignUpCommand.Email", command.Email);
+            throw new NotUniqueException("SignUpCommand.Email", command.Email);
         }
         
         var user = User.Create(command.Id, command.Email, command.Password, command.FirstName, command.LastName);

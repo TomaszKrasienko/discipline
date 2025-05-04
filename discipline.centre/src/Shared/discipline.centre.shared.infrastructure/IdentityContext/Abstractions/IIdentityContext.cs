@@ -6,5 +6,5 @@ public interface IIdentityContext
 {
     public bool IsAuthenticated { get; }
     public string? Status { get; }
-    public UserId GetUser();
+    public UserId? GetUser();
 }

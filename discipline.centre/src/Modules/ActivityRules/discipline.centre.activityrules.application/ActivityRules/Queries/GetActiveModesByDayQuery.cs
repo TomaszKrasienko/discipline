@@ -1,4 +1,5 @@
 using discipline.centre.activityrules.application.ActivityRules.DTOs;
+using discipline.centre.activityrules.domain.Enums;
 using discipline.centre.activityrules.domain.ValueObjects.ActivityRules;
 using discipline.centre.shared.abstractions.CQRS.Queries;
 
@@ -10,17 +11,17 @@ internal sealed class GetActiveModesByDayQueryHandler : IQueryHandler<GetActiveM
 {
     public Task<ActiveModesDto> HandleAsync(GetActiveModesByDayQuery query, CancellationToken cancellationToken = default)
     {
-        List<string> modes = [Mode.EveryDayMode];
+        List<string> modes = [RuleMode.EveryDay.Value];
         
         var dayOfWeek = query.Day.DayOfWeek;
         
         switch (dayOfWeek)
         {
             case DayOfWeek.Monday:
-                modes.Add(Mode.FirstDayOfWeekMode);
+                modes.Add(RuleMode.FirstDayOfWeek.Value);
                 break;
             case DayOfWeek.Sunday:
-                modes.Add(Mode.LastDayOfWeekMode);
+                modes.Add(RuleMode.LastDayOfWeek.Value);
                 break;
         }
 
@@ -32,11 +33,11 @@ internal sealed class GetActiveModesByDayQueryHandler : IQueryHandler<GetActiveM
 
         if(query.Day.Day == 1)
         {
-            modes.Add(Mode.FirstDayOfMonth);
+            modes.Add(RuleMode.FirstDayOfMonth.Value);
         }
         if(query.Day.Day == lastDayOfMonth)
         {
-            modes.Add(Mode.LastDayOfMonthMode);
+            modes.Add(RuleMode.LastDayOfMonth.Value);
         }
         
         var day = (query.Day.DayOfWeek == 0 ? 7 : (int)query.Day.DayOfWeek);

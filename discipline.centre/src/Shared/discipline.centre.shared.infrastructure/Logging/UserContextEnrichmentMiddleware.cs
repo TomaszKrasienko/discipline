@@ -13,12 +13,24 @@ internal sealed class UserContextEnrichmentMiddleware(
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
         using var scope = serviceProvider.CreateScope();
-        var identityContext = scope.ServiceProvider.GetRequiredService<IIdentityContext>();
+        var identityContext = scope.ServiceProvider.GetService<IIdentityContext>();
+
+        if (identityContext is null)
+        {
+            await next(context);
+            return;
+        }
         
         if (identityContext.IsAuthenticated)
         {
             var userId = identityContext.GetUser();
 
+            if (userId is null)
+            {
+                await next(context);
+                return;    
+            }
+            
             Activity.Current?.SetTag("user.id", userId.ToString());
 
             var data = new Dictionary<string, object>()

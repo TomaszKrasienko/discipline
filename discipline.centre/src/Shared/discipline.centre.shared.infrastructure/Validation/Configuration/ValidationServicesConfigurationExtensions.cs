@@ -21,6 +21,8 @@ internal static class ValidationServicesConfigurationExtensions
     
     private static IServiceCollection AddValidators(this IServiceCollection services, IList<Assembly> assemblies)
     {
+        ValidatorOptions.Global.DefaultClassLevelCascadeMode = CascadeMode.Stop;
+
         services.AddValidatorsFromAssemblies(assemblies);
         return services;
     }

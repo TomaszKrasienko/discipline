@@ -13,7 +13,7 @@ namespace discipline.centre.dailytrackers.domain;
 /// </summary>
 public sealed class Activity : Entity<ActivityId, Ulid>
 {
-    private HashSet<Stage>? _stages;
+    private HashSet<Stage> _stages;
     
     /// <summary>
     /// Details of activity. For more, see <see cref="Details"/> 
@@ -33,13 +33,13 @@ public sealed class Activity : Entity<ActivityId, Ulid>
     /// <summary>
     /// Read-only collection of <see cref="Stage"/>
     /// </summary>
-    public IReadOnlyCollection<Stage>? Stages => _stages?.ToArray();
+    public IReadOnlyCollection<Stage> Stages => _stages.ToArray();
     
     /// <summary>
     /// <remarks>Use only for Mongo purposes</remarks>
     /// </summary>
     public Activity(ActivityId id, Details details, IsChecked isChecked, 
-        ActivityRuleId? parentActivityRuleId, HashSet<Stage>? stages) : base(id)    
+        ActivityRuleId? parentActivityRuleId, HashSet<Stage> stages) : base(id)    
     {
         Details = details;
         IsChecked = isChecked;
@@ -60,7 +60,7 @@ public sealed class Activity : Entity<ActivityId, Ulid>
     {
         var activityDetails = Details.Create(details.Title, details.Note);
         var activity = new Activity(activityId, activityDetails, false, 
-            parentActivityRuleId, null);
+            parentActivityRuleId, []);
         
         if (stages is not null)
         {
@@ -88,14 +88,14 @@ public sealed class Activity : Entity<ActivityId, Ulid>
     }
 
     private bool IsIndexValid(int index)
-        => (_stages is null && index == 1) || _stages?.Max(x => x.Index.Value) + 1 == index;
+        => _stages.Max(x => x.Index.Value) + 1 == index;
 
     internal void Edit(ActivityDetailsSpecification details)
         => Details = Details.Create(details.Title, details.Note);
 
     internal void MarkAsChecked()
     {
-        if (_stages is not null && _stages.Any())
+        if (_stages.Any())
         {
             foreach (var stage in _stages)
             {
@@ -109,29 +109,22 @@ public sealed class Activity : Entity<ActivityId, Ulid>
     internal Stage AddStage(string title)
     {
         CheckStageTitleUniqueness(title);
-        var index = _stages?.Max(x => x.Index.Value) + 1 ?? 1;
+        var index = _stages.Max(x => x.Index.Value) + 1;
         var stage = Stage.Create(StageId.New(), title, index);
-        _stages ??= [];
         _stages.Add(stage);
         return stage;
     }
 
     internal bool DeleteStage(StageId stageId)
     {
-        var stage = _stages?.SingleOrDefault(x => x.Id == stageId);
+        var stage = _stages.SingleOrDefault(x => x.Id == stageId);
         
         if (stage is null)
         {
             return false;
         }
         
-        _stages!.Remove(stage);
-
-        if (_stages.Count == 0)
-        {
-            _stages = null;
-            return true;
-        }
+        _stages.Remove(stage);
         
         var newStages = _stages!.OrderBy(x => x.Index.Value).ToList();
         for (var i = 0; i < newStages.Count; i++)
