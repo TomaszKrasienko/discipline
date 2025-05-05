@@ -1,0 +1,162 @@
+@host_address = http://localhost:5039
+# @host_address = http://localhost:7001
+
+###
+GET {{host_address}}/
+
+###
+@email = tom.krasienko@gmail.com
+@password = TomaszK123!
+
+###
+# @name sign_up
+POST {{host_address}}/api/users-module/users
+Content-Type: application/json
+
+{  
+  "email": "{{email}}",
+  "password": "{{password}}",
+  "firstName": "Tom",
+  "lastName": "Krasienko"
+}
+
+###
+@user_id = {{sign_up.response.headers.x-resource-id}}
+
+###
+# @name sign_in
+POST {{host_address}}/api/users-module/users/tokens
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}"
+}
+
+###
+GET {{host_address}}/api/users-module/users/{{user_id}}
+Authorization: bearer {{token}}
+
+###
+@token = {{sign_in.response.body.$.token}}
+
+###
+POST {{host_address}}/api/users-module/users/subscription-order
+Authorization: bearer {{token}}
+Content-Type: application/json
+
+{
+  "subscriptionId": "01JDEMJMBP7DMM3GMNWCE62FS2"
+}
+
+### Activity Rules
+
+###
+# @name create_activity_rule
+POST {{host_address}}/api/activity-rules
+Authorization: Bearer {{token}}
+Accept-Language: pl
+Content-Type: application/json
+
+{
+  "details": {
+    "title": "",
+    "note": "without any notes"
+  },
+  "mode": {
+    "mode": ""
+  },
+  "stages": [
+  ]
+}
+
+###
+GET {{host_address}}/api/activity-rules
+Authorization: Bearer {{token}}
+
+###
+@activity_rule_id = {{create_activity_rule.response.headers.x-resource-id}}
+
+###
+PUT {{host_address}}/api/activity-rules/{{activity_rule_id}}
+Authorization: Bearer {{token}}
+Accept-Language: pl
+Content-Type: application/json
+
+{
+  "details": {
+    "title": "My second new rule",
+    "note": "without any notes"
+  },
+  "mode": {
+    "mode": "EveryDay"
+  },
+  "stages": [
+  ]
+}
+
+###
+DELETE {{host_address}}/api/activity-rules/{{activity_rule_id}}
+Authorization: Bearer {{token}}
+
+###
+GET {{host_address}}/api/activity-rules/{{activity_rule_id}}
+Authorization: Bearer {{token}}
+
+###
+# @name create_activity_from_rule
+POST {{host_address}}/api/daily-trackers-module/daily-trackers/activities/{{activity_rule_id}}
+Authorization: Bearer {{token}}
+
+@activity_id_from_rule = {{create_activity_from_rule.response.headers.x-resource-id}}
+
+###
+# @name create_activity
+POST {{host_address}}/api/daily-trackers-module/daily-trackers/activities
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "day": "2025-03-16",
+  "details": {
+    "title": "Pierwsze zadanie to do3",
+    "note": "Pamiętać o odebraniu paczek, posprzątaniu i jedzeniu"
+  },
+  "stages": [
+    {
+      "title": "odebranie paczki",
+      "index": 1
+    },
+    {
+      "title": "zjedzenie",
+      "index": 2
+    },
+    {
+      "title": "praca domowa",
+      "index": 3
+    }
+  ]
+}
+
+###
+@activity_id = {{create_activity.response.headers.x-resource-id}}
+
+###
+GET {{host_address}}/api/daily-trackers-module/daily-trackers/activities/{{activity_id}}
+Authorization: Bearer {{token}}
+
+###
+GET {{host_address}}/api/daily-trackers-module/daily-trackers/2025-03-16
+Authorization: Bearer {{token}}
+
+###
+PATCH {{host_address}}/api/daily-trackers-module/daily-trackers/01JPQYQ6P35EXKSBXGMYRQEFH4/activities/01JPQYQ6NM03SVK4WAJ34M5NMZ/stages/01JPQYQ6P5MK16SK781CMQ0NDQ/check
+Authorization: Bearer {{token}}
+
+###
+DELETE {{host_address}}/api/daily-trackers-module/daily-trackers/01JPQY82R24CYBB25R15ESWHEN/activities/01JPQY82QGBRRH2V0796QVSSDD
+Authorization: Bearer {{token}}
+
+###
+GET {{host_address}}/api/activity-rules/modes
+Authorization: Bearer {{token}}
