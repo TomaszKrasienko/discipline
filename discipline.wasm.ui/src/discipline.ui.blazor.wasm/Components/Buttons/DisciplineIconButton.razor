@@ -1,0 +1,40 @@
+@namespace discipline.ui.blazor.wasm.Components.Buttons
+
+@using BlazorBootstrap
+@using discipline.ui.blazor.wasm.Enums
+
+<div>
+    <Tooltip 
+        Title="@TooltipText"
+        Placement="TooltipPlacement.Top">
+        <button
+            class="btn discipline-icon-button @GetColor()"
+            @onclick="ButtonClickedAsync">
+            <i class="bi @IconClass"></i>
+        </button>
+    </Tooltip>
+</div>
+
+@code {
+    [Parameter, EditorRequired] 
+    public string IconClass { get; set; }
+    
+    [Parameter, EditorRequired]
+    public EventCallback OnClickButtonCallback { get; set; }
+    
+    [Parameter] 
+    public DisciplineIconButtonColor Color { get; set; }
+    
+    [Parameter] 
+    public string TooltipText { get; set; }
+
+    private async Task ButtonClickedAsync()
+        => await OnClickButtonCallback.InvokeAsync();
+
+    private string GetColor() => Color switch
+    {
+        DisciplineIconButtonColor.Red => "discipline-icon-red",
+        DisciplineIconButtonColor.Dark => "discipline-icon-dark", 
+        _ => "discipline-icon-light"
+    };
+}

@@ -1,0 +1,34 @@
+@namespace discipline.ui.blazor.wasm.Components.Buttons
+
+@using BlazorBootstrap
+
+    <div class="discipline-create-btn-position">
+        <div class="btn-group dropup">
+            <button
+                class="btn btn-sm discipline-icon-button"
+                data-bs-toggle="dropdown"
+                aria-expaded="false">
+                <i class="bi bi-box-arrow-in-up-left"></i>
+            </button>
+            <ul class="dropdown-menu">
+                @foreach (var option in Options)
+                {
+                    <li>
+                        <button class="dropdown-item" @onclick="async () => await OnClick(option.Key)">
+                            @option.Value
+                        </button>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+@code {
+    [Parameter, EditorRequired] 
+    public Dictionary<string, string> Options { get; set; } = [];
+    
+    [Parameter, EditorRequired] 
+    public EventCallback<string> OnClickCallback { get; set; }
+
+    private async Task OnClick(string key)
+        => await OnClickCallback.InvokeAsync(key);
+}

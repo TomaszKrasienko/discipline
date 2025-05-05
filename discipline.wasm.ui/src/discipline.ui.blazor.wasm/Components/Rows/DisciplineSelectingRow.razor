@@ -1,0 +1,36 @@
+@using discipline.ui.blazor.wasm.Components.Buttons
+@using discipline.ui.blazor.wasm.Enums
+@namespace discipline.ui.blazor.wasm.Components.Rows
+
+<div class="row">
+    <div class="col-md-10" @onclick="RowClickedAsync">
+        <div class="row selecting-row">
+            @ChildContent
+        </div>
+    </div>
+    <div class="col-md-2">
+        <DisciplineIconButton 
+            Color="DisciplineIconButtonColor.Red" 
+            OnClickButtonCallback="TrashClickedAsync" 
+            IconClass="bi-trash3-fill"/>
+    </div>
+</div>
+
+@code {
+    
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+    
+    [Parameter, EditorRequired]
+    public EventCallback OnRowClickCallback { get; set; }
+    
+    [Parameter, EditorRequired]
+    public EventCallback OnTrashClickCallback { get; set; }
+
+    private async Task RowClickedAsync()
+        => await OnRowClickCallback.InvokeAsync();
+
+    private async Task TrashClickedAsync()
+        => await OnTrashClickCallback.InvokeAsync();
+
+}

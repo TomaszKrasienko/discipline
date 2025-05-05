@@ -1,0 +1,8 @@
+@namespace discipline.ui.blazor.wasm.Components.Paragraphs
+
+<span class="sub-paragraph">@Content</span>
+
+@code {
+    [Parameter, EditorRequired]
+    public required string Content { get; set; }
+}

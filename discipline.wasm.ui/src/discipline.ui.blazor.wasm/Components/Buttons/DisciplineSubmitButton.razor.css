@@ -1,0 +1,38 @@
+.discipline-submit-btn-position-modal {
+    padding-top: 10px;
+    text-align: end;
+    padding-right: 1px;
+}
+
+.discipline-submit-btn-position{
+    position: fixed;
+    right: 70px;
+    padding-bottom: 10px;
+}
+
+.discipline-submit-btn-icon {
+    font-size: large;
+}
+
+.discipline-submit-button{
+    background-color: #C4D4C9;
+    color: #1C211D;
+    border-radius: 5px;
+    box-shadow: none;
+    border: 1px solid #1C211D;
+}
+
+.discipline-submit-button:hover {
+    background-color: #546357;
+    color: #C4D4C9;
+}
+
+.discipline-submit-button:active{
+    background-color: #1C211D;
+    color: #C4D4C9;
+}
+
+.discipline-submit-button:disabled{
+    background-color: #546357;
+    color: #1C211D;
+}

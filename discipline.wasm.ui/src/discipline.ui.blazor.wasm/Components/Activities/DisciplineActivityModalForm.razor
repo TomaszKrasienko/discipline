@@ -1,0 +1,92 @@
+@using BlazorBootstrap
+@using discipline.ui.blazor.wasm.Components.Modals
+@using discipline.ui.blazor.wasm.Enums
+@using discipline.ui.blazor.wasm.Models.DailyTrackers
+@using discipline.ui.blazor.wasm.Components.Buttons
+@using discipline.ui.infrastructure.DailyTrackers.Activities
+@inject ICreateActivityFacade CreateActivityFacade
+@inject ToastService ToastService
+
+<DisciplineModal
+    @ref="_formModal"
+    Title="New activity"
+    Size="DisciplineModalSize.Large" 
+    OnHidingCallback="HideAsync">
+    <Body>
+        <EditForm method="post" OnSubmit="Submit" Model="CreateEditActivity">
+            <div class="row">
+                <div class="col-md-8 offset-2">
+                    <div class="pt-2">
+                        <label for="create-edit-activity-day">Day: </label>
+                        <DateInput
+                            TValue="DateOnly"
+                            Id="create-edit-activity-day"
+                            @bind-Value="CreateEditActivity.Day"/>
+                    </div>
+                    <div class="pt-2">
+                        <label for="create-edit-activity-title">Title: </label>
+                        <InputText
+                            class="form-control"
+                            id="create-edit-activity-title"
+                            placeholder="Title"
+                            @bind-Value="CreateEditActivity.Title"/>
+                    </div>
+                    <div class="pt-2">
+                        <label for="create-edit-activity-note">Note: </label>
+                        <InputText
+                            class="form-control"
+                            id="ccreate-edit-activity-note"
+                            placeholder="Note"
+                            @bind-Value="CreateEditActivity.Note"/>
+                    </div>
+                </div>
+            </div>
+            <DisciplineSubmitButton
+                Type="DisciplineSubmitButtonType.Modal"/>
+        </EditForm>
+    </Body>
+</DisciplineModal>
+
+@code {
+    private DisciplineModal? _formModal;
+    private CancellationTokenSource? _cts;
+
+    [SupplyParameterFromForm] 
+    public CreateEditActivityDto CreateEditActivity { get; set; } = new CreateEditActivityDto();
+    
+    [Parameter] 
+    public DateOnly? Day { get; set; }
+    
+    [Parameter]
+    public EventCallback OnHidingCallback { get; set; }
+
+    protected override void OnInitialized()
+    {
+        _cts = new CancellationTokenSource();
+        
+        if (Day is not null)
+        {
+            CreateEditActivity.Day = Day.Value;
+        }
+    } 
+
+    public void Open()
+        => _formModal?.Open();
+    
+    private async Task Submit()
+    {
+        var result = await CreateActivityFacade.HandleAsync(CreateEditActivity.Day,
+            CreateEditActivity.Title!, CreateEditActivity.Note, null, _cts!.Token);
+
+        if (result.IsT1)
+        {
+            ToastService.Notify(result.AsT1.ToDangerToastMessage());
+            return;
+        }
+        
+        await _formModal!.CloseAsync();
+    }
+
+    private async Task HideAsync()
+        => await OnHidingCallback.InvokeAsync();
+}

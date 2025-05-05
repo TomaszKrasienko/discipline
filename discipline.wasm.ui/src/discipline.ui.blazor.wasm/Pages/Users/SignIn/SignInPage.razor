@@ -1,0 +1,96 @@
+@page "/sign-in"
+@using BlazorBootstrap
+@using discipline.ui.infrastructure.Users.SignIn
+@using discipline.ui.blazor.wasm.Components.Headers
+@using discipline.ui.blazor.wasm.Components.Buttons
+@using discipline.ui.blazor.wasm.Enums
+@using discipline.ui.blazor.wasm.Models.Users
+@inject ISignInFacade SignInFacade
+@inject ToastService ToastService
+@inject NavigationManager NavigationManager
+
+<DisciplinePageHeader Title="Sign in"/>
+<div class="row pt-2">
+    <div class="col-md-4 offset-4">
+        <EditForm
+            method="post"
+            OnSubmit="Submit"
+            EditContext="_editContext">
+            <DataAnnotationsValidator/>
+            <div class="pt-2">
+                <label for="sign-in-email">Email:</label>
+                <InputText
+                    class="form-control"
+                    id="sign-in-email"
+                    placeholder="Email"
+                    @bind-Value="SignIn.Email"/>
+            </div>
+            <div class="pt-2">
+                <label for="sign-in-password">Password:</label>
+                <InputText
+                    class="form-control"
+                    id="sign-in-password"
+                    type="password"
+                    placeholder="Password"
+                    @bind-Value="SignIn.Password"/>
+            </div>
+            <div style="padding-top: 30px">
+                <DisciplineSubmitButton
+                    IsDisabled="@(!_isValid)"
+                    Type="DisciplineSubmitButtonType.Page"/>
+            </div>
+        </EditForm>
+    </div>
+    <div class="fixed-bottom">
+        <Button @onclick="SignInAsTomasz">Tomasz</Button>
+    </div>
+</div>
+
+@code {
+    [SupplyParameterFromForm] 
+    public SignInDto SignIn { get; set; } = new ();
+    
+    private EditContext? _editContext;
+    private bool _isValid = false;
+
+    protected override void OnInitialized()
+    {
+        _editContext = new EditContext(SignIn);
+        _editContext.OnFieldChanged += (_, __) => ValidateForm();
+    }
+    
+    private void ValidateForm()
+        => _isValid = _editContext!.Validate();
+
+    private async Task Submit()
+    {
+        var result = await SignInFacade.HandleAsync(SignIn.Email,
+            SignIn.Password, CancellationToken.None);
+
+        if (result.IsT0)
+        {
+            StateHasChanged();
+            NavigationManager.NavigateTo("/", forceLoad:true);
+        }
+        else
+        {
+            ToastService.Notify(result.AsT1.ToDangerToastMessage());
+        }
+    }
+
+    private async Task SignInAsTomasz()
+    {
+        var result = await SignInFacade.HandleAsync("tom.krasienko@gmail.com",
+            "TomaszK123!", CancellationToken.None);
+        
+        if (result.IsT0)
+        {
+            StateHasChanged();
+            NavigationManager.NavigateTo("/", forceLoad:true);
+        }
+        else
+        {
+            ToastService.Notify(result.AsT1.ToDangerToastMessage());
+        }
+    }
+}

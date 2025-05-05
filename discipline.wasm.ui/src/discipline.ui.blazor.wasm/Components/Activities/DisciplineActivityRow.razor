@@ -1,0 +1,170 @@
+@using BlazorBootstrap
+@using discipline.ui.infrastructure.DailyTrackers.Activities
+@using discipline.ui.infrastructure.DailyTrackers.DTOs
+@using discipline.ui.blazor.wasm.Components.Buttons
+@using discipline.ui.blazor.wasm.Enums
+@using discipline.ui.blazor.wasm.Components.Checkboxes
+@using discipline.ui.blazor.wasm.Components.Paragraphs
+@using discipline.ui.infrastructure.DailyTrackers.Models
+@using discipline.ui.infrastructure.DailyTrackers.Stages
+@inject IChangeActivityCheckFacade ChangeActivityCheckFacade
+@inject IChangeActivityStageCheckFacade ChangeActivityStageCheckFacade
+@inject IDeleteActivityFacade DeleteActivityFacade
+@inject ToastService ToastService
+
+<div class="row discipline-activity-section">
+    <span class="pb-1 pt-1">
+        
+    </span>
+    <div class="row discipline-row" @onclick="RowClickedAsync">
+        <div class="col-md-2">
+            <DisciplineCheckbox
+                IsChecked="Activity.IsChecked"/>
+        </div>
+        <div class="col-md-9">
+            <MainParagraph Content="@Activity.Title"/>
+        </div>
+        <div class="col-md-1">
+            <DisciplineIconButton
+                IconClass="bi-trash-fill"
+                Color="DisciplineIconButtonColor.Red"
+                OnClickButtonCallback="DeleteActivityAsync"
+                TooltipText="Delete"/>
+        </div>
+    </div>
+    <div class="row discipline-stage-section">
+        <div class="col-md-2">
+            @if (Activity.Stages is not null)
+            {
+                <div class="row discipline-toggle-stages-section" @onclick="ToggleContentAsync">
+                    <div class="col-md-6">
+                        <DisciplineIconButton
+                            IconClass="bi-arrow-down"
+                            OnClickButtonCallback="ToggleContentAsync"/>
+                    </div>
+                    <div class="col-md-6">
+                        <SubParagraph
+                            Content=@($"{Activity.Stages.Count(x => x.IsChecked)}/{Activity.Stages.Count()}")/>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="col-md-10">
+            <div class="row">
+                <SubParagraph Content="@Activity.Note"/>
+            </div>
+            <div class="row">
+                <Collapse @ref="_stageCollapse">
+                    <Card Style="border-color: transparent">
+                        <CardBody Style="border-color: transparent">
+                            @if (Activity.Stages is not null)
+                            {
+                                <div class="discipline-stage-section">
+                                    <SortableList
+                                        Style="border-color: transparent"
+                                        TItem="StageModel"
+                                        Data="@Activity.Stages.OrderBy(x => x.Index).ToList()"
+                                        Context="item"
+                                        OnUpdate="@StageMovedAsync">
+                                        <ItemTemplate>
+                                            <div class="row discipline-row" @onclick="() => StageClickedAsync(item.StageId)">
+                                                <div class="col-md-2">
+                                                    <DisciplineCheckbox
+                                                        IsChecked="item.IsChecked"/>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <SubParagraph
+                                                        Content="@($"{item.Index}. {item.Title}")"/>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <DisciplineIconButton
+                                                        IconClass="bi-trash-fill"
+                                                        Color="DisciplineIconButtonColor.Red"
+                                                        OnClickButtonCallback="async () => await DeleteStageAsync(item.StageId)"
+                                                        TooltipText="Delete"/>
+                                                </div>
+                                            </div>
+                                        </ItemTemplate>
+                                    </SortableList>
+                                </div>
+                            }
+                        </CardBody>
+                    </Card>
+                </Collapse>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private CancellationTokenSource? _cts;
+    private Collapse? _stageCollapse = default;
+    
+    [Parameter, EditorRequired] 
+    public required ActivityModel Activity { get; set; }
+    
+    [Parameter] 
+    public EventCallback OnActivityChangedCallback { get; set; }
+    
+    [Parameter]
+    public EventCallback OnActivityStageChangedCallback { get; set; }
+    
+    [Parameter]
+    public EventCallback OnActivityDeletedCallback { get; set; }
+
+    private async Task RowClickedAsync()
+    {
+        _cts = new CancellationTokenSource();
+        
+        var response = await ChangeActivityCheckFacade.HandleAsync(Activity.DailyTrackerId, Activity.ActivityId, _cts.Token);
+        
+        if (response.IsT1)
+        {
+            ToastService.Notify(response.AsT1.ToDangerToastMessage());
+            return;
+        }
+        
+        Activity.ChangeCheck();
+        await OnActivityChangedCallback.InvokeAsync();
+    }
+
+    private async Task StageClickedAsync(string stageId)
+    {
+        _cts = new CancellationTokenSource();
+        var response = await ChangeActivityStageCheckFacade.HandleAsync(Activity.DailyTrackerId, Activity.ActivityId,
+            stageId, _cts.Token);
+
+        if (response.IsT1)
+        {
+            ToastService.Notify(response.AsT1.ToDangerToastMessage());
+            return;
+        }
+        
+        Activity.ChangeStageCheck(stageId);
+        await OnActivityStageChangedCallback.InvokeAsync();
+    }
+
+    private async Task StageMovedAsync(SortableListEventArgs args)
+    {
+        Activity.ChangeStageIndex(args.OldIndex + 1, args.NewIndex + 1);
+    }
+
+    private async Task DeleteStageAsync(string stageId)
+    {
+        Activity.DeleteStage(stageId);
+    }
+
+    private async Task DeleteActivityAsync()
+    {
+        var response = await DeleteActivityFacade.HandleAsync(Activity.DailyTrackerId, Activity.ActivityId, _cts.Token);
+        
+        if (response.IsT1)
+        {
+            ToastService.Notify(response.AsT1.ToDangerToastMessage());
+        }
+        
+        await OnActivityDeletedCallback.InvokeAsync();
+    }
+    
+    private async Task ToggleContentAsync() => await _stageCollapse!.ToggleAsync();
+}

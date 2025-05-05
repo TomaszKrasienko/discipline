@@ -1,0 +1,37 @@
+@namespace discipline.ui.blazor.wasm.Components.Buttons
+@using BlazorBootstrap
+@using discipline.ui.blazor.wasm.Enums
+
+<div class="@_btnPosition">
+    <button 
+        type="submit" 
+        class="discipline-submit-button"
+        disabled="@IsDisabled"
+        @onclick="OnClickCallback">
+        <i class="bi bi-check-lg discipline-submit-btn-icon"></i>
+    </button>
+</div>
+
+@code {
+    private string _btnPosition = string.Empty;
+    
+    [Parameter] 
+    public DisciplineSubmitButtonType Type { get; set; }
+
+    [Parameter] 
+    public bool IsDisabled { get; set; } = false;
+    
+    [Parameter] 
+    public EventCallback OnClickCallback { get; set; }
+    
+    protected override void OnParametersSet()
+    {
+        _btnPosition = Type == DisciplineSubmitButtonType.Page 
+            ? "discipline-submit-btn-position" 
+            : "discipline-submit-btn-position-modal";
+    }
+
+    private async Task ButtonClickedAsync()
+        => await OnClickCallback.InvokeAsync();
+
+}

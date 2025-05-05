@@ -1,0 +1,70 @@
+
+@using Microsoft.AspNetCore.Components.Authorization
+@using BlazorBootstrap
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+<Tooltip
+    Class="me-4"
+    Placement="TooltipPlacement.Left"
+    Title="Account">
+    <div class="btn-group" style="align-items: center; justify-content: center">
+        @if (_isAuthenticated)
+        { 
+            @* <span style="color: #C4D4C9;">Hello @_userName</span> *@
+            <DisciplineNavNotification/>
+        }
+        <button
+            class="btn discipline-nav-btn dropdown-toggle"
+            type="button"
+            id="dropdownMenuButton"
+            data-bs-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false">
+            @if (_isAuthenticated)
+            {
+            <i class="bi bi-person"></i>
+            }
+            else
+            {
+            <i class="bi bi-file-person"></i>
+            }
+        </button>
+        @if (!_isAuthenticated)
+        {
+            <div class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="sign-in">Sign-in</a>
+                <a class="dropdown-item" href="sign-up">Sign-up</a>
+            </div>
+        }
+        else
+        {
+            <div class="dropdown-menu dropdown-menu-dark dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                <button class="dropdown-item" @onclick="SignOut">Sign-out</button>
+            </div>
+        }
+    </div>
+</Tooltip>
+
+
+@code {
+    private bool _isAuthenticated;
+    private string _userName;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        _isAuthenticated = state?.User?.Identity?.IsAuthenticated ?? false;
+        if (_isAuthenticated)
+        {
+            // var user = await UserDispatcher.BrowseMe();
+            // _userName = $"{user.FirstName} {user.LastName}";
+        }
+    }
+
+    private async Task SignOut()
+    {
+        // TODO: SignOutFacade
+        // await TokenProvider.RemoveTokenAsync();  
+    } 
+    
+}

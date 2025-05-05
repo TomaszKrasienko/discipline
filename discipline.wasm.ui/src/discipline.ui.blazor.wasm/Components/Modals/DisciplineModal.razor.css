@@ -1,0 +1,27 @@
+.discipline-modal-lg{
+    width: 80vw;
+    height: 100vh;
+}
+.discipline-modal-sm{
+    width: 25vw;
+    height: 25vh;
+}
+
+.modal-content {
+    background-color: var(--dark);!important;
+    color:var(--light) ;!important;
+}
+
+.discipline-btn-close {
+    background-color: transparent;
+    border-color: transparent;
+    color: var(--secondary) !important;
+}
+.discipline-btn-close:hover {
+    color: var(--primary);
+    cursor: pointer;
+}
+
+.discipline-btn-close:active{
+    color: var(--secondary);
+}

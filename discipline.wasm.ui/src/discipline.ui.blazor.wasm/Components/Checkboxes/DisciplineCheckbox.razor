@@ -1,0 +1,13 @@
+@namespace discipline.ui.blazor.wasm.Components.Checkboxes
+
+<span class="discipline-activity-check-icon">
+    <i class="bi bi-check-lg" style="@IsCheckedStyle()"></i>
+</span>
+@code {
+    [Parameter, EditorRequired] 
+    public bool? IsChecked { get; set; }
+
+    private string IsCheckedStyle()
+        => IsChecked ?? false ? "visibility: visible" : "visibility: hidden";
+
+}

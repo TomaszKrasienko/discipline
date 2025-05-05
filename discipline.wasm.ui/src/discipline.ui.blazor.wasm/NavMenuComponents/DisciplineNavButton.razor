@@ -1,0 +1,22 @@
+<button
+    class="btn discipline-nav-btn"
+    type="button"
+    @onclick="ButtonClickedAsync">
+    <i class="bi @IconClass"></i>
+    @Text
+</button>
+
+@code {
+    [Parameter] 
+    public string Text { get; set; }
+    
+    [Parameter, EditorRequired] 
+    public string IconClass { get; set; }
+    
+    [Parameter, EditorRequired] 
+    public EventCallback OnClickButtonCallback { get; set; }
+
+    private async Task ButtonClickedAsync()
+        => await OnClickButtonCallback.InvokeAsync();
+
+}

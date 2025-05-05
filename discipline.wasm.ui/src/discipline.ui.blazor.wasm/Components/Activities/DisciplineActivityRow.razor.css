@@ -1,0 +1,21 @@
+.discipline-row {
+    font-size: larger;
+    border-bottom: 1px solid #C4D4C9;
+    margin-top: 5px;
+}
+
+.discipline-row:hover {
+    background-color: #F5F4F5;
+}
+
+.discipline-toggle-stages-section:hover {
+    background-color: #F5F4F5;
+}
+
+.discipline-activity-section {
+    margin-top: 15px;
+}
+
+.discipline-stage-section {
+    margin-top: 10px;
+}

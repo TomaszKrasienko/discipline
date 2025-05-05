@@ -1,0 +1,26 @@
+.discipline-create-btn-position {
+    position: fixed;
+    right: 25px;
+    padding-bottom: 10px;
+}
+
+.discipline-icon-button {
+    font-size: x-large;
+    width: 30px;
+    height: 30px;
+    color: #C4D4C9;
+    background-color: #1C211D;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.discipline-icon-button:hover {
+    color: #F5F4F5;
+    background-color: #546357;
+}
+
+.discipline-icon-button:active {
+    color: #F5F4F5;
+    background-color: #546357;
+}

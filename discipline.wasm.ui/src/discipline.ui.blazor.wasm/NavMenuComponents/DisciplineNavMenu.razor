@@ -1,0 +1,61 @@
+@namespace discipline.ui.blazor.wasm.NavMenuComponents
+
+@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+
+<nav class="navbar justify-content-between discipline-nav">
+    <a class="navbar-brand" href="#">
+        <img
+            src="discipline_logo.png"
+            alt="Discipline."
+            style="width:auto; height: 30px!important;">
+    </a>
+    @if (_isAuthenticated)
+    {
+        <DisciplineNavButton
+            Text="Activity rules"
+            IconClass="bi-file-ruled"
+            OnClickButtonCallback="NavigateToActivityRules"/>
+        <DisciplineNavButton
+            Text="Daily productivity"
+            IconClass="bi-list-task"
+            OnClickButtonCallback="NavigateToDailyProductivity"/>
+        <DisciplineNavButton
+            Text="Calendar"
+            IconClass="bi-calendar-check"
+            OnClickButtonCallback="NavigateToCalendar"/>
+        <DisciplineNavButton
+            Text="Notifications"
+            IconClass="bi-calendar-check"
+            OnClickButtonCallback="NavigateToNotifications"/>
+    }
+    <form class="form-inline">
+        <div class="row">
+            <DisciplineNavAccount/>
+        </div>
+    </form>
+</nav>
+
+@code {
+    private bool _isAuthenticated = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        _isAuthenticated = authenticationState?.User?.Identity?.IsAuthenticated ?? false;
+    }
+
+    private void NavigateToActivityRules()
+        => NavigationManager.NavigateTo("/activity-rules-list", true);
+
+    private void NavigateToDailyProductivity()
+        => NavigationManager.NavigateTo("/daily-productivity");
+
+    private void NavigateToCalendar()
+        => NavigationManager.NavigateTo("/browse-calendar");
+
+    private void NavigateToNotifications()
+        => NavigationManager.NavigateTo("/notifications");
+
+}  

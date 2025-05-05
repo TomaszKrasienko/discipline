@@ -1,0 +1,54 @@
+@using BlazorBootstrap
+@using discipline.ui.infrastructure.Constants
+<Collapse @ref="@_weekdaysCollapse">
+    <Card>
+        <CardBody Style="background-color: var(--dark); border-color: var(--dark)">
+            @foreach (var weekDay in _weekDays)
+            {
+                <Button
+                    style="background-color: var(--light)"
+                    Active="@(Selected?.Contains(weekDay.Value) ?? false)"
+                    @onclick="async () => await ChangeSelection(weekDay.Value)">
+                    @weekDay.Name
+                </Button>
+            }
+        </CardBody>
+    </Card>
+</Collapse>
+
+
+@code {
+    private Collapse _weekdaysCollapse = new();
+    private readonly IEnumerable<WeekDay> _weekDays = WeekDay.List();
+    public HashSet<int>? Selected { get; private set; }
+
+    [Parameter, EditorRequired]
+    public EventCallback<HashSet<int>?> OnSelectionChanged { get; set; }
+
+    private async Task ChangeSelection(int value)
+    {
+        if (Selected is null)
+        {
+            Selected = [];
+        }
+        
+        if (!Selected.Add(value))
+        {
+            Selected.Remove(value);
+        }
+
+        if (!Selected.Any())
+        {
+            Selected = null;
+        }
+
+        await OnSelectionChanged.InvokeAsync(Selected);
+    }
+
+    public async Task ShowToggle()
+        => await _weekdaysCollapse.ShowAsync();
+
+    public async Task HideToggle()
+        => await _weekdaysCollapse.HideAsync();
+
+}

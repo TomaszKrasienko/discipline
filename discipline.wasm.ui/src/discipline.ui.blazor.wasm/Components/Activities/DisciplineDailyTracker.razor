@@ -1,0 +1,108 @@
+@namespace discipline.ui.blazor.wasm.Components.Activities
+@using BlazorBootstrap
+@using discipline.ui.infrastructure.DailyTrackers.DailyTrackers
+@using discipline.ui.infrastructure.DailyTrackers.DTOs
+@using discipline.ui.blazor.wasm.Components.Buttons
+@inject IBrowseDailyTrackerFacade BrowseDailyTrackerFacade
+@inject ToastService ToastService
+
+<div class="row pb-3">
+    <div class="col-md-4 offset-4">
+        <div class="text-center">
+            <DateInput
+                TValue="DateOnly"
+                Value="_day"
+                ValueExpression="() => _day"
+                ValueChanged="async (value) => await OnDateChanged(value)"/>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6 offset-3">
+        @if (_dailyTracker is not null && _dailyTracker.Activities.Count != 0)
+        {
+            @foreach (var activity in _dailyTracker.Activities)
+            {
+                <DisciplineActivityRow
+                    Activity="activity"
+                    OnActivityChangedCallback="OnActivityChangedAsync"
+                    OnActivityDeletedCallback="OnActivityDeletedAsync"/>
+            }
+        }
+        else
+        {
+            <span>No tasks for: @_day</span>
+        }
+    </div>
+</div>
+
+@if (CreateBtnIsVisible)
+{
+    <DisciplineCreateButton
+        OnClickButtonCallback="OpenCreateFormModal"/>
+    
+    <DisciplineActivityModalForm
+        @ref="_formModal"
+        Day="_day"
+        OnHidingCallback="OnHideFormModalAsync"/>
+}
+
+@code {
+    private CancellationTokenSource? cts;
+    private DateOnly _day = DateOnly.FromDateTime(DateTime.Now);
+    private DailyTrackerDto? _dailyTracker;
+    private DisciplineActivityModalForm _formModal;
+
+    [Parameter]
+    public EventCallback OnActivityChangedCallback { get; set; }
+
+    [Parameter] 
+    public bool CreateBtnIsVisible { get; set; } = true;
+    
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        cts = new CancellationTokenSource();
+        
+        if (firstRender)
+        {
+            await InitializeDataAsync();
+            StateHasChanged();
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    private async Task OnDateChanged(DateOnly date)
+    {
+        if (!(_day == date))
+        {
+            _day = date;
+            await InitializeDataAsync();
+        }
+    }
+
+    private async Task InitializeDataAsync()
+    {
+        var dailyTrackerResponse = await BrowseDailyTrackerFacade.HandleAsync(_day, cts.Token);
+
+        if (dailyTrackerResponse.IsT1)
+        {
+            ToastService.Notify(dailyTrackerResponse.AsT1.ToDangerToastMessage());
+            return;
+        }
+
+        _dailyTracker = dailyTrackerResponse.AsT0;
+    }
+    
+    private void OpenCreateFormModal()
+        => _formModal.Open();
+
+    private async Task OnHideFormModalAsync()
+        => await InitializeDataAsync();
+
+    private async Task OnActivityChangedAsync()
+        => await OnActivityChangedCallback.InvokeAsync();
+
+    private async Task OnActivityDeletedAsync()
+        => await InitializeDataAsync();
+
+}

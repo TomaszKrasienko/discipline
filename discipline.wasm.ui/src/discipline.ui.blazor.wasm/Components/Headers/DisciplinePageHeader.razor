@@ -1,0 +1,9 @@
+@namespace discipline.ui.blazor.wasm.Components.Headers
+
+<div class="text-center header-position pt-2 pb-5">
+    <h3>@Title</h3>
+</div>
+
+@code {
+    [Parameter] public string Title { get; set; } = string.Empty;
+}
