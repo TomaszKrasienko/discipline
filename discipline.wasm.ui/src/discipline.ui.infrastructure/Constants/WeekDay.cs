@@ -23,8 +23,14 @@ public record WeekDay
         => [Sunday, Monday,  Tuesday, Wednesday, Thursday,  Friday, Saturday];
     
     public static WeekDay FromName(string name)
-        => List().SingleOrDefault(x => x.Name == name) ?? throw new ArgumentException("Invalid week day name");
+        => List().SingleOrDefault(x => x.Name == name) 
+           ?? throw new ArgumentException("Invalid week day name");
     
     public static WeekDay FromValue(int value)
-        => List().SingleOrDefault(x => x.Value == value) ?? throw new ArgumentException("Invalid week day value");
+        => List().SingleOrDefault(x => x.Value == value) 
+           ?? throw new ArgumentException("Invalid week day value");
+    
+    public static string ToName(int value) 
+        => List().SingleOrDefault(x => x.Value == value)?.Name 
+                                       ?? throw new ArgumentException("Invalid week day value");
 }

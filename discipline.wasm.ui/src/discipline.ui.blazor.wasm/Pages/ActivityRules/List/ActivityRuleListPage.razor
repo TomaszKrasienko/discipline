@@ -8,6 +8,7 @@
 @using discipline.ui.blazor.wasm.Components.Buttons
 @using discipline.ui.blazor.wasm.Pages.ActivityRules.Form
 @using discipline.ui.infrastructure.ActivityRules.Models
+@using discipline.ui.infrastructure.Constants
 @inject IActivityRulesBrowseFacade ActivityRulesBrowseFacade
 @inject IDeleteActivityRuleFacade DeleteActivityRuleFacade
 @inject NavigationManager NavigationManager
@@ -46,7 +47,7 @@
 }
 
 <DisciplineCreateButton
-    OnClickButtonCallback="() => OpenActivityRuleForm(null)"/>
+    OnClickButtonCallback="() => (null)"/>
 
 <ActivityRuleForm
     @ref="_activityRuleForm"
@@ -78,7 +79,12 @@
     private string GetModeWithSelectedDays(ActivityRuleResponseDto activityRule)
         => activityRule.Mode.Days is null
             ? activityRule.Mode.Mode
-            : $"{activityRule.Mode.Mode} ({string.Join(',', activityRule.Mode.Days)})";
+            : $"{activityRule.Mode.Mode} ({GetDaysName(activityRule.Mode.Days)})";
+    
+    private string GetDaysName(HashSet<int> days)
+        => days.Count > 2 
+            ? $"{WeekDay.ToName(days.First())}, ..., {WeekDay.ToName(days.Last())}"
+            : string.Join(',', days.Select(WeekDay.ToName));
 
     private string GetStageHeader(ActivityRuleStageResponseDto stage)
         => $"{stage.Index}. {stage.Title}";
