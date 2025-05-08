@@ -143,6 +143,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "features", "features", "{F3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.hangfire.add-activity-rules", "discipline.hangfire\src\features\discipline.hangfire.add-activity-rules\discipline.hangfire.add-activity-rules.csproj", "{270DC4BF-4D01-4F3C-9BA9-AD52AE3D7372}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.hangfire.add-planned-tasks", "discipline.hangfire\src\features\discipline.hangfire.add-planned-tasks\discipline.hangfire.add-planned-tasks.csproj", "{57698932-C88E-4259-A683-5F3858237023}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.hangfire.create-activity-from-planned", "discipline.hangfire\src\features\discipline.hangfire.create-activity-from-planned\discipline.hangfire.create-activity-from-planned.csproj", "{7AE79004-0906-4B4A-ADB1-544CCBBE7B1A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{58317C2F-74B3-4527-B5A8-3DED99A38FFF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.hangfire.shared.abstractions", "discipline.hangfire\src\shared\discipline.hangfire.shared.abstractions\discipline.hangfire.shared.abstractions.csproj", "{224FCB4F-3AD4-4F88-BA2C-A88A285B2A27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.hangfire.shared.infrastructure", "discipline.hangfire\src\shared\discipline.hangfire.shared.infrastructure\discipline.hangfire.shared.infrastructure.csproj", "{C16875BD-A84E-4A02-995C-EA8B294082F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -214,6 +224,11 @@ Global
 		{672A9BAF-CA1B-42C0-AF78-3C1C1E0C68F3} = {D0B8879C-410E-4A6B-9B8C-E05D5BE61B6B}
 		{F32EC0A8-D999-4FBF-8B7E-A9BFECFE1470} = {3359F922-DB31-4AF6-83A9-DB9AE322BA61}
 		{270DC4BF-4D01-4F3C-9BA9-AD52AE3D7372} = {F32EC0A8-D999-4FBF-8B7E-A9BFECFE1470}
+		{57698932-C88E-4259-A683-5F3858237023} = {F32EC0A8-D999-4FBF-8B7E-A9BFECFE1470}
+		{7AE79004-0906-4B4A-ADB1-544CCBBE7B1A} = {F32EC0A8-D999-4FBF-8B7E-A9BFECFE1470}
+		{58317C2F-74B3-4527-B5A8-3DED99A38FFF} = {3359F922-DB31-4AF6-83A9-DB9AE322BA61}
+		{224FCB4F-3AD4-4F88-BA2C-A88A285B2A27} = {58317C2F-74B3-4527-B5A8-3DED99A38FFF}
+		{C16875BD-A84E-4A02-995C-EA8B294082F4} = {58317C2F-74B3-4527-B5A8-3DED99A38FFF}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5E1B23AB-3288-4919-A3F9-C8E250F2F75D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -380,5 +395,21 @@ Global
 		{270DC4BF-4D01-4F3C-9BA9-AD52AE3D7372}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{270DC4BF-4D01-4F3C-9BA9-AD52AE3D7372}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{270DC4BF-4D01-4F3C-9BA9-AD52AE3D7372}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57698932-C88E-4259-A683-5F3858237023}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57698932-C88E-4259-A683-5F3858237023}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57698932-C88E-4259-A683-5F3858237023}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57698932-C88E-4259-A683-5F3858237023}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AE79004-0906-4B4A-ADB1-544CCBBE7B1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AE79004-0906-4B4A-ADB1-544CCBBE7B1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AE79004-0906-4B4A-ADB1-544CCBBE7B1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AE79004-0906-4B4A-ADB1-544CCBBE7B1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{224FCB4F-3AD4-4F88-BA2C-A88A285B2A27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{224FCB4F-3AD4-4F88-BA2C-A88A285B2A27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{224FCB4F-3AD4-4F88-BA2C-A88A285B2A27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{224FCB4F-3AD4-4F88-BA2C-A88A285B2A27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C16875BD-A84E-4A02-995C-EA8B294082F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C16875BD-A84E-4A02-995C-EA8B294082F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C16875BD-A84E-4A02-995C-EA8B294082F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C16875BD-A84E-4A02-995C-EA8B294082F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
