@@ -22,6 +22,7 @@
     {
         <DisciplineSelectingRow
             OnRowClickCallback="@(() => OpenActivityRuleForm(activityRule))"
+            OnAdditionalButtonCallback="() => OpenStageForm(activityRule.ActivityRuleId)"
             OnTrashClickCallback="async () => await RemoveActivityRuleAsync(activityRule.ActivityRuleId)">
             <div class="col-md-5">
                 <MainParagraph Content="@activityRule.Details.Title"/>
@@ -53,11 +54,16 @@
     @ref="_activityRuleForm"
     OnFormSubmitted="FillActivityRules"/>
 
+<StageForm
+    @ref="_stageForm"
+    OnFormSubmitted="FillActivityRules"/>
+
 @code {
     private CancellationTokenSource _cts = new();
     private List<ActivityRuleResponseDto> _activityRules = [];
     private ActivityRuleForm? _activityRuleForm;
-
+    private StageForm? _stageForm;
+    
     protected override async Task OnInitializedAsync()
     {
         _cts = new CancellationTokenSource();
@@ -127,6 +133,17 @@
         }
 
         await FillActivityRules();
+    }
+
+    private void OpenStageForm(string activityRuleId)
+    {
+        if (_stageForm is null)
+        {
+            return;
+        }
+
+        _stageForm.ActivityRuleId = activityRuleId;
+        _stageForm.Open();
     }
     
     private async Task OpenEditActivityRuleStageAsync()

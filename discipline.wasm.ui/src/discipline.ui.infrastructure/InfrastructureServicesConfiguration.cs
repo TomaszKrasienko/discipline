@@ -11,6 +11,7 @@ public static class InfrastructureServicesConfiguration
             .AddTransient<IDeleteActivityRuleFacade, DeleteActivityRuleFacade>()
             .AddTransient<ICreateActivityRuleFacade, CreateActivityRuleFacade>()
             .AddTransient<IUpdateActivityRuleFacade, UpdateActivityRuleFacade>()
+            .AddTransient<ICreateActivityRuleStageFacade, CreateActivityRuleStageFacade>()
             .AddTransient<IGetModesFacade, GetModesFacade>()
             .SetUsersServices()
             .SetDailyTrackersServices()

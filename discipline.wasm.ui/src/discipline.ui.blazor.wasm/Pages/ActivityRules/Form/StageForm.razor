@@ -1,0 +1,80 @@
+@using BlazorBootstrap
+@using discipline.ui.blazor.wasm.Components.Buttons
+@using discipline.ui.blazor.wasm.Components.Modals
+@using discipline.ui.blazor.wasm.Enums
+@using discipline.ui.communication.http.ActivityRules.DTOs.Requests
+@using discipline.ui.infrastructure.ActivityRules.Facades
+@using discipline.ui.infrastructure.ActivityRules.Models
+@inject ICreateActivityRuleStageFacade CreateActivityRuleStageFacade
+@inject ToastService ToastService
+
+<DisciplineModal
+    @ref="_formModal"
+    Size="DisciplineModalSize.Large"
+    Title="Create stage">
+    <Body>
+    <EditForm
+        method="post"
+        OnSubmit="Submit"
+        EditContext="_editContext">
+        <label for="stage-title">Title:</label>
+        <InputText
+            class="form-control"
+            id="stage-title"
+            placeholder="Title"
+            @bind-Value="Stage.Title"/>
+        <DisciplineSubmitButton
+            Type="DisciplineSubmitButtonType.Modal"/>
+    </EditForm>
+    </Body>
+</DisciplineModal>
+
+@code {
+    private CancellationTokenSource _cts = new();
+    private DisciplineModal _formModal = new();
+    private EditContext? _editContext;
+
+    internal string? ActivityRuleId { private get; set; }
+
+    [SupplyParameterFromForm]
+    public WriteStageDto Stage { get; set; } = new();
+    
+    [Parameter] 
+    public EventCallback OnFormSubmitted { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        _editContext = new EditContext(Stage);
+        _cts = new CancellationTokenSource();
+        return Task.CompletedTask;
+    }
+
+    private async Task Submit()
+    {
+        //TODO: validation of stage title
+        //TODO: validation of activity rule id
+        var request = new CreateActivityRuleStageRequestDto(Stage.Title!);
+        var result = await CreateActivityRuleStageFacade.HandleAsync(request,
+            ActivityRuleId!, _cts.Token);
+
+        if (result.IsT0)
+        {
+            await OnFormSubmitted.InvokeAsync(_cts.Token);
+            CleanModel();
+            await _formModal.CloseAsync(_cts.Token);
+        }
+        else
+        {
+            ToastService.Notify(result.AsT1.ToDangerToastMessage());
+        }
+    }
+
+    internal void Open()
+        => _formModal.Open();
+
+    private void CleanModel()
+    {
+        Stage = new();
+        ActivityRuleId = null;
+    }
+}

@@ -60,7 +60,7 @@ public sealed class ActivityRule : AggregateRoot<ActivityRuleId, Ulid>
         AddDomainEvent(new ActivityRuleModeChanged(Id, UserId, Mode.Mode, Mode.Days));
     }
 
-    public Stage AddStage(string title)
+    public Stage AddStage(StageId stageId, string title)
     {
         CheckRule(new StageTitleMustBeUniqueRule(_stages, title));
         var index = Stages.Count == 0 
@@ -69,7 +69,7 @@ public sealed class ActivityRule : AggregateRoot<ActivityRuleId, Ulid>
                 .Select(x => x.Index.Value)
                 .Max(x => x);
 
-        var stage = Stage.Create(StageId.New(), title, index + 1);
+        var stage = Stage.Create(stageId, title, index + 1);
         _stages.Add(stage);
         
         return stage;

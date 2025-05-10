@@ -1,7 +1,9 @@
 using discipline.centre.activityrules.application.ActivityRules.Commands;
 using discipline.centre.activityrules.application.ActivityRules.DTOs;
+using discipline.centre.activityrules.application.ActivityRules.DTOs.Mappers;
 using discipline.centre.activityrules.application.ActivityRules.DTOs.Requests;
 using discipline.centre.activityrules.application.ActivityRules.DTOs.Requests.ActivityRules;
+using discipline.centre.activityrules.application.ActivityRules.DTOs.Requests.Stages;
 using discipline.centre.activityrules.application.ActivityRules.DTOs.Responses;
 using discipline.centre.activityrules.application.ActivityRules.DTOs.Responses.ActivityRules;
 using discipline.centre.activityrules.application.ActivityRules.Queries;
@@ -51,6 +53,41 @@ internal static class ActivityRulesEndpoints
             .WithOpenApi(operation => new (operation)
             {
                 Description = "Adds activity rule"
+            })
+            .RequireAuthorization()
+            .RequireAuthorization(UserStatePolicy.Name);
+
+        app.MapPost($"api/{ActivityRulesTag}/{{activityRuleId:ulid}}/stages", async (Ulid activityRuleId, 
+                CreateStageRequestDto dto, 
+                ICqrsDispatcher dispatcher, 
+                IIdentityContext identityContext, 
+                CancellationToken cancellationToken) =>
+            {
+                var userId = identityContext.GetUser();
+
+                if (userId is null)
+                {
+                    return Results.Unauthorized();
+                }
+                
+                var stronglyActivityRuleId = new ActivityRuleId(activityRuleId);
+                var stageId = StageId.New();
+                var command = dto.MapAsCommand(userId, stronglyActivityRuleId, stageId);
+                await dispatcher.HandleAsync(command, cancellationToken);
+
+                //TODO: Should returns 201
+                return Results.NoContent();
+            })
+            .Produces(StatusCodes.Status201Created, typeof(void))
+            .Produces(StatusCodes.Status400BadRequest, typeof(ProblemDetails))
+            .Produces(StatusCodes.Status401Unauthorized, typeof(void))
+            .Produces(StatusCodes.Status403Forbidden, typeof(void))
+            .Produces(StatusCodes.Status422UnprocessableEntity, typeof(ProblemDetails))
+            .WithName("CreateStageForActivityRule")
+            .WithTags(ActivityRulesTag)
+            .WithOpenApi(operation => new (operation)
+            {
+                Description = "Creates new stage for activity rule"
             })
             .RequireAuthorization()
             .RequireAuthorization(UserStatePolicy.Name);

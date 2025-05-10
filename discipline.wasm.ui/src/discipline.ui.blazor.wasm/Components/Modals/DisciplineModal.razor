@@ -7,7 +7,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">@Title</h5>
-                    <button type="button" class="discipline-btn-close" data-dismiss="modal" aria-label="Close" @onclick="CloseAsync">
+                    <button type="button" class="discipline-btn-close" data-dismiss="modal" aria-label="Close" @onclick="() => CloseAsync(CancellationToken.None)">
                         <i class="bi bi-x-lg"></i>
                     </button>
                 </div>
@@ -54,13 +54,13 @@
         _showBackdrop = true;
         StateHasChanged();
     }
-
-    public async Task CloseAsync()
+    
+    public async Task CloseAsync(CancellationToken cancellationToken = default)
     {
         _modalDisplay = "none";
         _modalClass = string.Empty;
         _showBackdrop = false;
         StateHasChanged();
-        await OnHidingCallback.InvokeAsync();
+        await OnHidingCallback.InvokeAsync(cancellationToken);
     }
 }

@@ -24,5 +24,8 @@ internal sealed class CreateStageForActivityRuleCommandHandler(
         {
             throw new NotFoundException("CreateStageForActivityRule.ActivityRuleNotFound", command.ActivityRuleId.ToString());
         }
+
+        activityRule.AddStage(command.StageId, command.Title);
+        await readWriteActivityRuleRepository.UpdateAsync(activityRule, cancellationToken);
     }
 }

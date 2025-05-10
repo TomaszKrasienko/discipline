@@ -17,6 +17,9 @@ public interface IActivityRulesHttpService
     
     [Post("/api/activity-rules")]
     public Task<HttpResponseMessage> CreateActivityRule(CreateActivityRuleRequestDto request, CancellationToken cancellationToken);
+
+    [Post("/api/activity-rules/{activityRuleId}/stages")]
+    public Task<HttpResponseMessage> CreateStage(string activityRuleId, CreateActivityRuleStageRequestDto dto, CancellationToken cancellationToken);
     
     [Put("/api/activity-rules/{activityRuleId}")]
     public Task<HttpResponseMessage> UpdateActivityRule(string activityRuleId, 

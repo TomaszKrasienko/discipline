@@ -26,7 +26,7 @@ public static class ActivityRuleFakeDataFactory
     {
         var faker = new Faker();
 
-        activityRule.AddStage(faker.Random.String2(10));
+        activityRule.AddStage(StageId.New(), faker.Random.String2(10));
         return activityRule;
     }
 }

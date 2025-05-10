@@ -1,5 +1,6 @@
 using discipline.centre.activityrules.tests.sharedkernel.Domain;
 using discipline.centre.shared.abstractions.SharedKernel.Exceptions;
+using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using Shouldly;
 using Xunit;
 
@@ -12,14 +13,17 @@ public sealed class AddStageTests
     {
         // Arrange
         var activityRule = ActivityRuleFakeDataFactory.Get();
-        activityRule.AddStage("test_stage_1");
+        activityRule.AddStage(StageId.New(), "test_stage_1");
+        var stageId = StageId.New();
         const string title = "test_stage_title2";
         
         // Act
-        activityRule.AddStage(title);
+        activityRule.AddStage(stageId, title);
         
         // Assert
-        var stage = activityRule.Stages.SingleOrDefault(x => x.Title == title);
+        var stage = activityRule.Stages.SingleOrDefault(x 
+            => x.Id == stageId 
+            && x.Title == title);
         stage.ShouldNotBeNull();
         stage.Index.Value.ShouldBe(2);
     }
@@ -29,13 +33,16 @@ public sealed class AddStageTests
     {
         // Arrange
         var activityRule = ActivityRuleFakeDataFactory.Get();
+        var id = StageId.New();
         const string title = "test_stage_title";
         
         // Act
-        activityRule.AddStage(title);
+        activityRule.AddStage(id, title);
         
         // Assert
-        var stage = activityRule.Stages.SingleOrDefault(x => x.Title == title);
+        var stage = activityRule.Stages.SingleOrDefault(x 
+            => x.Id == id
+            && x.Title == title);
         stage.ShouldNotBeNull();
         stage.Index.Value.ShouldBe(1);
     }
@@ -46,10 +53,10 @@ public sealed class AddStageTests
         // Arrange
         var activityRule = ActivityRuleFakeDataFactory.Get();
         const string title = "test_stage_title";
-        activityRule.AddStage(title);
+        activityRule.AddStage(StageId.New(), title);
         
         // Act
-        var exception = Record.Exception(() => activityRule.AddStage(title));
+        var exception = Record.Exception(() => activityRule.AddStage(StageId.New(), title));
         
         // Assert
         exception.ShouldBeOfType<DomainException>();

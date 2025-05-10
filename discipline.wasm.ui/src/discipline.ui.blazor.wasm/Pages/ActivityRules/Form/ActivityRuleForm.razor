@@ -58,7 +58,7 @@
 
 @code {
     private CancellationTokenSource _cts = new();
-    private DisciplineModal _formModal = new DisciplineModal();
+    private DisciplineModal _formModal = new();
     private EditContext? _editContext;
     private IReadOnlyList<ModeResponseDto> _modes = [];
     private DisciplineWeekDaysPicker _disciplineWeekDaysPicker = new();
