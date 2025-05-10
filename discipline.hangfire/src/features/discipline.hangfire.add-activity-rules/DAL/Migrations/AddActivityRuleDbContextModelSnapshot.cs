@@ -38,6 +38,11 @@ namespace discipline.hangfire.add_activity_rules.DAL.Migrations
                         .HasColumnType("integer[]")
                         .HasColumnName("SelectedDays");
 
+                    b.Property<string>("Title")
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("Title");
+
                     b.Property<string>("UserId")
                         .IsRequired()
                         .HasMaxLength(26)

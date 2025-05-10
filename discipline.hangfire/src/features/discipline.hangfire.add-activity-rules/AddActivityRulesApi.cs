@@ -28,7 +28,9 @@ internal sealed class AddActivityRulesApi(ILogger<AddActivityRulesApi> logger,
                 return;
             }
             
-            activityRule.Set(activityRuleResult.AsT1.Mode,  activityRuleResult.AsT1.SelectedDays);
+            activityRule.Set(activityRuleResult.AsT1.Details.Title,
+                activityRuleResult.AsT1.Mode.Mode,
+                activityRuleResult.AsT1.Mode.SelectedDays);
         }
         
         await context.SaveChangesAsync(cancellationToken);
@@ -39,7 +41,7 @@ internal sealed class AddActivityRulesApi(ILogger<AddActivityRulesApi> logger,
         var activityRules = await context.Set<ActivityRuleViewModel>()
             .Where(x 
                 => modes.Contains(x.Mode)
-                || (x.Mode == "Custom" && x.SelectedDays.Any(y => y == selectedDay)))
+                || (x.Mode == "Custom" && x.SelectedDays!.Any(y => y == selectedDay)))
             .ToListAsync(cancellationToken);
 
         return activityRules.ToArray();

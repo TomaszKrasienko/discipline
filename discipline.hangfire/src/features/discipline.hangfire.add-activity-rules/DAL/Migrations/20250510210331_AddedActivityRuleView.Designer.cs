@@ -11,8 +11,8 @@ using discipline.hangfire.add_activity_rules.DAL;
 namespace discipline.hangfire.add_activity_rules.DAL.Migrations
 {
     [DbContext(typeof(AddActivityRuleDbContext))]
-    [Migration("20250326194247_AddedActivityRulesView")]
-    partial class AddedActivityRulesView
+    [Migration("20250510210331_AddedActivityRuleView")]
+    partial class AddedActivityRuleView
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,6 +40,11 @@ namespace discipline.hangfire.add_activity_rules.DAL.Migrations
                     b.PrimitiveCollection<int[]>("SelectedDays")
                         .HasColumnType("integer[]")
                         .HasColumnName("SelectedDays");
+
+                    b.Property<string>("Title")
+                        .HasMaxLength(30)
+                        .HasColumnType("character varying(30)")
+                        .HasColumnName("Title");
 
                     b.Property<string>("UserId")
                         .IsRequired()

@@ -24,4 +24,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\Shared\discipline.hangfire.shared.infrastructure\discipline.hangfire.shared.infrastructure.csproj" />
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="DAL\Migrations\" />
+    </ItemGroup>
 </Project>

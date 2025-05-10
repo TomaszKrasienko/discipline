@@ -6,6 +6,7 @@ internal sealed class ActivityRule
 {
     public ActivityRuleId ActivityRuleId { get; }
     public UserId UserId { get; }
+    public string? Title { get; private set; }
     public string? Mode { get; private set; }
     public IReadOnlyCollection<int>? SelectedDays { get; private set; }
 
@@ -24,8 +25,11 @@ internal sealed class ActivityRule
         UserId userId) 
         => new(activityRuleId, userId);
 
-    internal void Set(string mode, IReadOnlyCollection<int>? selectedDays)
+    internal void Set(string title, 
+        string mode, 
+        IReadOnlyCollection<int>? selectedDays)
     {
+        Title = title;
         Mode = mode;
         SelectedDays = selectedDays;
     }

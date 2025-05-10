@@ -37,7 +37,9 @@ internal sealed class ActivityRuleRegisteredHandler(
         }
         
         var existingRule = await context.Set<ActivityRule>().FindAsync(keyValues: [stronglyActivityRuleId], cancellationToken: cancellationToken);
-        existingRule?.Set(activityRuleResult.AsT1.Mode,  activityRuleResult.AsT1.SelectedDays);
+        existingRule?.Set(activityRuleResult.AsT1.Details.Title,
+            activityRuleResult.AsT1.Mode.Mode,
+            activityRuleResult.AsT1.Mode.SelectedDays);
         
         await context.SaveChangesAsync(cancellationToken);
     }

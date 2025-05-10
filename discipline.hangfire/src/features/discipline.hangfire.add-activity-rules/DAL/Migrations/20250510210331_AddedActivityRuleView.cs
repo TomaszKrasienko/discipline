@@ -5,7 +5,7 @@
 namespace discipline.hangfire.add_activity_rules.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedActivityRulesView : Migration
+    public partial class AddedActivityRuleView : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -22,6 +22,10 @@ internal sealed class ActivityRuleTypeConfiguration : IEntityTypeConfiguration<A
             .IsRequired()
             .HasMaxLength(26);
 
+        builder.Property(x => x.Title)
+            .HasColumnName("Title")
+            .HasMaxLength(30);
+
         builder.Property(x => x.Mode)
             .HasColumnName("Mode")
             .HasMaxLength(20);

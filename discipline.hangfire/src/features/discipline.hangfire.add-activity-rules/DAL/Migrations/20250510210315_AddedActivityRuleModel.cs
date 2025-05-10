@@ -5,7 +5,7 @@
 namespace discipline.hangfire.add_activity_rules.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class AddedActivityRules : Migration
+    public partial class AddedActivityRuleModel : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,6 +20,7 @@ namespace discipline.hangfire.add_activity_rules.DAL.Migrations
                 {
                     ActivityRuleId = table.Column<string>(type: "character varying(26)", maxLength: 26, nullable: false),
                     UserId = table.Column<string>(type: "character varying(26)", maxLength: 26, nullable: false),
+                    Title = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: true),
                     Mode = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: true),
                     SelectedDays = table.Column<int[]>(type: "integer[]", nullable: true)
                 },
