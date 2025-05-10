@@ -1,5 +1,6 @@
-@host_address = http://localhost:5039
-# @host_address = http://localhost:7001
+# @host_address = http://localhost:5039
+@host_address = http://localhost:7001
+@gateway_host_address = http://localhost:7000
 
 ###
 GET {{host_address}}/
@@ -72,6 +73,10 @@ Content-Type: application/json
 
 ###
 GET {{host_address}}/api/activity-rules
+Authorization: Bearer {{token}}
+
+###
+GET {{gateway_host_address}}/activity-rules
 Authorization: Bearer {{token}}
 
 ###

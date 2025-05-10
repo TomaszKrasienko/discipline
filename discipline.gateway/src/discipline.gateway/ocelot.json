@@ -1,0 +1,16 @@
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/api/activity-rules",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {"Host": "localhost", "Port": 7001}
+      ],
+      "UpstreamPathTemplate": "/activity-rules",
+      "UpstreamHttpMethod": ["GET"]
+    }
+  ],
+  "GlobalConfiguration": {
+    "BaseUrl": "http://localhost:7000"
+  }
+}
