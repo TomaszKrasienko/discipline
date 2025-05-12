@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace discipline.hangfire.add_planned_tasks;
 
 internal sealed class AddPlannedTasksApi(ICentreFacade centreFacade,
-    IAddActivityRulesApi addActivityRulesApi,
+    IActivityRulesApi addActivityRulesApi,
     TimeProvider timeProvider,
     AddPlannedTaskDbContext dbContext) : IAddPlannedTasksApi
 {

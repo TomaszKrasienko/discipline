@@ -141,7 +141,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.hangfire.server"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "features", "features", "{F32EC0A8-D999-4FBF-8B7E-A9BFECFE1470}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.hangfire.add-activity-rules", "discipline.hangfire\src\features\discipline.hangfire.add-activity-rules\discipline.hangfire.add-activity-rules.csproj", "{270DC4BF-4D01-4F3C-9BA9-AD52AE3D7372}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.hangfire.activity-rules", "discipline.hangfire\src\features\discipline.hangfire.activity-rules\discipline.hangfire.activity-rules.csproj", "{270DC4BF-4D01-4F3C-9BA9-AD52AE3D7372}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.hangfire.add-planned-tasks", "discipline.hangfire\src\features\discipline.hangfire.add-planned-tasks\discipline.hangfire.add-planned-tasks.csproj", "{57698932-C88E-4259-A683-5F3858237023}"
 EndProject
@@ -158,6 +158,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9DAB5C35-6DE0-4E83-8752-667C271563D6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.gateway", "discipline.gateway\src\discipline.gateway\discipline.gateway.csproj", "{419068E6-AEF2-4588-8129-70AE319DB83F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.hangfire.browse-planned", "discipline.hangfire\src\features\discipline.hangfire.browse-planned\discipline.hangfire.browse-planned.csproj", "{D6C10638-97CC-470D-BF56-B3A364FCCBDD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -237,6 +239,7 @@ Global
 		{C16875BD-A84E-4A02-995C-EA8B294082F4} = {58317C2F-74B3-4527-B5A8-3DED99A38FFF}
 		{9DAB5C35-6DE0-4E83-8752-667C271563D6} = {B61BB279-BA5D-4149-BEA8-8DAD046D8381}
 		{419068E6-AEF2-4588-8129-70AE319DB83F} = {9DAB5C35-6DE0-4E83-8752-667C271563D6}
+		{D6C10638-97CC-470D-BF56-B3A364FCCBDD} = {F32EC0A8-D999-4FBF-8B7E-A9BFECFE1470}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5E1B23AB-3288-4919-A3F9-C8E250F2F75D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -423,5 +426,9 @@ Global
 		{419068E6-AEF2-4588-8129-70AE319DB83F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{419068E6-AEF2-4588-8129-70AE319DB83F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{419068E6-AEF2-4588-8129-70AE319DB83F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6C10638-97CC-470D-BF56-B3A364FCCBDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6C10638-97CC-470D-BF56-B3A364FCCBDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6C10638-97CC-470D-BF56-B3A364FCCBDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6C10638-97CC-470D-BF56-B3A364FCCBDD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

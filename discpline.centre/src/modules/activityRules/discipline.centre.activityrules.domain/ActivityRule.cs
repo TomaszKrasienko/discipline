@@ -24,8 +24,11 @@ public sealed class ActivityRule : AggregateRoot<ActivityRuleId, Ulid>
     /// Constructor for mapping to mongo documents
     /// </summary>
     public ActivityRule(ActivityRuleId id, UserId userId, Details details,
-        SelectedMode mode, List<Stage> stages) : this(id, userId, details, mode)
-    {        
+        SelectedMode mode, List<Stage> stages) : base(id)
+    {   
+        UserId = userId;
+        Details = details;  
+        Mode = mode;
         _stages = stages;   
     }
     

@@ -42,7 +42,7 @@ services:
       COLLECTOR_ZIPKIN_HOST_PORT: ":9411"
   seq:
     image: datalust/seq
-    container_name: Seq
+    container_name: discipline-seq
     restart: unless-stopped
     environment:
       - ACCEPT_EULA=Y
@@ -50,6 +50,17 @@ services:
       - 6024:80
     networks:
       - discipline-network
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: discipline-rabbitmq
+    restart: unless-stopped
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq
+    networks:
+      - discipline-network
+    ports:
+      - 5672:5672
+      - 15672:15672
 
 volumes:
   mongo:
@@ -57,6 +68,8 @@ volumes:
   cache:
     driver: local
   postgres:
+    driver: local
+  rabbitmq:
     driver: local
 
 networks:
