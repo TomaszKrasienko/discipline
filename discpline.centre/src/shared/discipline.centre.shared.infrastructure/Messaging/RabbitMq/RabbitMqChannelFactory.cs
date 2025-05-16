@@ -1,6 +1,7 @@
+using discipline.centre.shared.infrastructure.Events.Brokers.RabbitMq;
 using RabbitMQ.Client;
 
-namespace discipline.centre.shared.infrastructure.Events.Brokers.RabbitMq;
+namespace discipline.centre.shared.infrastructure.Messaging.RabbitMq;
 
 internal sealed class RabbitMqChannelFactory(RabbitMqConnectionProvider connectionProvider) : IDisposable
 {

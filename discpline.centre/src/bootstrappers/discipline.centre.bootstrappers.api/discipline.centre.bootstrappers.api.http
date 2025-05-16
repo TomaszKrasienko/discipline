@@ -61,11 +61,11 @@ Content-Type: application/json
 
 {
   "details": {
-    "title": "",
+    "title": "test12",
     "note": "without any notes"
   },
   "mode": {
-    "mode": ""
+    "mode": "EveryDay"
   },
   "stages": [
   ]

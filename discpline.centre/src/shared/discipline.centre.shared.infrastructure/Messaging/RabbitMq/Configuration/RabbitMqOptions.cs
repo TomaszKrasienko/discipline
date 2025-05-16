@@ -1,4 +1,4 @@
-namespace discipline.centre.shared.infrastructure.Events.Brokers.RabbitMq.Configuration;
+namespace discipline.centre.shared.infrastructure.Messaging.RabbitMq.Configuration;
 
 internal sealed record RabbitMqOptions
 {

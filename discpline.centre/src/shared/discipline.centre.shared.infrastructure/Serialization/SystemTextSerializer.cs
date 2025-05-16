@@ -5,7 +5,7 @@ using discipline.centre.shared.abstractions.Serialization;
 
 namespace discipline.centre.shared.infrastructure.Serialization;
 
-internal sealed class SystemTestSerializer : ISerializer
+internal sealed class SystemTextSerializer : ISerializer
 {
     private readonly JsonSerializerOptions _options = new ()
     {
