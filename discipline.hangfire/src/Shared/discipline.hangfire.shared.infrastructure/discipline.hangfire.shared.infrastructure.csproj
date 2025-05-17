@@ -9,6 +9,7 @@
         <PackageReference Include="Newtonsoft.Json" />
         <PackageReference Include="Npgsql" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+        <PackageReference Include="RabbitMQ.Client" />
         <PackageReference Include="Scrutor" />
         <PackageReference Include="Serilog" />
         <PackageReference Include="Serilog.AspNetCore" />
