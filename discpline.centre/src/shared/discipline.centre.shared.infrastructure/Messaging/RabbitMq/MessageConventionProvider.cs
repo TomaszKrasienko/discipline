@@ -2,7 +2,7 @@ using System.Reflection;
 using discipline.centre.shared.abstractions.Messaging;
 using discipline.centre.shared.infrastructure.Messaging.RabbitMq.Abstractions;
 
-namespace discipline.centre.shared.infrastructure.Messaging;
+namespace discipline.centre.shared.infrastructure.Messaging.RabbitMq;
 
 internal sealed class MessageConventionProvider : IMessageConventionProvider
 {

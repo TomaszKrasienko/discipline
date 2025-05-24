@@ -23,7 +23,7 @@ internal sealed class RedisConsumer<TEvent>(
             using var scope = serviceProvider.CreateScope();
             var eventDispatcher = scope.ServiceProvider.GetRequiredService<IEventDispatcher>();
 
-            var @event = serializer.ToObject<TEvent>(message);
+            var @event = serializer.ToObject<TEvent>((string)message);
             await eventDispatcher.HandleAsync(@event, stoppingToken);
         });
     }

@@ -13,6 +13,8 @@ public interface ISerializer
     /// <returns>An instance of type <typeparamref name="T"/> populated with data from the JSON string, or <c>null</c> if deserialization fails.</returns>
     T? ToObject<T>(string json) where T : class;
     
+    T? ToObject<T>(byte[] bytes) where T : class;
+    
     /// <summary>
     /// Serializes an object into JSON-formatted string.
     /// </summary>

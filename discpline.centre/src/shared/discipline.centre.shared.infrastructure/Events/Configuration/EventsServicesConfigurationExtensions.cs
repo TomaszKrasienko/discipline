@@ -1,7 +1,6 @@
 using System.Reflection;
 using discipline.centre.shared.abstractions.Events;
 using discipline.centre.shared.infrastructure.Events;
-using discipline.centre.shared.infrastructure.Events.Brokers.Internal.Configuration;
 using Microsoft.Extensions.Configuration;
 
 // ReSharper disable once CheckNamespace

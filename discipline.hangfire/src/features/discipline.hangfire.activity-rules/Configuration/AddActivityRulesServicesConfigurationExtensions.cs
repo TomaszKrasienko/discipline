@@ -3,6 +3,7 @@ using discipline.hangfire.activity_rules.Clients.Configuration;
 using discipline.hangfire.activity_rules.Events.External;
 using discipline.hangfire.activity_rules.Facades;
 using discipline.hangfire.add_activity_rules;
+using discipline.hangfire.infrastructure.Messaging.RabbitMq.Configuration;
 using discipline.hangfire.shared.abstractions.Api;
 using Microsoft.Extensions.Configuration;
 
@@ -17,5 +18,5 @@ public static class AddActivityRulesServicesConfigurationExtensions
             .AddDal()
             .AddTransient<ICentreFacade, CentreFacade>()
             .AddTransient<IActivityRulesApi,  ActivityRulesApi>()
-            .AddBrokerConsumer<ActivityRuleRegistered>();
+            .AddRabbitMqConsumer<ActivityRuleRegistered>();
 }

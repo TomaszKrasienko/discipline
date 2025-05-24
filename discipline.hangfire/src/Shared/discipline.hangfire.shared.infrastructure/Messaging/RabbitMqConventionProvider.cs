@@ -1,14 +1,14 @@
 using System.Reflection;
-using discipline.hangfire.infrastructure.Messaging.RabbitMq.Abstractions;
+using discipline.hangfire.infrastructure.Messaging.Abstractions;
 using discipline.hangfire.shared.abstractions.Messaging;
 
-namespace discipline.hangfire.infrastructure.Messaging.RabbitMq;
+namespace discipline.hangfire.infrastructure.Messaging;
 
-internal sealed class MessageConventionProvider : IMessageConventionProvider
+internal sealed class RabbitMqConventionProvider : IConventionProvider
 {
-    public (string exchange, string routingKey) Get<TMessage>(TMessage message) where TMessage : class, IMessage
+    public string GetQueue<TMessage>() where TMessage : class, IMessage
     {
-        var app = Assembly.GetAssembly(message.GetType())!.GetName().Name!;
+        var app = Assembly.GetAssembly(typeof(TMessage))!.GetName().Name!;
         var messageModuleName = string.Empty; 
         
         var indexOfDot = app.LastIndexOf('.');
@@ -16,9 +16,11 @@ internal sealed class MessageConventionProvider : IMessageConventionProvider
         if (indexOfDot is not -1)
         {
             messageModuleName = app.Substring(0, indexOfDot);
+            messageModuleName = messageModuleName.Replace('.', '-');
         }
-        
-        return (messageModuleName,  PascalToKebabCase(message.GetType().Name));
+
+        var eventName = typeof(TMessage).Name;
+        return $"{messageModuleName}-{PascalToKebabCase(eventName)}";
     }
     
     private static string PascalToKebabCase(string str)
