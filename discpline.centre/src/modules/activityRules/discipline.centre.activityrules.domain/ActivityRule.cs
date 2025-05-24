@@ -39,7 +39,7 @@ public sealed class ActivityRule : AggregateRoot<ActivityRuleId, Ulid>
         Details = details;  
         Mode = mode;
         
-        AddDomainEvent(new ActivityRuleCreated(id, userId));
+        AddDomainEvent(new ActivityRuleCreated(id, userId, details, mode));
     }
     
     public static ActivityRule Create(ActivityRuleId id, 
@@ -54,16 +54,19 @@ public sealed class ActivityRule : AggregateRoot<ActivityRuleId, Ulid>
         return activityRule;
     }
 
-    public void Edit(ActivityRuleDetailsSpecification details, 
+    public void Edit(
+        ActivityRuleDetailsSpecification details, 
         ActivityRuleModeSpecification mode)
     {
         Details = Details.Create(details.Title, details.Note);
         Mode = SelectedMode.Create(mode.Mode, mode.Days);
         
-        AddDomainEvent(new ActivityRuleModeChanged(Id, UserId, Mode.Mode, Mode.Days));
+        AddDomainEvent(new ActivityRuleChanged(Id, UserId, Details, Mode));
     }
 
-    public Stage AddStage(StageId stageId, string title)
+    public Stage AddStage(
+        StageId stageId, 
+        string title)
     {
         CheckRule(new StageTitleMustBeUniqueRule(_stages, title));
         var index = Stages.Count == 0 

@@ -1,5 +1,7 @@
 using discipline.centre.activityrules.application.ActivityRules.Events;
+using discipline.centre.activityrules.domain.Enums;
 using discipline.centre.activityrules.domain.Events;
+using discipline.centre.activityrules.domain.ValueObjects.ActivityRules;
 using discipline.centre.shared.abstractions.SharedKernel;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using Shouldly;
@@ -10,17 +12,46 @@ namespace discipline.centre.activityrules.application.unitTests.ActivityRules.Ev
 public sealed class EventsMapExtensionsTests
 {
     [Fact]
-    public void MapAsIntegrationEvent_GivenActivityRuleCreated_ShouldMapOnActivityRuleRegisteredEvent()
+    public void GivenActivityRuleCreated_WhenMapAsIntegrationEvent_ThenShouldMapOnActivityRuleRegisteredEvent()
     {
-        //arrange
-        var domainEvent = new ActivityRuleCreated(ActivityRuleId.New(), UserId.New());
+        // Arrange
+        const int selectedDay = 1;
+        var domainEvent = new ActivityRuleCreated(
+            ActivityRuleId.New(),
+            UserId.New(),
+            Details.Create("test_title", "test_note"),
+            SelectedMode.Create(RuleMode.Custom, [selectedDay]));
         
-        //act
+        // Act
         var @event = domainEvent.MapAsIntegrationEvent();
         
-        //assert
+        // Assert
         ((ActivityRuleRegistered)@event).ActivityRuleId.ShouldBe(domainEvent.ActivityRuleId.ToString());
         ((ActivityRuleRegistered)@event).UserId.ShouldBe(domainEvent.UserId.ToString());
+        ((ActivityRuleRegistered)@event).Title.ShouldBe(domainEvent.Details.Title);
+        ((ActivityRuleRegistered)@event).Note.ShouldBe(domainEvent.Details.Note);
+        ((ActivityRuleRegistered)@event).Mode.ShouldBe(domainEvent.Mode.Mode.Value);
+        ((ActivityRuleRegistered)@event).Days!.Single().ShouldBe(selectedDay);
+    }
+
+    [Fact]
+    public void GivenActivityRuleModeChanged_WhenMapAsIntegrationEvent_ThenShouldMapOnActivityRuleModeChangedEvent()
+    {
+        // Arrange
+        var domainEvent = new ActivityRuleChanged(
+            ActivityRuleId.New(),
+            UserId.New(),
+            Details.Create("test_title", "test_note"),
+            SelectedMode.Create(RuleMode.EveryDay, null));
+        
+        // Act
+        var @event = domainEvent.MapAsIntegrationEvent();
+        
+        // Assert
+        ((ActivityRuleModeChanged)@event).ActivityRuleId.ShouldBe(domainEvent.ActivityRuleId.ToString());
+        ((ActivityRuleModeChanged)@event).UserId.ShouldBe(domainEvent.UserId.ToString());
+        ((ActivityRuleModeChanged)@event).Mode.ShouldBe(domainEvent.Mode.Mode.Value);
+        ((ActivityRuleModeChanged)@event).Days.ShouldBeNull();
     }
     
     [Fact]

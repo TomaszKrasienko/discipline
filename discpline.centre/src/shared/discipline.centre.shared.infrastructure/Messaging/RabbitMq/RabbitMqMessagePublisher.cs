@@ -27,13 +27,6 @@ internal sealed class RabbitMqMessagePublisher(
 
         var (exchange, routingKey) = conventionProvider.Get(message);
         
-        await channel.ExchangeDeclareAsync(
-            exchange: exchange, 
-            type: ExchangeType.Direct, 
-            durable: true, 
-            autoDelete: false, 
-            cancellationToken: cancellationToken);
-        
         await channel.BasicPublishAsync(
             exchange: exchange,
             routingKey: routingKey,
