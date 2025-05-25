@@ -24,9 +24,10 @@ internal static class EventsMapExtensions
             @event.Details.Note,
             @event.Mode.Mode.Value,
             @event.Mode.Days?.Select(x => (int)x).ToArray()),
-        domain.Events.ActivityRuleChanged @event => new ActivityRuleModeChanged(
+        domain.Events.ActivityRuleChanged @event => new ActivityRuleChanged(
             @event.ActivityRuleId.ToString(),
             @event.UserId.ToString(),
+            @event.Details.Title,
             @event.Mode.Mode.Value,
             @event.Mode.Days?.Select(x => (int)x).ToArray()),
         _ => throw new InvalidOperationException("Unknown event type")

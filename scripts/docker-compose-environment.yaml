@@ -9,6 +9,7 @@ services:
       - 6011:27017
     networks:
       - discipline-network
+
   redis:
     image: redis
     container_name: discipline-redis
@@ -19,6 +20,7 @@ services:
       - cache:/data
     networks:
       - discipline-network
+
   postgres:
     image: postgres
     container_name: discipline-postgres
@@ -31,6 +33,7 @@ services:
       - postgres:/var/lib/postgresql/data
     networks:
       - discipline-network
+
   jeager:
     image: jaegertracing/all-in-one:latest
     container_name: discipline-jaeger
@@ -40,6 +43,7 @@ services:
       - 6023:14250
     environment:
       COLLECTOR_ZIPKIN_HOST_PORT: ":9411"
+
   seq:
     image: datalust/seq
     container_name: discipline-seq
@@ -50,6 +54,7 @@ services:
       - 6024:80
     networks:
       - discipline-network
+
   rabbitmq:
     image: rabbitmq:3.13-management
     container_name: discipline-rabbitmq
@@ -59,8 +64,8 @@ services:
     networks:
       - discipline-network
     ports:
-      - 5672:5672
-      - 15672:15672
+      - 6014:5672
+      - 6015:15672
 
 volumes:
   mongo:

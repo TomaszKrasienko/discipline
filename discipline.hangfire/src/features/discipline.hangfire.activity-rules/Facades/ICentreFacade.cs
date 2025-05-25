@@ -35,8 +35,6 @@ internal sealed class CentreFacade(ILogger<ActivityRuleRegisteredHandler> logger
                 activityRuleId.ToString(), userId.ToString());
             return false;
         }
-
-        var test = await activityRuleResponse.Content.ReadAsStringAsync(cancellationToken);
         
         var activityRuleResult = await activityRuleResponse.Content.ReadFromJsonAsync<ActivityRuleDto>(cancellationToken);
 

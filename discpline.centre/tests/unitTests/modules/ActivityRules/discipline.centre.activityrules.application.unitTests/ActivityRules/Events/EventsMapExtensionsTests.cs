@@ -6,6 +6,7 @@ using discipline.centre.shared.abstractions.SharedKernel;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using Shouldly;
 using Xunit;
+using ActivityRuleChanged = discipline.centre.activityrules.application.ActivityRules.Events.ActivityRuleChanged;
 
 namespace discipline.centre.activityrules.application.unitTests.ActivityRules.Events;
 
@@ -38,7 +39,7 @@ public sealed class EventsMapExtensionsTests
     public void GivenActivityRuleModeChanged_WhenMapAsIntegrationEvent_ThenShouldMapOnActivityRuleModeChangedEvent()
     {
         // Arrange
-        var domainEvent = new ActivityRuleChanged(
+        var domainEvent = new domain.Events.ActivityRuleChanged(
             ActivityRuleId.New(),
             UserId.New(),
             Details.Create("test_title", "test_note"),
@@ -48,10 +49,10 @@ public sealed class EventsMapExtensionsTests
         var @event = domainEvent.MapAsIntegrationEvent();
         
         // Assert
-        ((ActivityRuleModeChanged)@event).ActivityRuleId.ShouldBe(domainEvent.ActivityRuleId.ToString());
-        ((ActivityRuleModeChanged)@event).UserId.ShouldBe(domainEvent.UserId.ToString());
-        ((ActivityRuleModeChanged)@event).Mode.ShouldBe(domainEvent.Mode.Mode.Value);
-        ((ActivityRuleModeChanged)@event).Days.ShouldBeNull();
+        ((ActivityRuleChanged)@event).ActivityRuleId.ShouldBe(domainEvent.ActivityRuleId.ToString());
+        ((ActivityRuleChanged)@event).UserId.ShouldBe(domainEvent.UserId.ToString());
+        ((ActivityRuleChanged)@event).Mode.ShouldBe(domainEvent.Mode.Mode.Value);
+        ((ActivityRuleChanged)@event).Days.ShouldBeNull();
     }
     
     [Fact]

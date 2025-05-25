@@ -7,11 +7,11 @@ using Microsoft.Extensions.Logging;
 
 namespace discipline.hangfire.activity_rules.Events.External.Handlers;
 
-internal sealed class ActivityRuleModeChangedHandler(
-    ILogger<ActivityRuleModeChangedHandler> logger,
-    ActivityRuleDbContext context) : IEventHandler<ActivityRuleModeChanged>
+internal sealed class ActivityRuleDeletedHandler(
+    ILogger<ActivityRuleDeletedHandler> logger,
+    ActivityRuleDbContext context) : IEventHandler<ActivityRuleDeleted>
 {
-    public async Task HandleAsync(ActivityRuleModeChanged @event, CancellationToken cancellationToken)
+    public async Task HandleAsync(ActivityRuleDeleted @event, CancellationToken cancellationToken)
     {
         var stronglyActivityRuleId = ActivityRuleId.Parse(@event.ActivityRuleId);
         var stronglyUserId = UserId.Parse(@event.UserId);
@@ -19,8 +19,14 @@ internal sealed class ActivityRuleModeChangedHandler(
         var activityRule = await context.Set<ActivityRule>()
             .SingleOrDefaultAsync(x 
                 => x.ActivityRuleId == stronglyActivityRuleId
-                && x.UserId == stronglyUserId, cancellationToken);
+                   && x.UserId == stronglyUserId, cancellationToken);
 
-        activityRule?.UpdateMode(@event.Mode, @event.Days);
+        if (activityRule is null)
+        {
+            return;
+        }
+        
+        context.Remove(activityRule);
+        await context.SaveChangesAsync(cancellationToken);
     }
 }

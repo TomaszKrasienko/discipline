@@ -12,31 +12,10 @@ internal sealed class ActivityRulesApi(ILogger<ActivityRulesApi> logger,
     ICentreFacade centreFacade,
     ActivityRuleDbContext context) : IActivityRulesApi
 {
-    public async Task GetIncorrectActivityRulesAsync(CancellationToken cancellationToken)
-    {        
-        var activityRules = await context.Set<ActivityRule>()
-            .Where(x => x.Mode == null)
-            .ToListAsync(cancellationToken);
-
-        foreach (var activityRule in activityRules)
-        {
-            var activityRuleResult = await centreFacade.GetActivityRule(activityRule.UserId, 
-                activityRule.ActivityRuleId, cancellationToken);
-
-            if (activityRuleResult is { IsT0: true, AsT0: false })
-            {
-                return;
-            }
-            
-            activityRule.Set(activityRuleResult.AsT1.Details.Title,
-                activityRuleResult.AsT1.Mode.Mode,
-                activityRuleResult.AsT1.Mode.Days);
-        }
-        
-        await context.SaveChangesAsync(cancellationToken);
-    }
-
-    public async Task<IReadOnlyCollection<ActivityRuleViewModel>> GetActivityRulesByModesAsync(IReadOnlyList<string> modes, int selectedDay, CancellationToken cancellationToken)
+    public async Task<IReadOnlyCollection<ActivityRuleViewModel>> GetActivityRulesByModesAsync(
+        IReadOnlyList<string> modes,
+        int selectedDay,
+        CancellationToken cancellationToken)
     {
         var activityRules = await context.Set<ActivityRuleViewModel>()
             .Where(x 

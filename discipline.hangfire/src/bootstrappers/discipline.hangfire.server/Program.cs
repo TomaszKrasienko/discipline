@@ -48,11 +48,6 @@ RecurringJob.AddOrUpdate<IAddPlannedTasksApi>(
     job => job.ExecuteTaskPlanning(CancellationToken.None), 
     Cron.Daily);
 
-RecurringJob.AddOrUpdate<IActivityRulesApi>(
-    "get-incorrect-activity-rules",
-    job => job.GetIncorrectActivityRulesAsync(CancellationToken.None),
-    Cron.Hourly);
-
 RecurringJob.AddOrUpdate<ICreateActivityFromPlannedApi>(
     "create-activity-from-planned",
     job => job.ExecuteTaskCreating(CancellationToken.None),
