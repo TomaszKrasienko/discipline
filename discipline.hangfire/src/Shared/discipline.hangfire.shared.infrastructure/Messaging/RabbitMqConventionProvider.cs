@@ -6,6 +6,21 @@ namespace discipline.hangfire.infrastructure.Messaging;
 
 internal sealed class RabbitMqConventionProvider : IConventionProvider
 {
+    public (string exchange, string routingKey) Get<TMessage>(TMessage message) where TMessage : class, IMessage
+    {
+        var app = Assembly.GetAssembly(message.GetType())!.GetName().Name!;
+        var messageModuleName = string.Empty; 
+        
+        var indexOfDot = app.LastIndexOf('.');
+        
+        if (indexOfDot is not -1)
+        {
+            messageModuleName = app.Substring(0, indexOfDot);
+        }
+        
+        return (messageModuleName,  PascalToKebabCase(message.GetType().Name));
+    }
+
     public string GetQueue<TMessage>() where TMessage : class, IMessage
     {
         var app = Assembly.GetAssembly(typeof(TMessage))!.GetName().Name!;

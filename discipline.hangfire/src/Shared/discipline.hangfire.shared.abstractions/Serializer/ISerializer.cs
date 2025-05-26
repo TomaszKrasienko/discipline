@@ -21,4 +21,5 @@ public interface ISerializer
     /// <param name="obj">Object to serialize</param>
     /// <returns>JSON-formatted string</returns>
     string ToJson(object obj);
+    byte[] ToByteJson<T>(T value) where T : class;
 }

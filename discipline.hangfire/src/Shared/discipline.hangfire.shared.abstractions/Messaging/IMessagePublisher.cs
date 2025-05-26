@@ -5,5 +5,5 @@ public interface IMessagePublisher
     Task PublishAsync<TMessage>(
         TMessage message, 
         Ulid? messageId = null, 
-        git CancellationToken cancellationToken = default) where TMessage : class, IMessage;
+        CancellationToken cancellationToken = default) where TMessage : class, IMessage;
 }
