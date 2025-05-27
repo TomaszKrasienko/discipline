@@ -1,5 +1,6 @@
 using discipline.hangfire.infrastructure.Configuration;
 using discipline.hangfire.infrastructure.Configuration.Options;
+using discipline.hangfire.infrastructure.Messaging.RabbitMq.Abstractions;
 using discipline.hangfire.shared.abstractions.Events;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,7 +35,10 @@ public static class RabbitMqServicesConfigurationExtensions
             return new RabbitMqConnectionProvider(consumerConnection, producerConnection);
         });
 
-        services.AddTransient<RabbitMqChannelFactory>();
+        services
+            .AddTransient<RabbitMqChannelFactory>()
+            .AddSingleton<IConventionProvider, RabbitMqConventionProvider>()
+            .AddSingleton<IMessagesRouteRegistry, RabbitMqMessagesRouteRegistry>();
 
         return services;
     }

@@ -25,7 +25,7 @@ internal sealed class RedisConsumer<TCommand>(
                 try
                 {
                     logger.LogInformation("Redis message of type: '{0}'", typeof(TCommand).Name);
-                    var command = serializer.ToObject<TCommand>(message!);
+                    var command = serializer.ToObject<TCommand>((string)message!);
                 
                     if (command is null)
                     {

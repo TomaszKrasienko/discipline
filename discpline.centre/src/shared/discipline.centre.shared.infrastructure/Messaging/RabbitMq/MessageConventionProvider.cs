@@ -20,7 +20,24 @@ internal sealed class MessageConventionProvider : IMessageConventionProvider
         
         return (messageModuleName,  PascalToKebabCase(message.GetType().Name));
     }
-    
+
+    public string GetQueue<TMessage>() where TMessage : class, IMessage
+    {
+        var app = Assembly.GetAssembly(typeof(TMessage))!.GetName().Name!;
+        var messageModuleName = string.Empty; 
+        
+        var indexOfDot = app.LastIndexOf('.');
+        
+        if (indexOfDot is not -1)
+        {
+            messageModuleName = app.Substring(0, indexOfDot);
+            messageModuleName = messageModuleName.Replace('.', '-');
+        }
+
+        var eventName = typeof(TMessage).Name;
+        return $"{messageModuleName}-{PascalToKebabCase(eventName)}";
+    }
+
     private static string PascalToKebabCase(string str)
     {
         return string.Concat(str.SelectMany(ConvertChar));

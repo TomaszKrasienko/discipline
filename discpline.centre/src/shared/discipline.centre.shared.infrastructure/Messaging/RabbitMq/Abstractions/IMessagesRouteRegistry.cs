@@ -1,6 +1,6 @@
-using discipline.hangfire.shared.abstractions.Messaging;
+using discipline.centre.shared.abstractions.Messaging;
 
-namespace discipline.hangfire.infrastructure.Messaging.Abstractions;
+namespace discipline.centre.shared.infrastructure.Messaging.RabbitMq.Abstractions;
 
 internal interface IMessagesRouteRegistry
 {

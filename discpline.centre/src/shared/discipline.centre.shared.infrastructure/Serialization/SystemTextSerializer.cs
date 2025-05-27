@@ -25,4 +25,7 @@ internal sealed class SystemTextSerializer : ISerializer
 
     public T? ToObject<T>(string json) where T : class
         => JsonSerializer.Deserialize<T>(json, _options);
+
+    public T? ToObject<T>(byte[] byteJson) where T : class
+        => ToObject<T>(Encoding.UTF8.GetString(byteJson));
 }

@@ -1,4 +1,4 @@
-using discipline.hangfire.infrastructure.Messaging.Abstractions;
+using discipline.hangfire.infrastructure.Messaging.RabbitMq.Abstractions;
 using discipline.hangfire.shared.abstractions.Messaging;
 using discipline.hangfire.shared.abstractions.Serializer;
 using RabbitMQ.Client;
@@ -10,7 +10,7 @@ internal sealed class RabbitMqMessagePublisher(
     IConventionProvider conventionProvider,
     ISerializer serializer) : IMessagePublisher
 {
-    public async Task PublishAsync<TMessage>(
+    public async  Task PublishAsync<TMessage>(
         TMessage message, 
         Ulid? messageId = null, 
         CancellationToken cancellationToken = default) where TMessage : class, IMessage

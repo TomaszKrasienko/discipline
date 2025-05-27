@@ -1,20 +1,20 @@
-using discipline.hangfire.infrastructure.Messaging.Abstractions;
-using discipline.hangfire.infrastructure.Messaging.Configuration;
+using discipline.hangfire.infrastructure.Messaging.RabbitMq.Abstractions;
+using discipline.hangfire.infrastructure.Messaging.RabbitMq.Configuration;
 using discipline.hangfire.shared.abstractions.Messaging;
 using Microsoft.Extensions.Options;
 
-namespace discipline.hangfire.infrastructure.Messaging;
+namespace discipline.hangfire.infrastructure.Messaging.RabbitMq;
 
 internal sealed class RabbitMqMessagesRouteRegistry(
-    IOptions<MessagingOptions> options) : IMessagesRouteRegistry
+    IOptions<RabbitMqOptions> options) : IMessagesRouteRegistry
 {
-    private readonly MessagingOptions _options = options.Value;
+    private readonly Dictionary<string,MessageRouteOptions> _options = options.Value.Routes;
     
     public (string exchange, string routingKey) GetRoute<TMessage>() where TMessage : class, IMessage
     {
         var typeName = typeof(TMessage).Name;
 
-        if (_options.Routes.TryGetValue(typeName, out var route))
+        if (_options.TryGetValue(typeName, out var route))
         {
             return (route.Exchange, route.RoutingKey);
         }

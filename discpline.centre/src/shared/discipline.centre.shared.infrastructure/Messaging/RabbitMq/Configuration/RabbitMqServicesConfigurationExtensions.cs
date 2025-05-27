@@ -1,6 +1,8 @@
+using discipline.centre.shared.abstractions.Messaging;
 using discipline.centre.shared.infrastructure.Configuration;
 using discipline.centre.shared.infrastructure.Events.Brokers.RabbitMq;
 using discipline.centre.shared.infrastructure.Messaging.Abstractions;
+using discipline.centre.shared.infrastructure.Messaging.RabbitMq.Abstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -8,7 +10,7 @@ using RabbitMQ.Client;
 
 namespace discipline.centre.shared.infrastructure.Messaging.RabbitMq.Configuration;
 
-internal static class RabbitMqServicesConfigurationExtensions
+public static class RabbitMqServicesConfigurationExtensions
 {
     internal static IServiceCollection AddRabbitMq(this IServiceCollection services, IConfiguration configuration)
     {
@@ -36,9 +38,14 @@ internal static class RabbitMqServicesConfigurationExtensions
 
         services.AddTransient<RabbitMqChannelFactory>();
         services.AddTransient<IMessagePublisher, RabbitMqMessagePublisher>();
+        services.AddSingleton<IMessagesRouteRegistry, RabbitMqMessagesRouteRegistry>();
 
         return services;
     }
+    
+    public static IServiceCollection AddRabbitMqConsumer<TMessage>(this IServiceCollection services)
+        where TMessage : class, IMessage
+        => services.AddHostedService<RabbitMqConsumer<TMessage>>();
     
     private static IServiceCollection AddOptions(this IServiceCollection services, IConfiguration configuration)
         => services.ValidateAndBind<RabbitMqOptions, RabbitMqOptionsValidator>(configuration);

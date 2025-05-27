@@ -17,4 +17,7 @@ internal sealed class NewtonsoftJsonSerializer : ISerializer
 
     public T? ToObject<T>(string json) where T : class
         => JsonConvert.DeserializeObject<T>(json);
+
+    public T? ToObject<T>(byte[] byteJson) where T : class
+    => JsonConvert.DeserializeObject<T>(Encoding.UTF8.GetString(byteJson));
 }

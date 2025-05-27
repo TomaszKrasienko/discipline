@@ -6,4 +6,5 @@ public interface ISerializer
     byte[] ToByteJson<T>(T value) where T : class;
     object? ToObject(string json, Type type);
     T? ToObject<T>(string json) where T : class;
+    T? ToObject<T>(byte[] byteJson) where T : class;
 }

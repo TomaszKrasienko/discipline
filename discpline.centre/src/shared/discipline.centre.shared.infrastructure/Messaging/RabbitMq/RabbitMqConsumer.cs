@@ -1,27 +1,27 @@
-using discipline.hangfire.infrastructure.Messaging.RabbitMq.Abstractions;
-using discipline.hangfire.shared.abstractions.Events;
-using discipline.hangfire.shared.abstractions.Serializer;
-using Microsoft.Extensions.DependencyInjection;
+using discipline.centre.shared.abstractions.Messaging;
+using discipline.centre.shared.abstractions.Serialization;
+using discipline.centre.shared.infrastructure.Messaging.Abstractions;
+using discipline.centre.shared.infrastructure.Messaging.RabbitMq.Abstractions;
 using Microsoft.Extensions.Hosting;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace discipline.hangfire.infrastructure.Messaging.RabbitMq;
+namespace discipline.centre.shared.infrastructure.Messaging.RabbitMq;
 
-internal sealed class RabbitMqConsumer<TEvent>(
+internal sealed class RabbitMqConsumer<TMessage>(
     RabbitMqChannelFactory rabbitMqChannelFactory,
     ISerializer serializer,
-    IServiceProvider serviceProvider,
     IMessagesRouteRegistry routeRegistry,
-    IConventionProvider conventionProvider) : IHostedService where TEvent : class, IEvent
+    IMessageConventionProvider conventionProvider,
+    IMessageHandler<TMessage> handler) : IHostedService where TMessage : class, IMessage
 {
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         var channel = rabbitMqChannelFactory.ConsumerChannel;
         var consumer = new AsyncEventingBasicConsumer(channel);
 
-        var (exchange, routingKey) = routeRegistry.GetRoute<TEvent>();
-        var queue = conventionProvider.GetQueue<TEvent>();
+        var (exchange, routingKey) = routeRegistry.GetRoute<TMessage>();
+        var queue = conventionProvider.GetQueue<TMessage>();
 
         await channel.ExchangeDeclareAsync(
             exchange: exchange,
@@ -47,19 +47,16 @@ internal sealed class RabbitMqConsumer<TEvent>(
         {
             try
             {
-                var scope = serviceProvider.CreateAsyncScope();
-                var eventDispatcher = scope.ServiceProvider.GetRequiredService<IEventDispatcher>();
-                
-                var message = serializer.ToObject<TEvent>(ea.Body.ToArray());
+                var message = serializer.ToObject<TMessage>(ea.Body.ToArray());
 
                 if (message is null)
                 {
                     return;
                 }
                 
-                await eventDispatcher.HandleAsync(message, cancellationToken);
+                await handler.HandleAsync(message, cancellationToken);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return;
             }
