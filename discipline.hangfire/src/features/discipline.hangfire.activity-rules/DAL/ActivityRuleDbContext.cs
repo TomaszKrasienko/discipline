@@ -1,3 +1,4 @@
+using discipline.hangfire.activity_rules.DAL.EntityTypeConfiguration;
 using discipline.hangfire.infrastructure.Identifiers;
 using discipline.hangfire.shared.abstractions.Identifiers;
 using Microsoft.EntityFrameworkCore;
@@ -10,7 +11,8 @@ internal sealed class ActivityRuleDbContext(DbContextOptions<ActivityRuleDbConte
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema("activity-rules");
-        modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
+        modelBuilder.ApplyConfiguration(new ActivityRuleTypeConfiguration());
+        modelBuilder.ApplyConfiguration(new ActivityRuleViewModelConfiguration());
     }
 
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)

@@ -1,5 +1,4 @@
 using discipline.hangfire.activity_rules.DAL;
-using discipline.hangfire.add_activity_rules.DAL;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection;

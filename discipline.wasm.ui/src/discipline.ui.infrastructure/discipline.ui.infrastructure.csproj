@@ -22,6 +22,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="ActivityRules\Configuration\" />
+      <Folder Include="Clients\Configuration\" />
+      <Folder Include="Clients\DTOs\Users\" />
+      <Folder Include="Facades\" />
     </ItemGroup>
 </Project>

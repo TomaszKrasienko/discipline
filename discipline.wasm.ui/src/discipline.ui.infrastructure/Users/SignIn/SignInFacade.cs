@@ -2,7 +2,7 @@ using System.Net.Http.Json;
 using discipline.ui.communication.http.Auth;
 using discipline.ui.communication.http.Auth.DTOs;
 using discipline.ui.communication.http.Users;
-using discipline.ui.communication.http.Users.Requests;
+using discipline.ui.infrastructure.Clients.DTOs.Users.Requests;
 using OneOf;
 using Refit;
 

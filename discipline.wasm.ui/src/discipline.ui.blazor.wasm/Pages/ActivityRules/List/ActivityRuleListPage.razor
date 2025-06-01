@@ -1,18 +1,22 @@
 @page "/activity-rules-list"
 @using BlazorBootstrap
-@using discipline.ui.communication.http.ActivityRules.DTOs.Responses
-@using discipline.ui.infrastructure.ActivityRules.Facades
 @using discipline.ui.blazor.wasm.Components.Headers
 @using discipline.ui.blazor.wasm.Components.Paragraphs
 @using discipline.ui.blazor.wasm.Components.Rows
 @using discipline.ui.blazor.wasm.Components.Buttons
 @using discipline.ui.blazor.wasm.Pages.ActivityRules.Form
-@using discipline.ui.infrastructure.ActivityRules.Models
+@using discipline.ui.infrastructure.Clients.DTOs.ActivityRules.Responses
 @using discipline.ui.infrastructure.Constants
-@inject IActivityRulesBrowseFacade ActivityRulesBrowseFacade
-@inject IDeleteActivityRuleFacade DeleteActivityRuleFacade
+@using discipline.ui.infrastructure.DailyTrackers.DailyTrackers
+@using discipline.ui.infrastructure.DTOs.ActivityRules
+@using discipline.ui.infrastructure.Facades.ActivityRules.Facades
+@using Microsoft.AspNetCore.Components.Authorization
+@using OneOf
+@inject IActivityRuleClientFacade ActivityRuleClientFacade
+@inject IDailyTrackerClientFacade DailyTrackerClientFacade
 @inject NavigationManager NavigationManager
 @inject ToastService ToastService
+@inject AuthenticationStateProvider AuthenticationStateProvider
 
 <DisciplinePageHeader Title="Activity Rules List"/>
 
@@ -20,17 +24,26 @@
 {
     @foreach (var activityRule in _activityRules)
     {
-        <DisciplineSelectingRow
-            OnRowClickCallback="@(() => OpenActivityRuleForm(activityRule))"
-            OnAdditionalButtonCallback="() => OpenStageForm(activityRule.ActivityRuleId)"
-            OnTrashClickCallback="async () => await RemoveActivityRuleAsync(activityRule.ActivityRuleId)">
-            <div class="col-md-5">
-                <MainParagraph Content="@activityRule.Details.Title"/>
+        <div class="row">
+            <div class="col-md-1">
+                <DisciplineIconButton
+                    IconClass="bi-pass-fill"
+                    OnClickButtonCallback="@(() => CreateActivityFromRule(activityRule.ActivityRuleId))"/>
             </div>
-            <div class="col-md-5 text-end">
-                <SubParagraph Content=@GetModeWithSelectedDays(activityRule)/>
+            <div class="col-md-11">
+                <DisciplineSelectingRow
+                    OnRowClickCallback="@(() => OpenActivityRuleForm(activityRule))"
+                    OnAdditionalButtonCallback="() => OpenStageForm(activityRule.ActivityRuleId)"
+                    OnTrashClickCallback="async () => await RemoveActivityRuleAsync(activityRule.ActivityRuleId)">
+                    <div class="col-md-5">
+                        <MainParagraph Content="@activityRule.Details.Title"/>
+                    </div>
+                    <div class="col-md-5 text-end">
+                        <SubParagraph Content=@GetModeWithSelectedDays(activityRule)/>
+                    </div>
+                </DisciplineSelectingRow>
             </div>
-        </DisciplineSelectingRow>
+        </div>
         @if (activityRule.Stages.Any())
         {
             <div class="col-md-10 offset-lg-1">
@@ -38,7 +51,7 @@
                 {
                     <DisciplineSelectingRow
                         OnRowClickCallback="OpenEditActivityRuleStageAsync"
-                        OnTrashClickCallback="RemoveActivityRuleStageAsync">
+                        OnTrashClickCallback="() => RemoveActivityRuleStageAsync(activityRule.ActivityRuleId, stage.StageId)">
                         <SubParagraph Content="@GetStageHeader(stage)"/>
                     </DisciplineSelectingRow>
                 }
@@ -60,19 +73,23 @@
 
 @code {
     private CancellationTokenSource _cts = new();
-    private List<ActivityRuleResponseDto> _activityRules = [];
+    private List<ActivityRuleDto> _activityRules = [];
     private ActivityRuleForm? _activityRuleForm;
     private StageForm? _stageForm;
     
     protected override async Task OnInitializedAsync()
     {
+        if ((await AuthenticationStateProvider.GetAuthenticationStateAsync()).User.Identity?.IsAuthenticated ?? true)
+        {
+            NavigationManager.NavigateTo("sign-in", true);
+        }
         _cts = new CancellationTokenSource();
         await FillActivityRules();
     }
 
     private async Task FillActivityRules()
     {
-        var result = await ActivityRulesBrowseFacade.HandleAsync(_cts.Token);
+        var result = await ActivityRuleClientFacade.BrowseAsync(_cts.Token);
 
         if (result is { IsT1: true, AsT1: "user.unauthorized" })
         {
@@ -82,7 +99,7 @@
         _activityRules = result.AsT0.ToList();
     }
 
-    private string GetModeWithSelectedDays(ActivityRuleResponseDto activityRule)
+    private string GetModeWithSelectedDays(ActivityRuleDto activityRule)
         => activityRule.Mode.Days is null
             ? activityRule.Mode.Mode
             : $"{activityRule.Mode.Mode} ({GetDaysName(activityRule.Mode.Days)})";
@@ -95,7 +112,7 @@
     private string GetStageHeader(ActivityRuleStageResponseDto stage)
         => $"{stage.Index}. {stage.Title}";
 
-    private void OpenActivityRuleForm(ActivityRuleResponseDto? activityRuleResponse)
+    private void OpenActivityRuleForm(ActivityRuleDto? activityRuleResponse)
     {
         if (_activityRuleForm is null)
         {
@@ -122,17 +139,7 @@
     {
         var result = await DeleteActivityRuleFacade.HandleAsync(activityRuleId, _cts.Token);
 
-        if (result is { IsT1: true, AsT1: "user.unauthorized" })
-        {
-            NavigationManager.NavigateTo("/sign-in", true);
-        }
-
-        if (result.IsT1)
-        {
-            ToastService.Notify(result.AsT1.ToDangerToastMessage());
-        }
-
-        await FillActivityRules();
+        await HandleResponseAndRefresh(result);
     }
 
     private void OpenStageForm(string activityRuleId)
@@ -151,9 +158,51 @@
         await Task.Delay(1);
     }
 
-    private async Task RemoveActivityRuleStageAsync()
+    private async Task RemoveActivityRuleStageAsync(string activityRuleId, string stageId)
     {
-        await Task.Delay(1);
+        var result = await ActivityRuleClientFacade.DeleteStageAsync(
+            activityRuleId, stageId, _cts.Token);
+
+        await HandleResponseAndRefresh(result);
+    }
+
+    private async Task CreateActivityFromRule(string activityRuleId)
+    {
+        var result = await DailyTrackerClientFacade.CreateActivityFromActivityRuleAsync(
+            activityRuleId,
+            _cts.Token);
+        
+        if (result is { IsT1: true, AsT1: "user.unauthorized" })
+        {
+            NavigationManager.NavigateTo("/sign-in", true);
+        }
+
+        if (result.IsT1)
+        {
+            ToastService.Notify(result.AsT1.ToDangerToastMessage());
+            return;
+        }
+        
+        ToastService.Notify(new ToastMessage(
+            ToastType.Success,
+            "Added activity successfully"));
+    }
+
+    private async Task HandleResponseAndRefresh(OneOf<bool, string> result)
+    {
+        // Global variable for unauthorized response
+        if (result is { IsT1: true, AsT1: "user.unauthorized" })
+        {
+            NavigationManager.NavigateTo("/sign-in", true);
+        }
+
+        if (result.IsT1)
+        {
+            ToastService.Notify(result.AsT1.ToDangerToastMessage());
+            return;
+        }
+
+        await FillActivityRules(); 
     }
 
 }

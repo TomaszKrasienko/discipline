@@ -22,24 +22,29 @@ internal static class DailyTrackersEndpoints
 
     internal static WebApplication MapDailyTrackersEndpoints(this WebApplication app)
     {
-        app.MapPost($"api/{DailyTrackersModule.ModuleName}/{DailyTrackersTag}/activities/{{activityRuleId:ulid}}",
-            async (Ulid activityRuleId, CancellationToken cancellationToken, IIdentityContext identityContext, 
-                ICqrsDispatcher dispatcher, IHttpContextAccessor contextAccessor) =>
-            {
-                var stronglyActivityRuleId = new ActivityRuleId(activityRuleId);
-                var activityId = ActivityId.New();
-                var userId = identityContext.GetUser();
-
-                if (userId is null)
+        app.MapPost(
+                $"api/{DailyTrackersTag}/activities/activity-rules/{{activityRuleId:ulid}}",
+                async (
+                    Ulid activityRuleId,
+                    CancellationToken cancellationToken,
+                    IIdentityContext identityContext, 
+                    ICqrsDispatcher dispatcher,
+                    IHttpContextAccessor contextAccessor) =>
                 {
-                    return Results.Unauthorized();
-                }
-                
-                await dispatcher.HandleAsync(new CreateActivityFromActivityRuleCommand(userId, activityId, stronglyActivityRuleId), cancellationToken);
-                contextAccessor.AddResourceIdHeader(activityId.ToString());
+                    var stronglyActivityRuleId = new ActivityRuleId(activityRuleId);
+                    var activityId = ActivityId.New();
+                    var userId = identityContext.GetUser();
 
-                return Results.CreatedAtRoute(GetByIdEndpoint, new { activityId = activityId.ToString() });
-            })
+                    if (userId is null)
+                    {
+                        return Results.Unauthorized();
+                    }
+                    
+                    await dispatcher.HandleAsync(new CreateActivityFromActivityRuleCommand(userId, activityId, stronglyActivityRuleId), cancellationToken);
+                    contextAccessor.AddResourceIdHeader(activityId.ToString());
+
+                    return Results.CreatedAtRoute(GetByIdEndpoint, new { activityId = activityId.ToString() });
+                })
             .Produces(StatusCodes.Status201Created, typeof(void))
             .Produces(StatusCodes.Status400BadRequest, typeof(ProblemDetails))
             .Produces(StatusCodes.Status401Unauthorized, typeof(void))
@@ -78,21 +83,26 @@ internal static class DailyTrackersEndpoints
             .RequireAuthorization()
             .RequireAuthorization(UserStatePolicy.Name);
         
-        app.MapGet($"api/{DailyTrackersModule.ModuleName}/{DailyTrackersTag}/activities/{{activityId:ulid}}", async (
-            Ulid activityId, CancellationToken cancellationToken, IIdentityContext identityContext, ICqrsDispatcher dispatcher) =>
-            {
-                var stronglyActivityId = new ActivityId(activityId);
-                var userId = identityContext.GetUser();
-
-                if (userId is null)
+        app.MapGet(
+                $"api/{DailyTrackersTag}/activities/{{activityId:ulid}}", 
+                async (
+                    Ulid activityId,
+                    CancellationToken cancellationToken,
+                    IIdentityContext identityContext,
+                    ICqrsDispatcher dispatcher) =>
                 {
-                    return Results.Unauthorized();
-                }
-                
-                var result = await dispatcher.SendAsync(new GetActivityByIdQuery(userId, stronglyActivityId), cancellationToken);
+                    var stronglyActivityId = new ActivityId(activityId);
+                    var userId = identityContext.GetUser();
 
-                return result is null ? Results.NotFound() : Results.Ok(result);
-            })
+                    if (userId is null)
+                    {
+                        return Results.Unauthorized();
+                    }
+                    
+                    var result = await dispatcher.SendAsync(new GetActivityByIdQuery(userId, stronglyActivityId), cancellationToken);
+
+                    return result is null ? Results.NotFound() : Results.Ok(result);
+                })
             .Produces(StatusCodes.Status200OK, typeof(ActivityDto))
             .Produces(StatusCodes.Status401Unauthorized, typeof(void))
             .Produces(StatusCodes.Status403Forbidden, typeof(void))

@@ -10,7 +10,7 @@ internal static class AuthServicesConfigurationExtensions
 {
     internal static IServiceCollection SetAuthServices(this IServiceCollection services)
         => services
-            .AddSingleton<ITokenHandler, TokenHandler>()
+            .AddTransient<ITokenHandler, TokenHandler>()
             .AddSingleton<CustomAuthenticationStateProvider>()
             .AddSingleton<AuthenticationStateProvider>(sp 
                 => sp.GetRequiredService<CustomAuthenticationStateProvider>());

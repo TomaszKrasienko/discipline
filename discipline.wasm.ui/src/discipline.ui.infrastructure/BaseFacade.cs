@@ -8,7 +8,9 @@ namespace discipline.ui.infrastructure;
 
 public abstract class BaseFacade<T>(ILogger<T> logger) where T : class
 {
-    public async Task<OneOf<bool, string>> ValidateResponse(HttpResponseMessage response,
+    protected const string UnauthorizedMessage = "user.unauthorized";
+    
+    protected async Task<OneOf<bool, string>> HandleResponseAsync(HttpResponseMessage response,
         CancellationToken cancellationToken)
     {
         if (!response.IsSuccessStatusCode)
@@ -26,5 +28,18 @@ public abstract class BaseFacade<T>(ILogger<T> logger) where T : class
         }
 
         return true;
+    }
+    
+    protected async Task<OneOf<TResult?, string>> HandleResponseAsync<TResult>(HttpResponseMessage response, CancellationToken
+        cancellationToken) where TResult : class
+    {
+        if (response.StatusCode is HttpStatusCode.Unauthorized)
+        {
+            return UnauthorizedMessage;
+        }
+
+        var result = await response.Content.ReadFromJsonAsync<TResult>(cancellationToken);
+
+        return result;
     }
 }
