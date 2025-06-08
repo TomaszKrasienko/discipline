@@ -1,11 +1,12 @@
-using Ocelot.DependencyInjection;
-
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Configuration.AddJsonFile("ocelot.json", optional: false, reloadOnChange: true);
-builder.Services.AddOcelot();
-builder.Logging.AddConsole();
+builder
+    .Services
+    .AddReverseProxy()
+    .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 
 var app = builder.Build();
+
+app.MapReverseProxy();
 
 app.Run();

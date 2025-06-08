@@ -1,0 +1,98 @@
+@host_address = http://localhost:7001
+
+###
+GET {{host_address}}/
+
+###
+@email = tom.krasienko@gmail.com
+@password = TomaszK123!
+
+###
+# @name sign_in
+POST {{host_address}}/api/users-module/users/tokens
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}"
+}
+
+###
+@token = {{sign_in.response.body.$.token}}
+
+
+@gateway_host_address = http://localhost:7000
+
+###
+# @name create_activity_rule
+POST {{gateway_host_address}}/api/activity-rules
+Authorization: Bearer {{token}}
+Accept-Language: pl
+Content-Type: application/json
+
+{
+  "details": {
+    "title": "test2",
+    "note": "without any notes"
+  },
+  "mode": {
+    "mode": "FirstDayOfMonth"
+  },
+  "stages": [
+  ]
+}
+
+###
+@activity_rule_id = {{create_activity_rule.response.headers.x-resource-id}}
+
+###
+# @name create_stage_for_activity_rule
+POST {{gateway_host_address}}/api/activity-rules/{{activity_rule_id}}/stages
+Authorization: Bearer {{token}}
+Accept-Language: pl
+Content-Type: application/json
+
+{
+    "title": "string"
+}
+
+###
+@stage_id = {{create_stage_for_activity_rule.response.headers.x-resource-id}}
+
+###
+# @name get_all_activity_rules
+GET {{gateway_host_address}}/api/activity-rules
+Authorization: Bearer {{token}}
+
+###
+# @name get_activity_rule_by_id
+GET {{gateway_host_address}}/api/activity-rules/{{activity_rule_id}}
+Authorization: Bearer {{token}}
+
+###
+# @name update_activity_rule
+PUT {{gateway_host_address}}/api/activity-rules/{{activity_rule_id}}
+Authorization: Bearer {{token}}
+Accept-Language: pl
+Content-Type: application/json
+
+{
+  "details": {
+    "title": "My second new rule",
+    "note": "without any notes"
+  },
+  "mode": {
+    "mode": "EveryDay"
+  },
+  "stages": [
+  ]
+}
+
+###
+# @name delete_activity_rule_stage
+DELETE {{gateway_host_address}}/api/activity-rules/stages/{{stage_id}}
+
+###
+# @name delete_activity_rule
+DELETE {{gateway_host_address}}/api/activity-rules/{{activity_rule_id}}
+Authorization: Bearer {{token}}
