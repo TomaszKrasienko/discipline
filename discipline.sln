@@ -151,6 +151,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.gateway", "disci
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.hangfire.browse-planned", "discipline.hangfire\src\features\discipline.hangfire.browse-planned\discipline.hangfire.browse-planned.csproj", "{D6C10638-97CC-470D-BF56-B3A364FCCBDD}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "discipline.daily-trackers", "discipline.daily-trackers", "{22ED4EEA-63F5-42E9-81E3-DB03ABEBE910}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5B6FBA7E-7384-4411-A7E7-AB301F99DAA4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{BC2DCB4A-DAAB-46A5-A8F3-116B13067981}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.daily-trackers.domain", "discipline.daily-trackers\src\discipline.daily-trackers.domain\discipline.daily-trackers.domain\discipline.daily-trackers.domain.csproj", "{E951414A-F694-4993-B9E7-D54C6F761C5E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unit-tests", "unit-tests", "{EC868C69-B3F9-4792-BFAB-5299F5B9E6B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.daily-trackers.domain.tests", "discipline.daily-trackers\tests\unit-tests\discipline.daily-trackers.domain.tests\discipline.daily-trackers.domain.tests.csproj", "{EDDCB215-FF15-44D8-A094-3DF8B0175A23}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -226,6 +238,11 @@ Global
 		{9DAB5C35-6DE0-4E83-8752-667C271563D6} = {B61BB279-BA5D-4149-BEA8-8DAD046D8381}
 		{419068E6-AEF2-4588-8129-70AE319DB83F} = {9DAB5C35-6DE0-4E83-8752-667C271563D6}
 		{D6C10638-97CC-470D-BF56-B3A364FCCBDD} = {F32EC0A8-D999-4FBF-8B7E-A9BFECFE1470}
+		{5B6FBA7E-7384-4411-A7E7-AB301F99DAA4} = {22ED4EEA-63F5-42E9-81E3-DB03ABEBE910}
+		{BC2DCB4A-DAAB-46A5-A8F3-116B13067981} = {22ED4EEA-63F5-42E9-81E3-DB03ABEBE910}
+		{E951414A-F694-4993-B9E7-D54C6F761C5E} = {5B6FBA7E-7384-4411-A7E7-AB301F99DAA4}
+		{EC868C69-B3F9-4792-BFAB-5299F5B9E6B1} = {BC2DCB4A-DAAB-46A5-A8F3-116B13067981}
+		{EDDCB215-FF15-44D8-A094-3DF8B0175A23} = {EC868C69-B3F9-4792-BFAB-5299F5B9E6B1}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5E1B23AB-3288-4919-A3F9-C8E250F2F75D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -404,5 +421,13 @@ Global
 		{D6C10638-97CC-470D-BF56-B3A364FCCBDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6C10638-97CC-470D-BF56-B3A364FCCBDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6C10638-97CC-470D-BF56-B3A364FCCBDD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E951414A-F694-4993-B9E7-D54C6F761C5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E951414A-F694-4993-B9E7-D54C6F761C5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E951414A-F694-4993-B9E7-D54C6F761C5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E951414A-F694-4993-B9E7-D54C6F761C5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDDCB215-FF15-44D8-A094-3DF8B0175A23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDDCB215-FF15-44D8-A094-3DF8B0175A23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDDCB215-FF15-44D8-A094-3DF8B0175A23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDDCB215-FF15-44D8-A094-3DF8B0175A23}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

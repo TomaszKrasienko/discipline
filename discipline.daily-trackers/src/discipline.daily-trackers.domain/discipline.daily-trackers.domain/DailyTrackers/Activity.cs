@@ -1,16 +1,12 @@
-using discipline.centre.dailytrackers.domain.Rules.Stages;
-using discipline.centre.dailytrackers.domain.Specifications;
-using discipline.centre.dailytrackers.domain.ValueObjects;
-using discipline.centre.dailytrackers.domain.ValueObjects.Activities;
-using discipline.centre.shared.abstractions.SharedKernel;
-using discipline.centre.shared.abstractions.SharedKernel.Exceptions;
-using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
+using discipline.daily_trackers.domain.DailyTrackers.Specifications;
+using discipline.daily_trackers.domain.DailyTrackers.ValueObjects;
+using discipline.daily_trackers.domain.DailyTrackers.ValueObjects.Activities;
+using discipline.daily_trackers.domain.SharedKernel;
+using discipline.daily_trackers.domain.SharedKernel.Exceptions;
+using discipline.daily_trackers.domain.SharedKernel.TypeIdentifiers;
 
-namespace discipline.centre.dailytrackers.domain;
+namespace discipline.daily_trackers.domain.DailyTrackers;
 
-/// <summary>
-/// Represents activity of user.
-/// </summary>
 public sealed class Activity : Entity<ActivityId, Ulid>
 {
     private HashSet<Stage> _stages;
