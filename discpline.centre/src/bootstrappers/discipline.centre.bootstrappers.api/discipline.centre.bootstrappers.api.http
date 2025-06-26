@@ -25,13 +25,28 @@ Content-Type: application/json
 
 ###
 # @name sign_in
-POST {{host_address}}/api/users-module/users/tokens
+POST {{host_address}}/api/users/tokens
 Content-Type: application/json
 
 {
   "email": "{{email}}",
   "password": "{{password}}"
 }
+
+###
+# @name sign_in
+POST {{host_address}}/api/users/tokens
+Content-Type: application/json
+Accept-Language: pl
+
+{
+  "email": "t@t.com",
+  "password": "t"
+}
+
+###
+GET {{host_address}}/api/users/me
+Authorization: Bearer {{token}}
 
 ###
 GET {{host_address}}/api/users-module/users/{{user_id}}
@@ -60,7 +75,7 @@ Content-Type: application/json
 
 {
   "details": {
-    "title": "test2",
+    "title": "title",
     "note": "without any notes"
   },
   "mode": {

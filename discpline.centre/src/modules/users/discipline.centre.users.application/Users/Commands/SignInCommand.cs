@@ -41,13 +41,13 @@ internal sealed class SignInCommandHandler(
         var user = await readUserRepository.GetByEmailAsync(command.Email, cancellationToken);
         if (user is null)
         {
-            throw new NotFoundException("SignInCommand.User", nameof(User), command.Email);
+            throw new SignInException();
         }
 
         var isPasswordValid = passwordManager.VerifyPassword(user.Password.HashedValue!, command.Password);
         if (!isPasswordValid)
         {
-            throw new InvalidPasswordException();
+            throw new SignInException();
         }
 
         var token = authenticator.CreateToken(user.Id.ToString(), user.Email, user.Status);

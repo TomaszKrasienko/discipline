@@ -12,7 +12,7 @@ internal sealed class ErrorLocalizationService : IErrorLocalizationService
         IStringLocalizerFactory stringLocalizerFactory)
     {
         var appAssemblies = assemblies.Where(x 
-            => (x.GetName().Name?.StartsWith("discipline.centre.activityrules.api", StringComparison.OrdinalIgnoreCase) ?? false)
+            => (x.GetName().Name?.StartsWith("discipline.centre", StringComparison.OrdinalIgnoreCase) ?? false)
             && (x.GetName().Name?.EndsWith("api", StringComparison.OrdinalIgnoreCase) ?? false)).ToList();
         
         foreach (var assembly in appAssemblies)
@@ -23,14 +23,15 @@ internal sealed class ErrorLocalizationService : IErrorLocalizationService
     
     public string GetMessage(string code)
     {
-        //var errorMessage = _localizers.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x[code]));
-        var errorMessage = _localizers.First();
+        var errorMessage = _localizers
+            .Select(x => x.GetString(code))
+            .SingleOrDefault(x => !x.Value.Equals(code, StringComparison.OrdinalIgnoreCase));
 
         if (errorMessage is null)
         {
-            return "Unexpected error";
+            return "Unknown error";
         }
         
-        return errorMessage[code];
+        return errorMessage.Value;
     }
 }

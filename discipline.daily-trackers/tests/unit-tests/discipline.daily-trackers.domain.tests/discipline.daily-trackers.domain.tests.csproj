@@ -26,4 +26,13 @@
       <ProjectReference Include="..\..\..\src\discipline.daily-trackers.domain\discipline.daily-trackers.domain\discipline.daily-trackers.domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Update="StageTests\CreateTests.DataSeed.cs">
+        <DependentUpon>CreateTests.cs</DependentUpon>
+      </Compile>
+      <Compile Update="ActivityTests\CreateTests.TestDataSeed.cs">
+        <DependentUpon>CreateTests.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
 </Project>
