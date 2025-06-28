@@ -1,0 +1,71 @@
+<root>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="CreateActivityRule.NotUniqueTitle" xml:space="preserve">
+        <value>Reguła aktywności z Tytułem: {0} jest już zarejestrowana</value>
+    </data>
+    <data name="UpdateActivityRule.ActivityRuleNotFound" xml:space="preserve">
+        <value>Nie znaleziono reguły aktywności z ID: {0}</value>
+    </data>
+    <data name="UpdateActivityRule.NotUniqueTitle" xml:space="preserve">
+        <value>Reguła aktywności z Tytułem: {0} jest już zarejestrowana</value>
+    </data>
+    <data name="CreateStageForActivityRule.ActivityRuleNotFound" xml:space="preserve">
+        <value>Nie znaleziono reguły aktywności z ID: {0}</value>
+    </data>
+    <data name="Validation.EmptyActivityRuleTitle" xml:space="preserve">
+        <value>'Tytuł' reguły aktywności nie może być pusty</value>
+    </data>
+    <data name="Validation.ActivityRuleTitleTooLong" xml:space="preserve">
+        <value>'Tytuł' reguły aktywności nie może przekraczać 30 znaków</value>
+    </data>
+    <data name="Validation.EmptyActivityRuleMode" xml:space="preserve">
+        <value>'Typ' reguły aktywności nie może być pusty</value>
+    </data>
+    <data name="Validation.NullDetails" xml:space="preserve">
+        <value>Sekcja 'Details' nie może być pusta</value>
+    </data>
+    <data name="Validation.NullMode" xml:space="preserve">
+        <value>Sekcja 'Mode' nie może być pusta</value>
+    </data>
+    <data name="ActivityRule.Details.EmptyTitle" xml:space="preserve">
+        <value>'Tytuł' reguły aktywności nie może być pusty</value>
+    </data>
+    <data name="ActivityRule.Details.TitleTooLong" xml:space="preserve">
+        <value>'Tytuł' reguły aktywności nie może przekraczać 30 znaków</value>
+    </data>
+    <data name="ActivityRules.Mode.RuleModeRequireSelectedDays" xml:space="preserve">
+        <value>Wybrany typ reguły aktywności wymaga wybrania dni</value>
+    </data>
+    <data name="ActivityRule.Mode.SelectedDayOutOfRange" xml:space="preserve">
+        <value>Conajmniej jeden z wybranych dni reguły aktywności jest poza zakresem </value>
+    </data>
+    <data name="ActivityRule.Stage.Title.EmptyValue" xml:space="preserve">
+        <value>'Tytuł' etapu reguły aktywności nie może być pusty</value>
+    </data>
+    <data name="ActivityRule.Stage.Title.ValueTooLong" xml:space="preserve">
+        <value>'Tytuł' etapu reguły aktywności nie może przekraczać 30 znaków</value>
+    </data>
+    <data name="ActivityRule.Stage.Index.ValueBelowOne" xml:space="preserve">
+        <value>Indeks reguły aktywności nie musi być równy lub większy jeden</value>
+    </data>
+    <data name="ActivityRule.Stages.StageTitleMustBeUnique" xml:space="preserve">
+        <value>'Tytuł' etapu reguły aktywności musi być unikalny</value>
+    </data>
+    <data name="ActivityRules.Mode.RuleModeSelectedDayOutOfRange" xml:space="preserve">
+        <value>Wybrany numer dnia: {0} dla reguły aktywności wychodzi poza zakres</value>
+    </data>
+    <data name="ActivityRule.StageNotFound" xml:space="preserve">
+        <value>Etap reguły aktywności z ID: {0} nie istnieje</value>
+    </data>
+</root>

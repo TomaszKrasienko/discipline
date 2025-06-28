@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="CreateActivityRule.NotUniqueTitle" xml:space="preserve">
+        <value>Activity rule with 'Title': {0} already registered</value>
+    </data>
+    <data name="UpdateActivityRule.ActivityRuleNotFound" xml:space="preserve">
+        <value>Activity rule with 'ID': {0} not found</value>
+    </data>
+    <data name="UpdateActivityRule.NotUniqueTitle" xml:space="preserve">
+        <value>Activity rule with 'Title': {0} already registered</value>
+    </data>
+    <data name="CreateStageForActivityRule.ActivityRuleNotFound" xml:space="preserve">
+        <value>Activity rule with 'ID': {0} not found</value>
+    </data>
+    <data name="Validation.EmptyActivityRuleTitle" xml:space="preserve">
+        <value>Activity rule 'Title' cannot be empty</value>
+    </data>
+    <data name="Validation.ActivityRuleTitleTooLong" xml:space="preserve">
+        <value>Activity rule 'Title' cannot exceed 30 characters</value>
+    </data>
+    <data name="Validation.EmptyActivityRuleMode" xml:space="preserve">
+        <value>Activity rule 'Mode' cannot be empty</value>
+    </data>
+    <data name="Validation.NullDetails" xml:space="preserve">
+        <value>Activity rule 'Details' cannot be null</value>
+    </data>
+    <data name="Validation.NullMode" xml:space="preserve">
+        <value>Activity rule 'Mode cannot be null</value>
+    </data>
+    <data name="ActivityRule.Details.EmptyTitle" xml:space="preserve">
+        <value>Activity rule 'Title' cannot be empty</value>
+    </data>
+    <data name="ActivityRule.Details.TitleTooLong" xml:space="preserve">
+        <value>Activity rule 'Title' cannot exceed 30 characters</value>
+    </data>
+    <data name="ActivityRules.Mode.RuleModeRequireSelectedDays" xml:space="preserve">
+        <value>Activity rule mode require selected days</value>
+    </data>
+    <data name="ActivityRule.Mode.SelectedDayOutOfRange" xml:space="preserve">
+        <value>At least one activity rule selected day is out of range </value>
+    </data>
+    <data name="ActivityRule.Stage.Title.EmptyValue" xml:space="preserve">
+        <value>Activity rule stage 'Title' cannot be empty</value>
+    </data>
+    <data name="ActivityRule.Stage.Title.ValueTooLong" xml:space="preserve">
+        <value>Activity rule stage 'Title' cannot exceed 30 characters</value>
+    </data>
+    <data name="ActivityRule.Stage.Index.ValueBelowOne" xml:space="preserve">
+        <value>Activity rule stage 'OrderIndex' value must be positive</value>
+    </data>
+    <data name="ActivityRule.Stages.StageTitleMustBeUnique" xml:space="preserve">
+        <value>Activity rule stage 'Title' must be unique</value>
+    </data>
+    <data name="ActivityRules.Mode.RuleModeSelectedDayOutOfRange" xml:space="preserve">
+        <value>Activity rule selected day with number: {0} is out of range</value>
+    </data>
+    <data name="ActivityRule.StageNotFound" xml:space="preserve">
+        <value>Activity ryle stage with 'ID': {0} not found</value>
+    </data>
+</root>
