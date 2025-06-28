@@ -1,18 +1,17 @@
 using System.Text;
 using discipline.centre.shared.abstractions.Cache;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
-using discipline.centre.shared.infrastructure.Auth.Configuration;
 using discipline.centre.users.application.Users.DTOs;
 using discipline.centre.users.application.Users.Services;
-using discipline.centre.users.infrastructure.Users.Auth.Configuration.Options;
 using discipline.centre.users.infrastructure.Users.RefreshToken.Configuration;
 using Microsoft.Extensions.Options;
 
 namespace discipline.centre.users.infrastructure.Users.RefreshToken;
 
-internal sealed class RefreshTokenFacade(
+//TODO: Name change
+internal sealed class RefreshTokenSaver(
     ICacheFacade cacheFacade,
-    IOptions<RefreshTokenOptions> options) : IRefreshTokenFacade
+    IOptions<RefreshTokenOptions> options) : IRefreshTokenManager
 {
     private readonly TimeSpan _expiry = options.Value.Expiry;
     private readonly int _refreshTokenLength = options.Value.Length;
@@ -25,6 +24,11 @@ internal sealed class RefreshTokenFacade(
         return refreshToken;
     }
 
+    public Task<UserId?> GetUserIdAsync(string refreshToken, CancellationToken cancellationToken = default)
+    {
+        throw new NotImplementedException();
+    }
+
     private static string GenerateRandom(int length)
     {
         Random random = new Random();
@@ -35,9 +39,13 @@ internal sealed class RefreshTokenFacade(
         }
         return refreshTokenSb.ToString();
     }
-    
-    public Task<UserId> GetUserIdAsync(string refreshToken, CancellationToken cancellationToken = default)
+    public async Task<bool> DoesRefreshTokenExistsAsync(
+        string refreshToken,
+        UserId userId,
+        CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var savedRefreshToken = await cacheFacade.GetAsync<RefreshTokenDto>(userId.ToString(), cancellationToken);
+
+        return refreshToken == savedRefreshToken?.Value;
     }
 }

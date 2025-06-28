@@ -8,6 +8,6 @@ internal static class RefreshTokenStorageServicesConfigurationExtensions
 {
     internal static IServiceCollection AddRefreshTokenStorage(this IServiceCollection services, IConfiguration configuration)
         => services
-            .AddSingleton<IRefreshTokenFacade, RefreshTokenFacade>()
+            .AddSingleton<IRefreshTokenManager, RefreshTokenSaver>()
             .ValidateAndBind<RefreshTokenOptions, RefreshTokenOptionsValidator>(configuration);
 }

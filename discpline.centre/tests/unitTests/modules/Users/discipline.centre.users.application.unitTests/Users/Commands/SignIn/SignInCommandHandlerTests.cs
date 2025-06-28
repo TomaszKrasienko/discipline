@@ -94,7 +94,7 @@ public sealed class SignInCommandHandlerTests
     private readonly IPasswordManager _passwordManager;
     private readonly IAuthenticator _authenticator;
     private readonly ITokenStorage _tokenStorage;
-    private readonly IRefreshTokenFacade _refreshTokenFacade;
+    private readonly IRefreshTokenManager _refreshTokenFacade;
     private readonly ICommandHandler<SignInCommand> _handler;
     
     public SignInCommandHandlerTests()
@@ -103,7 +103,7 @@ public sealed class SignInCommandHandlerTests
         _passwordManager = Substitute.For<IPasswordManager>();
         _authenticator = Substitute.For<IAuthenticator>();
         _tokenStorage = Substitute.For<ITokenStorage>();
-        _refreshTokenFacade = Substitute.For<IRefreshTokenFacade>();
+        _refreshTokenFacade = Substitute.For<IRefreshTokenManager>();
         _handler = new SignInCommandHandler(
             _readUserRepository,
             _passwordManager,

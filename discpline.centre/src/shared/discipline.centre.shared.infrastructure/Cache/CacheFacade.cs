@@ -18,6 +18,8 @@ internal sealed class CacheFacade(
     public async Task AddOrUpdateAsync<T>(string key, T value, TimeSpan expiration, CancellationToken cancellationToken) 
         where T : class
     {
+        // TODO: Workflow change
+        await distributedCache.RemoveAsync(key, cancellationToken);
         await distributedCache.SetAsync(key, serializer.ToByteJson(value), new DistributedCacheEntryOptions()
         {
             AbsoluteExpiration = clock.DateTimeNow().Add(expiration) 

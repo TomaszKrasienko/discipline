@@ -7,6 +7,7 @@ using discipline.centre.users.application.Users.DTOs;
 using discipline.centre.users.application.Users.DTOs.Endpoints;
 using discipline.centre.users.application.Users.Queries;
 using discipline.centre.users.application.Users.Services;
+using discipline.centre.users.domain.Users;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
@@ -58,6 +59,27 @@ internal static class UsersEndpoints
             .WithOpenApi(operation => new (operation)
             {
                 Description = "Signs-in user"
+            });
+        
+        app.MapPost($"api/{UserTag}/refresh-tokens", async (RefreshRequestDto dto,
+                ICqrsDispatcher commandDispatcher, ITokenStorage tokenStorage, CancellationToken cancellationToken) =>
+            {
+                // TODO: Mapper
+                var command = new RefreshTokenCommand(dto.RefreshToken, UserId.Parse(dto.UserId));
+                
+                await commandDispatcher.HandleAsync(command, cancellationToken);
+                var jwt = tokenStorage.Get(); 
+                
+                return Results.Ok(jwt);
+            })
+            .Produces(StatusCodes.Status200OK, typeof(void))
+            .Produces(StatusCodes.Status400BadRequest, typeof(ProblemDetails))
+            .Produces(StatusCodes.Status422UnprocessableEntity, typeof(ProblemDetails))
+            .WithName("Refresh")
+            .WithTags(UserTag)
+            .WithOpenApi(operation => new (operation)
+            {
+                Description = "Refreshed token for user"
             });
         
         app.MapPost($"api/{UserTag}/subscription-order", async (CreateUserSubscriptionOrderDto dto,
