@@ -50,5 +50,17 @@ namespace discipline.centre.users.api.Resources {
                 return ResourceManager.GetString("Users.SignIn", resourceCulture);
             }
         }
+        
+        internal static string Account_EmptyLogin {
+            get {
+                return ResourceManager.GetString("Account.EmptyLogin", resourceCulture);
+            }
+        }
+        
+        internal static string Account_PasswordTooWeak {
+            get {
+                return ResourceManager.GetString("Account.PasswordTooWeak", resourceCulture);
+            }
+        }
     }
 }

@@ -1,4 +1,4 @@
-namespace discipline.centre.users.application.Users.Services;
+namespace discipline.centre.users.domain.Accounts.Services.Abstractions;
 
 public interface IPasswordManager
 {

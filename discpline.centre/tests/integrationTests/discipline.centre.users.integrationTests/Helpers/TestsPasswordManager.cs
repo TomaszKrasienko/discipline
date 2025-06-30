@@ -1,4 +1,6 @@
 using discipline.centre.users.application.Users.Services;
+using discipline.centre.users.domain.Accounts.Services;
+using discipline.centre.users.domain.Accounts.Services.Abstractions;
 
 namespace discipline.centre.users.integrationTests.Helpers;
 

@@ -1,5 +1,6 @@
 using discipline.centre.shared.abstractions.SharedKernel.Aggregate;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
+using discipline.centre.users.domain.Accounts;
 using discipline.centre.users.domain.Subscriptions;
 using discipline.centre.users.domain.Users.Enums;
 using discipline.centre.users.domain.Users.Events;
@@ -10,20 +11,10 @@ namespace discipline.centre.users.domain.Users;
 
 public sealed class User : AggregateRoot<UserId, Ulid>
 {
-    private SubscriptionOrder? _subscriptionOrder;
     public Email Email { get; }
     public Password Password { get; }
     public FullName FullName { get; }
     public Status Status { get; private set; }
-    public SubscriptionOrder? SubscriptionOrder
-    {
-        get => _subscriptionOrder;
-        private set
-        {
-            CheckRule(new SubscriptionOrderAlreadyPickedRule(Id, _subscriptionOrder, value!));
-            _subscriptionOrder = value;
-        }
-    }
 
     private User(UserId id, Email email, Password password, FullName fullName,
         Status status) : base(id)

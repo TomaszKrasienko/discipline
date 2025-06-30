@@ -4,6 +4,8 @@ using discipline.centre.integrationTests.sharedKernel;
 using discipline.centre.users.application.Users.Commands;
 using discipline.centre.users.application.Users.DTOs;
 using discipline.centre.users.application.Users.Services;
+using discipline.centre.users.domain.Accounts.Services;
+using discipline.centre.users.domain.Accounts.Services.Abstractions;
 using discipline.centre.users.domain.Users;
 using discipline.centre.users.infrastructure.DAL.Users.Documents;
 using discipline.centre.users.integrationTests.Helpers;

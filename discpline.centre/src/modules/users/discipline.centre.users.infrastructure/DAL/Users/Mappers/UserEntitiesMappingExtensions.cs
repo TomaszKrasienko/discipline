@@ -1,3 +1,4 @@
+using discipline.centre.users.domain.Accounts;
 using discipline.centre.users.infrastructure.DAL.Users.Documents;
 
 // ReSharper disable once CheckNamespace

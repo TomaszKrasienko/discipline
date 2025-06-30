@@ -1,5 +1,6 @@
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.users.application.Users.DTOs;
+using discipline.centre.users.domain.Accounts;
 using discipline.centre.users.domain.Subscriptions.ValueObjects;
 using discipline.centre.users.domain.Users;
 using discipline.centre.users.domain.Users.Enums;

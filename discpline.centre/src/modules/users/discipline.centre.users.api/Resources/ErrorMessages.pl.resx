@@ -21,4 +21,10 @@
     <data name="Users.SignIn" xml:space="preserve">
         <value>Niepoprawna nazwa użytkownika lub hasło</value>
     </data>
+    <data name="Account.EmptyLogin" xml:space="preserve">
+        <value>Login nie może być pusty</value>
+    </data>
+    <data name="Account.PasswordTooWeak" xml:space="preserve">
+        <value>Hasło jest za słabe</value>
+    </data>
 </root>

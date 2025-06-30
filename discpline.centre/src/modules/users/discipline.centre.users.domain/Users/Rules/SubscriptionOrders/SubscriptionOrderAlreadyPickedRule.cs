@@ -1,6 +1,7 @@
 using discipline.centre.shared.abstractions.SharedKernel;
 using discipline.centre.shared.abstractions.SharedKernel.Exceptions;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
+using discipline.centre.users.domain.Accounts;
 
 namespace discipline.centre.users.domain.Users.Rules.SubscriptionOrders;
 

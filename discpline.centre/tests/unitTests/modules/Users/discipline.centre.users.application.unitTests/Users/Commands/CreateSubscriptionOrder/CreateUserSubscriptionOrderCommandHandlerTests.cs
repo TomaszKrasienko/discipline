@@ -3,6 +3,7 @@ using discipline.centre.shared.abstractions.CQRS.Commands;
 using discipline.centre.shared.abstractions.Exceptions;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.users.application.Users.Commands;
+using discipline.centre.users.domain.Accounts;
 using discipline.centre.users.domain.Subscriptions.Repositories;
 using discipline.centre.users.domain.Users;
 using discipline.centre.users.domain.Users.Enums;
