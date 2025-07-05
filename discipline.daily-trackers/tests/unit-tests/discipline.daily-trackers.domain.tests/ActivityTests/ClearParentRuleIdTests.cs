@@ -1,7 +1,7 @@
-using discipline.centre.dailytrackers.domain.Specifications;
-using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
+using discipline.daily_trackers.domain.DailyTrackers;
+using discipline.daily_trackers.domain.DailyTrackers.Specifications;
+using discipline.daily_trackers.domain.SharedKernel.TypeIdentifiers;
 using Shouldly;
-using Xunit;
 
 namespace discipline.centre.dailytrackers.domain.unitTests.ActivityTests;
 

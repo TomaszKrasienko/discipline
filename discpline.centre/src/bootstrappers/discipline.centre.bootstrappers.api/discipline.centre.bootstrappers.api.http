@@ -35,6 +35,7 @@ Content-Type: application/json
 
 ###
 @token = {{sign_in.response.body.$.token}}
+
 @refresh_token = {{sign_in.response.body.$.refreshToken}}
 
 ###
@@ -47,9 +48,9 @@ Content-Type: application/json
   "userId": "01JPQTFWDB91AF1QVHYP8T8Z36"
 }
 
-###
-@token = {{refresh.response.body.$.token}}
-@refresh_token = {{refresh.response.body.$.refreshToken}}
+# ###
+# @token = {{refresh.response.body.$.token}}
+# @refresh_token = {{refresh.response.body.$.refreshToken}}
 
 
 ###
@@ -92,11 +93,11 @@ Content-Type: application/json
 }
 
 ###
-GET {{host_address}}/api/activity-rules
+GET {{host_address}}/api/activity-rules/01JW395Z3K0YT5RCYJCN9BVTWW
 Authorization: Bearer {{token}}
 
 ###
-GET {{gateway_host_address}}/activity-rules
+GET {{host_address}}/api/activity-rules
 Authorization: Bearer {{token}}
 
 ###
