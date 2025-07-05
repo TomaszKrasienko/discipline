@@ -1,11 +1,23 @@
 using discipline.centre.shared.abstractions.SharedKernel;
+using discipline.centre.users.domain.Accounts.Rules.Payments;
 
 namespace discipline.centre.users.domain.Accounts.ValueObjects.SubscriptionOrder;
 
 public sealed class Payment : ValueObject
 {
+    private readonly decimal _value;
+    
     public DateTimeOffset CreatedAt { get; }
-    public decimal Value { get; }
+
+    public decimal Value
+    {
+        private init
+        {
+            CheckRule(new PaymentValueCannotBeNegativeOrZero(value));
+            _value = value;
+        }
+        get => _value;
+    }
 
     private Payment(
         DateTimeOffset createdAt,
@@ -15,14 +27,13 @@ public sealed class Payment : ValueObject
         Value = value;
     }
 
-    internal static Payment Create(
-        TimeProvider timeProvider,
-        decimal value)
-        => new Payment(timeProvider.GetUtcNow(), value);
+    internal static Payment Create(TimeProvider timeProvider, decimal value) 
+        => new(timeProvider.GetUtcNow(), value);
     
 
     protected override IEnumerable<object?> GetAtomicValues()
     {
-        throw new NotImplementedException();
+        yield return CreatedAt;
+        yield return Value;
     }
 }

@@ -8,13 +8,13 @@ public sealed class SubscriptionOrder : Entity<SubscriptionOrderId, Ulid>
 {
     public Interval Interval { get; private set; }
     public SubscriptionDetails Subscription { get; private set; }
-    public Payment Payment { get; private set; }
+    public Payment? Payment { get; private set; }
     
     private SubscriptionOrder(
         SubscriptionOrderId id, 
         Interval interval,
         SubscriptionDetails subscription,
-        Payment payment) : base(id)
+        Payment? payment) : base(id)
     {
         Interval = interval;
         Subscription = subscription;
@@ -22,9 +22,9 @@ public sealed class SubscriptionOrder : Entity<SubscriptionOrderId, Ulid>
     }
 
     internal static SubscriptionOrder Create(
-        SubscriptionOrderId id,
+        SubscriptionOrderId id, 
         Interval interval,
-        SubscriptionDetails subscription,
-        Payment payment)
-        => new SubscriptionOrder(id, interval, subscription, payment);
+        SubscriptionDetails subscription, 
+        Payment? payment) =>
+        new(id, interval, subscription, payment);
 }

@@ -5,4 +5,4 @@ public sealed record SubscriptionOrderSpecification(
     string SubscriptionType,
     int? ValidityPeriod,
     bool RequirePayment,
-    decimal PaymentValue);
+    decimal? PaymentValue);

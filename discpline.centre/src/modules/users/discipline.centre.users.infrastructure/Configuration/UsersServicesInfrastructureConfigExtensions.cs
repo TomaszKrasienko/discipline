@@ -10,7 +10,7 @@ public static class UsersServicesInfrastructureConfigExtensions
         IConfiguration configuration)
         => services
             .AddPasswordsSecure()
-            .AddDal(assemblyName)
+            // .AddDal(assemblyName)
             .AddUsersAuth(configuration)
             .AddTokenStorage()
             .AddRefreshTokenStorage(configuration);

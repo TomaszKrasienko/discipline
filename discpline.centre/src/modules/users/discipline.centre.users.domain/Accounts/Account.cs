@@ -9,10 +9,10 @@ namespace discipline.centre.users.domain.Accounts;
 
 public sealed class Account : AggregateRoot<AccountId, Ulid>
 {
-    private readonly HashSet<SubscriptionOrder> _subscriptions = new();
+    private readonly HashSet<SubscriptionOrder> _orders = new();
     public Login Login { get; private set; }
     public Password Password { get; private set; }
-    public IReadOnlyCollection<SubscriptionOrder> Subscriptions => _subscriptions.ToArray();
+    public IReadOnlyCollection<SubscriptionOrder> Orders => _orders.ToArray();
     
     private Account(
         AccountId accountId,
@@ -62,9 +62,15 @@ public sealed class Account : AggregateRoot<AccountId, Ulid>
             order.SubscriptionType,
             order.ValidityPeriod,
             order.RequirePayment);
-        var payment = Payment.Create(
-            timeProvider,
-            order.PaymentValue);
+        
+        Payment? payment = null;
+        
+        if (order.PaymentValue is not null)
+        {
+            payment = Payment.Create(
+                timeProvider,
+                order.PaymentValue.Value);
+        }
 
         var subscriptionOrder = SubscriptionOrder.Create(
             subscriptionOrderId,
@@ -72,7 +78,7 @@ public sealed class Account : AggregateRoot<AccountId, Ulid>
             subscription,
             payment);
         
-        _subscriptions.Add(subscriptionOrder);
+        _orders.Add(subscriptionOrder);
         return subscriptionOrder;
     }
 }

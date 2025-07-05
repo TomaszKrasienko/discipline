@@ -17,8 +17,10 @@ public sealed class Login : ValueObject
     }
 
     private Login(string value) => Value = value;
+
+    internal static Login Create(string value) => new(value);
     
-    public static implicit operator Login(string value) => new(value);
+    public static implicit operator Login(string value) => Create(value);
     
     protected override IEnumerable<object?> GetAtomicValues()
     {
