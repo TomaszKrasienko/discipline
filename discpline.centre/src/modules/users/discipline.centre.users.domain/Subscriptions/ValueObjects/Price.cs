@@ -1,4 +1,5 @@
 using discipline.centre.shared.abstractions.SharedKernel;
+using discipline.centre.users.domain.Subscriptions.Enums;
 using discipline.centre.users.domain.Subscriptions.Rules;
 
 namespace discipline.centre.users.domain.Subscriptions.ValueObjects;
@@ -28,17 +29,17 @@ public sealed class Price : ValueObject
         }
     }
 
-    public string Currency { get; private set; }
+    public Currency Currency { get; private set; }
 
     public static Price Create(
         decimal perMonth,
         decimal perYear,
-        string currency) => new(perMonth, perYear, currency);
+        Currency currency) => new(perMonth, perYear, currency);
 
     private Price(
         decimal perMonth,
         decimal perYear,
-        string currency)
+        Currency currency)
     {
         PerMonth = perMonth;
         PerYear = perYear;
