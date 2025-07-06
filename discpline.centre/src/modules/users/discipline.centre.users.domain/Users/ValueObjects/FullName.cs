@@ -1,7 +1,7 @@
 using discipline.centre.shared.abstractions.SharedKernel;
 using discipline.centre.users.domain.Users.Rules.Users;
 
-namespace discipline.centre.users.domain.Users.ValueObjects.Users;
+namespace discipline.centre.users.domain.Users.ValueObjects;
 
 public sealed class FullName : ValueObject
 {
@@ -25,7 +25,6 @@ public sealed class FullName : ValueObject
         private init
         {
             CheckRule(new LastNameCanNotBeEmptyRule(value));
-            CheckRule(new LastNameMustBeFrom2To100LengthRule(value));
             _lastName = value;
         }
     }

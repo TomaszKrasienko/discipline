@@ -1,7 +1,7 @@
 using discipline.centre.shared.abstractions.SharedKernel;
 using discipline.centre.users.domain.Users.Rules.Users;
 
-namespace discipline.centre.users.domain.Users.ValueObjects.Users;
+namespace discipline.centre.users.domain.Users.ValueObjects;
 
 public sealed class Email : ValueObject
 {
@@ -16,12 +16,10 @@ public sealed class Email : ValueObject
             _value = value;
         }
     }
-
-    public static Email Create(string value) => new(value);
     
     private Email(string value) => Value = value;
 
-    public static implicit operator string(Email email) => email.Value;
+    public static Email Create(string value) => new(value);
 
     public static implicit operator Email(string email) => Create(email);
 

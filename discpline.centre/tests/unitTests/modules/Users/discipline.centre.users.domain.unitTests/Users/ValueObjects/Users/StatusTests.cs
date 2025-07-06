@@ -1,5 +1,4 @@
 using discipline.centre.shared.abstractions.SharedKernel.Exceptions;
-using discipline.centre.users.domain.Users.ValueObjects.Users;
 using Shouldly;
 using Xunit;
 

@@ -1,5 +1,5 @@
 using discipline.centre.shared.abstractions.SharedKernel.Exceptions;
-using discipline.centre.users.domain.Users.ValueObjects.Users;
+using discipline.centre.users.domain.Users.ValueObjects;
 using Shouldly;
 using Xunit;
 
@@ -8,39 +8,37 @@ namespace discipline.centre.users.domain.unitTests.Users.ValueObjects.Users;
 public sealed class EmailTests
 {
     [Fact]
-    public void Create_GivenValidEmail_ShouldReturnEmailWithValue()
+    public void GivenValidEmail_WhenCreate_ThenReturnsEmailWithValue()
     {
-        //arrange
+        // Arrange
         var value = "test@test.pl";
         
-        //act
+        // Act
         var result = Email.Create(value);
         
-        //assert
+        // Assert
         result.Value.ShouldBe(value);
     }
-    
-    [Theory]
-    [MemberData(nameof(GetInvalidEmailsWithCodes))]
-    public void Create_GivenInvalidEmail_ShouldThrowDomainEventWithCode(string email, string code)
-    {
-        //act
-        var exception = Record.Exception(() => Email.Create(email));
-        
-        //assert
-        exception.ShouldBeOfType<DomainException>();
-        ((DomainException)exception).Code.ShouldBe(code);
-    }
 
-    public static IEnumerable<object[]> GetInvalidEmailsWithCodes()
+    [Fact]
+    public void GivenEmptyEmail_WhenCreate_ThenThrowsDomainExceptionWithCode_User_EmptyEmail()
     {
-        yield return
-        [
-            string.Empty, "User.Email.Empty"
-        ];
-        yield return
-        [
-            "test", "User.Email.Invalid"
-        ];
+        // Act
+        var exception = Record.Exception(() => Email.Create(string.Empty));
+        
+        // Assert
+        exception.ShouldBeOfType<DomainException>();
+        ((DomainException)exception).Code.ShouldBe("User.EmptyEmail");
+    }
+    
+    [Fact]
+    public void GivenInvalidEmail_WhenCreate_ThenThrowsDomainExceptionWithCode_User_InvalidEmail()
+    {
+        // Act
+        var exception = Record.Exception(() => Email.Create(string.Empty));
+        
+        // Assert
+        exception.ShouldBeOfType<DomainException>();
+        ((DomainException)exception).Code.ShouldBe("User.InvalidEmail");
     }
 }

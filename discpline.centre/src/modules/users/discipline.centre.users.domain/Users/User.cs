@@ -1,7 +1,7 @@
 using discipline.centre.shared.abstractions.SharedKernel.Aggregate;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.users.domain.Users.Events;
-using discipline.centre.users.domain.Users.ValueObjects.Users;
+using discipline.centre.users.domain.Users.ValueObjects;
 
 namespace discipline.centre.users.domain.Users;
 
@@ -34,7 +34,6 @@ public sealed class User : AggregateRoot<UserId, Ulid>
             email,  
             FullName.Create(firstName, lastName), 
             accountId);
-        
         
         var @event = new UserCreated(id, email);
         user.AddDomainEvent(@event);

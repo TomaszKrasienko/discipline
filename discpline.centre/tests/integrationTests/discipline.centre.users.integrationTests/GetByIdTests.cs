@@ -4,7 +4,6 @@ using discipline.centre.integrationTests.sharedKernel;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.users.application.Users.DTOs;
 using discipline.centre.users.domain.Users;
-using discipline.centre.users.domain.Users.ValueObjects.Users;
 using discipline.centre.users.infrastructure.DAL.Users.Documents;
 using discipline.centre.users.tests.sharedkernel.Domain;
 using Shouldly;

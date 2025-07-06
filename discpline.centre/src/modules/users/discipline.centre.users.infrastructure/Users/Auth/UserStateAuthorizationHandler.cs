@@ -1,5 +1,4 @@
 using discipline.centre.shared.infrastructure.Auth;
-using discipline.centre.users.domain.Users.ValueObjects.Users;
 using Microsoft.AspNetCore.Authorization;
 
 namespace discipline.centre.users.infrastructure.Users.Auth;

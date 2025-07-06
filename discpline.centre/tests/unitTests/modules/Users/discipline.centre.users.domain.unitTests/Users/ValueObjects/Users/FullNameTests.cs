@@ -1,5 +1,5 @@
 using discipline.centre.shared.abstractions.SharedKernel.Exceptions;
-using discipline.centre.users.domain.Users.ValueObjects.Users;
+using discipline.centre.users.domain.Users.ValueObjects;
 using Shouldly;
 using Xunit;
 
@@ -12,10 +12,10 @@ public sealed class FullNameTests
     public void Create_GivenValidFullName_ShouldReturnFullNameWithFirstNameAndLastName(string firstName,
         string lastName)
     {
-        //act
+        // Act
         var result = FullName.Create(firstName, lastName);
         
-        //assert
+        // Assert
         result.FirstName.ShouldBe(firstName);
         result.LastName.ShouldBe(lastName);
     }
@@ -25,6 +25,8 @@ public sealed class FullNameTests
         yield return [new string('t', 2), new string('t', 2)];
         yield return [new string('t', 100), new string('t', 100)];
     }
+    
+    
     
     [Theory]
     [MemberData(nameof(GetInvalidFullName))]

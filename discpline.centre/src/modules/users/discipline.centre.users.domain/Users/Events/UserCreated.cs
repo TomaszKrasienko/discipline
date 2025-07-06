@@ -1,6 +1,6 @@
 using discipline.centre.shared.abstractions.SharedKernel;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
-using discipline.centre.users.domain.Users.ValueObjects.Users;
+using discipline.centre.users.domain.Users.ValueObjects;
 
 namespace discipline.centre.users.domain.Users.Events;
 
