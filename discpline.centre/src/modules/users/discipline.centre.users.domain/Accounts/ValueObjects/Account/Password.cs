@@ -7,7 +7,10 @@ public sealed class Password : ValueObject
 {
     public string Value { get; }
 
-    private Password(string value) => Value = value;
+    /// <summary>
+    /// Use only for MongoDB
+    /// </summary>
+    public Password(string value) => Value = value;
 
     internal static Password Create(string password, string hashedPassword)
     {

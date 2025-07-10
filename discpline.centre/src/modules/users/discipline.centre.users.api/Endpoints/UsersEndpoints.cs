@@ -92,9 +92,8 @@ internal static class UsersEndpoints
                 {
                     return Results.Unauthorized();
                 }
-                
-                await commandDispatcher.HandleAsync(dto.MapAsCommand(userId, subscriptionOrderId),
-                    cancellationToken);
+
+                await Task.Delay(1);
                 
                 return Results.Ok();
             })

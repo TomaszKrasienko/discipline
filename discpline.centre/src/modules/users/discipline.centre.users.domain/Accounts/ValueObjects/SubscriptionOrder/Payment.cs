@@ -19,7 +19,10 @@ public sealed class Payment : ValueObject
         get => _value;
     }
 
-    private Payment(
+    /// <summary>
+    /// Use only for MongoDB
+    /// </summary>
+    public Payment(
         DateTimeOffset createdAt,
         decimal value)
     {

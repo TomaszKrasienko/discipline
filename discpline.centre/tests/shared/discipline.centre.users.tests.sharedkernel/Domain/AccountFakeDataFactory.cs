@@ -1,0 +1,45 @@
+using Bogus;
+using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
+using discipline.centre.users.domain.Accounts;
+using discipline.centre.users.domain.Accounts.Specifications.SubscriptionOrder;
+using discipline.centre.users.domain.Accounts.ValueObjects.Account;
+
+namespace discipline.centre.users.tests.sharedkernel.Domain;
+
+public static class AccountFakeDataFactory
+{
+    public static Account Get()
+    {
+        var faker = new Faker<Account>()
+            .CustomInstantiator(v => new Account(
+                AccountId.New(),
+                v.Internet.Email(),
+                Password.Create(v.Random.String(), v.Random.String()),
+                []));
+        
+        return faker.Generate();
+    }
+
+    public static Account WithSubscriptionOrder(this Account account,
+        int? validityPeriod = null,
+        bool withPayment = false)
+    {
+        TimeProvider timeProvider = TimeProvider.System;
+
+        var faker = new Faker();
+
+        var order = new SubscriptionOrderSpecification(
+            faker.Random.String(),
+            validityPeriod ?? faker.Random.Int(min: 1, max: 200),
+            withPayment,
+            withPayment ? faker.Random.Decimal(min: 1m) : null);
+
+        account
+            .AddOrder(
+                SubscriptionOrderId.New(),
+                timeProvider,
+                order);
+        
+        return account;
+    }
+}

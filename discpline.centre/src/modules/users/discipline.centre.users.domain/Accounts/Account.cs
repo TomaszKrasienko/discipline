@@ -23,6 +23,21 @@ public sealed class Account : AggregateRoot<AccountId, Ulid>
         Password = password;
     }
 
+    /// <summary>
+    /// Use only for MongoDB
+    /// </summary>
+    public Account(
+        AccountId accountId,
+        Login login,
+        Password password,
+        HashSet<SubscriptionOrder> orders) : this(
+            accountId,
+            login,
+            password)
+    {
+        _orders = orders;
+    }
+
     internal static Account Create(
         AccountId accountId,
         string login,
@@ -43,7 +58,7 @@ public sealed class Account : AggregateRoot<AccountId, Ulid>
         return account;
     }
 
-    private SubscriptionOrder AddOrder(
+    internal SubscriptionOrder AddOrder(
         SubscriptionOrderId subscriptionOrderId,
         TimeProvider timeProvider,
         SubscriptionOrderSpecification order)

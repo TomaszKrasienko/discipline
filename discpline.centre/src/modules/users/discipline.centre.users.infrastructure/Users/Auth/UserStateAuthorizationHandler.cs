@@ -25,12 +25,6 @@ internal sealed class UserStateAuthorizationHandler() : AuthorizationHandler<Use
             context.Fail();
             return Task.CompletedTask;
         }
-
-        if (statusClaim.Value is Status.PaidSubscriptionPicked or Status.FreeSubscriptionPicked)
-        {
-            context.Succeed(requirement);
-            return Task.CompletedTask;
-        }
         
         context.Fail();
         return Task.CompletedTask;

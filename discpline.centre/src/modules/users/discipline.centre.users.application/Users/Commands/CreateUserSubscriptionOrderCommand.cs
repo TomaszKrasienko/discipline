@@ -1,11 +1,11 @@
 using discipline.centre.shared.abstractions.CQRS.Commands;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
-using discipline.centre.users.domain.Users.Enums;
 
 namespace discipline.centre.users.application.Users.Commands;
 
-public sealed record CreateUserSubscriptionOrderCommand(UserId UserId, SubscriptionOrderId Id, 
-    SubscriptionId SubscriptionId, SubscriptionOrderFrequency? SubscriptionOrderFrequency,
+public sealed record CreateUserSubscriptionOrderCommand(UserId UserId,
+    SubscriptionOrderId Id, 
+    SubscriptionId SubscriptionId,
     string? PaymentToken) : ICommand;
 //     
 // public sealed class CreateUserSubscriptionOrderCommandValidator : AbstractValidator<CreateUserSubscriptionOrderCommand>

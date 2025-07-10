@@ -18,7 +18,7 @@ public sealed class SubscriptionDetails : ValueObject
         RequirePayment = requirePayment;
     }
 
-    internal static SubscriptionDetails Create(
+    public static SubscriptionDetails Create(
         string type,
         int? validityPeriod,
         bool requirePayment)

@@ -10,7 +10,10 @@ public sealed class SubscriptionOrder : Entity<SubscriptionOrderId, Ulid>
     public SubscriptionDetails Subscription { get; private set; }
     public Payment? Payment { get; private set; }
     
-    private SubscriptionOrder(
+    /// <summary>
+    /// Use only for MongoDB
+    /// </summary>
+    public SubscriptionOrder(
         SubscriptionOrderId id, 
         Interval interval,
         SubscriptionDetails subscription,
@@ -21,7 +24,7 @@ public sealed class SubscriptionOrder : Entity<SubscriptionOrderId, Ulid>
         Payment = payment;
     }
 
-    internal static SubscriptionOrder Create(
+    public static SubscriptionOrder Create(
         SubscriptionOrderId id, 
         Interval interval,
         SubscriptionDetails subscription, 

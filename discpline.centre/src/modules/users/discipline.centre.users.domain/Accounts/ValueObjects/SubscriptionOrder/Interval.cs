@@ -16,7 +16,7 @@ public sealed class Interval : ValueObject
         FinishDate = finishDate;
     }
 
-    internal static Interval Create(
+    public static Interval Create(
         DateOnly startDate,
         DateOnly? finishDate)
     {

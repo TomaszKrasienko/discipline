@@ -8,7 +8,7 @@ internal static class UserEventMapperExtensions
 {
     public static IEvent MapAsIntegrationEvent(this DomainEvent domainEvent) => domainEvent switch
     {
-        UserCreated @event => new UserSignedUp(@event.UserId, @event.Email),
+        UserCreated @event => new UserSignedUp(@event.UserId, @event.Email.Value),
         _ => throw new InvalidOperationException("Unknown event type")
     };
 }
