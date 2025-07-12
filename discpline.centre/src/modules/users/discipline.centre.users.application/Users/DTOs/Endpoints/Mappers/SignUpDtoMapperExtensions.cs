@@ -1,4 +1,5 @@
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
+using discipline.centre.users.application.Accounts.Commands;
 using discipline.centre.users.application.Users.Commands;
 
 // ReSharper disable once CheckNamespace

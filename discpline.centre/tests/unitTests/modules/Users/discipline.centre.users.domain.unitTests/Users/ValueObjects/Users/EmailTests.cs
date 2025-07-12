@@ -35,7 +35,7 @@ public sealed class EmailTests
     public void GivenInvalidEmail_WhenCreate_ThenThrowsDomainExceptionWithCode_User_InvalidEmail()
     {
         // Act
-        var exception = Record.Exception(() => Email.Create(string.Empty));
+        var exception = Record.Exception(() => Email.Create("test"));
         
         // Assert
         exception.ShouldBeOfType<DomainException>();

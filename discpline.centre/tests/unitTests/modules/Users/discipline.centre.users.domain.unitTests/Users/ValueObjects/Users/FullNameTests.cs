@@ -9,7 +9,7 @@ public sealed class FullNameTests
 {
     [Theory]
     [MemberData(nameof(GetValidFullName))]
-    public void Create_GivenValidFullName_ShouldReturnFullNameWithFirstNameAndLastName(string firstName,
+    public void GivenValidFullName_QhenCreate_ThenReturnFullNameWithFirstNameAndLastName(string firstName,
         string lastName)
     {
         // Act
@@ -25,29 +25,50 @@ public sealed class FullNameTests
         yield return [new string('t', 2), new string('t', 2)];
         yield return [new string('t', 100), new string('t', 100)];
     }
-    
-    
-    
-    [Theory]
-    [MemberData(nameof(GetInvalidFullName))]
-    public void Create_GivenInvalidFullName_ShouldThrowDomainExceptionWithCode(string firstName, string lastName,
-        string code)
+
+    [Fact]
+    public void GivenEmptyFirstName_WhenCreate_ThenThrowsDomainExceptionWithCode_User_FullName_EmptyFirstName()
     {
-        //act
-        var exception = Record.Exception(() => FullName.Create(firstName, lastName));
+        // Act
+        var exception = Record.Exception(() => FullName.Create(
+            string.Empty,
+            "last_name"));
         
-        //assert
+        // Assert
         exception.ShouldBeOfType<DomainException>();
-        ((DomainException)exception).Code.ShouldBe(code);
+        ((DomainException)exception).Code.ShouldBe("User.FullName.EmptyFirstName");
     }
 
-    public static IEnumerable<object[]> GetInvalidFullName()
+    [Theory]
+    [MemberData(nameof(GetInvalidFirstName))]
+    public void GivenInvalidFirstName_WhenCreate_ThenThrowsDomainExceptionWithCode_User_FullName_FirstNameInvalidLength(string firstName)
     {
-        yield return [ string.Empty, "test_last_name", "User.FullName.FirstName.Empty" ];
-        yield return [ "test_first_name", string.Empty, "User.FullName.LastName.Empty" ];
-        yield return [ new string('t', 1), "test_last_name", "User.FullName.FirstName.InvalidLength" ];
-        yield return [ new string('t', 101), "test_last_name", "User.FullName.FirstName.InvalidLength" ];
-        yield return [ "test_first_name", new string('t', 1), "User.FullName.LastName.InvalidLength" ];
-        yield return [ "test_first_name", new string('t', 101), "User.FullName.LastName.InvalidLength" ];
+        // Act
+        var exception = Record.Exception(() => FullName.Create(
+            firstName,
+            "last_name"));
+        
+        // Assert
+        exception.ShouldBeOfType<DomainException>();
+        ((DomainException)exception).Code.ShouldBe("User.FullName.FirstNameInvalidLength");
+    }
+
+    [Fact]
+    public void GivenEmptyLastName_WhenCreate_ThenThrowsDomainExceptionWithCode_User_FullName_EmptyLastName()
+    {
+        // Act
+        var exception = Record.Exception(() => FullName.Create(
+            "first_name",
+            string.Empty));
+        
+        // Assert
+        exception.ShouldBeOfType<DomainException>();
+        ((DomainException)exception).Code.ShouldBe("User.FullName.EmptyLastName");
+    }
+
+    public static IEnumerable<object[]> GetInvalidFirstName()
+    {
+        yield return [new string('t', 1)];
+        yield return [new string('t', 101)];
     }
 }

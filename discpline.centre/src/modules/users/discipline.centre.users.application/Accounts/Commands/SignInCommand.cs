@@ -1,36 +1,14 @@
 using discipline.centre.shared.abstractions.CQRS.Commands;
-using discipline.centre.shared.abstractions.Exceptions;
 using discipline.centre.users.application.Users.DTOs;
 using discipline.centre.users.application.Users.Exceptions;
 using discipline.centre.users.application.Users.Services;
-using discipline.centre.users.domain.Accounts.Services;
 using discipline.centre.users.domain.Accounts.Services.Abstractions;
-using discipline.centre.users.domain.Users;
 using discipline.centre.users.domain.Users.Repositories;
-using FluentValidation;
 
-namespace discipline.centre.users.application.Users.Commands;
+namespace discipline.centre.users.application.Accounts.Commands;
 
 public sealed record SignInCommand(string Email, string Password) : ICommand;
-//
-// public sealed class SignInCommandValidator : AbstractValidator<SignInCommand>
-// {
-//     public SignInCommandValidator()
-//     {
-//         RuleFor(x => x.Email)
-//             .NotNull()
-//             .NotEmpty()
-//             .WithMessage("Email can not be null or empty")
-//             .EmailAddress()
-//             .WithMessage("Email is invalid");
-//         
-//         RuleFor(x => x.Password)
-//             .NotNull()
-//             .NotEmpty()
-//             .WithMessage("Password can not be null or empty");
-//     }
-// }
-//
+
 // internal sealed class SignInCommandHandler(
 //     IReadUserRepository readUserRepository,
 //     IPasswordManager passwordManager,

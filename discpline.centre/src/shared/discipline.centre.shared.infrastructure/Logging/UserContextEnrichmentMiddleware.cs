@@ -35,7 +35,7 @@ internal sealed class UserContextEnrichmentMiddleware(
 
             var data = new Dictionary<string, object>()
             {
-                ["UserId"] = userId.ToString()
+                ["UserId"] = userId.ToString()!
             };
 
             using (logger.BeginScope(data))

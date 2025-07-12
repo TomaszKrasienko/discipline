@@ -2,6 +2,7 @@ using discipline.centre.shared.abstractions.CQRS;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.shared.infrastructure.IdentityContext.Abstractions;
 using discipline.centre.shared.infrastructure.ResourceHeader;
+using discipline.centre.users.application.Accounts.Commands;
 using discipline.centre.users.application.Users.Commands;
 using discipline.centre.users.application.Users.DTOs;
 using discipline.centre.users.application.Users.DTOs.Endpoints;
@@ -142,7 +143,7 @@ internal static class UsersEndpoints
                 return Results.Unauthorized();
             }
             
-            var user = await dispatcher.SendAsync(new GetUserByIdQuery(userId), cancellationToken);
+            var user = await dispatcher.SendAsync(new GetUserByIdQuery(userId.Value), cancellationToken);
             return user is null ? Results.NotFound() : Results.Ok(user);
         })
         .Produces(StatusCodes.Status200OK, typeof(UserDto))

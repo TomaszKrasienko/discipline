@@ -19,7 +19,7 @@ public sealed class Email : ValueObject
     
     private Email(string value) => Value = value;
 
-    public static Email Create(string value) => new(value);
+    internal static Email Create(string value) => new(value);
 
     public static implicit operator Email(string email) => Create(email);
 

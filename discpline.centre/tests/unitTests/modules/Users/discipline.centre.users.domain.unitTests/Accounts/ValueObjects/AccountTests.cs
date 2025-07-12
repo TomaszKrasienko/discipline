@@ -22,7 +22,6 @@ public sealed class AccountTests
             "password",
             "hashed_password");
         var order = new SubscriptionOrderSpecification(
-            DateOnly.FromDateTime(DateTime.UtcNow),
             "test_subscription_type",
             null,
             false,
@@ -64,7 +63,6 @@ public sealed class AccountTests
             "password",
             "hashed_password");
         var order = new SubscriptionOrderSpecification(
-            DateOnly.FromDateTime(DateTime.UtcNow),
             "test_subscription_type",
             30,
             true,

@@ -36,9 +36,14 @@ internal static class AccountDocumentMapperExtensions
             document.SubscriptionDetails.ValidityPeriod,
             document.SubscriptionDetails.RequirePayment);
         
-        var payment = new Payment(
-            document.Payment.CreatedAt,
-            document.Payment.Value);
+        Payment? payment = null;
+
+        if (document.Payment is not null)
+        {
+            payment = new Payment(
+                document.Payment.CreatedAt,
+                document.Payment.Value);
+        }
 
         return new SubscriptionOrder(
             id,

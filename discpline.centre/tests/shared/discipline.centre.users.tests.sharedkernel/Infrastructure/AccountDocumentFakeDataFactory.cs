@@ -3,7 +3,7 @@ using discipline.centre.users.infrastructure.DAL.Accounts.Documents;
 
 namespace discipline.centre.users.tests.sharedkernel.Infrastructure;
 
-public static class AccountDocumentFakeDataFactory
+internal static class AccountDocumentFakeDataFactory
 {
     public static AccountDocument Get()
     {
@@ -28,14 +28,28 @@ public static class AccountDocumentFakeDataFactory
 
         var validityPeriod = faker.Random.Int(min: 1, max: 60);
 
-        var subscription = new SubscriptionOrderDocument()
+        var subscription = new SubscriptionOrderDocument
         {
             Id = Ulid.NewUlid().ToString(),
-            StartDate = startDate,
-            FinishDate = withPayment ? startDate.AddDays(validityPeriod) : null,
-            Type = faker.Random.String(),
-            ValidityPeriod = validityPeriod,
-            RequirePayment = withPayment
+            Interval = new IntervalDocument
+            {
+                StartDate = startDate,
+                FinishDate = withPayment ? startDate.AddDays(validityPeriod) : null
+            },
+            SubscriptionDetails = new SubscriptionDetailsDocument
+            {
+                Type = faker.Random.String(),
+                ValidityPeriod = validityPeriod,
+                RequirePayment = withPayment
+            },
+            Payment = 
+                withPayment 
+                    ? new PaymentDocument
+                    {
+                        Value = faker.Random.Decimal(min:1, max:60),
+                        CreatedAt = DateTimeOffset.Now
+                    }
+                    : null 
         };
         
         accountDocument.SubscriptionOrders.Add(subscription);
