@@ -40,7 +40,7 @@ internal static class CalendarEndpoints
             }
 
             var eventId = CalendarEventId.New();
-            await cqrsDispatcher.HandleAsync(dto.AsCommand(userId, day, eventId), cancellationToken);
+            await cqrsDispatcher.HandleAsync(dto.AsCommand(userId.Value, day, eventId), cancellationToken);
 
             return Results.NoContent();
         })

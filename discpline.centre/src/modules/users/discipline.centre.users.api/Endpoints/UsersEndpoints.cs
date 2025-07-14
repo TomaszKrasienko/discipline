@@ -3,6 +3,7 @@ using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.shared.infrastructure.IdentityContext.Abstractions;
 using discipline.centre.shared.infrastructure.ResourceHeader;
 using discipline.centre.users.application.Accounts.Commands;
+using discipline.centre.users.application.Accounts.DTOs.Requests;
 using discipline.centre.users.application.Users.Commands;
 using discipline.centre.users.application.Users.DTOs;
 using discipline.centre.users.application.Users.DTOs.Endpoints;
@@ -13,7 +14,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using SignUpDto = discipline.centre.users.application.Users.DTOs.Endpoints.SignUpDto;
 
 // ReSharper disable All
 namespace discipline.centre.users.api.Endpoints;
@@ -25,25 +25,6 @@ internal static class UsersEndpoints
     
     internal static WebApplication MapUsersEndpoints(this WebApplication app)
     {
-        app.MapPost($"api/{UserTag}", async (SignUpDto dto,
-            CancellationToken cancellationToken, ICqrsDispatcher commandDispatcher, IHttpContextAccessor contextAccessor) =>
-            {
-                var userId = UserId.New();
-                await commandDispatcher.HandleAsync(dto.MapAsCommand(userId), cancellationToken);
-                contextAccessor.AddResourceIdHeader(userId.ToString());
-                
-                return Results.CreatedAtRoute(nameof(GetById),  new {userId = userId.ToString()}, null);
-            })
-            .Produces(StatusCodes.Status201Created, typeof(void))
-            .Produces(StatusCodes.Status400BadRequest, typeof(ProblemDetails))
-            .Produces(StatusCodes.Status422UnprocessableEntity, typeof(ProblemDetails))
-            .WithName("SignUp")
-            .WithTags(UserTag)
-            .WithOpenApi(operation => new (operation)
-            {
-                Description = "Signs-up user"
-            });
-        
         app.MapPost($"api/{UserTag}/tokens", async (SignInCommand command,
                 ICqrsDispatcher commandDispatcher, ITokenStorage tokenStorage, CancellationToken cancellationToken) =>
             {

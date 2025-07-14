@@ -1,4 +1,5 @@
 using Bogus;
+using discipline.centre.users.domain.Subscriptions.Enums;
 using discipline.centre.users.infrastructure.DAL.Accounts.Documents;
 
 namespace discipline.centre.users.tests.sharedkernel.Infrastructure;
@@ -39,7 +40,7 @@ internal static class AccountDocumentFakeDataFactory
             SubscriptionDetails = new SubscriptionDetailsDocument
             {
                 Type = faker.Random.String(),
-                ValidityPeriod = validityPeriod,
+                ValidityPeriod = faker.PickRandom<Period>(Period.GetAvailable()).Value,
                 RequirePayment = withPayment
             },
             Payment = 

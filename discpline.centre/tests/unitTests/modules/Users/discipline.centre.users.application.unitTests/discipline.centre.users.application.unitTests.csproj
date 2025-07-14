@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <RootNamespace>discipline.centre.users.application.unitTests</RootNamespace>
+        <RootNamespace>discipline.centre.users.application.unittests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -23,5 +23,9 @@
     <ItemGroup>
       <ProjectReference Include="..\..\..\..\..\src\Modules\Users\discipline.centre.users.application\discipline.centre.users.application.csproj" />
       <ProjectReference Include="..\..\..\..\Shared\discipline.centre.users.tests.sharedkernel\discipline.centre.users.tests.sharedkernel.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Accounts\" />
     </ItemGroup>
 </Project>

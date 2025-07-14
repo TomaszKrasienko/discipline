@@ -3,6 +3,7 @@ using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.users.domain.Accounts;
 using discipline.centre.users.domain.Accounts.Specifications.SubscriptionOrder;
 using discipline.centre.users.domain.Accounts.ValueObjects.Account;
+using discipline.centre.users.domain.Subscriptions.Enums;
 
 namespace discipline.centre.users.tests.sharedkernel.Domain;
 
@@ -30,7 +31,7 @@ public static class AccountFakeDataFactory
 
         var order = new SubscriptionOrderSpecification(
             faker.Random.String(),
-            validityPeriod ?? faker.Random.Int(min: 1, max: 200),
+            faker.PickRandom<Period>(Period.GetAvailable()),
             withPayment,
             withPayment ? faker.Random.Decimal(min: 1m) : null);
 

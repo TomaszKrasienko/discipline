@@ -4,6 +4,7 @@ using discipline.centre.users.domain.Accounts.Specifications.Account;
 using discipline.centre.users.domain.Accounts.Specifications.SubscriptionOrder;
 using discipline.centre.users.domain.Accounts.ValueObjects.Account;
 using discipline.centre.users.domain.Accounts.ValueObjects.SubscriptionOrder;
+using discipline.centre.users.domain.Subscriptions.Enums;
 
 namespace discipline.centre.users.domain.Accounts;
 
@@ -67,15 +68,17 @@ public sealed class Account : AggregateRoot<AccountId, Ulid>
 
         DateOnly? finishDate = null;
 
-        if (order.ValidityPeriod is not null)
+        if (order.Period is not null)
         {
-            finishDate = startDay.AddDays(order.ValidityPeriod.Value);
+            finishDate = order.Period == Period.Month 
+                ? startDay.AddMonths(1)
+                : startDay.AddYears(1);
         }
         
         var interval = Interval.Create(startDay, finishDate);
         var subscription = SubscriptionDetails.Create(
             order.SubscriptionType,
-            order.ValidityPeriod,
+            order.Period,
             order.RequirePayment);
         
         Payment? payment = null;

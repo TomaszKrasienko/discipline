@@ -7,6 +7,8 @@ using discipline.centre.users.domain.Accounts.Services.Abstractions;
 using discipline.centre.users.domain.Accounts.Specifications.SubscriptionOrder;
 using discipline.centre.users.domain.Subscriptions.Enums;
 using discipline.centre.users.domain.Subscriptions.Repositories;
+using discipline.centre.users.domain.Users;
+using discipline.centre.users.domain.Users.Specifications;
 
 namespace discipline.centre.users.application.Accounts.Commands;
 
@@ -17,14 +19,14 @@ public sealed record SignUpCommand(
     SubscriptionId SubscriptionId,
     Period Period,
     string FirstName,
-    string LastName) : ICommand;
+    string LastName,
+    decimal? PaymentValue) : ICommand;
 
 
 internal sealed class SignUpCommandHandler(
     IReadWriteAccountRepository accountRepository,
     IReadSubscriptionRepository subscriptionRepository,
-    IAccountService accountService,
-    IEventProcessor eventProcessor) : ICommandHandler<SignUpCommand>
+    IAccountService accountService) : ICommandHandler<SignUpCommand>
 {
     public async Task HandleAsync(SignUpCommand command, CancellationToken cancellationToken = default)
     {
@@ -47,16 +49,29 @@ internal sealed class SignUpCommandHandler(
         
         var subscriptionOrderSpecification = new SubscriptionOrderSpecification(
             subscription.Type.Value,
-            subscription.)
+            command.Period,
+            subscription.Type.HasPayment,
+            command.PaymentValue);
         
         var account = accountService.Create(
             command.AccountId,
             command.Email,
             command.Password,
-            )
+            subscriptionOrderSpecification);
+
+        var userFullName = new FullNameSpecification(
+            command.FirstName,
+            command.LastName);
+
+        var user = User.Create(
+            UserId.New(),
+            command.Email,
+            userFullName,
+            account.Id);
         
-        
-        await eventProcessor.PublishAsync(user.DomainEvents.Select(x 
-            => x.MapAsIntegrationEvent()).ToArray());
+
+        //TODO: Sending an event
+        // await eventProcessor.PublishAsync(user.DomainEvents.Select(x 
+        //     => x.MapAsIntegrationEvent()).ToArray());
     }
 }

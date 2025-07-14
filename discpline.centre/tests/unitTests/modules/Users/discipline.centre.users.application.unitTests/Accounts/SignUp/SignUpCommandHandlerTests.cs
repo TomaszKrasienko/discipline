@@ -2,26 +2,36 @@ using discipline.centre.shared.abstractions.CQRS.Commands;
 using discipline.centre.shared.abstractions.Events;
 using discipline.centre.shared.abstractions.Exceptions;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
-using discipline.centre.users.application.Users.Commands;
+using discipline.centre.users.application.Accounts.Commands;
 using discipline.centre.users.application.Users.Events;
+using discipline.centre.users.domain.Subscriptions.Enums;
 using discipline.centre.users.domain.Users;
 using discipline.centre.users.domain.Users.Repositories;
 using NSubstitute;
 using Shouldly;
 using Xunit;
 
-namespace discipline.centre.users.application.unitTests.Users.Commands.SignUp;
+namespace discipline.centre.users.application.unittests.Accounts.SignUp;
 
 public sealed class SignUpCommandHandlerTests
 {
-    private Task Act(SignUpCommand command) => _handler.HandleAsync(command, default);
+    private Task Act(SignUpCommand command) => _handler.HandleAsync(command, CancellationToken.None);
 
     [Fact]
     public async Task GivenNotRegisteredEmail_WhenHandleAsync_ThenShouldAddUserAndProcessEvent()
     {
         // Arrange
-        var command = new SignUpCommand(UserId.New(), "test@test.pl", "Test123!",
-            "test_first_name", "test_last_name");
+        
+        
+        var command = new SignUpCommand(
+            AccountId.New(),
+            "test@test.pl",
+            "Test123!",
+            SubscriptionId.New(), 
+            Period.Month,
+            "test_first_name",
+            "test_last_name",
+            null);
 
         _readWriteUserRepository
             .DoesEmailExistAsync(command.Email)

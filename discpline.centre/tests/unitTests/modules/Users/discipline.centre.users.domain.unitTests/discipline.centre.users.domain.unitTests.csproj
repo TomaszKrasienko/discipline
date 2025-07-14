@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <RootNamespace>discipline.centre.users.domain.unitTests</RootNamespace>
+        <RootNamespace>discipline.centre.users.domain.unittests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

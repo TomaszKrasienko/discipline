@@ -32,8 +32,8 @@ public sealed class AccountDocumentMapperExtensionsTests
         order.Interval.FinishDate.ShouldBe(orderDocument.Interval.FinishDate);
         order.Subscription.RequirePayment.ShouldBe(orderDocument.SubscriptionDetails.RequirePayment);
         order.Subscription.Type.ShouldBe(orderDocument.SubscriptionDetails.Type);
-        order.Subscription.ValidityPeriod.ShouldBe(orderDocument.SubscriptionDetails.ValidityPeriod);
-        order.Payment!.CreatedAt.ShouldBe(orderDocument.Payment.CreatedAt);
+        order.Subscription.ValidityPeriod!.Value.Value.ShouldBe(orderDocument.SubscriptionDetails.ValidityPeriod);
+        order.Payment!.CreatedAt.ShouldBe(orderDocument.Payment!.CreatedAt);
         order.Payment!.Value.ShouldBe(orderDocument.Payment.Value);
     }
 
@@ -48,6 +48,6 @@ public sealed class AccountDocumentMapperExtensionsTests
         var exception = Record.Exception(() => accountDocument.ToEntity());
         
         // Assert
-        exception.ShouldNotBeNull();
+        exception.ShouldBeNull();
     }
 }

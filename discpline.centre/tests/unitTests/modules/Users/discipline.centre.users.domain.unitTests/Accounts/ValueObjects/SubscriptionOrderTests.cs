@@ -2,6 +2,7 @@ using discipline.centre.shared.abstractions.SharedKernel.Exceptions;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.users.domain.Accounts;
 using discipline.centre.users.domain.Accounts.ValueObjects.SubscriptionOrder;
+using discipline.centre.users.domain.Subscriptions.Enums;
 using NSubstitute;
 using Shouldly;
 using Xunit;
@@ -24,7 +25,7 @@ public sealed class SubscriptionOrderTests
         
         var subscriptionDetails = SubscriptionDetails.Create(
             "test_type",
-            3,
+            Period.Month, 
             true);
         
         _timeProvider
@@ -99,7 +100,7 @@ public sealed class SubscriptionOrderTests
         var subscriptionDetails = SubscriptionDetails.Create(
             "test_type",
             null,
-            false);
+            true);
         
         // Act
         var exception = Record.Exception(() => SubscriptionOrder.Create(
@@ -125,8 +126,8 @@ public sealed class SubscriptionOrderTests
         
         var subscriptionDetails = SubscriptionDetails.Create(
             "test_type",
-            3,
-            true);
+            Period.Month, 
+            false);
         
         _timeProvider
             .GetUtcNow()

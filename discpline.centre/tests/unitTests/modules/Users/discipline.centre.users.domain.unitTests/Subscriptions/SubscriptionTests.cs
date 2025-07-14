@@ -139,7 +139,7 @@ public sealed class SubscriptionTests
         
         // Assert
         exception.ShouldBeOfType<DomainException>();
-        ((DomainException)exception).Code.ShouldBe("Subscription.PaymentNotRequired");
+        ((DomainException)exception).Code.ShouldBe("Subscription.RequiredPayment");
     }
     
     #endregion

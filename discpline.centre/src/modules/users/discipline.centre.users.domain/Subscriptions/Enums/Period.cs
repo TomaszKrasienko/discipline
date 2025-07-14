@@ -2,6 +2,13 @@ namespace discipline.centre.users.domain.Subscriptions.Enums;
 
 public readonly record struct Period
 {
+    public static IReadOnlyCollection<Period> GetAvailable()
+        =>
+        [
+            Month,
+            Year,
+        ];
+    
     public static Period Month = new("Month");
     public static Period Year = new("Year");
     
@@ -16,6 +23,6 @@ public readonly record struct Period
     {
         nameof(Month) => Month,
         nameof(Year) => Year,
-        _ => throw new ArgumentException($"Period with value {value} is not supported")
+        _ => throw new ArgumentException("Period.InvalidFormat")
     };
 };

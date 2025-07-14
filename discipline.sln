@@ -84,9 +84,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "modules", "modules", "{6F02
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "users", "users", "{3150D41A-0C8C-40A6-B096-463D2647BDFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.centre.users.domain.unitTests", "discpline.centre\tests\unitTests\modules\Users\discipline.centre.users.domain.unitTests\discipline.centre.users.domain.unitTests.csproj", "{AD7040C6-7555-4BEF-A048-4E700B9689C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.centre.users.domain.unittests", "discpline.centre\tests\unitTests\modules\Users\discipline.centre.users.domain.unittests\discipline.centre.users.domain.unittests.csproj", "{AD7040C6-7555-4BEF-A048-4E700B9689C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.centre.users.application.unitTests", "discpline.centre\tests\unitTests\modules\Users\discipline.centre.users.application.unitTests\discipline.centre.users.application.unitTests.csproj", "{954EF4E2-574E-4525-8310-16669D46D7EB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.centre.users.application.unittests", "discpline.centre\tests\unitTests\modules\Users\discipline.centre.users.application.unittests\discipline.centre.users.application.unittests.csproj", "{954EF4E2-574E-4525-8310-16669D46D7EB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "activityRules", "activityRules", "{B37486D5-F091-45CE-A165-E7B429E6418D}"
 EndProject

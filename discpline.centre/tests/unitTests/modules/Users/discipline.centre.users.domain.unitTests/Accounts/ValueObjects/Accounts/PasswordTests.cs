@@ -30,7 +30,7 @@ public sealed class PasswordTests
         
         // Assert
         exception.ShouldBeOfType<DomainException>();
-        ((DomainException)exception).Message.ShouldContain("Account.PasswordTooWeak");
+        ((DomainException)exception).Code.ShouldBe("Account.PasswordTooWeak");
     }
     #endregion
 }

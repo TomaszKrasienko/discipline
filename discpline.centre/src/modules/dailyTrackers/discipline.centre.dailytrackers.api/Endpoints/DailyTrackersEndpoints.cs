@@ -40,7 +40,7 @@ internal static class DailyTrackersEndpoints
                         return Results.Unauthorized();
                     }
                     
-                    await dispatcher.HandleAsync(new CreateActivityFromActivityRuleCommand(userId, activityId, stronglyActivityRuleId), cancellationToken);
+                    await dispatcher.HandleAsync(new CreateActivityFromActivityRuleCommand(userId.Value, activityId, stronglyActivityRuleId), cancellationToken);
                     contextAccessor.AddResourceIdHeader(activityId.ToString());
 
                     return Results.CreatedAtRoute(GetByIdEndpoint, new { activityId = activityId.ToString() });
@@ -68,7 +68,7 @@ internal static class DailyTrackersEndpoints
                     return Results.Unauthorized();
                 }
                 
-                await dispatcher.HandleAsync(dto.MapAsCommand(userId, activityId), cancellationToken);
+                await dispatcher.HandleAsync(dto.MapAsCommand(userId.Value, activityId), cancellationToken);
                 contextAccessor.AddResourceIdHeader(activityId.ToString());
 
                 return Results.CreatedAtRoute(GetByIdEndpoint, new { activityId = activityId.ToString() }, null);
@@ -99,7 +99,7 @@ internal static class DailyTrackersEndpoints
                         return Results.Unauthorized();
                     }
                     
-                    var result = await dispatcher.SendAsync(new GetActivityByIdQuery(userId, stronglyActivityId), cancellationToken);
+                    var result = await dispatcher.SendAsync(new GetActivityByIdQuery(userId.Value, stronglyActivityId), cancellationToken);
 
                     return result is null ? Results.NotFound() : Results.Ok(result);
                 })
@@ -123,7 +123,7 @@ internal static class DailyTrackersEndpoints
                 {
                     return Results.Unauthorized();
                 }
-                var result = await dispatcher.SendAsync(new GetDailyTrackerByDayQuery(userId, day), cancellationToken);
+                var result = await dispatcher.SendAsync(new GetDailyTrackerByDayQuery(userId.Value, day), cancellationToken);
 
                 return result is null ? Results.NotFound() : Results.Ok(result);
             })
@@ -149,7 +149,7 @@ internal static class DailyTrackersEndpoints
                     return Results.Unauthorized();
                 }
                 
-                await dispatcher.HandleAsync(new MarkActivityAsCheckedCommand(userId, stronglyDailyTrackerId, stronglyActivityId), cancellationToken);
+                await dispatcher.HandleAsync(new MarkActivityAsCheckedCommand(userId.Value, stronglyDailyTrackerId, stronglyActivityId), cancellationToken);
                 
                 return Results.NoContent();
             })
@@ -177,7 +177,7 @@ internal static class DailyTrackersEndpoints
                     return Results.Unauthorized();
                 }
                 
-                await dispatcher.HandleAsync(new MarkActivityStageAsCheckedCommand(userId, stronglyDailyTrackerId, stringlyActivityId, stronglyStageId), cancellationToken);
+                await dispatcher.HandleAsync(new MarkActivityStageAsCheckedCommand(userId.Value, stronglyDailyTrackerId, stringlyActivityId, stronglyStageId), cancellationToken);
                 
                 return Results.NoContent();
             })
@@ -204,7 +204,7 @@ internal static class DailyTrackersEndpoints
                         return Results.Unauthorized();
                     }
                 
-                    await dispatcher.HandleAsync(new DeleteActivityCommand(userId, stronglyDailyTrackerId, stronglyActivityId), cancellationToken);
+                    await dispatcher.HandleAsync(new DeleteActivityCommand(userId.Value, stronglyDailyTrackerId, stronglyActivityId), cancellationToken);
                 
                     return Results.NoContent();
                 })            
@@ -230,7 +230,7 @@ internal static class DailyTrackersEndpoints
                     return Results.Unauthorized();
                 }
                 
-                await dispatcher.HandleAsync(new DeleteActivityStageCommand(userId, stronglyDailyTrackerId, activityStronglyId, stronglyStageId), cancellationToken);
+                await dispatcher.HandleAsync(new DeleteActivityStageCommand(userId.Value, stronglyDailyTrackerId, activityStronglyId, stronglyStageId), cancellationToken);
 
                 return Results.NoContent();
             })

@@ -1,16 +1,17 @@
 using discipline.centre.shared.abstractions.SharedKernel;
+using discipline.centre.users.domain.Subscriptions.Enums;
 
 namespace discipline.centre.users.domain.Accounts.ValueObjects.SubscriptionOrder;
 
 public sealed class SubscriptionDetails : ValueObject
 {
     public string Type { get; }
-    public int? ValidityPeriod { get; }
+    public Period? ValidityPeriod { get; }
     public bool RequirePayment { get; }
 
     private SubscriptionDetails(
         string type,
-        int? validityPeriod,
+        Period? validityPeriod,
         bool requirePayment)
     {
         Type = type;
@@ -20,7 +21,7 @@ public sealed class SubscriptionDetails : ValueObject
 
     public static SubscriptionDetails Create(
         string type,
-        int? validityPeriod,
+        Period? validityPeriod,
         bool requirePayment)
         => new(type, validityPeriod, requirePayment);
 
@@ -28,5 +29,6 @@ public sealed class SubscriptionDetails : ValueObject
     {
         yield return Type;
         yield return ValidityPeriod;
+        yield return RequirePayment;
     }
 }
