@@ -1,3 +1,5 @@
+using discipline.centre.shared.abstractions.UnitOfWork;
+using discipline.centre.shared.infrastructure.DAL;
 using discipline.centre.shared.infrastructure.DAL.Collections;
 using discipline.centre.shared.infrastructure.DAL.Collections.Abstractions;
 using discipline.centre.shared.infrastructure.DAL.Configuration;
@@ -13,7 +15,8 @@ public static class DalServicesConfigExtensions
         => services
             .ValidateAndAddOptions(configuration)
             .AddConnection()
-            .AddCollections();
+            .AddCollections()
+            .AddUnitOfWork();
 
     private static IServiceCollection ValidateAndAddOptions(this IServiceCollection services,
         IConfiguration configuration)
@@ -29,6 +32,10 @@ public static class DalServicesConfigExtensions
     private static IServiceCollection AddCollections(this IServiceCollection services)
         => services
             .AddSingleton<IMongoCollectionNameConvention, MongoCollectionNameConvention>();
+
+    private static IServiceCollection AddUnitOfWork(this IServiceCollection services)
+        => services
+            .AddScoped<IUnitOfWork, MongoUnitOfWork>();
 
     public static IServiceCollection AddMongoContext<T>(this IServiceCollection services)
         where T : class, IMongoCollectionContext
