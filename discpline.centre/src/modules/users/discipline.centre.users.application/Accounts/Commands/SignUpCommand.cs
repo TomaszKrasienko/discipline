@@ -52,6 +52,7 @@ internal sealed class SignUpCommandHandler(
         }
         
         var subscriptionOrderSpecification = new SubscriptionOrderSpecification(
+            subscription.Id,
             subscription.Type.Value,
             command.Period,
             subscription.Type.HasPayment,

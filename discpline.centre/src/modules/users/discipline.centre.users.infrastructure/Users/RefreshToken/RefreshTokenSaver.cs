@@ -15,12 +15,14 @@ internal sealed class RefreshTokenSaver(
 {
     private readonly TimeSpan _expiry = options.Value.Expiry;
     private readonly int _refreshTokenLength = options.Value.Length;
-    
-    public async Task<string> GenerateAndSaveAsync(UserId userId, CancellationToken cancellationToken = default)
+
+    public async Task<string> GenerateAndSaveAsync(
+        AccountId accountId,
+        CancellationToken cancellationToken = default)
     {
         var refreshToken = GenerateRandom(_refreshTokenLength);
         var dto = new RefreshTokenDto(refreshToken);
-        await cacheFacade.AddOrUpdateAsync(userId.Value.ToString(), dto, _expiry, cancellationToken);
+        await cacheFacade.AddOrUpdateAsync(accountId.Value.ToString(), dto, _expiry, cancellationToken);
         return refreshToken;
     }
 
@@ -39,6 +41,7 @@ internal sealed class RefreshTokenSaver(
         }
         return refreshTokenSb.ToString();
     }
+
     public async Task<bool> DoesRefreshTokenExistsAsync(
         string refreshToken,
         UserId userId,

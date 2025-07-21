@@ -7,9 +7,10 @@ namespace discipline.centre.users.domain.Accounts;
 
 public sealed class SubscriptionOrder : Entity<SubscriptionOrderId, Ulid>
 {
-    public Interval Interval { get; private set; }
-    public SubscriptionDetails Subscription { get; private set; }
-    public Payment? Payment { get; private set; }
+    public Interval Interval { get; }
+    public SubscriptionDetails Subscription { get; }
+    public Payment? Payment { get; }
+    public SubscriptionId SubscriptionId { get; }
     
     /// <summary>
     /// Use only for MongoDB
@@ -18,22 +19,30 @@ public sealed class SubscriptionOrder : Entity<SubscriptionOrderId, Ulid>
         SubscriptionOrderId id, 
         Interval interval,
         SubscriptionDetails subscription,
-        Payment? payment) : base(id)
+        Payment? payment,
+        SubscriptionId subscriptionId) : base(id)
     {
         Interval = interval;
         Subscription = subscription;
         Payment = payment;
+        SubscriptionId = subscriptionId;
     }
 
     public static SubscriptionOrder Create(
         SubscriptionOrderId id,
         Interval interval,
         SubscriptionDetails subscription,
-        Payment? payment)
+        Payment? payment,
+        SubscriptionId subscriptionId)
     {
         CheckRule(new PaymentNotRequireRule(payment, subscription.RequirePayment));
         CheckRule(new PaymentRequireRule(payment, subscription.RequirePayment));
         
-        return new SubscriptionOrder(id, interval, subscription, payment);   
+        return new SubscriptionOrder(
+            id,
+            interval,
+            subscription,
+            payment,
+            subscriptionId);   
     }
 }

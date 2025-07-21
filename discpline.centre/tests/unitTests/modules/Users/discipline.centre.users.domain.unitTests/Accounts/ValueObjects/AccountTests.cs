@@ -23,6 +23,7 @@ public sealed class AccountTests
             "password",
             "hashed_password");
         var order = new SubscriptionOrderSpecification(
+            SubscriptionId.New(), 
             "test_subscription_type",
             null,
             false,
@@ -46,6 +47,7 @@ public sealed class AccountTests
         result.Password.Value.ShouldBe(passwordSpecification.HashedPassword);
 
         var existingOrder = result.Orders.Single();
+        existingOrder.SubscriptionId.ShouldBe(order.SubscriptionId);
         existingOrder.Interval.StartDate.ShouldBe(DateOnly.FromDateTime(now.DateTime));    
         existingOrder.Interval.FinishDate.ShouldBeNull();
         existingOrder.Subscription.Type.ShouldBe(order.SubscriptionType);
@@ -64,6 +66,7 @@ public sealed class AccountTests
             "password",
             "hashed_password");
         var order = new SubscriptionOrderSpecification(
+            SubscriptionId.New(),
             "test_subscription_type",
             Period.Year, 
             true,
@@ -87,6 +90,7 @@ public sealed class AccountTests
         result.Password.Value.ShouldBe(passwordSpecification.HashedPassword);
 
         var existingOrder = result.Orders.Single();
+        existingOrder.SubscriptionId.ShouldBe(order.SubscriptionId);
         existingOrder.Interval.StartDate.ShouldBe(DateOnly.FromDateTime(now.DateTime));
         existingOrder.Interval.FinishDate.ShouldBe(DateOnly.FromDateTime(now.DateTime).AddYears(1));
         existingOrder.Subscription.Type.ShouldBe(order.SubscriptionType);
@@ -106,6 +110,7 @@ public sealed class AccountTests
             "password",
             "hashed_password");
         var order = new SubscriptionOrderSpecification(
+            SubscriptionId.New(),
             "test_subscription_type",
             Period.Month, 
             true,
@@ -129,6 +134,7 @@ public sealed class AccountTests
         result.Password.Value.ShouldBe(passwordSpecification.HashedPassword);
 
         var existingOrder = result.Orders.Single();
+        existingOrder.SubscriptionId.ShouldBe(order.SubscriptionId);
         existingOrder.Interval.StartDate.ShouldBe(DateOnly.FromDateTime(now.DateTime));
         existingOrder.Interval.FinishDate.ShouldBe(DateOnly.FromDateTime(now.DateTime).AddMonths(1));
         existingOrder.Subscription.Type.ShouldBe(order.SubscriptionType);

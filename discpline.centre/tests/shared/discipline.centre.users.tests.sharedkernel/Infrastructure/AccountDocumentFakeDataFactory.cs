@@ -50,7 +50,8 @@ internal static class AccountDocumentFakeDataFactory
                         Value = faker.Random.Decimal(min:1, max:60),
                         CreatedAt = DateTimeOffset.Now
                     }
-                    : null 
+                    : null,
+            SubscriptionId = Ulid.NewUlid().ToString(),
         };
         
         accountDocument.SubscriptionOrders.Add(subscription);

@@ -52,6 +52,7 @@ internal static class AccountDocumentMapperExtensions
             id,
             interval,
             subscriptionDetails,
-            payment);
+            payment,
+            SubscriptionId.Parse(document.SubscriptionId));
     }
 }

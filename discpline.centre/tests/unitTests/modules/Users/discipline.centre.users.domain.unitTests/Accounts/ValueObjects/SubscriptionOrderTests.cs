@@ -18,6 +18,7 @@ public sealed class SubscriptionOrderTests
     {
         // Arrange
         var subscriptionOrderId = SubscriptionOrderId.New();
+        var subscriptionId = SubscriptionId.New();
         
         var interval = Interval.Create(
             DateOnly.FromDateTime(DateTime.Now.AddDays(-30)),
@@ -40,7 +41,8 @@ public sealed class SubscriptionOrderTests
             subscriptionOrderId,
             interval,
             subscriptionDetails,
-            payment);
+            payment,
+            subscriptionId);
         
         // Assert
         result.Interval.StartDate.ShouldBe(interval.StartDate);
@@ -52,6 +54,8 @@ public sealed class SubscriptionOrderTests
         
         result.Payment!.CreatedAt.ShouldBe(payment.CreatedAt);
         result.Payment!.Value.ShouldBe(payment.Value);
+        
+        result.SubscriptionId.ShouldBe(subscriptionId);
     }
     
     [Fact]
@@ -59,6 +63,7 @@ public sealed class SubscriptionOrderTests
     {
         // Arrange
         var subscriptionOrderId = SubscriptionOrderId.New();
+        var subscriptionId = SubscriptionId.New();
         
         var interval = Interval.Create(
             DateOnly.FromDateTime(DateTime.Now.AddDays(-30)),
@@ -74,7 +79,8 @@ public sealed class SubscriptionOrderTests
             subscriptionOrderId,
             interval,
             subscriptionDetails,
-            null);
+            null,
+            subscriptionId);
         
         // Assert
         result.Interval.StartDate.ShouldBe(interval.StartDate);
@@ -85,6 +91,8 @@ public sealed class SubscriptionOrderTests
         result.Subscription.ValidityPeriod.ShouldBe(subscriptionDetails.ValidityPeriod);
         
         result.Payment.ShouldBeNull();
+        
+        result.SubscriptionId.ShouldBe(subscriptionId);
     }
 
     [Fact]
@@ -92,6 +100,7 @@ public sealed class SubscriptionOrderTests
     {
         // Arrange
         var subscriptionOrderId = SubscriptionOrderId.New();
+        var subscriptionId = SubscriptionId.New();
         
         var interval = Interval.Create(
             DateOnly.FromDateTime(DateTime.Now.AddDays(-30)),
@@ -107,7 +116,8 @@ public sealed class SubscriptionOrderTests
             subscriptionOrderId,
             interval,
             subscriptionDetails,
-            null));
+            null,
+            subscriptionId));
         
         // Assert
         exception.ShouldBeOfType<DomainException>();
@@ -119,6 +129,7 @@ public sealed class SubscriptionOrderTests
     {
         // Arrange
         var subscriptionOrderId = SubscriptionOrderId.New();
+        var subscriptionId = SubscriptionId.New();
         
         var interval = Interval.Create(
             DateOnly.FromDateTime(DateTime.Now.AddDays(-30)),
@@ -141,7 +152,8 @@ public sealed class SubscriptionOrderTests
             subscriptionOrderId,
             interval,
             subscriptionDetails,
-            payment));
+            payment,
+            subscriptionId));
         
         // Assert
         exception.ShouldBeOfType<DomainException>();

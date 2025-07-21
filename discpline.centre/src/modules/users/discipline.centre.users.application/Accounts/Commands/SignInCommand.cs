@@ -1,19 +1,18 @@
 using discipline.centre.shared.abstractions.CQRS.Commands;
 using discipline.centre.shared.abstractions.Exceptions;
 using discipline.centre.users.application.Users.DTOs;
-using discipline.centre.users.application.Users.Exceptions;
 using discipline.centre.users.application.Users.Services;
 using discipline.centre.users.domain.Accounts.Repositories;
 using discipline.centre.users.domain.Accounts.Services.Abstractions;
-using discipline.centre.users.domain.Users.Repositories;
+using discipline.centre.users.domain.Subscriptions.Repositories;
 
 namespace discipline.centre.users.application.Accounts.Commands;
 
 public sealed record SignInCommand(string Email, string Password) : ICommand;
 
 internal sealed class SignInCommandHandler(
-    IReadWriteAccountRepository readWriteAccountRepository,
-    IReadUserRepository readUserRepository,
+    IReadAccountRepository readAccountRepository,
+    IReadSubscriptionRepository readSubscriptionRepository,
     IPasswordManager passwordManager,
     IAuthenticator authenticator,
     ITokenStorage tokenStorage,
@@ -21,7 +20,7 @@ internal sealed class SignInCommandHandler(
 {
     public async Task HandleAsync(SignInCommand command, CancellationToken cancellationToken = default)
     {
-        var account = await readWriteAccountRepository
+        var account = await readAccountRepository
             .GetByEmailAsync(command.Email, cancellationToken);
 
         if (account is null)
@@ -36,10 +35,24 @@ internal sealed class SignInCommandHandler(
             throw new InvalidArgumentException("SignIn.Password");
         }
 
-        var token = authenticator.CreateToken(user.Id.ToString(), user.Email, user.Status);
+        var activeSubscriptionOrder = account.ActiveSubscriptionOrder;
         
+        if (activeSubscriptionOrder is null)
+        {
+            throw new InvalidArgumentException("SignIn.NullActiveSubscriptionOrder");
+        }
         
-        var refreshToken = await refreshTokenFacade.GenerateAndSaveAsync(user.Id, cancellationToken);
+        var subscription = await readSubscriptionRepository
+            .GetByIdAsync(
+                activeSubscriptionOrder.SubscriptionId,
+                cancellationToken);
+
+        var token = authenticator.CreateToken(
+            account.Id,
+            subscription?.GetAllowedNumberOfDailyTasks(),
+            subscription?.GetAllowedNumberOfRules());
+        
+        var refreshToken = await refreshTokenFacade.GenerateAndSaveAsync(account.Id, cancellationToken);
         tokenStorage.Set(new TokensDto(token, refreshToken));
     }
 }

@@ -1,35 +1,55 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
-using discipline.centre.shared.abstractions.Clock;
+using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.users.application.Users.Services;
+using discipline.centre.users.domain.Accounts.Enums;
+using discipline.centre.users.infrastructure.Users.Auth;
 using discipline.centre.users.infrastructure.Users.Auth.Configuration.Options;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace discipline.centre.users.infrastructure.Users.Auth;
+namespace discipline.centre.users.infrastructure.Auth;
 
 internal sealed class JwtAuthenticator(
-    IClock clock,
+    TimeProvider timeProvider,
     IOptions<JwtOptions> options) : IAuthenticator
 {
     private readonly KeyPublishingOptions _keyPublishingOptions = options.Value.KeyPublishing;
     private readonly JwtSecurityTokenHandler _jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
-    
-    public string CreateToken(string userId, string email, string status)
+
+    public string CreateToken(AccountId accountId, int? numberOfDailyTasks, int? numberOfRules)
     {
         var privateKey = GetPrivateKey();
-        var signingCredentials = new SigningCredentials(privateKey, SecurityAlgorithms.RsaSha256);
+        var signingCredentials = new SigningCredentials(
+            privateKey, 
+            SecurityAlgorithms.RsaSha256);
 
-        var claims = new List<Claim>
+        var status = numberOfDailyTasks is null || numberOfRules is null 
+            ? AccountState.New
+            : AccountState.Active;
+        
+        List<Claim> claims =
+        [
+            new(JwtRegisteredClaimNames.UniqueName, accountId.Value.ToString()),
+            new(CustomClaimTypes.Status, status.Value)
+        ];
+
+        if (numberOfDailyTasks is not null)
         {
-            new Claim(JwtRegisteredClaimNames.UniqueName, userId),
-            new Claim(ClaimTypes.Name, userId),
-            new Claim(ClaimTypes.Email, email),
-            new Claim(CustomClaimTypes.Status, status)
-        };
+            claims.Add(new Claim(
+                CustomClaimTypes.NumberOfDailyTasks,
+                numberOfDailyTasks.Value.ToString()));
+        }
 
-        var now = clock.DateTimeNow();
+        if (numberOfRules is not null)
+        {
+            claims.Add(new Claim(
+                CustomClaimTypes.NumberOfRules,
+                numberOfRules.Value.ToString()));
+        }
+        
+        var now = timeProvider.GetUtcNow();
         var expirationTime = now.Add(_keyPublishingOptions.TokenExpiry);
 
         var jwt = new JwtSecurityToken(

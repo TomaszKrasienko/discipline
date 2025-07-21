@@ -56,6 +56,7 @@ public sealed class SignUpCommandHandlerTests
             new PasswordSpecification(command.Password, Guid.NewGuid().ToString()),
             _timeProvider,
             new SubscriptionOrderSpecification(
+                subscription.Id,
                 subscription.Type.Value,
                 command.Period,
                 subscription.Type.HasPayment,
@@ -75,6 +76,7 @@ public sealed class SignUpCommandHandlerTests
                 command.Email,
                 command.Password,
                 new SubscriptionOrderSpecification(
+                    subscription.Id,
                     subscription.Type.Value,
                     command.Period,
                     subscription.Type.HasPayment,
@@ -118,6 +120,7 @@ public sealed class SignUpCommandHandlerTests
             new PasswordSpecification(command.Password, Guid.NewGuid().ToString()),
             _timeProvider,
             new SubscriptionOrderSpecification(
+                subscription.Id,
                 subscription.Type.Value,
                 command.Period,
                 subscription.Type.HasPayment,
@@ -137,6 +140,7 @@ public sealed class SignUpCommandHandlerTests
                 command.Email,
                 command.Password,
                 new SubscriptionOrderSpecification(
+                    subscription.Id,
                     subscription.Type.Value,
                     command.Period,
                     subscription.Type.HasPayment,
@@ -189,6 +193,7 @@ public sealed class SignUpCommandHandlerTests
             new PasswordSpecification(command.Password, Guid.NewGuid().ToString()),
             _timeProvider,
             new SubscriptionOrderSpecification(
+                subscription.Id,
                 subscription.Type.Value,
                 command.Period,
                 subscription.Type.HasPayment,
@@ -208,6 +213,7 @@ public sealed class SignUpCommandHandlerTests
                 command.Email,
                 command.Password,
                 new SubscriptionOrderSpecification(
+                    subscription.Id,
                     subscription.Type.Value,
                     command.Period,
                     subscription.Type.HasPayment,
@@ -309,6 +315,7 @@ public sealed class SignUpCommandHandlerTests
             new PasswordSpecification(command.Password, Guid.NewGuid().ToString()),
             _timeProvider,
             new SubscriptionOrderSpecification(
+                subscription.Id,
                 subscription.Type.Value,
                 command.Period,
                 subscription.Type.HasPayment,
@@ -328,6 +335,7 @@ public sealed class SignUpCommandHandlerTests
                 command.Email,
                 command.Password,
                 new SubscriptionOrderSpecification(
+                    subscription.Id,
                     subscription.Type.Value,
                     command.Period,
                     subscription.Type.HasPayment,

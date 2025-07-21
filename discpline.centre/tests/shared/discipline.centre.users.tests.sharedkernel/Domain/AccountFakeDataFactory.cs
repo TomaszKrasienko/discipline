@@ -22,7 +22,6 @@ public static class AccountFakeDataFactory
     }
 
     public static Account WithSubscriptionOrder(this Account account,
-        int? validityPeriod = null,
         bool withPayment = false)
     {
         TimeProvider timeProvider = TimeProvider.System;
@@ -30,6 +29,7 @@ public static class AccountFakeDataFactory
         var faker = new Faker();
 
         var order = new SubscriptionOrderSpecification(
+            SubscriptionId.New(),
             faker.Random.String(),
             faker.PickRandom<Period>(Period.GetAvailable()),
             withPayment,

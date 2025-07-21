@@ -25,6 +25,7 @@ public sealed record SubscriptionType
         nameof(Premium) => Premium,
         nameof(Standard) => Standard,
         nameof(Admin) => Admin,
+        //TODO: Change to code
         _ => throw new ArgumentException($"Value {value} is out of bound for SubscriptionType.")
     };
 

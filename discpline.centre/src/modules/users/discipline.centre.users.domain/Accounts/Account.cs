@@ -13,7 +13,12 @@ public sealed class Account : AggregateRoot<AccountId, Ulid>
     private readonly HashSet<SubscriptionOrder> _orders = new();
     public Login Login { get; private set; }
     public Password Password { get; private set; }
-    public IReadOnlyCollection<SubscriptionOrder> Orders => _orders.ToArray();
+    public IReadOnlyCollection<SubscriptionOrder> Orders 
+        => _orders.ToArray();
+    
+    //TODO: Unit tests
+    public SubscriptionOrder? ActiveSubscriptionOrder 
+        => Orders.SingleOrDefault(x => x.Interval.FinishDate is null);
     
     private Account(
         AccountId accountId,
@@ -55,7 +60,10 @@ public sealed class Account : AggregateRoot<AccountId, Ulid>
             login,
             password);
         
-        account.AddOrder(SubscriptionOrderId.New(), timeProvider, order);
+        account.AddOrder(
+            SubscriptionOrderId.New(),
+            timeProvider,
+            order);
         return account;
     }
 
@@ -94,7 +102,8 @@ public sealed class Account : AggregateRoot<AccountId, Ulid>
             subscriptionOrderId,
             interval, 
             subscription,
-            payment);
+            payment,
+            order.SubscriptionId);
         
         _orders.Add(subscriptionOrder);
         return subscriptionOrder;

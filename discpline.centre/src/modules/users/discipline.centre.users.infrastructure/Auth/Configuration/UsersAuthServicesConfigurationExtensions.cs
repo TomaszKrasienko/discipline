@@ -1,5 +1,6 @@
 using discipline.centre.users.infrastructure.Users.Auth;
 using discipline.centre.users.application.Users.Services;
+using discipline.centre.users.infrastructure.Auth;
 using discipline.centre.users.infrastructure.Users.Auth.Configuration;
 using discipline.centre.users.infrastructure.Users.Auth.Configuration.Options;
 using discipline.centre.users.infrastructure.Users.RefreshToken.Configuration;
