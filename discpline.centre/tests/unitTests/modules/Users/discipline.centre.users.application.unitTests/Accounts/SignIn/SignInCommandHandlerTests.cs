@@ -18,7 +18,7 @@ public sealed class SignInCommandHandlerTests
      [Fact]
      public async Task GivenExistingAccountWithValidPassword_WhenHandleAsync_ThenSavesTokensByTokenStorage()
      {
-         //arrange
+         // Arrange
          var cancellationToken = CancellationToken.None;
          var account = AccountFakeDataFactory
              .Get()

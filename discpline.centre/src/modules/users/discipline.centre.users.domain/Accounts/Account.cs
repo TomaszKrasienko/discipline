@@ -17,8 +17,9 @@ public sealed class Account : AggregateRoot<AccountId, Ulid>
         => _orders.ToArray();
     
     //TODO: Unit tests
-    public SubscriptionOrder? ActiveSubscriptionOrder 
-        => Orders.SingleOrDefault(x => x.Interval.FinishDate is null);
+    public SubscriptionOrder? ActiveSubscriptionOrder
+        => Orders
+            .SingleOrDefault(x => x.IsActive);
     
     private Account(
         AccountId accountId,
@@ -74,16 +75,21 @@ public sealed class Account : AggregateRoot<AccountId, Ulid>
     {
         var startDay = DateOnly.FromDateTime(timeProvider.GetUtcNow().DateTime);
 
-        DateOnly? finishDate = null;
+        DateOnly? plannedFinishDate = null;
 
-        if (order.Period is not null)
+        if (order.RequirePayment)
         {
-            finishDate = order.Period == Period.Month 
+            plannedFinishDate = order.Period == Period.Month 
                 ? startDay.AddMonths(1)
                 : startDay.AddYears(1);
+
+            if (ActiveSubscriptionOrder is not null)
+            {
+                ActiveSubscriptionOrder.Finish(timeProvider);
+            }
         }
         
-        var interval = Interval.Create(startDay, finishDate);
+        var interval = Interval.Create(startDay, plannedFinishDate, null);
         var subscription = SubscriptionDetails.Create(
             order.SubscriptionType,
             order.Period,

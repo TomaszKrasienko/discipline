@@ -30,6 +30,7 @@ internal static class AccountDocumentMapperExtensions
         
         var interval = Interval.Create(
             document.Interval.StartDate,
+            document.Interval.PlanedFinishDate,
             document.Interval.FinishDate);
         
         var subscriptionDetails = SubscriptionDetails.Create(

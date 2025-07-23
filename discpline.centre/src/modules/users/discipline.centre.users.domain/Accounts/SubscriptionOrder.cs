@@ -7,10 +7,12 @@ namespace discipline.centre.users.domain.Accounts;
 
 public sealed class SubscriptionOrder : Entity<SubscriptionOrderId, Ulid>
 {
-    public Interval Interval { get; }
+    public Interval Interval { get; private set; }
     public SubscriptionDetails Subscription { get; }
     public Payment? Payment { get; }
     public SubscriptionId SubscriptionId { get; }
+
+    public bool IsActive => Interval.FinishDate is not null;
     
     /// <summary>
     /// Use only for MongoDB
@@ -37,6 +39,7 @@ public sealed class SubscriptionOrder : Entity<SubscriptionOrderId, Ulid>
     {
         CheckRule(new PaymentNotRequireRule(payment, subscription.RequirePayment));
         CheckRule(new PaymentRequireRule(payment, subscription.RequirePayment));
+        CheckRule();
         
         return new SubscriptionOrder(
             id,
@@ -45,4 +48,10 @@ public sealed class SubscriptionOrder : Entity<SubscriptionOrderId, Ulid>
             payment,
             subscriptionId);   
     }
+
+    internal void Finish(TimeProvider timeProvider)
+        => Interval = Interval.Create(
+            Interval.StartDate,
+            Interval.PlannedFinishDate,
+            DateOnly.FromDateTime(timeProvider.GetUtcNow().DateTime));
 }
