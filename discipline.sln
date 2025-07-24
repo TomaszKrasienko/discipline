@@ -113,7 +113,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "integrationTests", "integra
 		discpline.centre\tests\integrationTests\Directory.Build.props = discpline.centre\tests\integrationTests\Directory.Build.props
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.centre.users.integrationTests", "discpline.centre\tests\integrationTests\discipline.centre.users.integrationTests\discipline.centre.users.integrationTests.csproj", "{6C787380-17A5-4E51-996D-2B4BB1DC5EB9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.centre.users.integrationtests", "discpline.centre\tests\integrationTests\discipline.centre.users.integrationtests\discipline.centre.users.integrationtests.csproj", "{6C787380-17A5-4E51-996D-2B4BB1DC5EB9}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.centre.dailytrackers.integrationTests", "discpline.centre\tests\integrationTests\discipline.centre.dailytrackers.integrationTests\discipline.centre.dailytrackers.integrationTests.csproj", "{A5EE40CA-6AE7-4C2D-9D1A-7FE2416C553F}"
 EndProject

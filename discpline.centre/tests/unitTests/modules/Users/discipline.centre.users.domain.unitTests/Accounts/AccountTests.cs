@@ -30,7 +30,7 @@ public sealed class AccountTests
         var order = new SubscriptionOrderSpecification(
             SubscriptionId.New(),
             "test_type",
-            Period.Month,
+            null,
             false,
             null);
         

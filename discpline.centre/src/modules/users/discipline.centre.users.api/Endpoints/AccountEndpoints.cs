@@ -1,6 +1,8 @@
 using discipline.centre.shared.abstractions.CQRS;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.users.application.Accounts.DTOs.Requests;
+using discipline.centre.users.application.Users.DTOs;
+using discipline.centre.users.application.Users.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +23,7 @@ internal static class AccountEndpoints
                 ICqrsDispatcher dispatcher) =>
             {
                 await dispatcher.HandleAsync(
-                    request.MapAsCommand(AccountId.New()),
+                    request.ToCommand(AccountId.New()),
                     cancellationToken);
                 
                 return Results.NoContent();
@@ -34,6 +36,31 @@ internal static class AccountEndpoints
             .WithOpenApi(operation => new (operation)
             {
                 Description = "Signs-up user"
+            });
+        
+        app.MapPost(
+            $"api/{AccountTag}/signed-in",
+            async (
+                SignInRequestDto request,
+                CancellationToken cancellationToken,
+                ICqrsDispatcher dispatcher,
+                ITokenStorage tokenStorage) =>
+            {
+                await dispatcher.HandleAsync(
+                    request.ToCommand(),
+                    cancellationToken);
+                
+                var tokens = tokenStorage.Get();
+                return Results.Ok(tokens);
+            })
+            .Produces(StatusCodes.Status200OK, typeof(TokensDto))
+            .Produces(StatusCodes.Status400BadRequest, typeof(ProblemDetails))
+            .Produces(StatusCodes.Status422UnprocessableEntity, typeof(ProblemDetails))
+            .WithName("SignIn")
+            .WithTags(AccountTag)
+            .WithOpenApi(operation => new (operation)
+            {
+                Description = "Signs-in user"
             });
 
         return app;

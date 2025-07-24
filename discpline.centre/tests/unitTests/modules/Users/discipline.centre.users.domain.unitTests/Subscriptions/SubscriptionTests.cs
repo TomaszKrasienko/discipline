@@ -8,7 +8,7 @@ using discipline.centre.users.domain.Subscriptions.Specifications;
 using Shouldly;
 using Xunit;
 
-namespace discipline.centre.users.domain.unitTests.Subscriptions;
+namespace discipline.centre.users.domain.unittests.Subscriptions;
 
 public sealed class SubscriptionTests
 {

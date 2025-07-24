@@ -5,10 +5,10 @@ using discipline.centre.users.domain.Subscriptions.Enums;
 // ReSharper disable once CheckNamespace
 namespace discipline.centre.users.application.Accounts.DTOs.Requests;
 
-public static class SignUpDtoMapperExtensions
+public static class SignUpRequestDtoMapperExtensions
 {
-    //TODO: Unit tests
-    public static SignUpCommand MapAsCommand(
+    //TODO: Unit test
+    public static SignUpCommand ToCommand(
         this SignUpRequestDto request,
         AccountId accountId)
         => new(

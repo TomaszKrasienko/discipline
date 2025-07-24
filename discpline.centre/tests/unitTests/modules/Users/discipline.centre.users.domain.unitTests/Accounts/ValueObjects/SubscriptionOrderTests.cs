@@ -7,7 +7,7 @@ using NSubstitute;
 using Shouldly;
 using Xunit;
 
-namespace discipline.centre.users.domain.unitTests.Accounts.ValueObjects;
+namespace discipline.centre.users.domain.unittests.Accounts.ValueObjects;
 
 public sealed class SubscriptionOrderTests
 {
@@ -47,7 +47,7 @@ public sealed class SubscriptionOrderTests
         
         // Assert
         result.Interval.StartDate.ShouldBe(interval.StartDate);
-        result.Interval.PlannedFinishDate.ShouldBe(interval.FinishDate);
+        result.Interval.PlannedFinishDate.ShouldBe(interval.PlannedFinishDate);
         
         result.Subscription.RequirePayment.ShouldBe(subscriptionDetails.RequirePayment);
         result.Subscription.Type.ShouldBe(subscriptionDetails.Type);
@@ -106,7 +106,7 @@ public sealed class SubscriptionOrderTests
         
         var interval = Interval.Create(
             DateOnly.FromDateTime(DateTime.Now.AddDays(-30)),
-            DateOnly.FromDateTime(DateTime.Now),
+            null,
             null);
         
         var subscriptionDetails = SubscriptionDetails.Create(
@@ -144,7 +144,8 @@ public sealed class SubscriptionOrderTests
         
         var interval = Interval.Create(
             DateOnly.FromDateTime(DateTime.Now.AddDays(-30)),
-            DateOnly.FromDateTime(DateTime.Now));
+            null,
+            null);
         
         var subscriptionDetails = SubscriptionDetails.Create(
             "test_type",
@@ -161,7 +162,7 @@ public sealed class SubscriptionOrderTests
         
         // Assert
         exception.ShouldBeOfType<DomainException>();
-        ((DomainException)exception).Code.ShouldContain("Account.SubscriptionOrder.RequirePayment");
+        ((DomainException)exception).Code.ShouldContain("Account.SubscriptionOrder.RequiredPayment");
     }
     
     [Fact]
@@ -173,7 +174,8 @@ public sealed class SubscriptionOrderTests
         
         var interval = Interval.Create(
             DateOnly.FromDateTime(DateTime.Now.AddDays(-30)),
-            DateOnly.FromDateTime(DateTime.Now));
+            DateOnly.FromDateTime(DateTime.Now),
+            null);
         
         var subscriptionDetails = SubscriptionDetails.Create(
             "test_type",
@@ -197,7 +199,113 @@ public sealed class SubscriptionOrderTests
         
         // Assert
         exception.ShouldBeOfType<DomainException>();
-        ((DomainException)exception).Code.ShouldContain("Account.SubscriptionOrder.NotRequirePayment");
+        ((DomainException)exception).Code.ShouldContain("Account.SubscriptionOrder.NotRequiredPayment");
+    }
+    
+    [Fact]
+    public void GivenSubscriptionNotRequirePayment_WhenCreateWithoutPlannedFinishDate_ThenReturnsSubscriptionOrder()
+    {
+        // Arrange
+        var subscriptionOrderId = SubscriptionOrderId.New();
+        var subscriptionId = SubscriptionId.New();
+        
+        var interval = Interval.Create(
+            DateOnly.FromDateTime(DateTime.Now.AddDays(-30)),
+            null,
+            null);
+        
+        var subscriptionDetails = SubscriptionDetails.Create(
+            "test_type",
+            null,
+            false);
+        
+        // Act
+        var result = SubscriptionOrder.Create(
+            subscriptionOrderId,
+            interval,
+            subscriptionDetails,
+            null,
+            subscriptionId);
+        
+        // Assert
+        result.Interval.StartDate.ShouldBe(interval.StartDate);
+        result.Interval.FinishDate.ShouldBe(interval.FinishDate);
+        
+        result.Subscription.RequirePayment.ShouldBe(subscriptionDetails.RequirePayment);
+        result.Subscription.Type.ShouldBe(subscriptionDetails.Type);
+        result.Subscription.ValidityPeriod.ShouldBe(subscriptionDetails.ValidityPeriod);
+        
+        result.Payment.ShouldBeNull();
+        
+        result.SubscriptionId.ShouldBe(subscriptionId);
+    }
+
+    [Fact]
+    public void GivenSubscriptionRequirePayment_WhenCreateWithoutPlannedFinishDate_ThenThrowsDomainExceptionWithCode_Account_SubscriptionOrder_RequirePlannedFinishDate()
+    {
+        // Arrange
+        var subscriptionOrderId = SubscriptionOrderId.New();
+        var subscriptionId = SubscriptionId.New();
+        
+        var interval = Interval.Create(
+            DateOnly.FromDateTime(DateTime.Now.AddDays(-30)),
+            null,
+            null);
+        
+        var subscriptionDetails = SubscriptionDetails.Create(
+            "test_type",
+            null,
+            true);
+
+        var payment = new Payment(
+            DateTimeOffset.UtcNow,
+            123);
+        
+        // Act
+        var exception = Record.Exception(() => SubscriptionOrder.Create(
+            subscriptionOrderId,
+            interval,
+            subscriptionDetails,
+            payment,
+            subscriptionId));
+        
+        // Assert
+        exception.ShouldBeOfType<DomainException>();
+        ((DomainException)exception).Code.ShouldContain("Account.SubscriptionOrder.RequiredPlannedFinishDate");
+    }
+    
+    [Fact]
+    public void GivenSubscriptionNotRequirePayment_WhenCreateWithPlannedFinishDate_ThenThrowsDomainExceptionWithCode_Account_SubscriptionOrder_NotRequiredPlannedFinishDate()
+    {
+        // Arrange
+        var subscriptionOrderId = SubscriptionOrderId.New();
+        var subscriptionId = SubscriptionId.New();
+        
+        var interval = Interval.Create(
+            DateOnly.FromDateTime(DateTime.Now.AddDays(-30)),
+            DateOnly.FromDateTime(DateTime.Now),
+            null);
+        
+        var subscriptionDetails = SubscriptionDetails.Create(
+            "test_type",
+            Period.Month, 
+            false);
+        
+        _timeProvider
+            .GetUtcNow()
+            .Returns(DateTimeOffset.Now);
+        
+        // Act
+        var exception = Record.Exception(() => SubscriptionOrder.Create(
+            subscriptionOrderId,
+            interval,
+            subscriptionDetails,
+            null,
+            subscriptionId));
+        
+        // Assert
+        exception.ShouldBeOfType<DomainException>();
+        ((DomainException)exception).Code.ShouldContain("Account.SubscriptionOrder.NotRequiredPlannedFinishDate");
     }
     
     #endregion

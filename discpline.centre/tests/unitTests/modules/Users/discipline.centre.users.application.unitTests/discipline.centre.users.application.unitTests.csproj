@@ -26,6 +26,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Accounts\" />
+      <Folder Include="Accounts\Commands\" />
     </ItemGroup>
 </Project>

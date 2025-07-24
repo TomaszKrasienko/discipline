@@ -4,12 +4,12 @@ using discipline.centre.users.domain.Accounts.ValueObjects.SubscriptionOrder;
 
 namespace discipline.centre.users.domain.Accounts.Rules.SubscriptionOrders;
 
-internal sealed class PaymentRequireRule(
-    Payment? payment,
+internal sealed class PlannedFinishedDateNotRequiredRule(
+    Interval interval, 
     bool requirePayment) : IBusinessRule
 {
-    public Exception Exception => throw new DomainException("Account.SubscriptionOrder.RequiredPayment");
-    
+    public Exception Exception => throw new DomainException("Account.SubscriptionOrder.NotRequiredPlannedFinishDate");
     public bool IsBroken()
-        => payment is null && requirePayment;
+        => interval.PlannedFinishDate is not null
+           && !requirePayment;
 }

@@ -7,7 +7,7 @@ using NSubstitute;
 using Shouldly;
 using Xunit;
 
-namespace discipline.centre.users.domain.unitTests.Accounts.ValueObjects;
+namespace discipline.centre.users.domain.unittests.Accounts.ValueObjects;
 
 public sealed class AccountTests
 {
@@ -92,7 +92,8 @@ public sealed class AccountTests
         var existingOrder = result.Orders.Single();
         existingOrder.SubscriptionId.ShouldBe(order.SubscriptionId);
         existingOrder.Interval.StartDate.ShouldBe(DateOnly.FromDateTime(now.DateTime));
-        existingOrder.Interval.FinishDate.ShouldBe(DateOnly.FromDateTime(now.DateTime).AddYears(1));
+        existingOrder.Interval.PlannedFinishDate.ShouldBe(DateOnly.FromDateTime(now.DateTime).AddYears(1));
+        existingOrder.Interval.FinishDate.ShouldBeNull();
         existingOrder.Subscription.Type.ShouldBe(order.SubscriptionType);
         existingOrder.Subscription.RequirePayment.ShouldBe(order.RequirePayment);
         existingOrder.Subscription.ValidityPeriod.ShouldBe(order.Period);
@@ -136,7 +137,8 @@ public sealed class AccountTests
         var existingOrder = result.Orders.Single();
         existingOrder.SubscriptionId.ShouldBe(order.SubscriptionId);
         existingOrder.Interval.StartDate.ShouldBe(DateOnly.FromDateTime(now.DateTime));
-        existingOrder.Interval.FinishDate.ShouldBe(DateOnly.FromDateTime(now.DateTime).AddMonths(1));
+        existingOrder.Interval.PlannedFinishDate.ShouldBe(DateOnly.FromDateTime(now.DateTime).AddMonths(1));
+        existingOrder.Interval.FinishDate.ShouldBeNull();
         existingOrder.Subscription.Type.ShouldBe(order.SubscriptionType);
         existingOrder.Subscription.RequirePayment.ShouldBe(order.RequirePayment);
         existingOrder.Subscription.ValidityPeriod.ShouldBe(order.Period);

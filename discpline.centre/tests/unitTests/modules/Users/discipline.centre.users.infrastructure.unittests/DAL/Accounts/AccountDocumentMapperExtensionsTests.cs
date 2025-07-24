@@ -29,6 +29,7 @@ public sealed class AccountDocumentMapperExtensionsTests
         
         order.Id.ShouldBe(SubscriptionOrderId.Parse(orderDocument.Id));
         order.Interval.StartDate.ShouldBe(orderDocument.Interval.StartDate);
+        order.Interval.PlannedFinishDate.ShouldBe(orderDocument.Interval.PlanedFinishDate);
         order.Interval.FinishDate.ShouldBe(orderDocument.Interval.FinishDate);
         order.Subscription.RequirePayment.ShouldBe(orderDocument.SubscriptionDetails.RequirePayment);
         order.Subscription.Type.ShouldBe(orderDocument.SubscriptionDetails.Type);

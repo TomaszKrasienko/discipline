@@ -3,7 +3,7 @@ using discipline.centre.users.domain.Accounts.ValueObjects.Account;
 using Shouldly;
 using Xunit;
 
-namespace discipline.centre.users.domain.unitTests.Accounts.ValueObjects.Accounts;
+namespace discipline.centre.users.domain.unittests.Accounts.ValueObjects.Accounts;
 
 public sealed class PasswordTests
 {

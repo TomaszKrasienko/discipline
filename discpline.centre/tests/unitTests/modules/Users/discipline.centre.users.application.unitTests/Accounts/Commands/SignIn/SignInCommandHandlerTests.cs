@@ -1,4 +1,5 @@
 using discipline.centre.shared.abstractions.CQRS.Commands;
+using discipline.centre.shared.abstractions.Exceptions;
 using discipline.centre.users.application.Accounts.Commands;
 using discipline.centre.users.application.Users.DTOs;
 using discipline.centre.users.application.Users.Services;
@@ -7,9 +8,10 @@ using discipline.centre.users.domain.Accounts.Services.Abstractions;
 using discipline.centre.users.domain.Subscriptions.Repositories;
 using discipline.centre.users.tests.sharedkernel.Domain;
 using NSubstitute;
+using Shouldly;
 using Xunit;
 
-namespace discipline.centre.users.application.unittests.Accounts.SignIn;
+namespace discipline.centre.users.application.unittests.Accounts.Commands.SignIn;
 
 public sealed class SignInCommandHandlerTests
 {
@@ -62,40 +64,73 @@ public sealed class SignInCommandHandlerTests
                  && arg.RefreshToken == refreshToken));
      }
      
-//     [Fact]
-//     public async Task HandleAsync_GivenNotExistingEmail_ShouldThrowNotFoundException()
-//     {
-//         //arrange
-//         var command = new SignInCommand("test@test.pl", "Test123!");
-//         
-//         //act
-//         var exception = await Record.ExceptionAsync( async() => await Act(command));
-//         
-//         //assert
-//         exception.ShouldBeOfType<NotFoundException>();
-//     }
-//
-//     [Fact]
-//     public async Task HandleAsync_GivenInvalidPassword_ShouldThrowInvalidPasswordException()
-//     {
-//         //arrange
-//         var user = UserFakeDataFactory.Get();
-//         var command = new SignInCommand(user.Email, "Test123!");
-//         _readUserRepository
-//             .GetByEmailAsync(command.Email, default)
-//             .Returns(user);
-//         
-//         _passwordManager
-//             .VerifyPassword(user.Password.HashedValue!, command.Password)
-//             .Returns(false);
-//         
-//         //act
-//         var exception = await Record.ExceptionAsync(async () => await Act(command));
-//         
-//         //assert
-//         exception.ShouldBeOfType<InvalidPasswordException>();
-//     }
-    
+     [Fact]
+     public async Task GivenNotExistingEmail_WhenHandleAsync_ShouldThrowNotFoundExceptionWithCode_SignIn_Account()
+     {
+         // Arrange
+         var command = new SignInCommand("test@test.pl", "Test123!");
+         
+         // Act
+         var exception = await Record.ExceptionAsync( async() => await Act(command));
+         
+         // Assert
+         exception.ShouldBeOfType<NotFoundException>();
+         ((NotFoundException)exception).Code.ShouldBe("SignIn.Account");
+     }
+
+     [Fact]
+     public async Task HandleAsync_GivenInvalidPassword_ShouldThrowInvalidPasswordExceptionWithCode_SignIn_Password()
+     {
+         // Arrange
+         var cancellationToken = CancellationToken.None;
+         var account = AccountFakeDataFactory
+             .Get()
+             .WithSubscriptionOrder();
+         
+         var command = new SignInCommand(account.Login.Value, "Test123!");
+         
+         _readWriteAccountRepository
+             .GetByEmailAsync(command.Email, cancellationToken)
+             .Returns(account);
+         
+         _passwordManager
+             .VerifyPassword(account.Password.Value, command.Password)
+             .Returns(false);
+         
+         // Act
+         var exception = await Record.ExceptionAsync(async () => await Act(command));
+         
+         // Assert
+         exception.ShouldBeOfType<InvalidArgumentException>();
+         ((InvalidArgumentException)exception).Code.ShouldBe("SignIn.Password");
+     }
+
+     [Fact]
+     public async Task GivenExistingAccountWithoutActiveSubscriptionOrder_WhenHandleAsync_ThenThrowsInvalidArgumentExceptionWith_SignIn_NullActiveSubscriptionOrder()
+     {
+         // Arrange
+         var cancellationToken = CancellationToken.None;
+         var account = AccountFakeDataFactory
+             .Get();
+         
+         var command = new SignInCommand(account.Login.Value, "Test123!");
+         
+         _readWriteAccountRepository
+             .GetByEmailAsync(command.Email, cancellationToken)
+             .Returns(account);
+         
+         _passwordManager
+             .VerifyPassword(account.Password.Value, command.Password)
+             .Returns(true);
+         
+         // Act
+         var exception = await Record.ExceptionAsync(async () => await Act(command));
+         
+         // Assert
+         exception.ShouldBeOfType<InvalidArgumentException>();
+         ((InvalidArgumentException)exception).Code.ShouldBe("SignIn.NullActiveSubscriptionOrder");
+     }
+     
     #region Arrange
 
     private readonly IReadWriteAccountRepository _readWriteAccountRepository;
@@ -105,7 +140,7 @@ public sealed class SignInCommandHandlerTests
     private readonly ITokenStorage _tokenStorage;
     private readonly IRefreshTokenManager _refreshTokenFacade;
     private readonly ICommandHandler<SignInCommand> _handler;
-    
+
     public SignInCommandHandlerTests()
     {
         _readWriteAccountRepository = Substitute.For<IReadWriteAccountRepository>();
@@ -122,6 +157,6 @@ public sealed class SignInCommandHandlerTests
             _tokenStorage,
             _refreshTokenFacade);
     }
-    
+
     #endregion
 }

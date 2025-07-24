@@ -35,6 +35,7 @@ internal static class AccountDocumentFakeDataFactory
             Interval = new IntervalDocument
             {
                 StartDate = startDate,
+                PlanedFinishDate = withPayment ? startDate.AddDays(validityPeriod + 1) : null,
                 FinishDate = withPayment ? startDate.AddDays(validityPeriod) : null
             },
             SubscriptionDetails = new SubscriptionDetailsDocument

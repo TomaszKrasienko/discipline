@@ -1,11 +1,8 @@
-using System.Text;
 using discipline.centre.shared.abstractions.CQRS.Commands;
-using discipline.centre.shared.abstractions.Events;
 using discipline.centre.shared.abstractions.Exceptions;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.shared.abstractions.UnitOfWork;
 using discipline.centre.users.application.Accounts.Commands;
-using discipline.centre.users.application.Users.Events;
 using discipline.centre.users.domain.Accounts;
 using discipline.centre.users.domain.Accounts.Repositories;
 using discipline.centre.users.domain.Accounts.Services.Abstractions;
@@ -22,7 +19,7 @@ using NSubstitute.ReturnsExtensions;
 using Shouldly;
 using Xunit;
 
-namespace discipline.centre.users.application.unittests.Accounts.SignUp;
+namespace discipline.centre.users.application.unittests.Accounts.Commands.SignUp;
 
 public sealed class SignUpCommandHandlerTests
 {

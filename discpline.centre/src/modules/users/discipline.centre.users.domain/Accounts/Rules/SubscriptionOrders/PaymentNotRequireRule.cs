@@ -6,7 +6,7 @@ namespace discipline.centre.users.domain.Accounts.Rules.SubscriptionOrders;
 
 internal sealed class PaymentNotRequireRule(Payment? payment, bool requirePayment) : IBusinessRule
 {
-    public Exception Exception => new DomainException("Account.SubscriptionOrder.NotRequirePayment");
+    public Exception Exception => new DomainException("Account.SubscriptionOrder.NotRequiredPayment");
 
     public bool IsBroken()
         => payment is not null && !requirePayment;

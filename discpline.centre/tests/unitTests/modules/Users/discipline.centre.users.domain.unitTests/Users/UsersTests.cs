@@ -5,7 +5,7 @@ using discipline.centre.users.domain.Users.Specifications;
 using Shouldly;
 using Xunit;
 
-namespace discipline.centre.users.domain.unitTests.Users;
+namespace discipline.centre.users.domain.unittests.Users;
 
 public sealed class UsersTests
 {

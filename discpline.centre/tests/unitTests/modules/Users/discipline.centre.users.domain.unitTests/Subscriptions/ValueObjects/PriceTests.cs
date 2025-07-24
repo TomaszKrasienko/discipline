@@ -4,7 +4,7 @@ using discipline.centre.users.domain.Subscriptions.ValueObjects;
 using Shouldly;
 using Xunit;
 
-namespace discipline.centre.users.domain.unitTests.Subscriptions.ValueObjects;
+namespace discipline.centre.users.domain.unittests.Subscriptions.ValueObjects;
 
 public sealed class PriceTests
 {

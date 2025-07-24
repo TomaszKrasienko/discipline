@@ -4,7 +4,7 @@ using NSubstitute;
 using Shouldly;
 using Xunit;
 
-namespace discipline.centre.users.domain.unitTests.Accounts.ValueObjects.SubscriptionOrders;
+namespace discipline.centre.users.domain.unittests.Accounts.ValueObjects.SubscriptionOrders;
 
 public sealed class PaymentTests
 {

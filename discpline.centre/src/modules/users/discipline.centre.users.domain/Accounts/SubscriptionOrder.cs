@@ -12,7 +12,7 @@ public sealed class SubscriptionOrder : Entity<SubscriptionOrderId, Ulid>
     public Payment? Payment { get; }
     public SubscriptionId SubscriptionId { get; }
 
-    public bool IsActive => Interval.FinishDate is not null;
+    public bool IsActive => Interval.FinishDate is null;
     
     /// <summary>
     /// Use only for MongoDB
@@ -39,7 +39,8 @@ public sealed class SubscriptionOrder : Entity<SubscriptionOrderId, Ulid>
     {
         CheckRule(new PaymentNotRequireRule(payment, subscription.RequirePayment));
         CheckRule(new PaymentRequireRule(payment, subscription.RequirePayment));
-        CheckRule();
+        CheckRule(new PlannedFinishedDateRequiredRule(interval, subscription.RequirePayment));
+        CheckRule(new PlannedFinishedDateNotRequiredRule(interval, subscription.RequirePayment));
         
         return new SubscriptionOrder(
             id,
