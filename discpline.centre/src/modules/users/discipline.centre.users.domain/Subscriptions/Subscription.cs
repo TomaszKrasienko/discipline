@@ -17,7 +17,10 @@ public sealed class Subscription : AggregateRoot<SubscriptionId, Ulid>
     public SubscriptionType Type { get; }
     public IReadOnlySet<Price> Prices => new HashSet<Price>(_prices);
 
-    private Subscription(
+    /// <summary>
+    /// Only for mongo purposes
+    /// </summary>
+    public Subscription(
         SubscriptionId id,
         SubscriptionType type,
         HashSet<Price> prices,

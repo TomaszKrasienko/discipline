@@ -2,6 +2,14 @@ namespace discipline.centre.users.domain.Subscriptions.Enums;
 
 public sealed record SubscriptionType
 {
+    public static IReadOnlyCollection<SubscriptionType> GetAvailable()
+        =>
+        [
+            Premium,
+            Admin,
+            Standard
+        ];
+    
     public static readonly SubscriptionType Premium = new("Premium", true, true);
     public static readonly SubscriptionType Standard = new("Standard", false, false);
     public static readonly SubscriptionType Admin = new ("Admin", false, false);
@@ -25,8 +33,7 @@ public sealed record SubscriptionType
         nameof(Premium) => Premium,
         nameof(Standard) => Standard,
         nameof(Admin) => Admin,
-        //TODO: Change to code
-        _ => throw new ArgumentException($"Value {value} is out of bound for SubscriptionType.")
+        _ => throw new ArgumentException("SubscriptionType.InvalidFormat")
     };
 
     public override string ToString()

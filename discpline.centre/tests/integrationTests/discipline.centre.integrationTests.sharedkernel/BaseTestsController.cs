@@ -46,32 +46,32 @@ public abstract class BaseTestsController : IDisposable
         HttpClient?.Dispose();
     }
     
-    protected async Task<User> AuthorizeWithFreeSubscriptionPicked()
-    {
-        var subscription = SubscriptionFakeDataFactory.Get();
-        var user = UserFakeDataFactory.Get();
-        user.CreateFreeSubscriptionOrder(SubscriptionOrderId.New(), subscription, DateTime.Now);
-        await TestAppDb.GetCollection<UserDocument>().InsertOneAsync(user.MapAsDocument(Guid.NewGuid().ToString()));
-        Authorize(user.Id, user.Email, user.Status);
-        return user;
-    }
-
-    protected async Task<User> AuthorizeWithoutSubscription()
-    {
-        var user = UserFakeDataFactory.Get();
-        await TestAppDb.GetCollection<UserDocument>().InsertOneAsync(user.MapAsDocument(Guid.NewGuid().ToString()));
-        Authorize(user.Id, user.Email, user.Status);
-        return user;
-    }
-    
-    protected virtual void Authorize(UserId userId, string email, string status)
-    {
-        var optionsProvider = new OptionsProvider();
-        var authOptions = optionsProvider.Get<JwtOptions>();
-        var authenticator = new JwtAuthenticator(new Clock(), Options.Create(authOptions));
-        var token = authenticator.CreateToken(userId.ToString(), email, status);
-        HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
-    }
+    // protected async Task<User> AuthorizeWithFreeSubscriptionPicked()
+    // {
+    //     var subscription = SubscriptionFakeDataFactory.Get();
+    //     var user = UserFakeDataFactory.Get();
+    //     user.CreateFreeSubscriptionOrder(SubscriptionOrderId.New(), subscription, DateTime.Now);
+    //     await TestAppDb.GetCollection<UserDocument>().InsertOneAsync(user.MapAsDocument(Guid.NewGuid().ToString()));
+    //     Authorize(user.Id, user.Email, user.Status);
+    //     return user;
+    // }
+    //
+    // protected async Task<User> AuthorizeWithoutSubscription()
+    // {
+    //     var user = UserFakeDataFactory.Get();
+    //     await TestAppDb.GetCollection<UserDocument>().InsertOneAsync(user.MapAsDocument(Guid.NewGuid().ToString()));
+    //     Authorize(user.Id, user.Email, user.Status);
+    //     return user;
+    // }
+    //
+    // protected virtual void Authorize(UserId userId, string email, string status)
+    // {
+    //     var optionsProvider = new OptionsProvider();
+    //     var authOptions = optionsProvider.Get<JwtOptions>();
+    //     var authenticator = new JwtAuthenticator(new Clock(), Options.Create(authOptions));
+    //     var token = authenticator.CreateToken(userId.ToString(), email, status);
+    //     HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
+    // }
 
     protected virtual void Authorize()
     {

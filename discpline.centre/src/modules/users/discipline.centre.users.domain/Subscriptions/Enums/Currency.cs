@@ -18,7 +18,6 @@ public sealed record Currency
     public static Currency FromValue(string shortcut) => shortcut switch
     {
         "PLN" => Pln,
-        //TODO: Change to code
-        _ => throw new ArgumentException($"Currency with shortcut {shortcut} is not supported")
+        _ => throw new ArgumentException("Currency.InvalidFormat")
     };
 };

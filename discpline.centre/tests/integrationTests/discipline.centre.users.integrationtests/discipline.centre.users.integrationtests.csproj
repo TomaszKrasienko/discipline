@@ -33,7 +33,7 @@
     </ItemGroup>
     
     <ItemGroup>
-      <ProjectReference Include="..\discipline.centre.integrationTests.sharedKernel\discipline.centre.integrationTests.sharedKernel.csproj" />
+      <ProjectReference Include="..\discipline.centre.integrationTests.sharedkernel\discipline.centre.integrationTests.sharedkernel.csproj" />
     </ItemGroup>
 
 </Project>

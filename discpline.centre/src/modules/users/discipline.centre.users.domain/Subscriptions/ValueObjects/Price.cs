@@ -36,7 +36,10 @@ public sealed class Price : ValueObject
         decimal perYear,
         Currency currency) => new(perMonth, perYear, currency);
 
-    private Price(
+    /// <summary>
+    /// Only for MongoDb purposes
+    /// </summary>
+    public Price(
         decimal perMonth,
         decimal perYear,
         Currency currency)

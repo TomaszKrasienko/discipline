@@ -13,6 +13,7 @@
         <InternalsVisibleTo Include="discipline.centre.users.application.unitTests"/>
         <InternalsVisibleTo Include="discipline.centre.users.tests.sharedkernel"/>
         <InternalsVisibleTo Include="discipline.centre.integrationTests.sharedKernel"/>
+        <internalsVisibleTo Include="discipline.centre.users.infrastructure.unittests"/>
     </ItemGroup>
     
     <ItemGroup>

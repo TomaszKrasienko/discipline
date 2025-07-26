@@ -119,7 +119,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.centre.dailytrac
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.centre.activityrules.integrationTests", "discpline.centre\tests\integrationTests\discipline.centre.activityrules.integrationTests\discipline.centre.activityrules.integrationTests.csproj", "{8ADAAF17-4CEF-4139-959E-4749386E5685}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.centre.integrationTests.sharedKernel", "discpline.centre\tests\integrationTests\discipline.centre.integrationTests.sharedKernel\discipline.centre.integrationTests.sharedKernel.csproj", "{3A1728D9-ACE9-46F9-8A27-71116810457A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.centre.integrationTests.sharedkernel", "discpline.centre\tests\integrationTests\discipline.centre.integrationTests.sharedkernel\discipline.centre.integrationTests.sharedkernel.csproj", "{3A1728D9-ACE9-46F9-8A27-71116810457A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "discipline.hangfire", "discipline.hangfire", "{ED058535-4A2C-453E-8AB1-0D3F6B4F9DE8}"
 EndProject

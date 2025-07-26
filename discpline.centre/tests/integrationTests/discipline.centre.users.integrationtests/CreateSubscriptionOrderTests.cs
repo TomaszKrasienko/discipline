@@ -1,6 +1,6 @@
 // using System.Net;
 // using System.Net.Http.Json;
-// using discipline.centre.integrationTests.sharedKernel;
+// using discipline.centre.integrationTests.sharedkernel;
 // using discipline.centre.users.application.Users.DTOs.Endpoints;
 // using discipline.centre.users.domain.Users.Enums;
 // using discipline.centre.users.infrastructure.DAL.Subscriptions.Documents;

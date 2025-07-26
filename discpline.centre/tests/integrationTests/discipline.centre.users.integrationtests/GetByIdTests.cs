@@ -1,6 +1,6 @@
 // using System.Net;
 // using System.Net.Http.Json;
-// using discipline.centre.integrationTests.sharedKernel;
+// using discipline.centre.integrationTests.sharedkernel;
 // using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 // using discipline.centre.users.application.Users.DTOs;
 // using discipline.centre.users.domain.Users;
