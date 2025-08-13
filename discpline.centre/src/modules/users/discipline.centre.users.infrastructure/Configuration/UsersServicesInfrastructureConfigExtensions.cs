@@ -1,4 +1,3 @@
-using discipline.centre.users.infrastructure.Users.RefreshToken.Configuration;
 using Microsoft.Extensions.Configuration;
 
 // ReSharper disable once CheckNamespace
@@ -10,8 +9,9 @@ public static class UsersServicesInfrastructureConfigExtensions
         IConfiguration configuration)
         => services
             .AddPasswordsSecure()
-            // .AddDal(assemblyName)
-            .AddUsersAuth(configuration)
+            .AddDal(assemblyName)
+            .AddAuth(configuration)
             .AddTokenStorage()
-            .AddRefreshTokenStorage(configuration);
+            .AddRefreshTokenStorage(configuration)
+            .AddDataInitializers();
 }

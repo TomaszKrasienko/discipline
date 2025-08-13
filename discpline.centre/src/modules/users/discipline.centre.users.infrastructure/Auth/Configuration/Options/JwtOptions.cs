@@ -1,4 +1,4 @@
-namespace discipline.centre.users.infrastructure.Users.Auth.Configuration.Options;
+namespace discipline.centre.users.infrastructure.Auth.Configuration.Options;
 
 internal sealed record JwtOptions
 {

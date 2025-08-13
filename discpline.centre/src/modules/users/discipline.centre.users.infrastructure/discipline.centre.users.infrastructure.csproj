@@ -20,9 +20,5 @@
         <InternalsVisibleTo Include="discipline.centre.users.integrationTests"/>
         <InternalsVisibleTo Include="discipline.centre.users.infrastructure.unittests"/>
     </ItemGroup>
-    
-    <ItemGroup>
-      <Folder Include="Accounts\" />
-    </ItemGroup>
 
 </Project>

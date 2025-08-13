@@ -34,7 +34,7 @@ internal sealed class SignUpCommandHandler(
 {
     public async Task HandleAsync(SignUpCommand command, CancellationToken cancellationToken = default)
     {
-        var doesEmailExist = await accountRepository.DoesEmailExistAsync(
+        var doesEmailExist = await accountRepository.DoesLoginExistAsync(
             command.Email,
             cancellationToken);
         

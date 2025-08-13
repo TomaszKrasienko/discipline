@@ -28,8 +28,11 @@ public sealed class FullName : ValueObject
             _lastName = value;
         }
     }
-
-    internal static FullName Create(string firstName, string lastName)
+    
+    /// <summary>
+    /// Only for Mongo purposes
+    /// </summary>
+    public static FullName Create(string firstName, string lastName)
         => new (firstName, lastName);
     
     private FullName(string firstName, string lastName)

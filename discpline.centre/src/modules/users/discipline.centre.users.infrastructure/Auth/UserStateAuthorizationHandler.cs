@@ -1,8 +1,9 @@
 using discipline.centre.shared.infrastructure.Auth;
 using Microsoft.AspNetCore.Authorization;
 
-namespace discipline.centre.users.infrastructure.Users.Auth;
+namespace discipline.centre.users.infrastructure.Auth;
 
+//TODO: Change to account state JwtAuthenticator
 internal sealed class UserStateAuthorizationHandler() : AuthorizationHandler<UserStateRequirement>
 {
     protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, UserStateRequirement requirement)

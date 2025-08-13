@@ -1,7 +1,7 @@
 using System.Text;
 using Microsoft.Extensions.Options;
 
-namespace discipline.centre.users.infrastructure.Users.Auth.Configuration.Options;
+namespace discipline.centre.users.infrastructure.Auth.Configuration.Options;
 
 internal sealed class JwtOptionsValidator : IValidateOptions<JwtOptions>
 {

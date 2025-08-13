@@ -2,10 +2,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
-using discipline.centre.users.application.Users.Services;
+using discipline.centre.users.application.Accounts.Services;
 using discipline.centre.users.domain.Accounts.Enums;
-using discipline.centre.users.infrastructure.Users.Auth;
-using discipline.centre.users.infrastructure.Users.Auth.Configuration.Options;
+using discipline.centre.users.infrastructure.Auth.Configuration.Options;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 

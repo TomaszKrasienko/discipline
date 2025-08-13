@@ -1,4 +1,3 @@
-using discipline.centre.users.application.Users.Services;
 using discipline.centre.users.domain.Accounts.Services;
 using discipline.centre.users.domain.Accounts.Services.Abstractions;
 

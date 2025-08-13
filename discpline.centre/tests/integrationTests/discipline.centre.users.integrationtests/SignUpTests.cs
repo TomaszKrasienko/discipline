@@ -1,14 +1,10 @@
 using System.Net;
 using System.Net.Http.Json;
 using discipline.centre.integrationTests.sharedKernel;
-using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
-using discipline.centre.users.application.Accounts.Commands;
 using discipline.centre.users.application.Accounts.DTOs.Requests;
-using discipline.centre.users.application.Users.Commands;
 using discipline.centre.users.domain.Subscriptions.Enums;
 using discipline.centre.users.infrastructure.DAL.Subscriptions.Documents;
 using discipline.centre.users.infrastructure.DAL.Users.Documents;
-using discipline.centre.users.tests.sharedkernel.Infrastructure;
 using MongoDB.Driver;
 using Shouldly;
 using Xunit;
@@ -37,7 +33,7 @@ public sealed class SignUpTests() : BaseTestsController("users-module")
             null);
         
         // Act
-        var response = await HttpClient.PostAsJsonAsync("api/users-module/users", command);
+        var response = await HttpClient.PostAsJsonAsync("api/accounts", command);
         
         //Assert
         response.StatusCode.ShouldBe(HttpStatusCode.Created);

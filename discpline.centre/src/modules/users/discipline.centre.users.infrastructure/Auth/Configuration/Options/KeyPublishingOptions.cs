@@ -1,5 +1,6 @@
-namespace discipline.centre.users.infrastructure.Users.Auth.Configuration.Options;
+namespace discipline.centre.users.infrastructure.Auth.Configuration.Options;
 
+//TODO: Change name
 internal sealed record KeyPublishingOptions
 {
     public string PrivateCertPath { get; init; } = string.Empty;

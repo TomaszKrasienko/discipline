@@ -60,7 +60,7 @@ public sealed class SignUpCommandHandlerTests
                 command.PaymentValue));
 
         _readWriteAccountRepository
-            .DoesEmailExistAsync(command.Email, cancellationToken)
+            .DoesLoginExistAsync(command.Email, cancellationToken)
             .Returns(false);
         
         _readSubscriptionRepository
@@ -124,7 +124,7 @@ public sealed class SignUpCommandHandlerTests
                 command.PaymentValue));
 
         _readWriteAccountRepository
-            .DoesEmailExistAsync(command.Email, cancellationToken)
+            .DoesLoginExistAsync(command.Email, cancellationToken)
             .Returns(false);
         
         _readSubscriptionRepository
@@ -197,7 +197,7 @@ public sealed class SignUpCommandHandlerTests
                 command.PaymentValue));
 
         _readWriteAccountRepository
-            .DoesEmailExistAsync(command.Email, cancellationToken)
+            .DoesLoginExistAsync(command.Email, cancellationToken)
             .Returns(false);
         
         _readSubscriptionRepository
@@ -241,7 +241,7 @@ public sealed class SignUpCommandHandlerTests
             null);
 
         _readWriteAccountRepository
-            .DoesEmailExistAsync(command.Email, CancellationToken.None)
+            .DoesLoginExistAsync(command.Email, CancellationToken.None)
             .Returns(true);
         
         // Act
@@ -269,7 +269,7 @@ public sealed class SignUpCommandHandlerTests
             null);
 
         _readWriteAccountRepository
-            .DoesEmailExistAsync(command.Email, cancellationToken)
+            .DoesLoginExistAsync(command.Email, cancellationToken)
             .Returns(false);
 
         _readSubscriptionRepository
@@ -319,7 +319,7 @@ public sealed class SignUpCommandHandlerTests
                 command.PaymentValue));
 
         _readWriteAccountRepository
-            .DoesEmailExistAsync(command.Email, cancellationToken)
+            .DoesLoginExistAsync(command.Email, cancellationToken)
             .Returns(false);
         
         _readSubscriptionRepository

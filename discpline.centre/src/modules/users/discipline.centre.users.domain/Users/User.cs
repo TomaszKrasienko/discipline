@@ -12,7 +12,10 @@ public sealed class User : AggregateRoot<UserId, Ulid>
     public FullName FullName { get; }
     public AccountId AccountId { get; }
 
-    private User(
+    /// <summary>
+    /// Only for MongoDb purposes
+    /// </summary>
+    public User(
         UserId id,
         Email email,
         FullName fullName,

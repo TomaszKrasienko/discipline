@@ -1,15 +1,9 @@
 using System.Net.Http.Headers;
 using discipline.centre.integrationTests.sharedKernel.InternalAuthentication;
 using discipline.centre.integrationTests.sharedKernel.InternalAuthentication.TestsOptions;
-using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.shared.infrastructure.Clock;
 using discipline.centre.shared.infrastructure.DAL.Collections.Abstractions;
 using discipline.centre.shared.infrastructure.ResourceHeader;
-using discipline.centre.users.domain.Users;
-using discipline.centre.users.infrastructure.DAL.Users.Documents;
-using discipline.centre.users.infrastructure.Users.Auth;
-using discipline.centre.users.infrastructure.Users.Auth.Configuration.Options;
-using discipline.centre.users.tests.sharedkernel.Domain;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;

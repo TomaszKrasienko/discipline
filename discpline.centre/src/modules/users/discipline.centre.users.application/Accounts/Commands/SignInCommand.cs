@@ -1,7 +1,7 @@
 using discipline.centre.shared.abstractions.CQRS.Commands;
 using discipline.centre.shared.abstractions.Exceptions;
+using discipline.centre.users.application.Accounts.Services;
 using discipline.centre.users.application.Users.DTOs;
-using discipline.centre.users.application.Users.Services;
 using discipline.centre.users.domain.Accounts.Repositories;
 using discipline.centre.users.domain.Accounts.Services.Abstractions;
 using discipline.centre.users.domain.Subscriptions.Repositories;
@@ -21,7 +21,7 @@ internal sealed class SignInCommandHandler(
     public async Task HandleAsync(SignInCommand command, CancellationToken cancellationToken = default)
     {
         var account = await readAccountRepository
-            .GetByEmailAsync(command.Email, cancellationToken);
+            .GetByLoginAsync(command.Email, cancellationToken);
 
         if (account is null)
         {

@@ -1,18 +1,12 @@
 using discipline.centre.shared.abstractions.CQRS;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.shared.infrastructure.IdentityContext.Abstractions;
-using discipline.centre.shared.infrastructure.ResourceHeader;
 using discipline.centre.users.application.Accounts.Commands;
-using discipline.centre.users.application.Accounts.DTOs.Requests;
-using discipline.centre.users.application.Users.Commands;
+using discipline.centre.users.application.Accounts.Services;
 using discipline.centre.users.application.Users.DTOs;
-using discipline.centre.users.application.Users.DTOs.Endpoints;
 using discipline.centre.users.application.Users.Queries;
-using discipline.centre.users.application.Users.Services;
-using discipline.centre.users.domain.Users;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 // ReSharper disable All
@@ -25,72 +19,6 @@ internal static class UsersEndpoints
     
     internal static WebApplication MapUsersEndpoints(this WebApplication app)
     {
-        app.MapPost($"api/{UserTag}/tokens", async (SignInCommand command,
-                ICqrsDispatcher commandDispatcher, ITokenStorage tokenStorage, CancellationToken cancellationToken) =>
-            {
-                await commandDispatcher.HandleAsync(command, cancellationToken);
-                var jwt = tokenStorage.Get(); 
-                
-                return Results.Ok(jwt);
-            })
-            .Produces(StatusCodes.Status200OK, typeof(void))
-            .Produces(StatusCodes.Status400BadRequest, typeof(ProblemDetails))
-            .Produces(StatusCodes.Status422UnprocessableEntity, typeof(ProblemDetails))
-            .WithName("SignIn")
-            .WithTags(UserTag)
-            .WithOpenApi(operation => new (operation)
-            {
-                Description = "Signs-in user"
-            });
-        
-        app.MapPost($"api/{UserTag}/refresh-tokens", async (RefreshRequestDto dto,
-                ICqrsDispatcher commandDispatcher, ITokenStorage tokenStorage, CancellationToken cancellationToken) =>
-            {
-                // TODO: Mapper
-                var command = new RefreshTokenCommand(dto.RefreshToken, UserId.Parse(dto.UserId));
-                
-                await commandDispatcher.HandleAsync(command, cancellationToken);
-                var jwt = tokenStorage.Get(); 
-                
-                return Results.Ok(jwt);
-            })
-            .Produces(StatusCodes.Status200OK, typeof(void))
-            .Produces(StatusCodes.Status400BadRequest, typeof(ProblemDetails))
-            .Produces(StatusCodes.Status422UnprocessableEntity, typeof(ProblemDetails))
-            .WithName("Refresh")
-            .WithTags(UserTag)
-            .WithOpenApi(operation => new (operation)
-            {
-                Description = "Refreshed token for user"
-            });
-        
-        app.MapPost($"api/{UserTag}/subscription-order", async (CreateUserSubscriptionOrderDto dto,
-                IIdentityContext identityContext, ICqrsDispatcher commandDispatcher, CancellationToken cancellationToken) =>
-            {
-                var subscriptionOrderId = SubscriptionOrderId.New();
-                var userId = identityContext.GetUser();
-
-                if (userId is null)
-                {
-                    return Results.Unauthorized();
-                }
-
-                await Task.Delay(1);
-                
-                return Results.Ok();
-            })
-            .Produces(StatusCodes.Status200OK, typeof(void))
-            .Produces(StatusCodes.Status400BadRequest, typeof(ProblemDetails))
-            .Produces(StatusCodes.Status401Unauthorized, typeof(void))
-            .Produces(StatusCodes.Status422UnprocessableEntity, typeof(ProblemDetails))
-            .WithName("CreateUserSubscriptionOrder")
-            .WithTags(UserTag)
-            .WithOpenApi(operation => new (operation)
-            {
-                Description = "Adds subscription order for user"
-            })
-            .RequireAuthorization();
-        
         app.MapGet($"api/{UsersModule.ModuleName}/{UserTag}/{{userId:ulid}}", async (Ulid userId,
                 CancellationToken cancellationToken, ICqrsDispatcher dispatcher) =>
             {
@@ -124,6 +52,7 @@ internal static class UsersEndpoints
                 return Results.Unauthorized();
             }
             
+            //TODO: GetUserByAccountId
             var user = await dispatcher.SendAsync(new GetUserByIdQuery(userId.Value), cancellationToken);
             return user is null ? Results.NotFound() : Results.Ok(user);
         })
