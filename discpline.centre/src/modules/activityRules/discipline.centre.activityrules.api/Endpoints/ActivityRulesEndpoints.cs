@@ -42,7 +42,6 @@ internal static class ActivityRulesEndpoints
                 
                 return Results.CreatedAtRoute(nameof(GetActivityRuleById), new {activityRuleId = activityRuleId.ToString()}, null);
             })
-            .AddEndpointFilter<RequestValidator<ActivityRuleRequestDto>>()
             .Produces(StatusCodes.Status201Created, typeof(void))
             .Produces(StatusCodes.Status400BadRequest, typeof(ProblemDetails))
             .Produces(StatusCodes.Status401Unauthorized, typeof(void))

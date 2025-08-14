@@ -27,8 +27,16 @@ public sealed class TestRedisCache : IDisposable
     public T? GetValueAsync<T>(string key) where T : class
     {
         var db = _connectionMultiplexer.GetDatabase();
-        var test = db.HashGet(key, "data");
-        return test.HasValue ? JsonSerializer.Deserialize<T>(test.ToString()) : null;
+        var value = db.HashGet(key, "data");
+        
+        if (!value.HasValue)
+        {
+            return null;
+        }
+        
+        var stringValue = value.ToString();
+        
+        return JsonSerializer.Deserialize<T>(stringValue);
     }
     
     public void Dispose()

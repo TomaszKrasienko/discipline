@@ -39,8 +39,4 @@
     <ItemGroup>
         <InternalsVisibleTo Include="discipline.centre.integrationTests.sharedKernel"/>
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Validation\Mappers\" />
-    </ItemGroup>
 </Project>

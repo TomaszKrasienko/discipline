@@ -1,20 +1,29 @@
 using Bogus;
+using discipline.centre.users.domain.Accounts;
 using discipline.centre.users.domain.Subscriptions.Enums;
 using discipline.centre.users.infrastructure.DAL.Accounts.Documents;
+using discipline.centre.users.infrastructure.Passwords;
+using Microsoft.AspNetCore.Identity;
 
 namespace discipline.centre.users.tests.sharedkernel.Infrastructure;
 
 internal static class AccountDocumentFakeDataFactory
 {
+    private static string? _password;
+    
     public static AccountDocument Get()
     {
         var faker = new Faker();
 
+        var passwordHasher = new PasswordHasher<Account>();
+
+        _password = "Password123!";
+        
         return new AccountDocument()
         {
             Id = Ulid.NewUlid().ToString(),
             Login = faker.Internet.Email(),
-            HashedPassword = faker.Random.String(),
+            HashedPassword = passwordHasher.HashPassword(null!, _password),
             SubscriptionOrders = []
         };
     }
@@ -40,7 +49,7 @@ internal static class AccountDocumentFakeDataFactory
             },
             SubscriptionDetails = new SubscriptionDetailsDocument
             {
-                Type = faker.Random.String(),
+                Type = withPayment ? SubscriptionType.Premium.Value : SubscriptionType.Standard.Value,
                 ValidityPeriod = faker.PickRandom<Period>(Period.GetAvailable()).Value,
                 RequirePayment = withPayment
             },
@@ -59,4 +68,7 @@ internal static class AccountDocumentFakeDataFactory
         
         return accountDocument;
     }
+    
+    public static string? GetPassword()
+        =>  _password;
 }

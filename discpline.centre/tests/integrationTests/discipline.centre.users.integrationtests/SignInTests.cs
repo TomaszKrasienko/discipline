@@ -1,87 +1,101 @@
-// using System.Net;
-// using System.Net.Http.Json;
-// using discipline.centre.integrationTests.sharedkernel;
-// using discipline.centre.users.application.Users.Commands;
-// using discipline.centre.users.application.Users.DTOs;
-// using discipline.centre.users.application.Users.Services;
-// using discipline.centre.users.domain.Accounts.Services;
-// using discipline.centre.users.domain.Accounts.Services.Abstractions;
-// using discipline.centre.users.domain.Users;
-// using discipline.centre.users.infrastructure.DAL.Users.Documents;
-// using discipline.centre.users.integrationTests.Helpers;
-// using discipline.centre.users.tests.sharedkernel.Domain;
-// using Microsoft.Extensions.DependencyInjection;
-// using Shouldly;
-// using Xunit;
-//
-// namespace discipline.centre.users.integrationTests;
-//
-// [Collection("users-module-sign-in")]
-// public sealed class SignInTests() : BaseTestsController("users-module")
-// {
-//     [Fact]
-//     public async Task SignIn_GivenExistingUserWithValidPassword_ShouldReturn200OkStatusCodeWithJwtToken()
-//     {
-//         //arrange
-//         var user = UserFakeDataFactory.Get();
-//         await TestAppDb.GetCollection<UserDocument>().InsertOneAsync(user.MapAsDocument(user.Password.Value!));
-//         var command = new SignInCommand(user.Email, user.Password.Value!);
-//         
-//         //act
-//         var result = await HttpClient.PostAsJsonAsync("api/users-module/users/tokens", command);
-//         
-//         //assert
-//         result.StatusCode.ShouldBe(HttpStatusCode.OK);
-//         var response = await result.Content.ReadFromJsonAsync<TokensDto>();
-//         response.ShouldNotBeNull();
-//         response.Token.ShouldNotBeEmpty();
-//         response.RefreshToken.ShouldNotBeEmpty();
-//
-//         var refreshTokenDto = _testRedisCache!.GetValueAsync<RefreshTokenDto>(user.Id.ToString());
-//         refreshTokenDto.ShouldNotBeNull();
-//         refreshTokenDto.Value.ShouldBe(response.RefreshToken);
-//     }
-//     
-//     [Fact]
-//     public async Task SignIn_GivenNotExistingUserEmail_ShouldReturn400BadRequestStatusCode()
-//     {
-//         //arrange
-//         var command = new SignInCommand("test@test.pl", "Test123!");
-//         
-//         //act
-//         var result = await HttpClient.PostAsJsonAsync("api/users-module/users/tokens", command);
-//         
-//         //assert
-//         result.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
-//     }
-//
-//     [Fact]
-//     public async Task SignIn_GivenEmptyEmail_ShouldReturn422UnprocessableEntityStatusCode()
-//     {
-//         
-//         //arrange
-//         var command = new SignInCommand(string.Empty, "Test123!");
-//         
-//         //act
-//         var result = await HttpClient.PostAsJsonAsync("api/users-module/users/tokens", command);
-//         
-//         //assert
-//         result.StatusCode.ShouldBe(HttpStatusCode.UnprocessableEntity);
-//     }
-//     
-//     #region arrange
-//
-//     private TestRedisCache? _testRedisCache;
-//     
-//     protected override void ConfigureServices(IServiceCollection services)
-//     {
-//         _testRedisCache = new TestRedisCache();
-//         services.AddStackExchangeRedisCache(redistOptions =>
-//         {
-//             redistOptions.Configuration = _testRedisCache.ConnectionString;
-//         });
-//         services.AddSingleton<IPasswordManager, TestsPasswordManager>();
-//         base.ConfigureServices(services);
-//     }
-//     #endregion
-// }
+
+using System.Net;
+using System.Net.Http.Json;
+using discipline.centre.integrationTests.sharedKernel;
+using discipline.centre.users.application.Accounts.Commands;
+using discipline.centre.users.application.Users.DTOs;
+using discipline.centre.users.infrastructure.DAL.Accounts.Documents;
+using discipline.centre.users.tests.sharedkernel.Infrastructure;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using Shouldly;
+using Xunit;
+
+namespace discipline.centre.users.integrationTests;
+
+[Collection("users-module")]
+public sealed class SignInTests() : BaseTestsController("users-module")
+{
+    [Fact]
+    public async Task GivenSignInRequest_WhenCallTo_api_accounts_signed_in_ThenReturns200StatusCodeWithTokenAndRefreshToken_StoreRefreshToken()
+    {
+        // Arrange
+        var accountDocument = AccountDocumentFakeDataFactory
+            .Get()
+            .WithSubscriptionOrder();
+
+        var password = AccountDocumentFakeDataFactory.GetPassword();
+        
+        await TestAppDb
+            .GetCollection<AccountDocument>()
+            .InsertOneAsync(accountDocument);
+        
+        
+        var command = new SignInCommand(accountDocument.Login, password!);
+        
+        // Act
+        var response = await HttpClient.PostAsJsonAsync("api/accounts/signed-in", command);
+        
+        //assert
+        response.StatusCode.ShouldBe(HttpStatusCode.OK);
+        
+        var result = await response.Content.ReadFromJsonAsync<TokensDto>();
+        result.ShouldNotBeNull();
+        result.Token.ShouldNotBeEmpty();
+        result.RefreshToken.ShouldNotBeEmpty();
+
+        var refreshToken = _testRedisCache
+            .GetValueAsync<RefreshTokenDto>(accountDocument.Id);
+
+        refreshToken.ShouldNotBeNull();
+        refreshToken.Value.ShouldBe(result.RefreshToken);
+    }
+    
+     [Fact]
+     public async Task GivenSignInRequestWithNotExistingAccount_WhenCallTo_api_accounts_signed_in_ThenReturns400StatusCode()
+     {
+         // Arrange
+         var command = new SignInCommand("test@test.pl", "Test123!");
+         
+         // Act
+         var response = await HttpClient.PostAsJsonAsync("api/accounts/signed-in", command);
+         
+         // Assert
+         response.StatusCode.ShouldBe(HttpStatusCode.BadRequest);
+     }
+
+     [Fact]
+     public async Task GivenInvalidSignInRequest_WhenCallTo_api_accounts_signed_in_ThenReturns422StatusCodeWithErrorCode()
+     {
+         
+         //arrange
+         var command = new SignInCommand(string.Empty, "Test123!");
+         
+         //act
+         var response = await HttpClient.PostAsJsonAsync("api/accounts/signed-in", command);
+         
+         //assert
+         response.StatusCode.ShouldBe(HttpStatusCode.UnprocessableEntity);
+         
+         var problemDetails = await response.Content.ReadFromJsonAsync<ProblemDetails>();
+         problemDetails!.Title.ShouldBe("Validation.Login.Empty");
+     }
+     
+     #region arrange
+
+     private TestRedisCache _testRedisCache = null!;
+     
+     protected override void ConfigureServices(IServiceCollection services)
+     {
+         _testRedisCache = new TestRedisCache();
+         
+         services.AddStackExchangeRedisCache(redistOptions =>
+         {
+             redistOptions.Configuration = _testRedisCache.ConnectionString;
+         });
+         
+         base.ConfigureServices(services);
+     }
+     
+     #endregion
+}

@@ -1,5 +1,5 @@
+using discipline.centre.users.domain.Accounts;
 using discipline.centre.users.domain.Accounts.Services.Abstractions;
-using discipline.centre.users.domain.Users;
 using discipline.centre.users.infrastructure.Passwords;
 using Microsoft.AspNetCore.Identity;
 
@@ -11,6 +11,6 @@ internal static class PasswordsServicesConfigurationExtensions
     //TODO: Name change
     internal static IServiceCollection AddPasswordsSecure(this IServiceCollection services)
         => services
-            .AddSingleton<IPasswordHasher<User>, PasswordHasher<User>>()
+            .AddSingleton<IPasswordHasher<Account>, PasswordHasher<Account>>()
             .AddSingleton<IPasswordManager, PasswordManager>();
 }

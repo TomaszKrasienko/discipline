@@ -29,8 +29,7 @@ internal sealed class SignUpCommandHandler(
     IReadWriteAccountRepository accountRepository,
     IReadWriteUserRepository userRepository,
     IReadSubscriptionRepository subscriptionRepository,
-    IAccountService accountService,
-    IUnitOfWork unitOfWork) : ICommandHandler<SignUpCommand>
+    IAccountService accountService) : ICommandHandler<SignUpCommand>
 {
     public async Task HandleAsync(SignUpCommand command, CancellationToken cancellationToken = default)
     {
@@ -74,24 +73,13 @@ internal sealed class SignUpCommandHandler(
             userFullName,
             account.Id);
 
-        await unitOfWork.StartTransactionAsync(cancellationToken);
-
         List<Task> creationTasks =
         [
             accountRepository.AddAsync(account, cancellationToken),
             userRepository.AddAsync(user, cancellationToken)
         ];
 
-        try
-        {
-            await Task.WhenAll(creationTasks);
-        }
-        catch (Exception)
-        {
-            await unitOfWork.RollbackTransactionAsync(cancellationToken)!;
-        }
-        await unitOfWork.CommitTransactionAsync(cancellationToken)!;
-
+        await Task.WhenAll(creationTasks);
 
         //TODO: Sending an event
         // await eventProcessor.PublishAsync(user.DomainEvents.Select(x 

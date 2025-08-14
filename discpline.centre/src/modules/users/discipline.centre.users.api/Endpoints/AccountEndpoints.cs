@@ -1,8 +1,10 @@
 using discipline.centre.shared.abstractions.CQRS;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
+using discipline.centre.shared.infrastructure.Validation.Mappers;
 using discipline.centre.users.application.Accounts.DTOs.Requests;
 using discipline.centre.users.application.Accounts.Services;
 using discipline.centre.users.application.Users.DTOs;
+using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -20,8 +22,16 @@ internal static class AccountEndpoints
             async (
                 SignUpRequestDto request,
                 CancellationToken cancellationToken,
-                ICqrsDispatcher dispatcher) =>
+                ICqrsDispatcher dispatcher,
+                IValidator<SignUpRequestDto> validator) =>
             {
+                var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+                if (!validationResult.IsValid)
+                {
+                    return Results.UnprocessableEntity(validationResult.ToProblemDetails());
+                }
+                
                 await dispatcher.HandleAsync(
                     request.ToCommand(AccountId.New()),
                     cancellationToken);
@@ -44,8 +54,16 @@ internal static class AccountEndpoints
                 SignInRequestDto request,
                 CancellationToken cancellationToken,
                 ICqrsDispatcher dispatcher,
-                ITokenStorage tokenStorage) =>
+                ITokenStorage tokenStorage,
+                IValidator<SignInRequestDto> validator) =>
             {
+                var validationResult = await validator.ValidateAsync(request, cancellationToken);
+                
+                if (!validationResult.IsValid)
+                {
+                    return Results.UnprocessableEntity(validationResult.ToProblemDetails());
+                }
+                
                 await dispatcher.HandleAsync(
                     request.ToCommand(),
                     cancellationToken);

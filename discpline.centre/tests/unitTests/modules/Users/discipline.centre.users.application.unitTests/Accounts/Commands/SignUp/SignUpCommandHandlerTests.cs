@@ -24,70 +24,6 @@ namespace discipline.centre.users.application.unittests.Accounts.Commands.SignUp
 public sealed class SignUpCommandHandlerTests
 {
     private Task Act(SignUpCommand command) => _handler.HandleAsync(command, CancellationToken.None);
-
-    [Fact]
-    public async Task GivenNotRegisteredEmailAndExistingSubscription_WhenHandleAsync_ThenCallsStartTransaction()
-    {
-        // Arrange
-        var cancellationToken = CancellationToken.None;
-        var subscription = SubscriptionFakeDataFactory.GetStandard();
-        var now = DateTime.UtcNow;
-        
-        _timeProvider
-            .GetUtcNow()
-            .Returns(now);
-        
-        var command = new SignUpCommand(
-            AccountId.New(),
-            "test@test.pl",
-            "Test123!",
-            SubscriptionId.New(), 
-            Period.Month,
-            "test_first_name",
-            "test_last_name",
-            null);
-
-        var account = Account.Create(
-            command.AccountId,
-            command.Email,
-            new PasswordSpecification(command.Password, Guid.NewGuid().ToString()),
-            _timeProvider,
-            new SubscriptionOrderSpecification(
-                subscription.Id,
-                subscription.Type.Value,
-                command.Period,
-                subscription.Type.HasPayment,
-                command.PaymentValue));
-
-        _readWriteAccountRepository
-            .DoesLoginExistAsync(command.Email, cancellationToken)
-            .Returns(false);
-        
-        _readSubscriptionRepository
-            .GetByIdAsync(command.SubscriptionId, cancellationToken)
-            .Returns(subscription);
-
-        _accountService
-            .Create(
-                command.AccountId,
-                command.Email,
-                command.Password,
-                new SubscriptionOrderSpecification(
-                    subscription.Id,
-                    subscription.Type.Value,
-                    command.Period,
-                    subscription.Type.HasPayment,
-                    command.PaymentValue))
-            .Returns(account);
-        
-        // Act
-        await Act(command);
-        
-        // Assert
-        await _unitOfWork
-            .Received(1)
-            .StartTransactionAsync(cancellationToken);
-    }
     
     [Fact]
     public async Task GivenNotRegisteredEmailndExistingSubscription_WhenHandleAsync_ThenAddsAccountAndUser()
@@ -161,70 +97,6 @@ public sealed class SignUpCommandHandlerTests
                     && arg.FullName.LastName == command.LastName
                     && arg.AccountId == command.AccountId), cancellationToken);
     }
-
-    [Fact]
-    public async Task GivenSuccessfullyAddedAccountAndUser_WhenHandleAsync_ThenCallsCommitTransactionAsync()
-    {
-        // Arrange
-        var cancellationToken = CancellationToken.None;
-        var subscription = SubscriptionFakeDataFactory.GetStandard();
-        var now = DateTime.UtcNow;
-        
-        _timeProvider
-            .GetUtcNow()
-            .Returns(now);
-        
-        var command = new SignUpCommand(
-            AccountId.New(),
-            "test@test.pl",
-            "Test123!",
-            SubscriptionId.New(), 
-            Period.Month,
-            "test_first_name",
-            "test_last_name",
-            null);
-
-        var account = Account.Create(
-            command.AccountId,
-            command.Email,
-            new PasswordSpecification(command.Password, Guid.NewGuid().ToString()),
-            _timeProvider,
-            new SubscriptionOrderSpecification(
-                subscription.Id,
-                subscription.Type.Value,
-                command.Period,
-                subscription.Type.HasPayment,
-                command.PaymentValue));
-
-        _readWriteAccountRepository
-            .DoesLoginExistAsync(command.Email, cancellationToken)
-            .Returns(false);
-        
-        _readSubscriptionRepository
-            .GetByIdAsync(command.SubscriptionId, cancellationToken)
-            .Returns(subscription);
-
-        _accountService
-            .Create(
-                command.AccountId,
-                command.Email,
-                command.Password,
-                new SubscriptionOrderSpecification(
-                    subscription.Id,
-                    subscription.Type.Value,
-                    command.Period,
-                    subscription.Type.HasPayment,
-                    command.PaymentValue))
-            .Returns(account);
-        
-        // Act
-        await Act(command);
-        
-        // Assert
-        await _unitOfWork
-            .Received(1)
-            .CommitTransactionAsync(cancellationToken)!;
-    }
     
     [Fact]
     public async Task GivenExistingEmail_WhenHandleAsync_ThenThrowsNotUniqueExceptionWithCode_SignUpCommand_Email()
@@ -284,81 +156,12 @@ public sealed class SignUpCommandHandlerTests
         ((NotFoundException)exception).Code.ShouldBe("SignUpCommand.Subscription");
     }
 
-    [Fact]
-    public async Task GivenExceptionFromAddAccountAsync_WhenHandleAsync_ThenCallsRollbackTransactionAsync()
-    {
-        // Arrange
-        var cancellationToken = CancellationToken.None;
-        var subscription = SubscriptionFakeDataFactory.GetStandard();
-        var now = DateTime.UtcNow;
-        
-        _timeProvider
-            .GetUtcNow()
-            .Returns(now);
-        
-        var command = new SignUpCommand(
-            AccountId.New(),
-            "test@test.pl",
-            "Test123!",
-            SubscriptionId.New(), 
-            Period.Month,
-            "test_first_name",
-            "test_last_name",
-            null);
-
-        var account = Account.Create(
-            command.AccountId,
-            command.Email,
-            new PasswordSpecification(command.Password, Guid.NewGuid().ToString()),
-            _timeProvider,
-            new SubscriptionOrderSpecification(
-                subscription.Id,
-                subscription.Type.Value,
-                command.Period,
-                subscription.Type.HasPayment,
-                command.PaymentValue));
-
-        _readWriteAccountRepository
-            .DoesLoginExistAsync(command.Email, cancellationToken)
-            .Returns(false);
-        
-        _readSubscriptionRepository
-            .GetByIdAsync(command.SubscriptionId, cancellationToken)
-            .Returns(subscription);
-
-        _accountService
-            .Create(
-                command.AccountId,
-                command.Email,
-                command.Password,
-                new SubscriptionOrderSpecification(
-                    subscription.Id,
-                    subscription.Type.Value,
-                    command.Period,
-                    subscription.Type.HasPayment,
-                    command.PaymentValue))
-            .Returns(account);
-
-        _readWriteAccountRepository
-            .AddAsync(account, cancellationToken)
-            .ThrowsAsync(new Exception());
-        
-        // Act
-        _ = await Record.ExceptionAsync(() => Act(command));
-        
-        // Assert
-        await _unitOfWork
-            .Received(1)
-            .RollbackTransactionAsync(cancellationToken)!;
-    }
-
     #region Arrange
 
     private readonly IReadWriteAccountRepository _readWriteAccountRepository;
     private readonly IReadWriteUserRepository _readWriteUserRepository;
     private readonly IReadSubscriptionRepository _readSubscriptionRepository;
     private readonly IAccountService _accountService;
-    private IUnitOfWork _unitOfWork;
     private readonly TimeProvider _timeProvider;
     private readonly ICommandHandler<SignUpCommand> _handler;
 
@@ -368,14 +171,12 @@ public sealed class SignUpCommandHandlerTests
         _readWriteUserRepository = Substitute.For<IReadWriteUserRepository>();
         _readSubscriptionRepository = Substitute.For<IReadSubscriptionRepository>();
         _accountService = Substitute.For<IAccountService>();
-        _unitOfWork = Substitute.For<IUnitOfWork>();
         _timeProvider = Substitute.For<TimeProvider>();
         _handler = new SignUpCommandHandler(
             _readWriteAccountRepository,
             _readWriteUserRepository,
             _readSubscriptionRepository,
-            _accountService,
-            _unitOfWork);
+            _accountService);
     }
     #endregion
 }
