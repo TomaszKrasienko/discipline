@@ -12,7 +12,7 @@ using MongoDB.Driver;
 using Shouldly;
 using Xunit;
 
-namespace discipline.centre.users.integrationTests;
+namespace discipline.centre.users.integrationTests.Accounts;
 
 [Collection("users-module")]
 public sealed class SignUpTests() : BaseTestsController("users-module")

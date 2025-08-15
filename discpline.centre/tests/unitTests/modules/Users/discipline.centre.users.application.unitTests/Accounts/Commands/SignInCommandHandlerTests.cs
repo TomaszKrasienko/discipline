@@ -11,7 +11,7 @@ using NSubstitute;
 using Shouldly;
 using Xunit;
 
-namespace discipline.centre.users.application.unittests.Accounts.Commands.SignIn;
+namespace discipline.centre.users.application.unittests.Accounts.Commands;
 
 public sealed class SignInCommandHandlerTests
 {
@@ -50,7 +50,7 @@ public sealed class SignInCommandHandlerTests
          var refreshToken = Guid.NewGuid().ToString();
          
          _refreshTokenFacade
-             .GenerateAndSaveAsync(account.Id, cancellationToken)
+             .GenerateAndReplaceAsync(account.Id, cancellationToken)
              .Returns(refreshToken);
          
          //act

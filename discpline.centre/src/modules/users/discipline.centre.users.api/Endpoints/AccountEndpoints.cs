@@ -81,7 +81,39 @@ internal static class AccountEndpoints
                 Description = "Signs-in user"
             });
         
-        //TODO: Refresh token
+        app.MapPost(
+                $"api/{AccountTag}/refreshed",
+                async (
+                    RefreshRequestDto request,
+                    CancellationToken cancellationToken,
+                    ICqrsDispatcher dispatcher,
+                    ITokenStorage tokenStorage,
+                    IValidator<RefreshRequestDto> validator) =>
+                {
+                    var validationResult = await validator.ValidateAsync(request, cancellationToken);
+                
+                    if (!validationResult.IsValid)
+                    {
+                        return Results.UnprocessableEntity(validationResult.ToProblemDetails());
+                    }
+                
+                    await dispatcher.HandleAsync(
+                        request.ToCommand(),
+                        cancellationToken);
+                
+                    var tokens = tokenStorage.Get();
+                    return Results.Ok(tokens);
+                })
+            .Produces(StatusCodes.Status200OK, typeof(TokensDto))
+            .Produces(StatusCodes.Status400BadRequest, typeof(ProblemDetails))
+            .Produces(StatusCodes.Status422UnprocessableEntity, typeof(ProblemDetails))
+            .WithName("Refresh")
+            .WithTags(AccountTag)
+            .WithOpenApi(operation => new (operation)
+            {
+                Description = "Refresh token user"
+            });
+        
         //TODO: Subscription order
 
         return app;

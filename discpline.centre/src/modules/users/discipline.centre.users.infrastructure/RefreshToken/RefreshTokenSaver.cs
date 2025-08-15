@@ -16,19 +16,26 @@ internal sealed class RefreshTokenSaver(
     private readonly TimeSpan _expiry = options.Value.Expiry;
     private readonly int _refreshTokenLength = options.Value.Length;
 
-    public async Task<string> GenerateAndSaveAsync(
+    public async Task<string> GenerateAndReplaceAsync(
         AccountId accountId,
         CancellationToken cancellationToken = default)
     {
         var refreshToken = GenerateRandom(_refreshTokenLength);
         var dto = new RefreshTokenDto(refreshToken);
-        await cacheFacade.AddOrUpdateAsync(accountId.Value.ToString(), dto, _expiry, cancellationToken);
+        await cacheFacade.AddOrUpdateAsync(accountId.ToString(), dto, _expiry, cancellationToken);
         return refreshToken;
     }
 
-    public Task<UserId?> GetUserIdAsync(string refreshToken, CancellationToken cancellationToken = default)
+    public async Task<bool> DoesRefreshTokenExistAsync(
+        string refreshToken,
+        AccountId accountId,
+        CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var savedRefreshToken = await cacheFacade.GetAsync<RefreshTokenDto>(
+            accountId.ToString(),
+            cancellationToken);
+
+        return refreshToken == savedRefreshToken?.Value;
     }
 
     private static string GenerateRandom(int length)
@@ -37,18 +44,8 @@ internal sealed class RefreshTokenSaver(
         StringBuilder refreshTokenSb = new StringBuilder();
         for (int i = 0; i < length; i++)
         {
-            refreshTokenSb.Append((char)random.Next('A', 'z'));
+            refreshTokenSb.Append((char)random.Next('a', 'z'));
         }
         return refreshTokenSb.ToString();
-    }
-
-    public async Task<bool> DoesRefreshTokenExistsAsync(
-        string refreshToken,
-        UserId userId,
-        CancellationToken cancellationToken = default)
-    {
-        var savedRefreshToken = await cacheFacade.GetAsync<RefreshTokenDto>(userId.ToString(), cancellationToken);
-
-        return refreshToken == savedRefreshToken?.Value;
     }
 }

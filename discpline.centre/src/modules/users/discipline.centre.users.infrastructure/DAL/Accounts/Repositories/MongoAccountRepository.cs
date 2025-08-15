@@ -1,3 +1,4 @@
+using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.shared.infrastructure.DAL;
 using discipline.centre.users.domain.Accounts;
 using discipline.centre.users.domain.Accounts.Repositories;
@@ -15,6 +16,9 @@ internal sealed class MongoAccountRepository(
 
     public async Task<Account?> GetByLoginAsync(string login, CancellationToken cancellationToken = default)
         => (await GetAsync(x => x.Login == login, cancellationToken))?.ToEntity();
+
+    public async Task<Account?> GetByIdAsync(AccountId accountId, CancellationToken cancellationToken = default)
+        => (await GetAsync(x => x.Id == accountId.ToString(), cancellationToken))?.ToEntity();
 
     public async Task AddAsync(Account account, CancellationToken cancellationToken = default)
     {

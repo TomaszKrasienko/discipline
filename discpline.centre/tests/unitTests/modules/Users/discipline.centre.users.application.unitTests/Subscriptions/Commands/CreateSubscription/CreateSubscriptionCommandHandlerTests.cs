@@ -11,7 +11,7 @@ using NSubstitute;
 using Shouldly;
 using Xunit;
 
-namespace discipline.centre.users.application.unitTests.Subscriptions.Commands.CreateSubscription;
+namespace discipline.centre.users.application.unittests.Subscriptions.Commands.CreateSubscription;
 
 public sealed class CreateSubscriptionCommandHandlerTests
 {

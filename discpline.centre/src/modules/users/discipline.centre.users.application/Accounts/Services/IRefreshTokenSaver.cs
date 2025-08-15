@@ -4,6 +4,12 @@ namespace discipline.centre.users.application.Accounts.Services;
 
 public interface IRefreshTokenManager
 {
-    Task<string> GenerateAndSaveAsync(AccountId accountId, CancellationToken cancellationToken = default);
-    Task<bool> DoesRefreshTokenExistsAsync(string refreshToken, UserId userId, CancellationToken cancellationToken = default);
+    Task<string> GenerateAndReplaceAsync(
+        AccountId accountId,
+        CancellationToken cancellationToken = default);
+    
+    Task<bool> DoesRefreshTokenExistAsync(
+        string refreshToken,
+        AccountId accountId,
+        CancellationToken cancellationToken = default);
 }

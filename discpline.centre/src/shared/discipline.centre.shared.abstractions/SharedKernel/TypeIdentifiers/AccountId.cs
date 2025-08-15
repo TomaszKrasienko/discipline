@@ -13,4 +13,7 @@ public readonly record struct AccountId(Ulid Value) : ITypeId<AccountId, Ulid>
         
         return new AccountId(parsed);   
     }
+
+    public override string ToString()
+        => Value.ToString();
 }

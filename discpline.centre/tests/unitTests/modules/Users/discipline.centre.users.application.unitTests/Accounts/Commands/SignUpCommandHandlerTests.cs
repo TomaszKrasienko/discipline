@@ -1,7 +1,6 @@
 using discipline.centre.shared.abstractions.CQRS.Commands;
 using discipline.centre.shared.abstractions.Exceptions;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
-using discipline.centre.shared.abstractions.UnitOfWork;
 using discipline.centre.users.application.Accounts.Commands;
 using discipline.centre.users.domain.Accounts;
 using discipline.centre.users.domain.Accounts.Repositories;
@@ -14,12 +13,11 @@ using discipline.centre.users.domain.Users;
 using discipline.centre.users.domain.Users.Repositories;
 using discipline.centre.users.tests.sharedkernel.Domain;
 using NSubstitute;
-using NSubstitute.ExceptionExtensions;
 using NSubstitute.ReturnsExtensions;
 using Shouldly;
 using Xunit;
 
-namespace discipline.centre.users.application.unittests.Accounts.Commands.SignUp;
+namespace discipline.centre.users.application.unittests.Accounts.Commands;
 
 public sealed class SignUpCommandHandlerTests
 {

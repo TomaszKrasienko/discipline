@@ -16,7 +16,7 @@ internal sealed class SignInCommandHandler(
     IPasswordManager passwordManager,
     IAuthenticator authenticator,
     ITokenStorage tokenStorage,
-    IRefreshTokenManager refreshTokenFacade) : ICommandHandler<SignInCommand>
+    IRefreshTokenManager refreshTokenManager) : ICommandHandler<SignInCommand>
 {
     public async Task HandleAsync(SignInCommand command, CancellationToken cancellationToken = default)
     {
@@ -52,7 +52,7 @@ internal sealed class SignInCommandHandler(
             subscription?.GetAllowedNumberOfDailyTasks(),
             subscription?.GetAllowedNumberOfRules());
         
-        var refreshToken = await refreshTokenFacade.GenerateAndSaveAsync(account.Id, cancellationToken);
+        var refreshToken = await refreshTokenManager.GenerateAndReplaceAsync(account.Id, cancellationToken);
         tokenStorage.Set(new TokensDto(token, refreshToken));
     }
 }

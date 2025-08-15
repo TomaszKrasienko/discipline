@@ -34,11 +34,12 @@ internal sealed class ExceptionHandler(ILogger<IExceptionHandler> logger,
             IsAuthorizeException(disciplineException.Code))
         {
             var errorMessage = errorLocalizationService.GetMessage(disciplineException.Code);
+            var prefix = disciplineException.Code.Split('.')[0];
             
             problemDetails = new ProblemDetails
             {
                 Status = StatusCodes.Status400BadRequest,
-                Title = "SignIn.Unauthorized",
+                Title = $"{prefix}.Unauthorized",
                 Type = nameof(DisciplineException),
                 Detail = errorMessage
             };
@@ -71,5 +72,6 @@ internal sealed class ExceptionHandler(ILogger<IExceptionHandler> logger,
     }
 
     private bool IsAuthorizeException(string code)
-        => code.StartsWith("SignIn");
+        => code.StartsWith("SignIn")
+        || code.StartsWith("Refresh");
 }
