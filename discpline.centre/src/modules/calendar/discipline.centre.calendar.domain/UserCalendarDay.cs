@@ -8,39 +8,39 @@ namespace discipline.centre.calendar.domain;
 public sealed class UserCalendarDay : AggregateRoot<UserCalendarId, Ulid>
 {
     private readonly HashSet<BaseCalendarEvent> _events = new();
-    public UserId UserId { get; }
+    public AccountId AccountId { get; }
     public Day Day { get; }
     public IReadOnlySet<BaseCalendarEvent> Events => _events;
 
-    private UserCalendarDay(UserCalendarId id, UserId userId, Day day) : base(id)
+    private UserCalendarDay(UserCalendarId id, AccountId accountId, Day day) : base(id)
     {
-        UserId = userId;
+        AccountId = accountId;
         Day = day;
     }
 
     /// <summary>
     /// Use only for Mongo purpose!
     /// </summary>
-    public UserCalendarDay(UserCalendarId id, UserId userId, Day day, HashSet<BaseCalendarEvent> events)
-        : this(id, userId, day)
+    public UserCalendarDay(UserCalendarId id, AccountId accountId, Day day, HashSet<BaseCalendarEvent> events)
+        : this(id, accountId, day)
     {
         _events = events;
     }
 
     public static UserCalendarDay CreateWithImportantDate(UserCalendarId id,
-        UserId userId, 
+        AccountId accountId, 
         DateOnly day,
         CalendarEventId eventId,
         string title, 
         string? description)
     {
-        var userCalendarDay = new UserCalendarDay(id, userId, day);
+        var userCalendarDay = new UserCalendarDay(id, accountId, day);
         userCalendarDay._events.Add(ImportantDateEvent.Create(eventId, title, description));
         return userCalendarDay;
     }
 
     public static UserCalendarDay CreateWithTimeEvent(UserCalendarId id,
-        UserId userId,
+        AccountId accountId,
         DateOnly day,
         CalendarEventId eventId,
         string title,
@@ -48,7 +48,7 @@ public sealed class UserCalendarDay : AggregateRoot<UserCalendarId, Ulid>
         TimeOnly timeFrom,
         TimeOnly? timeTo)
     {
-        var userCalendarDay = new UserCalendarDay(id, userId, day);
+        var userCalendarDay = new UserCalendarDay(id, accountId, day);
         userCalendarDay._events.Add(TimeEvent.Create(eventId, timeFrom, timeTo, title, description));
         return userCalendarDay;
     }

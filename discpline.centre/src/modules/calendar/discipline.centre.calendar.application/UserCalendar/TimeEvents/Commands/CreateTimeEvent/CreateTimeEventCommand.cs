@@ -5,7 +5,7 @@ using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 
 namespace discipline.centre.calendar.application.UserCalendar.TimeEvents.Commands.CreateTimeEvent;
 
-public sealed record CreateTimeEventCommand(UserId UserId, 
+public sealed record CreateTimeEventCommand(AccountId AccountId, 
     DateOnly Day,
     CalendarEventId EventId, 
     string Title, 
@@ -18,11 +18,11 @@ internal sealed class CreateTimeEventCommandHandler(
 {
     public async Task HandleAsync(CreateTimeEventCommand command, CancellationToken cancellationToken)
     {
-        var userCalendarDay = await readWriteUserCalendarRepository.GetByDayAsync(command.UserId, command.Day, cancellationToken);
+        var userCalendarDay = await readWriteUserCalendarRepository.GetByDayAsync(command.AccountId, command.Day, cancellationToken);
 
         if (userCalendarDay is null)
         {
-            userCalendarDay = UserCalendarDay.CreateWithTimeEvent(UserCalendarId.New(), command.UserId, command.Day,
+            userCalendarDay = UserCalendarDay.CreateWithTimeEvent(UserCalendarId.New(), command.AccountId, command.Day,
                 command.EventId, command.Title, command.Description, command.TimeFrom, command.TimeTo);
             
             await readWriteUserCalendarRepository.AddAsync(userCalendarDay, cancellationToken);

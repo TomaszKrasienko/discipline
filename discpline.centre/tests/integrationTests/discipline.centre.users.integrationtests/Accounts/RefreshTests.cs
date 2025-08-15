@@ -3,6 +3,7 @@ using System.Net.Http.Json;
 using discipline.centre.integrationTests.sharedKernel;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.users.application.Accounts.Commands;
+using discipline.centre.users.application.Accounts.DTOs;
 using discipline.centre.users.application.Accounts.DTOs.Requests;
 using discipline.centre.users.application.Users.DTOs;
 using discipline.centre.users.domain.Subscriptions.Enums;

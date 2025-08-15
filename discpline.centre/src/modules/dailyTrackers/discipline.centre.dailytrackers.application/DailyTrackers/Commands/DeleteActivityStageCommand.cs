@@ -4,7 +4,7 @@ using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 
 namespace discipline.centre.dailytrackers.application.DailyTrackers.Commands;
 
-public sealed record DeleteActivityStageCommand(UserId UserId, DailyTrackerId DailyTrackerId, ActivityId ActivityId, 
+public sealed record DeleteActivityStageCommand(AccountId AccountId, DailyTrackerId DailyTrackerId, ActivityId ActivityId, 
     StageId StageId) : ICommand;
     
 internal sealed class DeleteActivityStageCommandHandler(
@@ -12,7 +12,7 @@ internal sealed class DeleteActivityStageCommandHandler(
 {
     public async Task HandleAsync(DeleteActivityStageCommand command, CancellationToken cancellationToken = default)
     {
-        var dailyTracker = await writeReadDailyTrackerRepository.GetDailyTrackerByIdAsync(command.UserId,
+        var dailyTracker = await writeReadDailyTrackerRepository.GetDailyTrackerByIdAsync(command.AccountId,
             command.DailyTrackerId, cancellationToken);
 
         if (dailyTracker is null)

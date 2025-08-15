@@ -1,6 +1,7 @@
 using System.Text;
 using discipline.centre.shared.abstractions.Cache;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
+using discipline.centre.users.application.Accounts.DTOs;
 using discipline.centre.users.application.Accounts.Services;
 using discipline.centre.users.application.Users.DTOs;
 using discipline.centre.users.infrastructure.Accounts.RefreshToken.Configuration;

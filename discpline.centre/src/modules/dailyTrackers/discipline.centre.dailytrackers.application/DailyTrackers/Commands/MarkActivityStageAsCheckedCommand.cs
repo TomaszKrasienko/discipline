@@ -6,7 +6,7 @@ using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 
 namespace discipline.centre.dailytrackers.application.DailyTrackers.Commands;
 
-public sealed record MarkActivityStageAsCheckedCommand(UserId UserId, DailyTrackerId DailyTrackerId,
+public sealed record MarkActivityStageAsCheckedCommand(AccountId AccountId, DailyTrackerId DailyTrackerId,
     ActivityId ActivityId, StageId StageId) : ICommand;
 
 internal sealed class MarkActivityStageAsCheckedCommandHandler(
@@ -15,7 +15,7 @@ internal sealed class MarkActivityStageAsCheckedCommandHandler(
     public async Task HandleAsync(MarkActivityStageAsCheckedCommand command, CancellationToken cancellationToken = default)
     {
         var dailyTracker = await writeReadDailyTrackerRepository
-            .GetDailyTrackerByIdAsync(command.UserId, command.DailyTrackerId, cancellationToken);
+            .GetDailyTrackerByIdAsync(command.AccountId, command.DailyTrackerId, cancellationToken);
 
         if (dailyTracker is null)
         {

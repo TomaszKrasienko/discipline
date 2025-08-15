@@ -32,7 +32,7 @@ internal static class CalendarEndpoints
                  return Results.UnprocessableEntity(validationResult.Errors);
             }
             
-            var userId = identityContext.GetUser();
+            var userId = identityContext.GetAccount();
 
             if (userId is null)
             {

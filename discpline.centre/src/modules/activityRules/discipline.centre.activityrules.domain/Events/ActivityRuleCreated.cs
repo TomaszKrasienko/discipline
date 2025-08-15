@@ -6,6 +6,6 @@ namespace discipline.centre.activityrules.domain.Events;
 
 public sealed record ActivityRuleCreated(
     ActivityRuleId ActivityRuleId,
-    UserId UserId,
+    AccountId AccountId,
     Details Details,
     SelectedMode Mode) : DomainEvent;

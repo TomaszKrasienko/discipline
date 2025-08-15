@@ -10,7 +10,7 @@ using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 
 namespace discipline.centre.dailytrackers.application.DailyTrackers.Commands;
 
-public sealed record CreateActivityFromActivityRuleCommand(UserId UserId, ActivityId? ActivityId, ActivityRuleId ActivityRuleId) : ICommand;
+public sealed record CreateActivityFromActivityRuleCommand(AccountId AccountId , ActivityId? ActivityId, ActivityRuleId ActivityRuleId) : ICommand;
 
 internal sealed class CreateActivityFromActivityRuleCommandHandler(
     IClock clock, IActivityRulesApiClient apiClient,
@@ -23,7 +23,7 @@ internal sealed class CreateActivityFromActivityRuleCommandHandler(
             command = command with { ActivityId = ActivityId.New() };
         }
         
-        var activityRule = await apiClient.GetActivityRuleByIdAsync(command.ActivityRuleId, command.UserId);
+        var activityRule = await apiClient.GetActivityRuleByIdAsync(command.ActivityRuleId, command.AccountId);
         
         if (activityRule is null)
         {
@@ -32,7 +32,7 @@ internal sealed class CreateActivityFromActivityRuleCommandHandler(
         }   
 
         var today = clock.DateNow();
-        var dailyTracker = await repository.GetDailyTrackerByDayAsync(command.UserId, today, cancellationToken);
+        var dailyTracker = await repository.GetDailyTrackerByDayAsync(command.AccountId, today, cancellationToken);
 
         var stages = MapStages(activityRule);
         
@@ -43,7 +43,7 @@ internal sealed class CreateActivityFromActivityRuleCommandHandler(
             return;
         }
         
-        dailyTracker = DailyTracker.Create(DailyTrackerId.New(), today, command.UserId, command.ActivityId,
+        dailyTracker = DailyTracker.Create(DailyTrackerId.New(), today, command.AccountId, command.ActivityId,
             new ActivityDetailsSpecification(activityRule.Title, activityRule.Note),
             activityRule.ActivityRuleId, stages);
         await repository.AddAsync(dailyTracker, cancellationToken);

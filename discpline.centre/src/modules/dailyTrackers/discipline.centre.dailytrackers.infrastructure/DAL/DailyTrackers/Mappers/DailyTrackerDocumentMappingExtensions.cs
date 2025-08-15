@@ -20,7 +20,7 @@ internal static class DailyTrackerDocumentMappingExtensions
         => new (
             DailyTrackerId.Parse(document.DailyTrackerId),
             document.Day,
-            UserId.Parse(document.UserId),
+            AccountId.Parse(document.AccountId), 
             document.Activities.Select(x => x.AsEntity()).ToList());
 
     /// <summary>

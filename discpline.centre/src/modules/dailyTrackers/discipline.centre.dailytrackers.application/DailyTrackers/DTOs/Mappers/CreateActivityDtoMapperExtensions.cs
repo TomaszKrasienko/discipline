@@ -6,6 +6,6 @@ namespace discipline.centre.dailytrackers.application.DailyTrackers.DTOs;
 
 public static class CreateActivityDtoMapperExtensions
 {
-    public static CreateActivityCommand MapAsCommand(this CreateActivityDto dto, UserId userId, ActivityId activityId)
-        => new (userId, activityId, dto.Day, dto.Details, dto.Stages);
+    public static CreateActivityCommand MapAsCommand(this CreateActivityDto dto, AccountId accountId, ActivityId activityId)
+        => new (accountId, activityId, dto.Day, dto.Details, dto.Stages);
 }

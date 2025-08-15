@@ -1,3 +1,4 @@
+using discipline.centre.users.application.Accounts.DTOs;
 using discipline.centre.users.application.Users.DTOs;
 
 namespace discipline.centre.users.application.Accounts.Services;

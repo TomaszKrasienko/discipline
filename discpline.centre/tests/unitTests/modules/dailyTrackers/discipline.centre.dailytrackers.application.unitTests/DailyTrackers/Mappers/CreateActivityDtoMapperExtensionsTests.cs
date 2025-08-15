@@ -21,10 +21,10 @@ public sealed class CreateActivityDtoMapperExtensionsTests
         
         //assert
         result.Day.ShouldBe(createActivityDto.Day);
-        result.UserId.ShouldBe(userId);
+        result.AccountId.ShouldBe(userId);
         result.Details.Title.ShouldBe(createActivityDto.Details.Title);
         result.Details.Note.ShouldBe(createActivityDto.Details.Note);
-        result.UserId.ShouldBe(userId);
+        result.AccountId.ShouldBe(userId);
         result.Stages.ShouldBeNull();
     }
     
@@ -41,10 +41,10 @@ public sealed class CreateActivityDtoMapperExtensionsTests
         
         //assert
         result.Day.ShouldBe(createActivityDto.Day);
-        result.UserId.ShouldBe(userId);
+        result.AccountId.ShouldBe(userId);
         result.Details.Title.ShouldBe(createActivityDto.Details.Title);
         result.Details.Note.ShouldBe(createActivityDto.Details.Note);
-        result.UserId.ShouldBe(userId);
+        result.AccountId.ShouldBe(userId);
         result.Stages![0].Title.ShouldBe(createActivityDto.Stages![0].Title);
         result.Stages![0].Index.ShouldBe(createActivityDto.Stages![0].Index);
     }

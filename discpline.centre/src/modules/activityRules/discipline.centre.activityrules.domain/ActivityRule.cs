@@ -15,7 +15,7 @@ namespace discipline.centre.activityrules.domain;
 public sealed class ActivityRule : AggregateRoot<ActivityRuleId, Ulid>
 {
     private readonly List<Stage> _stages = [];
-    public UserId UserId { get; }
+    public AccountId AccountId { get; }
     public Details Details { get; private set; }
     public SelectedMode Mode { get; private set; }
     public IReadOnlyList<Stage> Stages => _stages.ToArray();
@@ -23,33 +23,33 @@ public sealed class ActivityRule : AggregateRoot<ActivityRuleId, Ulid>
     /// <summary>
     /// Constructor for mapping to mongo documents
     /// </summary>
-    public ActivityRule(ActivityRuleId id, UserId userId, Details details,
+    public ActivityRule(ActivityRuleId id, AccountId accountId, Details details,
         SelectedMode mode, List<Stage> stages) : base(id)
     {   
-        UserId = userId;
+        AccountId = accountId;
         Details = details;  
         Mode = mode;
         _stages = stages;   
     }
     
-    private ActivityRule(ActivityRuleId id, UserId userId, Details details,
+    private ActivityRule(ActivityRuleId id, AccountId accountId, Details details,
         SelectedMode mode) : base(id)
     {        
-        UserId = userId;
+        AccountId = accountId;
         Details = details;  
         Mode = mode;
         
-        AddDomainEvent(new ActivityRuleCreated(id, userId, details, mode));
+        AddDomainEvent(new ActivityRuleCreated(id, accountId, details, mode));
     }
     
     public static ActivityRule Create(ActivityRuleId id, 
-        UserId userId, 
+        AccountId accountId, 
         ActivityRuleDetailsSpecification details, 
         ActivityRuleModeSpecification mode)
     {
         var activityRuleDetails = Details.Create(details.Title, details.Note);
         var activityRuleMode = SelectedMode.Create(mode.Mode, mode.Days);
-        var activityRule = new ActivityRule(id, userId, activityRuleDetails, activityRuleMode);
+        var activityRule = new ActivityRule(id, accountId, activityRuleDetails, activityRuleMode);
         
         return activityRule;
     }
@@ -61,7 +61,7 @@ public sealed class ActivityRule : AggregateRoot<ActivityRuleId, Ulid>
         Details = Details.Create(details.Title, details.Note);
         Mode = SelectedMode.Create(mode.Mode, mode.Days);
         
-        AddDomainEvent(new ActivityRuleChanged(Id, UserId, Details, Mode));
+        AddDomainEvent(new ActivityRuleChanged(Id, AccountId, Details, Mode));
     }
 
     public Stage AddStage(

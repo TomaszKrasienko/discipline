@@ -23,19 +23,19 @@ internal sealed class UserContextEnrichmentMiddleware(
         
         if (identityContext.IsAuthenticated)
         {
-            var userId = identityContext.GetUser();
+            var accountId = identityContext.GetAccount();
 
-            if (userId is null)
+            if (accountId is null)
             {
                 await next(context);
                 return;    
             }
             
-            Activity.Current?.SetTag("user.id", userId.ToString());
+            Activity.Current?.SetTag("account.id", accountId.ToString());
 
             var data = new Dictionary<string, object>()
             {
-                ["UserId"] = userId.ToString()!
+                ["AccountId"] = accountId.ToString()!
             };
 
             using (logger.BeginScope(data))

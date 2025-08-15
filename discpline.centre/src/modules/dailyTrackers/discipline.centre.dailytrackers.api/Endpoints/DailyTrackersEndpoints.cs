@@ -33,14 +33,14 @@ internal static class DailyTrackersEndpoints
                 {
                     var stronglyActivityRuleId = new ActivityRuleId(activityRuleId);
                     var activityId = ActivityId.New();
-                    var userId = identityContext.GetUser();
+                    var accountId = identityContext.GetAccount();
 
-                    if (userId is null)
+                    if (accountId is null)
                     {
                         return Results.Unauthorized();
                     }
                     
-                    await dispatcher.HandleAsync(new CreateActivityFromActivityRuleCommand(userId.Value, activityId, stronglyActivityRuleId), cancellationToken);
+                    await dispatcher.HandleAsync(new CreateActivityFromActivityRuleCommand(accountId.Value, activityId, stronglyActivityRuleId), cancellationToken);
                     contextAccessor.AddResourceIdHeader(activityId.ToString());
 
                     return Results.CreatedAtRoute(GetByIdEndpoint, new { activityId = activityId.ToString() });
@@ -61,14 +61,14 @@ internal static class DailyTrackersEndpoints
             IIdentityContext identityContext, IHttpContextAccessor contextAccessor) =>
             {
                 var activityId = ActivityId.New();
-                var userId = identityContext.GetUser();
+                var accountId = identityContext.GetAccount();
 
-                if (userId is null)
+                if (accountId is null)
                 {
                     return Results.Unauthorized();
                 }
                 
-                await dispatcher.HandleAsync(dto.MapAsCommand(userId.Value, activityId), cancellationToken);
+                await dispatcher.HandleAsync(dto.MapAsCommand(accountId.Value, activityId), cancellationToken);
                 contextAccessor.AddResourceIdHeader(activityId.ToString());
 
                 return Results.CreatedAtRoute(GetByIdEndpoint, new { activityId = activityId.ToString() }, null);

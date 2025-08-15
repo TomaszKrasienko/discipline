@@ -26,7 +26,7 @@ public sealed class CreateActivityCommandHandlerTests
         null);
 
         _readWriteDailyTrackerRepository
-            .GetDailyTrackerByDayAsync(command.UserId, command.Day, CancellationToken.None)
+            .GetDailyTrackerByDayAsync(command.AccountId, command.Day, CancellationToken.None)
             .ReturnsNull();
 
         //act
@@ -37,7 +37,7 @@ public sealed class CreateActivityCommandHandlerTests
             .Received(1)
             .AddAsync(Arg.Is<DailyTracker>(arg
                 => arg.Day == command.Day
-                   && arg.UserId == command.UserId
+                   && arg.AccountId == command.AccountId
                    && arg.Activities.Count == 1
                    && arg.Activities.Any(x
                        => x.Id == command.ActivityId 
@@ -53,12 +53,12 @@ public sealed class CreateActivityCommandHandlerTests
             null, null);
         var dailyTracker = DailyTrackerFakeDataFactory.Get(activity);
 
-        var command = new CreateActivityCommand(dailyTracker.UserId, ActivityId.New(), dailyTracker.Day,
+        var command = new CreateActivityCommand(dailyTracker.AccountId, ActivityId.New(), dailyTracker.Day,
             new ActivityDetailsSpecification("new_test_activity", null),
             null);
         
         _readWriteDailyTrackerRepository
-            .GetDailyTrackerByDayAsync( dailyTracker.UserId, command.Day, CancellationToken.None)
+            .GetDailyTrackerByDayAsync( dailyTracker.AccountId, command.Day, CancellationToken.None)
             .Returns(dailyTracker);
         
         //act
@@ -77,12 +77,12 @@ public sealed class CreateActivityCommandHandlerTests
             null, null);
         var dailyTracker = DailyTrackerFakeDataFactory.Get(activity);
 
-        var command = new CreateActivityCommand(dailyTracker.UserId, ActivityId.New(), dailyTracker.Day,
+        var command = new CreateActivityCommand(dailyTracker.AccountId, ActivityId.New(), dailyTracker.Day,
             new ActivityDetailsSpecification("new_test_activity", null),
             null);
         
         _readWriteDailyTrackerRepository
-            .GetDailyTrackerByDayAsync(dailyTracker.UserId, command.Day, CancellationToken.None)
+            .GetDailyTrackerByDayAsync(dailyTracker.AccountId, command.Day, CancellationToken.None)
             .Returns(dailyTracker);
         
         //act
@@ -102,12 +102,12 @@ public sealed class CreateActivityCommandHandlerTests
             null, null);
         var dailyTracker = DailyTrackerFakeDataFactory.Get(activity);
 
-        var command = new CreateActivityCommand(dailyTracker.UserId, ActivityId.New(), dailyTracker.Day,
+        var command = new CreateActivityCommand(dailyTracker.AccountId, ActivityId.New(), dailyTracker.Day,
             new ActivityDetailsSpecification(activity.Details.Title, null),
             null);
         
         _readWriteDailyTrackerRepository
-            .GetDailyTrackerByDayAsync(dailyTracker.UserId, command.Day, CancellationToken.None)
+            .GetDailyTrackerByDayAsync(dailyTracker.AccountId, command.Day, CancellationToken.None)
             .Returns(dailyTracker);
         
         //act

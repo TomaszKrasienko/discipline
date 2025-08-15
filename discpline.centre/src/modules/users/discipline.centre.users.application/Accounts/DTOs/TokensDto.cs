@@ -1,3 +1,3 @@
-namespace discipline.centre.users.application.Users.DTOs;
+namespace discipline.centre.users.application.Accounts.DTOs;
 
 public sealed record TokensDto(string Token, string RefreshToken);

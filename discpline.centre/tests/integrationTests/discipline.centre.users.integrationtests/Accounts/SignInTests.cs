@@ -2,6 +2,7 @@ using System.Net;
 using System.Net.Http.Json;
 using discipline.centre.integrationTests.sharedKernel;
 using discipline.centre.users.application.Accounts.Commands;
+using discipline.centre.users.application.Accounts.DTOs;
 using discipline.centre.users.application.Users.DTOs;
 using discipline.centre.users.infrastructure.DAL.Accounts.Documents;
 using discipline.centre.users.tests.sharedkernel.Infrastructure;

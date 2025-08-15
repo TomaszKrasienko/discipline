@@ -30,7 +30,7 @@ internal static class ActivityRulesEndpoints
                 ICqrsDispatcher dispatcher, CancellationToken cancellationToken, IIdentityContext identityContext) => 
             {
                 var activityRuleId = ActivityRuleId.New();
-                var userId = identityContext.GetUser();
+                var userId = identityContext.GetAccount();
 
                 if (userId is null)
                 {
@@ -62,7 +62,7 @@ internal static class ActivityRulesEndpoints
                 IIdentityContext identityContext, 
                 CancellationToken cancellationToken) =>
             {
-                var userId = identityContext.GetUser();
+                var userId = identityContext.GetAccount();
 
                 if (userId is null)
                 {
@@ -95,7 +95,7 @@ internal static class ActivityRulesEndpoints
             CancellationToken cancellationToken, ICqrsDispatcher dispatcher, IIdentityContext identityContext) =>
         {
             var stronglyActivityRuleId = new ActivityRuleId(activityRuleId);
-            var userId = identityContext.GetUser();
+            var userId = identityContext.GetAccount();
 
             if (userId is null)
             {
@@ -124,7 +124,7 @@ internal static class ActivityRulesEndpoints
                 CancellationToken cancellationToken, ICqrsDispatcher dispatcher, IIdentityContext identityContext) =>
         {
             var stronglyActivityRuleId = new ActivityRuleId(activityRuleId);
-            var userId = identityContext.GetUser();
+            var userId = identityContext.GetAccount();
 
             if (userId is null)
             {
@@ -152,7 +152,7 @@ internal static class ActivityRulesEndpoints
             {
                 var stronglyActivityRuleId = new ActivityRuleId(activityRuleId);
                 var stronglyStageId = new StageId(stageId);
-                var userId = identityContext.GetUser();
+                var userId = identityContext.GetAccount();
 
                 if (userId is null)
                 {
@@ -178,7 +178,7 @@ internal static class ActivityRulesEndpoints
         app.MapGet($"api/{ActivityRulesTag}", async (CancellationToken cancellationToken, 
                 ICqrsDispatcher dispatcher, IIdentityContext identityContext) =>
             {   
-                var userId = identityContext.GetUser();
+                var userId = identityContext.GetAccount();
 
                 if (userId is null)
                 {
@@ -205,7 +205,7 @@ internal static class ActivityRulesEndpoints
                 CancellationToken cancellationToken, ICqrsDispatcher dispatcher, IIdentityContext identityContext) =>
             {   
                 var stronglyActivityRuleId = new ActivityRuleId(activityRuleId);
-                var userId = identityContext.GetUser();
+                var userId = identityContext.GetAccount();
 
                 if (userId is null)
                 {

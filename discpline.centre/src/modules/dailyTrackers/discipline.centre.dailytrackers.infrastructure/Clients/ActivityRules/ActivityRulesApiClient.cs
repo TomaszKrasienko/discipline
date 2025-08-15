@@ -8,7 +8,7 @@ namespace discipline.centre.dailytrackers.infrastructure.Clients.ActivityRules;
 internal sealed class ActivityRulesApiClient(
     IModuleClient moduleClient) : IActivityRulesApiClient
 {
-    public Task<ActivityRuleDto?> GetActivityRuleByIdAsync(ActivityRuleId activityRuleId, UserId userId)
+    public Task<ActivityRuleDto?> GetActivityRuleByIdAsync(ActivityRuleId activityRuleId, AccountId accountId)
         => moduleClient.SendAsync<ActivityRuleDto>("activity-rules/get",
-            new GetActivityRuleByIdRequestDto(activityRuleId, userId));
+            new GetActivityRuleByIdRequestDto(activityRuleId, accountId));
 }

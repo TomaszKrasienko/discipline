@@ -18,7 +18,7 @@ public partial class CreateTests
         //assert
         result.Id.ShouldBe(parameters.DailyTrackerId);
         result.Day.Value.ShouldBe(parameters.Day);
-        result.UserId.ShouldBe(parameters.UserId);
+        result.AccountId.ShouldBe(parameters.UserId);
         result.Activities.First().Details.Title.ShouldBe(parameters.Details.Title);
         result.Activities.First().Details.Note.ShouldBe(parameters.Details.Note);
         result.Activities.First().ParentActivityRuleId.ShouldBe(parameters.ParentActivityRuleId);

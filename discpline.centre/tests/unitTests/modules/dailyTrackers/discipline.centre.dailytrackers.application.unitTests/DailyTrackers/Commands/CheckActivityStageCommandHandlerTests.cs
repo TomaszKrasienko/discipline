@@ -22,7 +22,7 @@ public sealed class CheckActivityStageCommandHandlerTests
         var activity = dailyTracker.Activities.Single();
         var stage = activity.Stages!.Single();
 
-        var command = new CheckActivityStageCommand(dailyTracker.UserId, dailyTracker.Id, activity.Id, stage.Id);
+        var command = new CheckActivityStageCommand(dailyTracker.AccountId, dailyTracker.Id, activity.Id, stage.Id);
         
         _readWriteDailyTrackerRepository
             .GetDailyTrackerByIdAsync(command.UserId, command.DailyTrackerId, CancellationToken.None)
