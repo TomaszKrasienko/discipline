@@ -20,14 +20,14 @@ public sealed class CreateStageForActivityRuleCommandHandlerTests
     {
         // Arrange
         var activityRule = ActivityRuleFakeDataFactory.Get();
-        var command = new CreateStageForActivityRuleCommand(activityRule.UserId,
+        var command = new CreateStageForActivityRuleCommand(activityRule.AccountId,
             activityRule.Id,
             StageId.New(),
             "test_title",
             null);
         
         _readWriteActivityRuleRepository
-            .GetByIdAsync(command.ActivityRuleId, command.UserId)
+            .GetByIdAsync(command.ActivityRuleId, command.AccountId)
             .Returns(activityRule);
         
         // Act
@@ -44,14 +44,14 @@ public sealed class CreateStageForActivityRuleCommandHandlerTests
     {
         // Arrange
         var activityRule = ActivityRuleFakeDataFactory.Get();
-        var command = new CreateStageForActivityRuleCommand(activityRule.UserId,
+        var command = new CreateStageForActivityRuleCommand(activityRule.AccountId,
             activityRule.Id,
             StageId.New(),
             "test_title",
             null);
         
         _readWriteActivityRuleRepository
-            .GetByIdAsync(command.ActivityRuleId, command.UserId)
+            .GetByIdAsync(command.ActivityRuleId, command.AccountId)
             .Returns(activityRule);
         
         // Act
@@ -67,14 +67,14 @@ public sealed class CreateStageForActivityRuleCommandHandlerTests
     public async Task GivenNotExistingActivityRule_WhenHandleAsync_ThenThrowNotFoundExceptionWithCodeCreateStageForActivityRule_ActivityRuleNotFound()
     {
         // Arrange
-        var command = new CreateStageForActivityRuleCommand(UserId.New(),
+        var command = new CreateStageForActivityRuleCommand(AccountId.New(),
             ActivityRuleId.New(),
             StageId.New(),
             "test_title",
             null);
 
         _readWriteActivityRuleRepository
-            .GetByIdAsync(command.ActivityRuleId, command.UserId, CancellationToken.None)
+            .GetByIdAsync(command.ActivityRuleId, command.AccountId, CancellationToken.None)
             .ReturnsNull();
         
         // Act

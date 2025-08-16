@@ -14,30 +14,11 @@ namespace discipline.centre.dailytrackers.domain;
 public sealed class Activity : Entity<ActivityId, Ulid>
 {
     private HashSet<Stage> _stages;
-    
-    /// <summary>
-    /// Details of activity. For more, see <see cref="Details"/> 
-    /// </summary>
     public Details Details { get; private set; }
-    
-    /// <summary>
-    /// Indicates whether activity is marked as checked.
-    /// </summary>
     public IsChecked IsChecked { get; private set; }
-    
-    /// <summary>
-    /// Identifier of the parent Activity Rule.
-    /// </summary>
     public ActivityRuleId? ParentActivityRuleId { get; private set; }
-    
-    /// <summary>
-    /// Read-only collection of <see cref="Stage"/>
-    /// </summary>
     public IReadOnlyCollection<Stage> Stages => _stages.ToArray();
     
-    /// <summary>
-    /// <remarks>Use only for Mongo purposes</remarks>
-    /// </summary>
     public Activity(ActivityId id, Details details, IsChecked isChecked, 
         ActivityRuleId? parentActivityRuleId, HashSet<Stage> stages) : base(id)    
     {
@@ -46,15 +27,7 @@ public sealed class Activity : Entity<ActivityId, Ulid>
         ParentActivityRuleId = parentActivityRuleId;
         _stages = stages;
     }
-
-    /// <summary>
-    /// Creates a new instance of <see cref="Activity"/>.
-    /// </summary>
-    /// <param name="activityId">Unique identifier of activity.</param>
-    /// <param name="details">Details of activity. For more <see cref="Details"/>.</param>
-    /// <param name="parentActivityRuleId">Identifier of the parent Activity Rule.</param>
-    /// <param name="stages">List of stages</param>
-    /// <returns>New instance of <see cref="Activity"/></returns>
+    
     internal static Activity Create(ActivityId activityId, ActivityDetailsSpecification details,
         ActivityRuleId? parentActivityRuleId, List<StageSpecification>? stages)
     {

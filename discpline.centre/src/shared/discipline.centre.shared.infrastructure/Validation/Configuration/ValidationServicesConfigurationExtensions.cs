@@ -1,6 +1,4 @@
 using System.Reflection;
-using discipline.centre.shared.abstractions.CQRS.Commands;
-using discipline.centre.shared.infrastructure.Validation;
 using FluentValidation;
 
 // ReSharper disable once CheckNamespace
@@ -10,18 +8,12 @@ internal static class ValidationServicesConfigurationExtensions
 {
     internal static IServiceCollection AddValidation(this IServiceCollection services, IList<Assembly> assemblies)
         => services
-            .AddValidators(assemblies)
-            .AddDecorators();
-
-    private static IServiceCollection AddDecorators(this IServiceCollection services)
-    {
-        services.TryDecorate(typeof(ICommandHandler<>), typeof(ValidationCommandHandlerDecorator<>));
-        return services;
-    }
+            .AddValidators(assemblies);
     
     private static IServiceCollection AddValidators(this IServiceCollection services, IList<Assembly> assemblies)
     {
         ValidatorOptions.Global.DefaultClassLevelCascadeMode = CascadeMode.Stop;
+        ValidatorOptions.Global.DefaultRuleLevelCascadeMode = CascadeMode.Stop;
 
         services.AddValidatorsFromAssemblies(assemblies);
         return services;

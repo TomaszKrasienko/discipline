@@ -25,7 +25,7 @@ Content-Type: application/json
 
 ###
 # @name sign_in
-POST {{host_address}}/api/users-module/users/tokens
+POST {{host_address}}/api/users/tokens
 Content-Type: application/json
 
 {
@@ -34,11 +34,33 @@ Content-Type: application/json
 }
 
 ###
+@token = {{sign_in.response.body.$.token}}
+
+@refresh_token = {{sign_in.response.body.$.refreshToken}}
+
+###
+# @name refresh
+POST {{host_address}}/api/users/refresh-tokens
+Content-Type: application/json
+
+{
+  "refreshToken": "{{refresh_token}}",
+  "userId": "01JPQTFWDB91AF1QVHYP8T8Z36"
+}
+
+# ###
+# @token = {{refresh.response.body.$.token}}
+# @refresh_token = {{refresh.response.body.$.refreshToken}}
+
+
+###
+GET {{host_address}}/api/users/me
+Authorization: Bearer {{token}}
+
+###
 GET {{host_address}}/api/users-module/users/{{user_id}}
 Authorization: bearer {{token}}
 
-###
-@token = {{sign_in.response.body.$.token}}
 
 ###
 POST {{host_address}}/api/users-module/users/subscription-order
@@ -60,7 +82,7 @@ Content-Type: application/json
 
 {
   "details": {
-    "title": "test2",
+    "title": "title",
     "note": "without any notes"
   },
   "mode": {
@@ -71,11 +93,11 @@ Content-Type: application/json
 }
 
 ###
-GET {{host_address}}/api/activity-rules
+GET {{host_address}}/api/activity-rules/01JW395Z3K0YT5RCYJCN9BVTWW
 Authorization: Bearer {{token}}
 
 ###
-GET {{gateway_host_address}}/activity-rules
+GET {{host_address}}/api/activity-rules
 Authorization: Bearer {{token}}
 
 ###

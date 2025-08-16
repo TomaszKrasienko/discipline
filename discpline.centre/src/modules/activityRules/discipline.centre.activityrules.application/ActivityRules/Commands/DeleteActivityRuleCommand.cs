@@ -6,7 +6,7 @@ using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 
 namespace discipline.centre.activityrules.application.ActivityRules.Commands;
 
-public sealed record DeleteActivityRuleCommand(UserId UserId, ActivityRuleId ActivityRuleId) : ICommand;
+public sealed record DeleteActivityRuleCommand(AccountId AccountId, ActivityRuleId ActivityRuleId) : ICommand;
 
 internal sealed class DeleteActivityRuleCommandHandler(
     IReadWriteActivityRuleRepository readWriteActivityRuleRepository,
@@ -15,7 +15,7 @@ internal sealed class DeleteActivityRuleCommandHandler(
     public async Task HandleAsync(DeleteActivityRuleCommand command, CancellationToken cancellationToken = default)
     {
         var activityRule = await readWriteActivityRuleRepository.GetByIdAsync(command.ActivityRuleId,
-            command.UserId, cancellationToken);
+            command.AccountId, cancellationToken);
 
         if (activityRule is null)
         {
@@ -24,7 +24,7 @@ internal sealed class DeleteActivityRuleCommandHandler(
 
         await readWriteActivityRuleRepository.DeleteAsync(activityRule, cancellationToken);
         
-        var @event = new ActivityRuleDeleted(command.UserId.Value, activityRule.Id.Value);
+        var @event = new ActivityRuleDeleted(command.AccountId.Value, activityRule.Id.Value);
         await eventProcessor.PublishAsync(@event);
     }
 }

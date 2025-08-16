@@ -7,8 +7,8 @@ namespace discipline.centre.calendar.application.UserCalendar.TimeEvents.DTOs.Re
 public static class CreateTimeEventRequestDtoMapperExtensions
 {
     public static CreateTimeEventCommand AsCommand(this CreateTimeEventRequestDto dto, 
-        UserId userId, 
+        AccountId accountId, 
         DateOnly day,
         CalendarEventId eventId)
-        => new(userId, day, eventId, dto.Title, dto.Description, dto.TimeFrom, dto.TimeTo);
+        => new(accountId, day, eventId, dto.Title, dto.Description, dto.TimeFrom, dto.TimeTo);
 }

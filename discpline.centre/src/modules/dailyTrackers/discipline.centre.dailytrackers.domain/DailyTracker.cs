@@ -10,27 +10,27 @@ public sealed class DailyTracker : AggregateRoot<DailyTrackerId, Ulid>
 {
     private readonly List<Activity> _activities = [];
     public Day Day { get; private set; }
-    public UserId UserId { get; private set; }
+    public AccountId AccountId { get; private set; }
 
     public IReadOnlyCollection<Activity> Activities => _activities;
 
     /// <summary>
     /// <remarks>Use only for Mongo purposes</remarks>
     /// </summary>
-    public DailyTracker(DailyTrackerId id, Day day, UserId userId, List<Activity> activities) : this(id,
-        day, userId)
+    public DailyTracker(DailyTrackerId id, Day day, AccountId accountId, List<Activity> activities) : this(id,
+        day, accountId)
         => _activities = activities;
 
-    private DailyTracker(DailyTrackerId id, Day day, UserId userId) : base(id)
+    private DailyTracker(DailyTrackerId id, Day day, AccountId accountId) : base(id)
     {
         Day = day;
-        UserId = userId;
+        AccountId = accountId;
     }
 
-    public static DailyTracker Create(DailyTrackerId id, DateOnly day, UserId userId, ActivityId activityId,
+    public static DailyTracker Create(DailyTrackerId id, DateOnly day, AccountId accountId, ActivityId activityId,
         ActivityDetailsSpecification details, ActivityRuleId? parentActivityRuleId, List<StageSpecification>? stages)
     {
-        var dailyTracker = new DailyTracker(id, day, userId);
+        var dailyTracker = new DailyTracker(id, day, accountId);
         dailyTracker.AddActivity(activityId, details, parentActivityRuleId, stages);
         return dailyTracker;
     }

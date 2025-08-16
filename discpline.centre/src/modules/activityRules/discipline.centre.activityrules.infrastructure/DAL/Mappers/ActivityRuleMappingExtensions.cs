@@ -11,7 +11,7 @@ internal static class ActivityRuleMappingExtensions
         => new()
         {
             Id = entity.Id.Value.ToString(),
-            UserId = entity.UserId.ToString(),
+            UserId = entity.AccountId.ToString(),
             Details = entity.Details.AsDocument(),
             SelectedMode = entity.Mode.AsDocument(),
             Stages = entity.Stages.Select(x => x.AsDocument()),

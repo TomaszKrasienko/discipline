@@ -14,17 +14,17 @@ public sealed class CreateActivityDtoMapperExtensionsTests
         //arrange
         var createActivityDto = CreateActivityDtoFakeDataFactory.Get(false);
         var activityId = ActivityId.New();
-        var userId = UserId.New();
+        var accountId = AccountId.New();
         
         //act
-        var result = createActivityDto.MapAsCommand(userId, activityId);
+        var result = createActivityDto.MapAsCommand(accountId, activityId);
         
         //assert
         result.Day.ShouldBe(createActivityDto.Day);
-        result.UserId.ShouldBe(userId);
+        result.AccountId.ShouldBe(accountId);
         result.Details.Title.ShouldBe(createActivityDto.Details.Title);
         result.Details.Note.ShouldBe(createActivityDto.Details.Note);
-        result.UserId.ShouldBe(userId);
+        result.AccountId.ShouldBe(accountId);
         result.Stages.ShouldBeNull();
     }
     
@@ -34,17 +34,17 @@ public sealed class CreateActivityDtoMapperExtensionsTests
         //arrange
         var createActivityDto = CreateActivityDtoFakeDataFactory.Get(true);
         var activityId = ActivityId.New();
-        var userId = UserId.New();
+        var accountId = AccountId.New();
         
         //act
-        var result = createActivityDto.MapAsCommand(userId, activityId);
+        var result = createActivityDto.MapAsCommand(accountId, activityId);
         
         //assert
         result.Day.ShouldBe(createActivityDto.Day);
-        result.UserId.ShouldBe(userId);
+        result.AccountId.ShouldBe(accountId);
         result.Details.Title.ShouldBe(createActivityDto.Details.Title);
         result.Details.Note.ShouldBe(createActivityDto.Details.Note);
-        result.UserId.ShouldBe(userId);
+        result.AccountId.ShouldBe(accountId);
         result.Stages![0].Title.ShouldBe(createActivityDto.Stages![0].Title);
         result.Stages![0].Index.ShouldBe(createActivityDto.Stages![0].Index);
     }

@@ -9,7 +9,7 @@ namespace discipline.centre.activityrules.application.ActivityRules.DTOs;
 
 public static class UpdateActivityRuleDtoMapperExtensions
 {
-    public static UpdateActivityRuleCommand AsCommand(this UpdateActivityRuleDto dto, UserId userId,
+    public static UpdateActivityRuleCommand AsCommand(this UpdateActivityRuleDto dto, AccountId accountId,
         ActivityRuleId activityRuleId)
     {
         var detailsSpecification = new ActivityRuleDetailsSpecification(dto.Details.Title, dto.Details.Note);
@@ -17,6 +17,6 @@ public static class UpdateActivityRuleDtoMapperExtensions
         var mode = RuleMode.Parse(dto.Mode.Mode);
         var modeSpecification = new ActivityRuleModeSpecification(mode, dto.Mode.Days?.ToHashSet());
         
-        return new UpdateActivityRuleCommand(userId, activityRuleId, detailsSpecification, modeSpecification);
+        return new UpdateActivityRuleCommand(accountId, activityRuleId, detailsSpecification, modeSpecification);
     }
 }

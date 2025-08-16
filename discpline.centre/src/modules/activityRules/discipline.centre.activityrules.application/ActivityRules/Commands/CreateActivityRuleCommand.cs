@@ -9,7 +9,7 @@ using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 
 namespace discipline.centre.activityrules.application.ActivityRules.Commands;
 
-public sealed record CreateActivityRuleCommand(UserId UserId, 
+public sealed record CreateActivityRuleCommand(AccountId AccountId, 
     ActivityRuleId Id, 
     ActivityRuleDetailsSpecification Details,
     ActivityRuleModeSpecification Mode) : ICommand;
@@ -20,13 +20,13 @@ internal sealed class CreateActivityRuleCommandHandler(
 {
     public async Task HandleAsync(CreateActivityRuleCommand command, CancellationToken cancellationToken = default)
     {
-        var isExists = await readWriteActivityRuleRepository.ExistsAsync(command.Details.Title, command.UserId, cancellationToken);
+        var isExists = await readWriteActivityRuleRepository.ExistsAsync(command.Details.Title, command.AccountId, cancellationToken);
         if (isExists)
         {
             throw new NotUniqueException("CreateActivityRule.NotUniqueTitle",command.Details.Title);
         }
 
-        var activityRule = ActivityRule.Create(command.Id, command.UserId, command.Details,
+        var activityRule = ActivityRule.Create(command.Id, command.AccountId, command.Details,
             command.Mode);
         
         await readWriteActivityRuleRepository.AddAsync(activityRule, cancellationToken);

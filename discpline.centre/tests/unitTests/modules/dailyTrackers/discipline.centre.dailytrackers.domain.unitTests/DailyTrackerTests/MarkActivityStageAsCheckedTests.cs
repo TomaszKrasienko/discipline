@@ -13,7 +13,7 @@ public sealed class MarkActivityStageAsCheckedTests
     {
         //arrange
         var dailyTracker = DailyTracker.Create(DailyTrackerId.New(), DateOnly.FromDateTime(DateTime.Now),
-            UserId.New(), ActivityId.New(), new ActivityDetailsSpecification("test_activity_title", null),
+            AccountId.New(), ActivityId.New(), new ActivityDetailsSpecification("test_activity_title", null),
             null, [new StageSpecification("test_stage_title", 1)]);
         var activity = dailyTracker.Activities.Single();
         var stage = activity.Stages!.Single();
@@ -30,7 +30,7 @@ public sealed class MarkActivityStageAsCheckedTests
     {
         //arrange
         var dailyTracker = DailyTracker.Create(DailyTrackerId.New(), DateOnly.FromDateTime(DateTime.Now),
-            UserId.New(), ActivityId.New(), new ActivityDetailsSpecification("test_activity_title", null),
+            AccountId.New(), ActivityId.New(), new ActivityDetailsSpecification("test_activity_title", null),
             null, [new StageSpecification("test_stage_title", 1)]);
         
         //act

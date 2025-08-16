@@ -15,7 +15,7 @@ internal sealed class GetDailyTrackerQueryHandler(
 {
     public async Task<DailyTrackerDto?> HandleAsync(GetDailyTrackerByDayQuery query, CancellationToken cancellationToken = default)
     {
-        var key = CacheDailyTrackerRepositoryDecorator.GetCacheKey(query.UserId, query.Day.ToString());
+        var key = CacheDailyTrackerRepositoryDecorator.GetCacheKey(query.AccountId, query.Day.ToString());
         DailyTrackerDocument? document = await cacheFacade.GetAsync<DailyTrackerDocument>(key, cancellationToken);
 
         if (document is null)

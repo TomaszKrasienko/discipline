@@ -1,4 +1,4 @@
-using discipline.centre.users.domain.Users.Services;
+using discipline.centre.users.domain.Accounts.Services.Configuration;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection;
@@ -6,5 +6,7 @@ namespace Microsoft.Extensions.DependencyInjection;
 public static class DomainServicesConfiguration
 {
     public static IServiceCollection AddDomain(this IServiceCollection services)
-        => services.AddSingleton<ISubscriptionOrderService, SubscriptionOrderService>();
+        => services
+            .AddPolicies()
+            .AddAccounts();
 }

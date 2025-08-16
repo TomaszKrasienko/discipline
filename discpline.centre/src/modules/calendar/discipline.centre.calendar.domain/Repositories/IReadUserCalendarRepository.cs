@@ -5,5 +5,5 @@ namespace discipline.centre.calendar.domain.Repositories;
 
 public interface IReadUserCalendarRepository
 {
-    Task<UserCalendarDay?> GetByDayAsync(UserId userId, Day day, CancellationToken cancellationToken);
+    Task<UserCalendarDay?> GetByDayAsync(AccountId accountId, Day day, CancellationToken cancellationToken);
 }

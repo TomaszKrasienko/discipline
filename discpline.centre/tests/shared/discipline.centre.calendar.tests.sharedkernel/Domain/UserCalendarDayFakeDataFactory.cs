@@ -10,7 +10,7 @@ public static class UserCalendarDayFakeDataFactory
         => new Faker<UserCalendarDay>()
             .CustomInstantiator(v => UserCalendarDay.CreateWithImportantDate(
                 UserCalendarId.New(),
-                UserId.New(),
+                AccountId.New(), 
                 DateOnly.FromDateTime(v.Date.Recent()),
                 CalendarEventId.New(),
                 v.Random.Word(),

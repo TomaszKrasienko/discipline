@@ -10,16 +10,16 @@ internal sealed class CacheDailyTrackerRepositoryDecorator(
     IReadWriteDailyTrackerRepository readWriteDailyTrackerRepository,
     ICacheFacade cacheFacade) : IReadWriteDailyTrackerRepository
 {
-    public async Task<DailyTracker?> GetDailyTrackerByDayAsync(UserId userId, DateOnly day, CancellationToken cancellationToken)
+    public async Task<DailyTracker?> GetDailyTrackerByDayAsync(AccountId accountId, DateOnly day, CancellationToken cancellationToken)
     {
-        var cachedData = await cacheFacade.GetAsync<DailyTrackerDocument>(GetCacheKey(userId, day.ToString()), cancellationToken);
+        var cachedData = await cacheFacade.GetAsync<DailyTrackerDocument>(GetCacheKey(accountId, day.ToString()), cancellationToken);
 
         if (cachedData is not null)
         {
             return cachedData.AsEntity();
         }
         
-        var result = await readWriteDailyTrackerRepository.GetDailyTrackerByDayAsync(userId, day, cancellationToken);
+        var result = await readWriteDailyTrackerRepository.GetDailyTrackerByDayAsync(accountId, day, cancellationToken);
 
         if (result is null)
         {
@@ -31,16 +31,16 @@ internal sealed class CacheDailyTrackerRepositoryDecorator(
 
     }
 
-    public async Task<DailyTracker?> GetDailyTrackerByIdAsync(UserId userId, DailyTrackerId id, CancellationToken cancellationToken)
+    public async Task<DailyTracker?> GetDailyTrackerByIdAsync(AccountId accountId, DailyTrackerId id, CancellationToken cancellationToken)
     {
-        var cachedData = await cacheFacade.GetAsync<DailyTrackerDocument>(GetCacheKey(userId, id.ToString()), cancellationToken);
+        var cachedData = await cacheFacade.GetAsync<DailyTrackerDocument>(GetCacheKey(accountId, id.ToString()), cancellationToken);
 
         if (cachedData is not null)
         {
             return cachedData.AsEntity();
         }
         
-        var result = await readWriteDailyTrackerRepository.GetDailyTrackerByIdAsync(userId, id, cancellationToken);
+        var result = await readWriteDailyTrackerRepository.GetDailyTrackerByIdAsync(accountId, id, cancellationToken);
 
         if (result is null)
         {
@@ -52,9 +52,9 @@ internal sealed class CacheDailyTrackerRepositoryDecorator(
         return result;
     }
 
-    public Task<List<DailyTracker>> GetDailyTrackersByParentActivityRuleId(UserId userId, ActivityRuleId activityRuleId,
+    public Task<List<DailyTracker>> GetDailyTrackersByParentActivityRuleId(AccountId accountId, ActivityRuleId activityRuleId,
         CancellationToken cancellationToken)
-        => readWriteDailyTrackerRepository.GetDailyTrackersByParentActivityRuleId(userId, activityRuleId,
+        => readWriteDailyTrackerRepository.GetDailyTrackersByParentActivityRuleId(accountId, activityRuleId,
             cancellationToken);
 
     public async Task AddAsync(DailyTracker dailyTracker, CancellationToken cancellationToken)
@@ -89,20 +89,20 @@ internal sealed class CacheDailyTrackerRepositoryDecorator(
 
     private async Task AddOrUpdateToCacheAsync(DailyTracker dailyTracker, CancellationToken cancellationToken)
     {
-        await cacheFacade.AddOrUpdateAsync(GetCacheKey(dailyTracker.UserId, dailyTracker.Day.Value.ToString()), 
+        await cacheFacade.AddOrUpdateAsync(GetCacheKey(dailyTracker.AccountId, dailyTracker.Day.Value.ToString()), 
             dailyTracker.AsDocument(), cancellationToken);
-        await cacheFacade.AddOrUpdateAsync(GetCacheKey(dailyTracker.UserId, dailyTracker.Id.ToString()), 
+        await cacheFacade.AddOrUpdateAsync(GetCacheKey(dailyTracker.AccountId, dailyTracker.Id.ToString()), 
             dailyTracker.AsDocument(), cancellationToken);
     }
 
     private async Task RemoveFromCacheAsync(DailyTracker dailyTracker, CancellationToken cancellationToken)
     {
-        await cacheFacade.DeleteAsync(GetCacheKey(dailyTracker.UserId, dailyTracker.Day.Value.ToString()),
+        await cacheFacade.DeleteAsync(GetCacheKey(dailyTracker.AccountId, dailyTracker.Day.Value.ToString()),
             cancellationToken);
-        await cacheFacade.DeleteAsync(GetCacheKey(dailyTracker.UserId,dailyTracker.Id.ToString()),
+        await cacheFacade.DeleteAsync(GetCacheKey(dailyTracker.AccountId,dailyTracker.Id.ToString()),
             cancellationToken);
     }
     
-    internal static string GetCacheKey(UserId userId, string param)
-        => $"{userId.ToString()}:{param}";
+    internal static string GetCacheKey(AccountId accountId, string param)
+        => $"{accountId.ToString()}:{param}";
 }

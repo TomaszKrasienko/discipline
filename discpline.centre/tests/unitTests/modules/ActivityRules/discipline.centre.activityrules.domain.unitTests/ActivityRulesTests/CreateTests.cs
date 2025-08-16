@@ -15,17 +15,17 @@ public sealed class CreateTests
     {
         // Arrange
         var activityRuleId = ActivityRuleId.New();
-        var userId = UserId.New();
+        var accountId = AccountId.New();
         var details = new ActivityRuleDetailsSpecification("test_title",
             "test_note");
         var mode = new ActivityRuleModeSpecification(RuleMode.EveryDay, null);
         
         // Act
-        var result = ActivityRule.Create(activityRuleId, userId, details, mode);
+        var result = ActivityRule.Create(activityRuleId, accountId, details, mode);
         
         // Assert
         result.Id.ShouldBe(activityRuleId);
-        result.UserId.ShouldBe(userId);
+        result.AccountId.ShouldBe(accountId);
         result.Details.Title.ShouldBe(details.Title);
         result.Details.Note.ShouldBe(details.Note);
         result.Mode.Mode.ShouldBe(mode.Mode);
@@ -37,17 +37,17 @@ public sealed class CreateTests
     {        
         // Arrange
         var activityRuleId = ActivityRuleId.New();
-        var userId = UserId.New();
+        var accountId = AccountId.New();
         var details = new ActivityRuleDetailsSpecification("test_title",
             "test_note");
         var mode = new ActivityRuleModeSpecification(RuleMode.Custom, [1,2,3]);
         
         // Act
-        var result = ActivityRule.Create(activityRuleId, userId, details, mode);
+        var result = ActivityRule.Create(activityRuleId, accountId, details, mode);
         
         // Assert
         result.Id.ShouldBe(activityRuleId);
-        result.UserId.ShouldBe(userId);
+        result.AccountId.ShouldBe(accountId);
         result.Details.Title.ShouldBe(details.Title);
         result.Details.Note.ShouldBe(details.Note);
         result.Mode.Mode.ShouldBe(mode.Mode);
@@ -86,10 +86,10 @@ public sealed class CreateTests
     public void GivenModeWithRequiredDaysAndNullDays_WhenCreate_ThenThrowDomainExceptionWithCodeActivityRulesModeRuleModeRequireSelectedDays()
     {
         // Arrange
-        var (activityId, userId, details, _) = GetFilledParams();
+        var (activityId, accountId, details, _) = GetFilledParams();
         
         // Act
-        var exception = Record.Exception(() => ActivityRule.Create(activityId, userId,
+        var exception = Record.Exception(() => ActivityRule.Create(activityId, accountId,
             details, new ActivityRuleModeSpecification(Mode: RuleMode.Custom, Days: null)));
         
         // Assert
@@ -115,16 +115,16 @@ public sealed class CreateTests
     private static ActivityRuleCreateTestsParams GetFilledParams()
     {
         var activityRuleId = ActivityRuleId.New();
-        var userId = UserId.New();
+        var accountId = AccountId.New();
         var details = new ActivityRuleDetailsSpecification("test_title",
             "test_note");
         var mode = new ActivityRuleModeSpecification(RuleMode.Custom, [1,2,3]);
-        return new ActivityRuleCreateTestsParams(activityRuleId, userId, details, mode);
+        return new ActivityRuleCreateTestsParams(activityRuleId, accountId, details, mode);
     }
 }
 
 public record ActivityRuleCreateTestsParams(
     ActivityRuleId ActivityRuleId,
-    UserId UserId,
+    AccountId AccountId,
     ActivityRuleDetailsSpecification Details,
     ActivityRuleModeSpecification Mode);

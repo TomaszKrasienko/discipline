@@ -11,8 +11,7 @@ internal sealed class EmailValidFormatRule(string email) : IBusinessRule
         @"(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-0-9a-z]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))$",
         RegexOptions.Compiled);
     
-    public Exception Exception => new DomainException("User.Email.Invalid", 
-        $"Email: {email} is invalid");
+    public Exception Exception => new DomainException("User.InvalidEmail");
 
     public bool IsBroken()
         => !Regex.IsMatch(email);

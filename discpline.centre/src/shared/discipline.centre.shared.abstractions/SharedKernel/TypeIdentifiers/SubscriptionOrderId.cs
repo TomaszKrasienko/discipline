@@ -1,6 +1,6 @@
 namespace discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 
-public sealed record SubscriptionOrderId(Ulid Value) : ITypeId<SubscriptionOrderId, Ulid>
+public readonly record struct SubscriptionOrderId(Ulid Value) : ITypeId<SubscriptionOrderId, Ulid>
 {
     public static SubscriptionOrderId New() => new(Ulid.NewUlid());
 

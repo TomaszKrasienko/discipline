@@ -23,10 +23,10 @@ public sealed class DeleteActivityRuleCommandHandlerTests
         var activityRule = ActivityRuleFakeDataFactory.Get();
 
         _readWriteActivityRuleRepository
-            .GetByIdAsync(activityRule.Id, activityRule.UserId)
+            .GetByIdAsync(activityRule.Id, activityRule.AccountId)
             .Returns(activityRule);
 
-        var command = new DeleteActivityRuleCommand(activityRule.UserId, activityRule.Id);
+        var command = new DeleteActivityRuleCommand(activityRule.AccountId, activityRule.Id);
         
         // Act
         await Act(command);
@@ -44,10 +44,10 @@ public sealed class DeleteActivityRuleCommandHandlerTests
         var activityRule = ActivityRuleFakeDataFactory.Get();
 
         _readWriteActivityRuleRepository
-            .GetByIdAsync(activityRule.Id, activityRule.UserId)
+            .GetByIdAsync(activityRule.Id, activityRule.AccountId)
             .Returns(activityRule);
 
-        var command = new DeleteActivityRuleCommand(activityRule.UserId, activityRule.Id);
+        var command = new DeleteActivityRuleCommand(activityRule.AccountId, activityRule.Id);
         
         // Act
         await Act(command);
@@ -56,7 +56,7 @@ public sealed class DeleteActivityRuleCommandHandlerTests
         await _eventProcessor
             .Received(1)
             .PublishAsync(Arg.Is<ActivityRuleDeleted>(arg
-                => arg.UserId == activityRule.UserId.Value
+                => arg.UserId == activityRule.AccountId.Value
                 && arg.ActivityRuleId == activityRule.Id.Value));
     }
     
@@ -64,10 +64,10 @@ public sealed class DeleteActivityRuleCommandHandlerTests
     public async Task HandleAsync_GivenNotExistingActivityRule_ShouldNotAttemptsToDeleteByRepository()
     {
         //arrange
-        var command = new DeleteActivityRuleCommand(UserId.New(), ActivityRuleId.New());
+        var command = new DeleteActivityRuleCommand(AccountId.New(), ActivityRuleId.New());
 
         _readWriteActivityRuleRepository
-            .GetByIdAsync(command.ActivityRuleId, command.UserId)
+            .GetByIdAsync(command.ActivityRuleId, command.AccountId)
             .ReturnsNull();
         
         //act
@@ -83,10 +83,10 @@ public sealed class DeleteActivityRuleCommandHandlerTests
     public async Task HandleAsync_GivenNotExistingActivityRule_ShouldNotAttemptsToSendActivityRuleRemovedEvent()
     {
         //arrange
-        var command = new DeleteActivityRuleCommand(UserId.New(), ActivityRuleId.New());
+        var command = new DeleteActivityRuleCommand(AccountId.New(), ActivityRuleId.New());
 
         _readWriteActivityRuleRepository
-            .GetByIdAsync(command.ActivityRuleId, command.UserId)
+            .GetByIdAsync(command.ActivityRuleId, command.AccountId)
             .ReturnsNull();
         
         //act

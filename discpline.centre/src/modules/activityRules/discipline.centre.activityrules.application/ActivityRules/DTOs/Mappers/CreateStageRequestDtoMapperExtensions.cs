@@ -7,8 +7,8 @@ namespace discipline.centre.activityrules.application.ActivityRules.DTOs.Mappers
 public static class CreateStageRequestDtoMapperExtensions
 {
     public static CreateStageForActivityRuleCommand MapAsCommand(this CreateStageRequestDto dto, 
-        UserId userId, 
+        AccountId accountId, 
         ActivityRuleId activityRuleId,
         StageId stageId)
-        => new(userId, activityRuleId, stageId, dto.Title, dto.Index);
+        => new(accountId, activityRuleId, stageId, dto.Title, dto.Index);
 }

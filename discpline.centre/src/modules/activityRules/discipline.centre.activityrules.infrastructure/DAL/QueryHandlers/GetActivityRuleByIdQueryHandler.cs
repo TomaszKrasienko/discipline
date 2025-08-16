@@ -14,6 +14,6 @@ internal sealed class GetActivityRuleByIdQueryHandler(
         => (await context.GetCollection<ActivityRuleDocument>()
             .Find(x 
                 => x.Id == query.ActivityRuleId.ToString()
-                && x.UserId == query.UserId.ToString())
+                && x.UserId == query.AccountId.ToString())
             .SingleOrDefaultAsync(cancellationToken))?.AsResponseDto();
 }

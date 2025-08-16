@@ -14,14 +14,14 @@ public sealed class CreateActivityRuleDtoMapperExtensionsTests
         //arrange
         var dto = ActivityRuleRequestDtoFakeDataFactory.Get();
         var activityRuleId = ActivityRuleId.New();
-        var userId = UserId.New();
+        var accountId = AccountId.New();
         
         //act
-        var result = dto.MapAsCommand(userId, activityRuleId);
+        var result = dto.MapAsCommand(accountId, activityRuleId);
         
         //assert
         result.Id.ShouldBe(activityRuleId);
-        result.UserId.ShouldBe(userId);
+        result.AccountId.ShouldBe(accountId);
         result.Details.Title.ShouldBe(dto.Details.Title);
         result.Details.Note.ShouldBe(dto.Details.Note);
         result.Mode.Mode.Value.ShouldBe(dto.Mode.Mode);
@@ -35,14 +35,14 @@ public sealed class CreateActivityRuleDtoMapperExtensionsTests
         var dto = ActivityRuleRequestDtoFakeDataFactory.Get()
             .WithCustomMode();
         var activityRuleId = ActivityRuleId.New();
-        var userId = UserId.New();
+        var accountId = AccountId.New();
         
         //act
-        var result = dto.MapAsCommand(userId, activityRuleId);
+        var result = dto.MapAsCommand(accountId, activityRuleId);
         
         //assert
         result.Id.ShouldBe(activityRuleId);
-        result.UserId.ShouldBe(userId);
+        result.AccountId.ShouldBe(accountId);
         result.Details.Title.ShouldBe(dto.Details.Title);
         result.Details.Note.ShouldBe(dto.Details.Note);
         result.Mode.Mode.Value.ShouldBe(dto.Mode.Mode);

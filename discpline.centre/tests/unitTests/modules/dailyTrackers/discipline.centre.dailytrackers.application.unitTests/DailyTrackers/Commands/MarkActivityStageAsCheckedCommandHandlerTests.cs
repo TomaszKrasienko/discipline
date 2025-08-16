@@ -19,15 +19,15 @@ public sealed class MarkActivityStageAsCheckedCommandHandlerTests
     {
         //arrange
         var dailyTracker = DailyTracker.Create(DailyTrackerId.New(), DateOnly.FromDateTime(DateTime.Now),
-            UserId.New(), ActivityId.New(), new ActivityDetailsSpecification("test_activity_title", null),
+            AccountId.New(), ActivityId.New(), new ActivityDetailsSpecification("test_activity_title", null),
             null, [new StageSpecification("test_stage_title", 1)]);
         var activity = dailyTracker.Activities.Single();
         var stage = activity.Stages!.Single();
         
-        var command = new MarkActivityStageAsCheckedCommand(dailyTracker.UserId, dailyTracker.Id, activity.Id, stage.Id);
+        var command = new MarkActivityStageAsCheckedCommand(dailyTracker.AccountId, dailyTracker.Id, activity.Id, stage.Id);
 
         _readWriteDailyTrackerRepository
-            .GetDailyTrackerByIdAsync(command.UserId, command.DailyTrackerId, CancellationToken.None)
+            .GetDailyTrackerByIdAsync(command.AccountId, command.DailyTrackerId, CancellationToken.None)
             .Returns(dailyTracker);
         
         //act
@@ -42,15 +42,15 @@ public sealed class MarkActivityStageAsCheckedCommandHandlerTests
     {
         //arrange
         var dailyTracker = DailyTracker.Create(DailyTrackerId.New(), DateOnly.FromDateTime(DateTime.Now),
-            UserId.New(), ActivityId.New(), new ActivityDetailsSpecification("test_activity_title", null),
+            AccountId.New(), ActivityId.New(), new ActivityDetailsSpecification("test_activity_title", null),
             null, [new StageSpecification("test_stage_title", 1)]);
         var activity = dailyTracker.Activities.Single();
         var stage = activity.Stages!.Single();
         
-        var command = new MarkActivityStageAsCheckedCommand(dailyTracker.UserId, dailyTracker.Id, activity.Id, stage.Id);
+        var command = new MarkActivityStageAsCheckedCommand(dailyTracker.AccountId, dailyTracker.Id, activity.Id, stage.Id);
         
         _readWriteDailyTrackerRepository
-            .GetDailyTrackerByIdAsync(command.UserId, command.DailyTrackerId, CancellationToken.None)
+            .GetDailyTrackerByIdAsync(command.AccountId, command.DailyTrackerId, CancellationToken.None)
             .Returns(dailyTracker);
         
         //act
@@ -66,7 +66,7 @@ public sealed class MarkActivityStageAsCheckedCommandHandlerTests
     public async Task HandleAsync_ShouldThrowNotFoundException_WhenDailyTrackerDoesNotExist()
     {
         //arrange
-        var command = new MarkActivityStageAsCheckedCommand(UserId.New(), DailyTrackerId.New(), ActivityId.New(),
+        var command = new MarkActivityStageAsCheckedCommand(AccountId.New(), DailyTrackerId.New(), ActivityId.New(),
             StageId.New());
         
         //act

@@ -1,4 +1,5 @@
 using discipline.centre.shared.abstractions.SharedKernel;
+using discipline.centre.users.domain.Subscriptions.Enums;
 using discipline.centre.users.domain.Subscriptions.Rules;
 
 namespace discipline.centre.users.domain.Subscriptions.ValueObjects;
@@ -28,18 +29,30 @@ public sealed class Price : ValueObject
         }
     }
 
-    public static Price Create(decimal perMonth, decimal perYear)
-        => new Price(perMonth, perYear);
+    public Currency Currency { get; private set; }
 
-    private Price(decimal perMonth, decimal perYear)
+    public static Price Create(
+        decimal perMonth,
+        decimal perYear,
+        Currency currency) => new(perMonth, perYear, currency);
+
+    /// <summary>
+    /// Only for MongoDb purposes
+    /// </summary>
+    public Price(
+        decimal perMonth,
+        decimal perYear,
+        Currency currency)
     {
         PerMonth = perMonth;
         PerYear = perYear;
+        Currency = currency;
     }
 
     protected override IEnumerable<object> GetAtomicValues()
     {
         yield return PerMonth;
         yield return PerYear;
+        yield return Currency;
     }
 }

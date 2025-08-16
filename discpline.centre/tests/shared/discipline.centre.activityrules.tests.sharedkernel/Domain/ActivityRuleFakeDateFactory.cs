@@ -17,7 +17,7 @@ public static class ActivityRuleFakeDataFactory
 
         var mode = selectedDays is null ? faker.PickRandom(modesWithoutDays) : RuleMode.Custom;
 
-        return new ActivityRule(ActivityRuleId.New(), UserId.New(),
+        return new ActivityRule(ActivityRuleId.New(), AccountId.New(), 
             Details.Create(faker.Random.String2(length: 10), withNote ? faker.Lorem.Word() : null),
             SelectedMode.Create(mode, selectedDays), []);
     }

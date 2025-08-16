@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <RootNamespace>discipline.daily_trackers.domain</RootNamespace>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="discipline.daily-trackers.domain.tests"/>
+    </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="Ulid" Version="1.3.4" />
+    </ItemGroup>
+
+</Project>

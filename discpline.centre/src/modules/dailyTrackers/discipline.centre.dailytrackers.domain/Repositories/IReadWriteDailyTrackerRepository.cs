@@ -8,7 +8,7 @@ public interface IReadWriteDailyTrackerRepository
     Task UpdateAsync(DailyTracker dailyTracker, CancellationToken cancellationToken);
     Task UpdateRangeAsync(IEnumerable<DailyTracker> dailyTrackers, CancellationToken cancellationToken);
     Task DeleteAsync(DailyTracker dailyTracker, CancellationToken cancellationToken);
-    Task<DailyTracker?> GetDailyTrackerByDayAsync(UserId userId, DateOnly day, CancellationToken cancellationToken);
-    Task<DailyTracker?> GetDailyTrackerByIdAsync(UserId userId, DailyTrackerId id, CancellationToken cancellationToken);
-    Task<List<DailyTracker>> GetDailyTrackersByParentActivityRuleId(UserId userId, ActivityRuleId activityRuleId, CancellationToken cancellationToken);
+    Task<DailyTracker?> GetDailyTrackerByDayAsync(AccountId accountId, DateOnly day, CancellationToken cancellationToken);
+    Task<DailyTracker?> GetDailyTrackerByIdAsync(AccountId accountId, DailyTrackerId id, CancellationToken cancellationToken);
+    Task<List<DailyTracker>> GetDailyTrackersByParentActivityRuleId(AccountId accountId, ActivityRuleId activityRuleId, CancellationToken cancellationToken);
 }
