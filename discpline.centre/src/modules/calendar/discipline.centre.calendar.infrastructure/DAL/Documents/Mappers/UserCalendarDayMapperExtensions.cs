@@ -10,7 +10,7 @@ internal static class UserCalendarDayMapperExtensions
         => new()
         {
             UserCalendarId = entity.Id.ToString(),
-            UserId = entity.UserId.ToString(),
+            UserId = entity.AccountId.ToString(),
             Day = entity.Day,
             Events = entity.Events.Select(x => x.AsDocument()).ToArray(),
         };

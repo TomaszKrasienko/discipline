@@ -19,7 +19,7 @@ public sealed class EventsMapExtensionsTests
         const int selectedDay = 1;
         var domainEvent = new ActivityRuleCreated(
             ActivityRuleId.New(),
-            UserId.New(),
+            AccountId.New(),
             Details.Create("test_title", "test_note"),
             SelectedMode.Create(RuleMode.Custom, [selectedDay]));
         
@@ -28,7 +28,7 @@ public sealed class EventsMapExtensionsTests
         
         // Assert
         ((ActivityRuleRegistered)@event).ActivityRuleId.ShouldBe(domainEvent.ActivityRuleId.ToString());
-        ((ActivityRuleRegistered)@event).UserId.ShouldBe(domainEvent.UserId.ToString());
+        ((ActivityRuleRegistered)@event).UserId.ShouldBe(domainEvent.AccountId.ToString());
         ((ActivityRuleRegistered)@event).Title.ShouldBe(domainEvent.Details.Title);
         ((ActivityRuleRegistered)@event).Note.ShouldBe(domainEvent.Details.Note);
         ((ActivityRuleRegistered)@event).Mode.ShouldBe(domainEvent.Mode.Mode.Value);
@@ -41,7 +41,7 @@ public sealed class EventsMapExtensionsTests
         // Arrange
         var domainEvent = new domain.Events.ActivityRuleChanged(
             ActivityRuleId.New(),
-            UserId.New(),
+            AccountId.New(),
             Details.Create("test_title", "test_note"),
             SelectedMode.Create(RuleMode.EveryDay, null));
         
@@ -50,7 +50,7 @@ public sealed class EventsMapExtensionsTests
         
         // Assert
         ((ActivityRuleChanged)@event).ActivityRuleId.ShouldBe(domainEvent.ActivityRuleId.ToString());
-        ((ActivityRuleChanged)@event).UserId.ShouldBe(domainEvent.UserId.ToString());
+        ((ActivityRuleChanged)@event).UserId.ShouldBe(domainEvent.AccountId.ToString());
         ((ActivityRuleChanged)@event).Mode.ShouldBe(domainEvent.Mode.Mode.Value);
         ((ActivityRuleChanged)@event).Days.ShouldBeNull();
     }

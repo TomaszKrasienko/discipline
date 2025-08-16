@@ -13,7 +13,7 @@ public sealed class DeleteActivityStageTests
         // Arrange
         var activityId = ActivityId.New();
         var dailyTracker = DailyTracker.Create(DailyTrackerId.New(), new DateOnly(2025,1,1), 
-            UserId.New(), activityId,  new ActivityDetailsSpecification("test_activity_title", null), null,
+            AccountId.New(), activityId,  new ActivityDetailsSpecification("test_activity_title", null), null,
             [new StageSpecification("test_title1", 1), new StageSpecification("test_title2", 2)]);
         
         var stage1 = dailyTracker
@@ -35,7 +35,7 @@ public sealed class DeleteActivityStageTests
         // Arrange
         var activityId = ActivityId.New();
         var dailyTracker = DailyTracker.Create(DailyTrackerId.New(), new DateOnly(2025,1,1), 
-            UserId.New(), activityId,  new ActivityDetailsSpecification("test_activity_title", null), null,
+            AccountId.New(), activityId,  new ActivityDetailsSpecification("test_activity_title", null), null,
             [new StageSpecification("test_title1", 1), new StageSpecification("test_title2", 2)]);
         
         var stage1 = dailyTracker
@@ -56,7 +56,7 @@ public sealed class DeleteActivityStageTests
         // Arrange
         var activityId = ActivityId.New();
         var dailyTracker = DailyTracker.Create(DailyTrackerId.New(), new DateOnly(2025,1,1), 
-            UserId.New(), activityId,  new ActivityDetailsSpecification("test_activity_title", null), null,
+            AccountId.New(), activityId,  new ActivityDetailsSpecification("test_activity_title", null), null,
             [new StageSpecification("test_title1", 1), new StageSpecification("test_title2", 2)]);
         
         // Act
@@ -72,7 +72,7 @@ public sealed class DeleteActivityStageTests
         // Arrange
         var activityId = ActivityId.New();
         var dailyTracker = DailyTracker.Create(DailyTrackerId.New(), new DateOnly(2025,1,1), 
-            UserId.New(), activityId,  new ActivityDetailsSpecification("test_activity_title", null), null,
+            AccountId.New(), activityId,  new ActivityDetailsSpecification("test_activity_title", null), null,
             [new StageSpecification("test_title1", 1), new StageSpecification("test_title2", 2)]);
         
         // Act

@@ -21,7 +21,7 @@ public sealed class CreateActivityCommandHandlerTests
     public async Task HandleAsync_GivenNotExistingActivityTitleAndNotExistingDailyTracker_ShouldAddDailyTracker()
     {
         //arrange
-        var command = new CreateActivityCommand(UserId.New(), ActivityId.New(), new DateOnly(2025,1,1),
+        var command = new CreateActivityCommand(AccountId.New(), ActivityId.New(), new DateOnly(2025,1,1),
         new ActivityDetailsSpecification("new_test_activity", null),
         null);
 

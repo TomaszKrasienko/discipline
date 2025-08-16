@@ -92,14 +92,14 @@ internal static class DailyTrackersEndpoints
                     ICqrsDispatcher dispatcher) =>
                 {
                     var stronglyActivityId = new ActivityId(activityId);
-                    var userId = identityContext.GetUser();
+                    var accountId = identityContext.GetAccount();
 
-                    if (userId is null)
+                    if (accountId is null)
                     {
                         return Results.Unauthorized();
                     }
                     
-                    var result = await dispatcher.SendAsync(new GetActivityByIdQuery(userId.Value, stronglyActivityId), cancellationToken);
+                    var result = await dispatcher.SendAsync(new GetActivityByIdQuery(accountId.Value, stronglyActivityId), cancellationToken);
 
                     return result is null ? Results.NotFound() : Results.Ok(result);
                 })
@@ -117,13 +117,14 @@ internal static class DailyTrackersEndpoints
             DateOnly day, CancellationToken cancellationToken, IIdentityContext identityContext,
             ICqrsDispatcher dispatcher) =>
             {
-                var userId = identityContext.GetUser();
+                var accountId = identityContext.GetAccount();
 
-                if (userId is null)
+                if (accountId is null)
                 {
                     return Results.Unauthorized();
                 }
-                var result = await dispatcher.SendAsync(new GetDailyTrackerByDayQuery(userId.Value, day), cancellationToken);
+                
+                var result = await dispatcher.SendAsync(new GetDailyTrackerByDayQuery(accountId.Value, day), cancellationToken);
 
                 return result is null ? Results.NotFound() : Results.Ok(result);
             })
@@ -142,14 +143,14 @@ internal static class DailyTrackersEndpoints
             {
                 var stronglyDailyTrackerId = new DailyTrackerId(dailyTrackerId);
                 var stronglyActivityId = new ActivityId(activityId);
-                var userId = identityContext.GetUser();
+                var accountId = identityContext.GetAccount();
 
-                if (userId is null)
+                if (accountId is null)
                 {
                     return Results.Unauthorized();
                 }
                 
-                await dispatcher.HandleAsync(new MarkActivityAsCheckedCommand(userId.Value, stronglyDailyTrackerId, stronglyActivityId), cancellationToken);
+                await dispatcher.HandleAsync(new MarkActivityAsCheckedCommand(accountId.Value, stronglyDailyTrackerId, stronglyActivityId), cancellationToken);
                 
                 return Results.NoContent();
             })
@@ -170,14 +171,14 @@ internal static class DailyTrackersEndpoints
                 var stronglyDailyTrackerId = new DailyTrackerId(dailyTrackerId);
                 var stringlyActivityId = new ActivityId(activityId);
                 var stronglyStageId = new StageId(stageId);
-                var userId = identityContext.GetUser();
+                var accountId = identityContext.GetAccount();
 
-                if (userId is null)
+                if (accountId is null)
                 {
                     return Results.Unauthorized();
                 }
                 
-                await dispatcher.HandleAsync(new MarkActivityStageAsCheckedCommand(userId.Value, stronglyDailyTrackerId, stringlyActivityId, stronglyStageId), cancellationToken);
+                await dispatcher.HandleAsync(new MarkActivityStageAsCheckedCommand(accountId.Value, stronglyDailyTrackerId, stringlyActivityId, stronglyStageId), cancellationToken);
                 
                 return Results.NoContent();
             })
@@ -197,14 +198,14 @@ internal static class DailyTrackersEndpoints
                 {
                     var stronglyDailyTrackerId = new DailyTrackerId(dailyTrackerId);
                     var stronglyActivityId = new ActivityId(activityId);
-                    var userId = identityContext.GetUser();
+                    var accountId = identityContext.GetAccount();
 
-                    if (userId is null)
+                    if (accountId is null)
                     {
                         return Results.Unauthorized();
                     }
                 
-                    await dispatcher.HandleAsync(new DeleteActivityCommand(userId.Value, stronglyDailyTrackerId, stronglyActivityId), cancellationToken);
+                    await dispatcher.HandleAsync(new DeleteActivityCommand(accountId.Value, stronglyDailyTrackerId, stronglyActivityId), cancellationToken);
                 
                     return Results.NoContent();
                 })            
@@ -223,14 +224,14 @@ internal static class DailyTrackersEndpoints
                 var stronglyDailyTrackerId = new DailyTrackerId(dailyTrackerId);
                 var activityStronglyId = new ActivityId(activityId);
                 var stronglyStageId = new StageId(stageId);
-                var userId = identityContext.GetUser();
+                var accountId = identityContext.GetAccount();
 
-                if (userId is null)
+                if (accountId is null)
                 {
                     return Results.Unauthorized();
                 }
                 
-                await dispatcher.HandleAsync(new DeleteActivityStageCommand(userId.Value, stronglyDailyTrackerId, activityStronglyId, stronglyStageId), cancellationToken);
+                await dispatcher.HandleAsync(new DeleteActivityStageCommand(accountId.Value, stronglyDailyTrackerId, activityStronglyId, stronglyStageId), cancellationToken);
 
                 return Results.NoContent();
             })

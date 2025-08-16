@@ -21,7 +21,7 @@ public sealed class DailyTrackerDocumentMappingExtensionsTests
 
         //assert
         entity.Id.ShouldBe(DailyTrackerId.Parse(dailyTrackerDocument.DailyTrackerId));
-        entity.AccountId.ShouldBe(UserId.Parse(dailyTrackerDocument.UserId));
+        entity.AccountId.ShouldBe(AccountId.Parse(dailyTrackerDocument.AccountId));
         entity.Day.Value.ShouldBe(dailyTrackerDocument.Day);
         entity.Activities.First().Id.ShouldBe(ActivityId.Parse(activityDocument.ActivityId));
         entity.Activities.First().Details.Title.ShouldBe(activityDocument.Title);

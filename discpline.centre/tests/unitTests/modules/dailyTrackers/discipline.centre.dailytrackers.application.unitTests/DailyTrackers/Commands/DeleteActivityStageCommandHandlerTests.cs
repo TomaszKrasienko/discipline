@@ -18,19 +18,19 @@ public sealed class DeleteActivityStageCommandHandlerTests
     {
         // Arrange
         var dailyTrackerId = DailyTrackerId.New();
-        var userId = UserId.New();
+        var accountId = AccountId.New();
         var activityId = ActivityId.New();
 
         var dailyTracker = DailyTracker.Create(dailyTrackerId, new DateOnly(2025, 1, 1),
-            userId, activityId, new ActivityDetailsSpecification("test_title", null), null,
+            accountId, activityId, new ActivityDetailsSpecification("test_title", null), null,
             [new StageSpecification("test_title", 1)]);
         var stage = dailyTracker.Activities.Single().Stages!.Single();
 
         _readWriteDailyTrackerRepository
-            .GetDailyTrackerByIdAsync(userId, dailyTrackerId, CancellationToken.None)
+            .GetDailyTrackerByIdAsync(accountId, dailyTrackerId, CancellationToken.None)
             .Returns(dailyTracker);
 
-        var command = new DeleteActivityStageCommand(userId, dailyTrackerId, activityId, stage.Id);
+        var command = new DeleteActivityStageCommand(accountId, dailyTrackerId, activityId, stage.Id);
         
         // Act
         await Act(command);
@@ -46,19 +46,19 @@ public sealed class DeleteActivityStageCommandHandlerTests
     {
         // Arrange
         var dailyTrackerId = DailyTrackerId.New();
-        var userId = UserId.New();
+        var accountId = AccountId.New();
         var activityId = ActivityId.New();
 
         var dailyTracker = DailyTracker.Create(dailyTrackerId, new DateOnly(2025, 1, 1),
-            userId, activityId, new ActivityDetailsSpecification("test_title", null), null,
+            accountId, activityId, new ActivityDetailsSpecification("test_title", null), null,
             [new StageSpecification("test_title", 1)]);
         var stage = dailyTracker.Activities.Single().Stages!.Single();
 
         _readWriteDailyTrackerRepository
-            .GetDailyTrackerByIdAsync(userId, dailyTrackerId, CancellationToken.None)
+            .GetDailyTrackerByIdAsync(accountId, dailyTrackerId, CancellationToken.None)
             .Returns(dailyTracker);
 
-        var command = new DeleteActivityStageCommand(userId, dailyTrackerId, activityId, stage.Id);
+        var command = new DeleteActivityStageCommand(accountId, dailyTrackerId, activityId, stage.Id);
         
         // Act
         await Act(command);
@@ -72,11 +72,11 @@ public sealed class DeleteActivityStageCommandHandlerTests
     {
         // Arrange
         var dailyTrackerId = DailyTrackerId.New();
-        var userId = UserId.New();
+        var accountId = AccountId.New();
         var activityId = ActivityId.New();
         var stageId = StageId.New();
 
-        var command = new DeleteActivityStageCommand(userId, dailyTrackerId, activityId, stageId);
+        var command = new DeleteActivityStageCommand(accountId, dailyTrackerId, activityId, stageId);
         
         // Act
         await Act(command);
@@ -92,18 +92,18 @@ public sealed class DeleteActivityStageCommandHandlerTests
     {
         
         var dailyTrackerId = DailyTrackerId.New();
-        var userId = UserId.New();
+        var accountId = AccountId.New();
         var activityId = ActivityId.New();
 
         var dailyTracker = DailyTracker.Create(dailyTrackerId, new DateOnly(2025, 1, 1),
-            userId, activityId, new ActivityDetailsSpecification("test_title", null), null,
+            accountId, activityId, new ActivityDetailsSpecification("test_title", null), null,
             [new StageSpecification("test_title", 1)]);
 
         _readWriteDailyTrackerRepository
-            .GetDailyTrackerByIdAsync(userId, dailyTrackerId, CancellationToken.None)
+            .GetDailyTrackerByIdAsync(accountId, dailyTrackerId, CancellationToken.None)
             .Returns(dailyTracker);
 
-        var command = new DeleteActivityStageCommand(userId, dailyTrackerId, ActivityId.New(), StageId.New());
+        var command = new DeleteActivityStageCommand(accountId, dailyTrackerId, ActivityId.New(), StageId.New());
         
         // Act
         await Act(command);

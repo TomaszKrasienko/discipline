@@ -11,7 +11,7 @@ internal static class UserCalendarDayDocumentMapperExtensions
     internal static UserCalendarDay AsEntity(this UserCalendarDayDocument document)
         => new (
             UserCalendarId.Parse(document.UserCalendarId), 
-            UserId.Parse(document.UserId),
+            AccountId.Parse(document.UserId),
             document.Day,
             document.Events.Select(x => x.AsEntity()).ToHashSet());
 

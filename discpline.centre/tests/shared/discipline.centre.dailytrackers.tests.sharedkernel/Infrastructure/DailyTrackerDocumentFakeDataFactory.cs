@@ -11,7 +11,7 @@ internal static class DailyTrackerDocumentFakeDataFactory
         var faker = new Faker<DailyTrackerDocument>()
             .RuleFor(x => x.DailyTrackerId, DailyTrackerId.New().ToString())
             .RuleFor(x => x.Day, DateOnly.FromDateTime(DateTime.UtcNow))
-            .RuleFor(x => x.UserId, UserId.New().ToString())
+            .RuleFor(x => x.AccountId, AccountId.New().ToString())
             .RuleFor(x => x.Activities, activities);
         
         return faker.Generate(1).Single();

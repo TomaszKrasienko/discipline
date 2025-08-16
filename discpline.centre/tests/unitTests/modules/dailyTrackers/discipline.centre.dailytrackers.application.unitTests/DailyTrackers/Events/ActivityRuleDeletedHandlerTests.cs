@@ -18,17 +18,17 @@ public sealed class ActivityRuleDeletedHandlerTests
     public async Task GivenExistingActivityWithParentActivityRuleIdForUser_WhenHandleAsync_ThenShouldSetNullOnDailyTrackersActivities()
     {
         // Arrange
-        var userId = UserId.New();
+        var accountId = AccountId.New();
         var activityRuleId = ActivityRuleId.New();
-        var @event = new ActivityRuleDeleted(userId.Value, activityRuleId.Value);
-        var dailyTracker1 = DailyTracker.Create(DailyTrackerId.New(), new DateOnly(2025, 1, 1), userId,
+        var @event = new ActivityRuleDeleted(accountId.Value, activityRuleId.Value);
+        var dailyTracker1 = DailyTracker.Create(DailyTrackerId.New(), new DateOnly(2025, 1, 1), accountId,
             ActivityId.New(), new ActivityDetailsSpecification("test_title", null), activityRuleId, []);
         
-        var dailyTracker2 = DailyTracker.Create(DailyTrackerId.New(), new DateOnly(2025, 1, 2), userId,
+        var dailyTracker2 = DailyTracker.Create(DailyTrackerId.New(), new DateOnly(2025, 1, 2), accountId,
             ActivityId.New(), new ActivityDetailsSpecification("test_title", null), activityRuleId, []);
         
         _readWriteDailyTrackerRepository
-            .GetDailyTrackersByParentActivityRuleId(userId, activityRuleId, CancellationToken.None)
+            .GetDailyTrackersByParentActivityRuleId(accountId, activityRuleId, CancellationToken.None)
             .Returns([dailyTracker1, dailyTracker2]);
         
         // Act
@@ -46,17 +46,17 @@ public sealed class ActivityRuleDeletedHandlerTests
     public async Task GivenExistingActivityWithParentActivityRuleIdForUser_WhenHandleAsync_ThenShouldUpdateGivenDailyTrackers()
     {
         // Arrange
-        var userId = UserId.New();
+        var accountId = AccountId.New();
         var activityRuleId = ActivityRuleId.New();
-        var @event = new ActivityRuleDeleted(userId.Value, activityRuleId.Value);
-        var dailyTracker1 = DailyTracker.Create(DailyTrackerId.New(), new DateOnly(2025, 1, 1), userId,
+        var @event = new ActivityRuleDeleted(accountId.Value, activityRuleId.Value);
+        var dailyTracker1 = DailyTracker.Create(DailyTrackerId.New(), new DateOnly(2025, 1, 1), accountId,
             ActivityId.New(), new ActivityDetailsSpecification("test_title", null), activityRuleId, []);
         
-        var dailyTracker2 = DailyTracker.Create(DailyTrackerId.New(), new DateOnly(2025, 1, 2), userId,
+        var dailyTracker2 = DailyTracker.Create(DailyTrackerId.New(), new DateOnly(2025, 1, 2), accountId,
             ActivityId.New(), new ActivityDetailsSpecification("test_title", null), activityRuleId, []);
         
         _readWriteDailyTrackerRepository
-            .GetDailyTrackersByParentActivityRuleId(userId, activityRuleId, CancellationToken.None)
+            .GetDailyTrackersByParentActivityRuleId(accountId, activityRuleId, CancellationToken.None)
             .Returns([dailyTracker1, dailyTracker2]);
         
         // Act

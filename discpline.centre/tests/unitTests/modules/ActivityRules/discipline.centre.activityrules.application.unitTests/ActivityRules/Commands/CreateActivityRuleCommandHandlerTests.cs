@@ -21,12 +21,12 @@ public sealed class CreateActivityRuleCommandHandlerTests
     public async Task GivenCorrectlyAddedActivityRule_WhenHandleAsync_ShouldPublishIntegrationEvent()
     {
         // Arrange
-        var command = new CreateActivityRuleCommand(UserId.New(), ActivityRuleId.New(), 
+        var command = new CreateActivityRuleCommand(AccountId.New(), ActivityRuleId.New(), 
             new ActivityRuleDetailsSpecification("test_title", "test_note"),
             new ActivityRuleModeSpecification(RuleMode.EveryDay, null));
         
         _readWriteActivityRuleRepository
-            .ExistsAsync(command.Details.Title, command.UserId, CancellationToken.None)
+            .ExistsAsync(command.Details.Title, command.AccountId, CancellationToken.None)
             .Returns(false);
         
         // Act
@@ -42,12 +42,12 @@ public sealed class CreateActivityRuleCommandHandlerTests
     public async Task GivenUniqueTitle_WhenHandleAsync_ShouldAddNewActivityRule()
     {
         // Arrange
-        var command = new CreateActivityRuleCommand(UserId.New(), ActivityRuleId.New(), 
+        var command = new CreateActivityRuleCommand(AccountId.New(), ActivityRuleId.New(), 
             new ActivityRuleDetailsSpecification("test_title", "test_note"),
             new ActivityRuleModeSpecification(RuleMode.EveryDay, null));
         
         _readWriteActivityRuleRepository
-            .ExistsAsync(command.Details.Title, command.UserId, CancellationToken.None)
+            .ExistsAsync(command.Details.Title, command.AccountId, CancellationToken.None)
             .Returns(false);
         
         // Act
@@ -57,7 +57,7 @@ public sealed class CreateActivityRuleCommandHandlerTests
         await _readWriteActivityRuleRepository
             .Received(1)
             .AddAsync(Arg.Is<ActivityRule>(arg
-                => arg.UserId == command.UserId
+                => arg.AccountId == command.AccountId
                    && arg.Id == command.Id
                    && arg.Details.Title == command.Details.Title
                    && arg.Details.Note == command.Details.Note
@@ -68,12 +68,12 @@ public sealed class CreateActivityRuleCommandHandlerTests
     public async Task GivenAlreadyRegisteredTitle_WhenHandleAsync_ShouldThrowNotUniqueExceptionWithCodeCreateActivityRuleNotUniqueTitle()
     {
         // Arrange
-        var command = new CreateActivityRuleCommand(UserId.New(), ActivityRuleId.New(), 
+        var command = new CreateActivityRuleCommand(AccountId.New(), ActivityRuleId.New(), 
             new ActivityRuleDetailsSpecification("test_title", "test_note"),
             new ActivityRuleModeSpecification(RuleMode.EveryDay, null));
         
         _readWriteActivityRuleRepository
-            .ExistsAsync(command.Details.Title, command.UserId, CancellationToken.None)
+            .ExistsAsync(command.Details.Title, command.AccountId, CancellationToken.None)
             .Returns(true);
 
         // Act

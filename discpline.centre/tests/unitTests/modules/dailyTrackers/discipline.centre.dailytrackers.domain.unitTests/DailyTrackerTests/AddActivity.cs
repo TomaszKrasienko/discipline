@@ -21,7 +21,7 @@ public sealed class AddActivityTests
             new ("test_state_title", 1)
         };
         
-        var dailyTracker = DailyTracker.Create(DailyTrackerId.New(), DateOnly.FromDateTime(DateTime.UtcNow), UserId.New(), ActivityId.New(),
+        var dailyTracker = DailyTracker.Create(DailyTrackerId.New(), DateOnly.FromDateTime(DateTime.UtcNow), AccountId.New(), ActivityId.New(),
             new ActivityDetailsSpecification("test_title", null), null, null);
         
         //act
@@ -42,7 +42,7 @@ public sealed class AddActivityTests
     {
         //arrange
         var title = "test_activity_title";
-        var dailyTracker = DailyTracker.Create(DailyTrackerId.New(), DateOnly.FromDateTime(DateTime.UtcNow), UserId.New(), ActivityId.New(),
+        var dailyTracker = DailyTracker.Create(DailyTrackerId.New(), DateOnly.FromDateTime(DateTime.UtcNow), AccountId.New(), ActivityId.New(),
             new ActivityDetailsSpecification(title, null), null, null);
         
         //act

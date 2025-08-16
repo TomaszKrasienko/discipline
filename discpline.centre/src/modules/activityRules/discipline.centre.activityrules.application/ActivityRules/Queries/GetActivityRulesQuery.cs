@@ -5,4 +5,4 @@ using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 
 namespace discipline.centre.activityrules.application.ActivityRules.Queries;
 
-public sealed record GetActivityRulesQuery(UserId UserId) : IQuery<IReadOnlyCollection<ActivityRuleResponseDto>>;
+public sealed record GetActivityRulesQuery(AccountId AccountId) : IQuery<IReadOnlyCollection<ActivityRuleResponseDto>>;

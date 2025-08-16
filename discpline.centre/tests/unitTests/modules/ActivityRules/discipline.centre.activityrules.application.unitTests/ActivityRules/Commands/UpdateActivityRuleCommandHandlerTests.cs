@@ -28,16 +28,16 @@ public sealed class UpdateActivityRuleCommandHandlerTests
         var activityRule = ActivityRuleFakeDataFactory.Get();
         activityRule.ClearDomainEvents();
         
-        var command = new UpdateActivityRuleCommand(UserId.New(), activityRule.Id, 
+        var command = new UpdateActivityRuleCommand(AccountId.New(), activityRule.Id, 
             new ActivityRuleDetailsSpecification("test_title", "test_note"),
             new ActivityRuleModeSpecification(RuleMode.EveryDay, null));
 
         _readWriteActivityRuleRepository
-            .GetByIdAsync(command.Id, command.UserId, cancellationToken)
+            .GetByIdAsync(command.Id, command.AccountId, cancellationToken)
             .Returns(activityRule);
 
         _readWriteActivityRuleRepository
-            .ExistsAsync(command.Details.Title, command.UserId, cancellationToken)
+            .ExistsAsync(command.Details.Title, command.AccountId, cancellationToken)
             .Returns(false);
         
         // Act
@@ -57,16 +57,16 @@ public sealed class UpdateActivityRuleCommandHandlerTests
         
         var activityRule = ActivityRuleFakeDataFactory.Get();
         
-        var command = new UpdateActivityRuleCommand(UserId.New(), activityRule.Id, 
+        var command = new UpdateActivityRuleCommand(AccountId.New(), activityRule.Id, 
             new ActivityRuleDetailsSpecification("test_title", "test_note"),
             new ActivityRuleModeSpecification(RuleMode.EveryDay, null));
 
         _readWriteActivityRuleRepository
-            .GetByIdAsync(command.Id, command.UserId, cancellationToken)
+            .GetByIdAsync(command.Id, command.AccountId, cancellationToken)
             .Returns(activityRule);
 
         _readWriteActivityRuleRepository
-            .ExistsAsync(command.Details.Title, command.UserId, cancellationToken)
+            .ExistsAsync(command.Details.Title, command.AccountId, cancellationToken)
             .Returns(false);
         
         // Act
@@ -75,7 +75,7 @@ public sealed class UpdateActivityRuleCommandHandlerTests
         // Assert
         await _readWriteActivityRuleRepository
             .UpdateAsync(Arg.Is<ActivityRule>(arg
-                => arg.UserId == command.UserId
+                => arg.AccountId == command.AccountId
                    && arg.Id == command.Id
                    && arg.Details.Title == command.Details.Title
                    && arg.Details.Note == command.Details.Note
@@ -90,16 +90,16 @@ public sealed class UpdateActivityRuleCommandHandlerTests
         
         var activityRule = ActivityRuleFakeDataFactory.Get();
         
-        var command = new UpdateActivityRuleCommand(UserId.New(), activityRule.Id, 
+        var command = new UpdateActivityRuleCommand(AccountId.New(), activityRule.Id, 
             new ActivityRuleDetailsSpecification("test_title", "test_note"),
             new ActivityRuleModeSpecification(RuleMode.EveryDay, null));
 
         _readWriteActivityRuleRepository
-            .GetByIdAsync(command.Id, command.UserId, cancellationToken)
+            .GetByIdAsync(command.Id, command.AccountId, cancellationToken)
             .Returns(activityRule);
 
         _readWriteActivityRuleRepository
-            .ExistsAsync(command.Details.Title, command.UserId, cancellationToken)
+            .ExistsAsync(command.Details.Title, command.AccountId, cancellationToken)
             .Returns(true);
         
         // Act
@@ -114,12 +114,12 @@ public sealed class UpdateActivityRuleCommandHandlerTests
     public async Task GivenNotExistingActivityRule_WhenHandleAsync_ThenThrowNotFoundExceptionWithCodeUpdateActivityRuleActivityRuleNotFound()
     {
         // Arrange
-        var command = new UpdateActivityRuleCommand(UserId.New(), ActivityRuleId.New(), 
+        var command = new UpdateActivityRuleCommand(AccountId.New(), ActivityRuleId.New(), 
             new ActivityRuleDetailsSpecification("test_title", "test_note"),
             new ActivityRuleModeSpecification(RuleMode.EveryDay, null));
 
         _readWriteActivityRuleRepository
-            .GetByIdAsync(command.Id, command.UserId, CancellationToken.None)
+            .GetByIdAsync(command.Id, command.AccountId, CancellationToken.None)
             .ReturnsNull();
         
         // Act

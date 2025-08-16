@@ -13,7 +13,7 @@ public sealed class ClearParentActivityRuleIdsTests
         // Arrange
         var parentActivityRuleId = ActivityRuleId.New();
         var dailyTracker = DailyTracker.Create(DailyTrackerId.New(), new DateOnly(2025, 1, 1),
-            UserId.New(), ActivityId.New(), new ActivityDetailsSpecification("test1", null),
+            AccountId.New(), ActivityId.New(), new ActivityDetailsSpecification("test1", null),
             parentActivityRuleId, []);
         
         dailyTracker.AddActivity(ActivityId.New(), new ActivityDetailsSpecification("test2", null),

@@ -14,7 +14,7 @@ public sealed class MarkActivityAsCheckedShould
         // Arrange
         var activityId = ActivityId.New();
         var dailyTracker = DailyTracker.Create(DailyTrackerId.New(), new DateOnly(2025, 1, 1),
-            UserId.New(), activityId, new ActivityDetailsSpecification("test_title", null), null,
+            AccountId.New(), activityId, new ActivityDetailsSpecification("test_title", null), null,
             null);
         
         // Act
@@ -30,7 +30,7 @@ public sealed class MarkActivityAsCheckedShould
         // Arrange
         var activityId = ActivityId.New();
         var dailyTracker = DailyTracker.Create(DailyTrackerId.New(), new DateOnly(2025, 1, 1),
-            UserId.New(), activityId, new ActivityDetailsSpecification("test_title", null), null,
+            AccountId.New(), activityId, new ActivityDetailsSpecification("test_title", null), null,
             null);
         
         // Act

@@ -24,7 +24,7 @@ public sealed class CreateActivityFromActivityRuleCommandHandlerTests
     public async Task Handle_GivenValidCommandAndExistingDailyTracker_ShouldAddActivityAndUpdate()
     {
         //arrange
-        var command = new CreateActivityFromActivityRuleCommand(UserId.New(), ActivityId.New(), ActivityRuleId.New());
+        var command = new CreateActivityFromActivityRuleCommand(AccountId.New(), ActivityId.New(), ActivityRuleId.New());
         var today = DateOnly.FromDateTime(DateTime.UtcNow);
         
         _clock
@@ -76,7 +76,7 @@ public sealed class CreateActivityFromActivityRuleCommandHandlerTests
     public async Task Handle_GivenValidCommandAndNotExistingDailyTracker_ShouldCreateActivityFromActivityRule()
     {
         //arrange
-        var command = new CreateActivityFromActivityRuleCommand(UserId.New(), ActivityId.New(), ActivityRuleId.New());
+        var command = new CreateActivityFromActivityRuleCommand(AccountId.New(), ActivityId.New(), ActivityRuleId.New());
         var today = DateOnly.FromDateTime(DateTime.UtcNow);
         
         _clock
@@ -136,7 +136,7 @@ public sealed class CreateActivityFromActivityRuleCommandHandlerTests
     public async Task Handle_GivenNotExistingActivityRule_ShouldThrowNotFoundException()
     {
         //arrange
-        var command = new CreateActivityFromActivityRuleCommand(UserId.New(), ActivityId.New(), ActivityRuleId.New());
+        var command = new CreateActivityFromActivityRuleCommand(AccountId.New(), ActivityId.New(), ActivityRuleId.New());
         var today = DateOnly.FromDateTime(DateTime.UtcNow);
         
         _clock
@@ -162,7 +162,7 @@ public sealed class CreateActivityFromActivityRuleCommandHandlerTests
     public async Task Handle_GivenAlreadyExistedActivityForActivityRule_ShouldThrowAlreadyRegisteredException()
     {
         //arrange
-        var command = new CreateActivityFromActivityRuleCommand(UserId.New(), ActivityId.New(), ActivityRuleId.New());
+        var command = new CreateActivityFromActivityRuleCommand(AccountId.New(), ActivityId.New(), ActivityRuleId.New());
         var today = DateOnly.FromDateTime(DateTime.UtcNow);
         
         var activityRuleDto = new ActivityRuleDto()

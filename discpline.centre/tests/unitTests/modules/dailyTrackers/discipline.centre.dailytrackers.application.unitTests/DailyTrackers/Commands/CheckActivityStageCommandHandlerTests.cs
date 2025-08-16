@@ -25,7 +25,7 @@ public sealed class CheckActivityStageCommandHandlerTests
         var command = new CheckActivityStageCommand(dailyTracker.AccountId, dailyTracker.Id, activity.Id, stage.Id);
         
         _readWriteDailyTrackerRepository
-            .GetDailyTrackerByIdAsync(command.UserId, command.DailyTrackerId, CancellationToken.None)
+            .GetDailyTrackerByIdAsync(command.AccountId, command.DailyTrackerId, CancellationToken.None)
             .Returns(dailyTracker);
         
         //act
@@ -43,7 +43,7 @@ public sealed class CheckActivityStageCommandHandlerTests
     public async Task Handle_ShouldThrowNotFoundException_WhenDailyTrackerNotFound()
     {
         //arrange
-        var command = new CheckActivityStageCommand(UserId.New(), DailyTrackerId.New(), ActivityId.New(),
+        var command = new CheckActivityStageCommand(AccountId.New(), DailyTrackerId.New(), ActivityId.New(),
             StageId.New());
         
         //act

@@ -61,8 +61,8 @@ public sealed class MarkActivityAsCheckedCommandHandlerTests
         // Arrange
         var dailyTrackerId = DailyTrackerId.New();
         var activityId = ActivityId.New();
-        var userId = UserId.New();
-        var command = new MarkActivityAsCheckedCommand(userId, dailyTrackerId, activityId);
+        var accountId = AccountId.New();
+        var command = new MarkActivityAsCheckedCommand(accountId, dailyTrackerId, activityId);
         
         // Act
         var exception = await Record.ExceptionAsync(() => Act(command));

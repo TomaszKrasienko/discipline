@@ -15,7 +15,7 @@ internal static class DailyTrackerMappingExtensions
         {
             DailyTrackerId = dailyTracker.Id.ToString(),
             Day = dailyTracker.Day.Value,
-            UserId = dailyTracker.AccountId.ToString(),
+            AccountId = dailyTracker.AccountId.ToString(),
             Activities = dailyTracker.Activities.Select(x => x.AsDocument()).ToList()
         };
 }
