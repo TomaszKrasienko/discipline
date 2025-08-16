@@ -5,5 +5,5 @@ namespace discipline.centre.dailytrackers.application.ActivityRules.Clients;
 
 public interface IActivityRulesApiClient
 {
-    Task<ActivityRuleDto?> GetActivityRuleByIdAsync(ActivityRuleId activityRuleId, UserId userId);
+    Task<ActivityRuleDto?> GetActivityRuleByIdAsync(ActivityRuleId activityRuleId, AccountId accountId);
 }

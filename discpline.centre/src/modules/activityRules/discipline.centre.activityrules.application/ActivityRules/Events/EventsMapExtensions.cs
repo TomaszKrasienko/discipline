@@ -19,14 +19,14 @@ internal static class EventsMapExtensions
     {
         ActivityRuleCreated @event => new ActivityRuleRegistered(
             @event.ActivityRuleId.ToString(), 
-            @event.UserId.ToString(),
+            @event.AccountId.ToString(),
             @event.Details.Title,
             @event.Details.Note,
             @event.Mode.Mode.Value,
             @event.Mode.Days?.Select(x => (int)x).ToArray()),
         domain.Events.ActivityRuleChanged @event => new ActivityRuleChanged(
             @event.ActivityRuleId.ToString(),
-            @event.UserId.ToString(),
+            @event.AccountId.ToString(),
             @event.Details.Title,
             @event.Mode.Mode.Value,
             @event.Mode.Days?.Select(x => (int)x).ToArray()),

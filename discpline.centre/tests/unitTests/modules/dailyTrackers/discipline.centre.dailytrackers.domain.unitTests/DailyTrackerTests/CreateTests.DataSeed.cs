@@ -9,7 +9,7 @@ public partial class CreateTests
     {
         yield return
         [
-            new CreateTestParameters(DailyTrackerId.New(), DateOnly.FromDateTime(DateTime.UtcNow), UserId.New(),
+            new CreateTestParameters(DailyTrackerId.New(), DateOnly.FromDateTime(DateTime.UtcNow), AccountId.New(),
                 new ActivityDetailsSpecification("test_title_activity", null), null, null)
         ];
     }
@@ -18,12 +18,12 @@ public partial class CreateTests
     {
         yield return
         [
-            new CreateTestParameters(DailyTrackerId.New(), default, UserId.New(),
+            new CreateTestParameters(DailyTrackerId.New(), default, AccountId.New(),
                 new ActivityDetailsSpecification("test_title_activity", null), null, null),
             "DailyTracker.Day.Default"
         ];
     }
     
-    public sealed record CreateTestParameters(DailyTrackerId DailyTrackerId, DateOnly Day, UserId UserId, ActivityDetailsSpecification Details,
+    public sealed record CreateTestParameters(DailyTrackerId DailyTrackerId, DateOnly Day, AccountId AccountId, ActivityDetailsSpecification Details,
         ActivityRuleId? ParentActivityRuleId, List<StageSpecification>? Stages);
 }

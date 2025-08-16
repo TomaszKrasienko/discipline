@@ -1,56 +1,67 @@
 using discipline.centre.shared.abstractions.SharedKernel.Aggregate;
+using discipline.centre.shared.abstractions.SharedKernel.Exceptions;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
-using discipline.centre.users.domain.Subscriptions.Rules;
+using discipline.centre.users.domain.Subscriptions.Enums;
+using discipline.centre.users.domain.Subscriptions.Policies.Abstractions;
+using discipline.centre.users.domain.Subscriptions.Specifications;
 using discipline.centre.users.domain.Subscriptions.ValueObjects;
 
 namespace discipline.centre.users.domain.Subscriptions;
 
 public sealed class Subscription : AggregateRoot<SubscriptionId, Ulid>
 {
-    private HashSet<Feature>? _features;
-    public Title Title { get; private set; }
-    public Price Price { get; private set; }
-    public IReadOnlyCollection<Feature> Features => _features!;
-
-    private Subscription(SubscriptionId id, Title title, Price price) : base(id)
-    {
-        Title = title;
-        Price = price;
-    }
+    // ReSharper disable once MemberInitializerValueIgnored
+    private readonly HashSet<Price> _prices = [];
     
+    private readonly ISubscriptionPolicy _policy;
+    public SubscriptionType Type { get; }
+    public IReadOnlySet<Price> Prices => new HashSet<Price>(_prices);
+
     /// <summary>
-    /// Constructor for mapping to mongo documents
+    /// Only for mongo purposes
     /// </summary>
-    /// <param name="id"></param>
-    /// <param name="title"></param>
-    /// <param name="price"></param>
-    /// <param name="features"></param>
-    public Subscription(SubscriptionId id, Title title, Price price, 
-        List<Feature> features) : base(id)
+    public Subscription(
+        SubscriptionId id,
+        SubscriptionType type,
+        HashSet<Price> prices,
+        ISubscriptionPolicy policy) : base(id)
     {
-        Title = title;
-        Price = price;
-        _features = features.ToHashSet();
+        Type = type;
+        _prices = prices;
+        _policy = policy;
     }
 
-    public static Subscription Create(SubscriptionId id, string title, decimal pricePerMonth, decimal pricePerYear,
-        List<string> features)
+    public static Subscription Create(
+        SubscriptionId id,
+        SubscriptionType type,
+        HashSet<PriceSpecification> priceSpecifications,
+        IEnumerable<ISubscriptionPolicy> policies)
     {
-        var price = Price.Create(pricePerMonth, pricePerYear);
-        var subscription = new Subscription(id, title, price);
-        subscription.ChangeFeatures(features);
-        return subscription;
+        switch (type.HasPayment)
+        {
+            case true when !priceSpecifications.Any():
+                throw new DomainException("Subscription.RequiredPayment");
+            case false when priceSpecifications.Any():
+                throw new DomainException("Subscription.PaymentNotRequired");
+        }
+
+        var prices = priceSpecifications
+            .Select(x => Price.Create(x.PerMonth, x.PerYear, x.Currency))
+            .ToHashSet();
+
+        var policy = policies.SingleOrDefault(x => x.CanByApplied(type));
+
+        if (policy is null)
+        {
+            throw new ArgumentException($"Wrong policy for subscription type: {type.ToString()}");
+        }
+        
+        return new Subscription(id, type, prices, policy);
     }
 
-    private void ChangeFeatures(List<string> features)
-    {
-        var convertedFeatures = features.Select(x => (Feature)x).ToList();
-        CheckRule(new FeaturesCanNotBeEmptyRule(convertedFeatures));
-        _features = convertedFeatures.ToHashSet();
-    }
+    public int? GetAllowedNumberOfDailyTasks()
+        => _policy.NumberOfDailyTasks();
 
-    public bool IsFree()
-        => Price is { PerMonth: 0, PerYear: 0 };
-
-    
+    public int? GetAllowedNumberOfRules()
+        => _policy.NumberOfRules();
 }

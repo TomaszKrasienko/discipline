@@ -1,6 +1,6 @@
 namespace discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 
-public sealed record UserId(Ulid Value) : ITypeId<UserId, Ulid>
+public readonly record struct UserId(Ulid Value) : ITypeId<UserId, Ulid>
 {
     public static UserId New() => new(Ulid.NewUlid());
 

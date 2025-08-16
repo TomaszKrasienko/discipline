@@ -6,7 +6,7 @@ using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 
 namespace discipline.centre.dailytrackers.application.DailyTrackers.Commands;
 
-public sealed record CreateActivityCommand(UserId UserId, ActivityId ActivityId, DateOnly Day, ActivityDetailsSpecification Details,
+public sealed record CreateActivityCommand(AccountId AccountId, ActivityId ActivityId, DateOnly Day, ActivityDetailsSpecification Details,
     List<StageSpecification>? Stages) : ICommand;
 
 internal sealed class CreateActivityCommandHandler(
@@ -15,11 +15,11 @@ internal sealed class CreateActivityCommandHandler(
     public async Task HandleAsync(CreateActivityCommand command, CancellationToken cancellationToken = default)
     {
         var dailyTracker = await writeReadDailyTrackerRepository
-            .GetDailyTrackerByDayAsync(command.UserId, command.Day, cancellationToken);
+            .GetDailyTrackerByDayAsync(command.AccountId, command.Day, cancellationToken);
 
         if (dailyTracker is null)
         {
-            dailyTracker = DailyTracker.Create(DailyTrackerId.New(), command.Day, command.UserId, command.ActivityId, 
+            dailyTracker = DailyTracker.Create(DailyTrackerId.New(), command.Day, command.AccountId, command.ActivityId, 
                 command.Details, null, command.Stages);
             await writeReadDailyTrackerRepository.AddAsync(dailyTracker, cancellationToken);
             return;

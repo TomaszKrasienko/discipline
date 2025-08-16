@@ -7,13 +7,14 @@ namespace discipline.centre.dailytrackers.application.DailyTrackers.Events.Handl
 
 internal sealed class ActivityRuleDeletedHandler(IReadWriteDailyTrackerRepository readWriteDailyTrackerRepository) : IEventHandler<ActivityRuleDeleted>
 {
+    //TODO: string type or implicit operator in strogly type ids?
     public async Task HandleAsync(ActivityRuleDeleted @event, CancellationToken cancellationToken)
     {
         var activityRuleId = new ActivityRuleId(@event.ActivityRuleId);
-        var userId = new UserId(@event.UserId);
+        var accountId = new AccountId(@event.AccountId);
 
         var dailyTrackers = await readWriteDailyTrackerRepository
-            .GetDailyTrackersByParentActivityRuleId(userId, activityRuleId, cancellationToken);
+            .GetDailyTrackersByParentActivityRuleId(accountId, activityRuleId, cancellationToken);
 
         foreach (var dailyTracker in dailyTrackers)
         {

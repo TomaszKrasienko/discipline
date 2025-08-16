@@ -4,7 +4,7 @@ using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 
 namespace discipline.centre.activityrules.application.ActivityRules.Commands;
 
-public sealed record DeleteActivityRuleStageCommand(UserId UserId,
+public sealed record DeleteActivityRuleStageCommand(AccountId AccountId,
     ActivityRuleId ActivityRuleId, 
     StageId StageId) : ICommand;
 
@@ -14,7 +14,7 @@ internal sealed class DeleteActivityRuleStageCommandHandler(
     public async Task HandleAsync(DeleteActivityRuleStageCommand command, CancellationToken cancellationToken)
     {
         var activityRule = await readWriteActivityRuleRepository.GetByIdAsync(command.ActivityRuleId, 
-            command.UserId, cancellationToken);
+            command.AccountId, cancellationToken);
 
         if (activityRule is null)
         {

@@ -6,7 +6,7 @@ using FluentValidation;
 
 namespace discipline.centre.activityrules.application.ActivityRules.Commands;
 
-public sealed record CreateStageForActivityRuleCommand(UserId UserId,
+public sealed record CreateStageForActivityRuleCommand(AccountId AccountId,
     ActivityRuleId ActivityRuleId,
     StageId StageId,
     string Title, 
@@ -18,7 +18,7 @@ internal sealed class CreateStageForActivityRuleCommandHandler(
     public async Task HandleAsync(CreateStageForActivityRuleCommand command, CancellationToken cancellationToken)
     {
         var activityRule = await readWriteActivityRuleRepository
-            .GetByIdAsync(command.ActivityRuleId, command.UserId, cancellationToken);
+            .GetByIdAsync(command.ActivityRuleId, command.AccountId, cancellationToken);
 
         if (activityRule is null)
         {

@@ -9,29 +9,29 @@ namespace discipline.centre.dailytrackers.infrastructure.DAL.DailyTrackers.Repos
 internal sealed class MongoDailyTrackerRepository(
     DailyTrackersMongoContext context) : IReadWriteDailyTrackerRepository
 {
-    public async Task<DailyTracker?> GetDailyTrackerByDayAsync(UserId userId, 
+    public async Task<DailyTracker?> GetDailyTrackerByDayAsync(AccountId accountId, 
         DateOnly day,
         CancellationToken cancellationToken = default)
         => (await context.GetCollection<DailyTrackerDocument>().Find(x
                 => x.Day == day
-                && x.UserId == userId.ToString())
+                && x.AccountId == accountId.ToString())
             .SingleOrDefaultAsync(cancellationToken))?.AsEntity();
 
-    public async Task<DailyTracker?> GetDailyTrackerByIdAsync(UserId userId, 
+    public async Task<DailyTracker?> GetDailyTrackerByIdAsync(AccountId accountId, 
         DailyTrackerId id,
         CancellationToken cancellationToken = default)
         => (await context.GetCollection<DailyTrackerDocument>().Find(x
                 => x.DailyTrackerId == id.ToString() 
-                && x.UserId == userId.ToString())
+                && x.AccountId == accountId.ToString())
             .SingleOrDefaultAsync(cancellationToken))?.AsEntity();
 
-    public async Task<List<DailyTracker>> GetDailyTrackersByParentActivityRuleId(UserId userId, 
+    public async Task<List<DailyTracker>> GetDailyTrackersByParentActivityRuleId(AccountId accountId, 
         ActivityRuleId activityRuleId,
         CancellationToken cancellationToken = default)
         => (await context.GetCollection<DailyTrackerDocument>()
                 .Find(dt => dt.Activities.Any(activity
                                 => activity.ParentActivityRuleId == activityRuleId.ToString())
-                            && dt.UserId == userId.ToString())
+                            && dt.AccountId == accountId.ToString())
                 .ToListAsync(cancellationToken))
             .Select(x => x.AsEntity()).ToList();
         

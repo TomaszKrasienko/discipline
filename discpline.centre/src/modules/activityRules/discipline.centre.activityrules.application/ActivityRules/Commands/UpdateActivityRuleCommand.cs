@@ -8,7 +8,7 @@ using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 
 namespace discipline.centre.activityrules.application.ActivityRules.Commands;
 
-public sealed record UpdateActivityRuleCommand(UserId UserId, 
+public sealed record UpdateActivityRuleCommand(AccountId AccountId, 
     ActivityRuleId Id, 
     ActivityRuleDetailsSpecification Details,
     ActivityRuleModeSpecification Mode) : ICommand;
@@ -18,14 +18,14 @@ internal sealed class UpdateActivityRuleCommandHandler(
 {
     public async Task HandleAsync(UpdateActivityRuleCommand command, CancellationToken cancellationToken = default)
     {
-        var activityRule = await readWriteActivityRuleRepository.GetByIdAsync(command.Id, command.UserId, cancellationToken);
+        var activityRule = await readWriteActivityRuleRepository.GetByIdAsync(command.Id, command.AccountId, cancellationToken);
 
         if (activityRule is null)
         {
             throw new NotFoundException("UpdateActivityRule.ActivityRuleNotFound", command.Id.ToString());
         }
         
-        var isTitleExists = await readWriteActivityRuleRepository.ExistsAsync(command.Details.Title, command.UserId, cancellationToken);
+        var isTitleExists = await readWriteActivityRuleRepository.ExistsAsync(command.Details.Title, command.AccountId, cancellationToken);
         if (isTitleExists && activityRule.Details.Title != command.Details.Title)
         {
             throw new NotUniqueException("UpdateActivityRule.NotUniqueTitle", command.Details.Title);

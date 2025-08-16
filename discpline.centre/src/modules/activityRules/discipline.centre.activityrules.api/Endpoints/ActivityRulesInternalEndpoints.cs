@@ -20,15 +20,16 @@ internal static class ActivityRulesInternalEndpoints
     
     internal static WebApplication MapActivityRulesInternalEndpoints(this WebApplication app)
     {
-        app.MapGet($"/{ActivityRulesModule.ModuleName}/{ActivityRulesInternalTag}/{{userId:ulid}}/{{activityRuleId:ulid}}",
-                async (Ulid userId, Ulid activityRuleId, CancellationToken cancellationToken,
+        app.MapGet($"/{ActivityRulesModule.ModuleName}/{ActivityRulesInternalTag}/{{accountId:ulid}}/{{activityRuleId:ulid}}",
+                async (Ulid accountId, Ulid activityRuleId, CancellationToken cancellationToken,
                     ICqrsDispatcher dispatcher) =>
                 {
-                    var stronglyUserId = new UserId(userId);
+                    // TODO: Account.FromValue or implicit operator
+                    var stronglyAccountId = new AccountId(accountId);
                     var stronglyActivityRuleId = new ActivityRuleId(activityRuleId);
 
                     var result = await dispatcher.SendAsync(
-                        new GetActivityRuleByIdQuery(stronglyUserId, stronglyActivityRuleId), cancellationToken);
+                        new GetActivityRuleByIdQuery(stronglyAccountId, stronglyActivityRuleId), cancellationToken);
 
                     return result is null ? Results.NotFound() : Results.Ok(result);
                 })

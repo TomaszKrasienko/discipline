@@ -13,7 +13,7 @@ internal static class ActivityRuleDocumentMappingExtensions
 {
     internal static ActivityRule AsEntity(this ActivityRuleDocument document)
         => new(ActivityRuleId.Parse(document.Id),
-            UserId.Parse(document.UserId),
+            AccountId.Parse(document.UserId),
             document.Details.AsEntity(),
             document.SelectedMode.AsEntity(),
             document.Stages.Select(x => x.AsEntity()).ToList());

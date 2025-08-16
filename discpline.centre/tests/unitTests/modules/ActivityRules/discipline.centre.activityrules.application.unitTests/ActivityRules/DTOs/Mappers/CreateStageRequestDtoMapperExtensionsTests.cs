@@ -13,15 +13,15 @@ public sealed class CreateStageRequestDtoMapperExtensionsTests
     {
         // Arrange
         var request = CreateStageRequestDtoFakeDataFactory.Get();
-        var userId = UserId.New();
+        var accountId = AccountId.New();
         var activityRuleId = ActivityRuleId.New();
         var stageId = StageId.New();
         
         // Act
-        var result = request.MapAsCommand(userId, activityRuleId, stageId);
+        var result = request.MapAsCommand(accountId, activityRuleId, stageId);
         
         // Assert
-        result.UserId.ShouldBe(userId);
+        result.AccountId.ShouldBe(accountId);
         result.ActivityRuleId.ShouldBe(activityRuleId);
         result.StageId.ShouldBe(stageId);
         result.Title.ShouldBe(request.Title);

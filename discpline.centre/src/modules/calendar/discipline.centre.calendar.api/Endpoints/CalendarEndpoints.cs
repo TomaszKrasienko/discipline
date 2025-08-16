@@ -32,7 +32,7 @@ internal static class CalendarEndpoints
                  return Results.UnprocessableEntity(validationResult.Errors);
             }
             
-            var userId = identityContext.GetUser();
+            var userId = identityContext.GetAccount();
 
             if (userId is null)
             {
@@ -40,7 +40,7 @@ internal static class CalendarEndpoints
             }
 
             var eventId = CalendarEventId.New();
-            await cqrsDispatcher.HandleAsync(dto.AsCommand(userId, day, eventId), cancellationToken);
+            await cqrsDispatcher.HandleAsync(dto.AsCommand(userId.Value, day, eventId), cancellationToken);
 
             return Results.NoContent();
         })

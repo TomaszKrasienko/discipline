@@ -6,15 +6,8 @@ namespace discipline.centre.dailytrackers.infrastructure.DAL.DailyTrackers.Docum
 public sealed record DailyTrackerDocument : IDocument
 {
     [BsonId]
-    [BsonElement("dailyTrackerId")]
     public required string DailyTrackerId { get; init; }
-    
-    [BsonElement("day")]
     public DateOnly Day { get; init; }
-    
-    [BsonElement("userId")]
-    public required string UserId { get; init; }
-    
-    [BsonElement("activities")]
+    public required string AccountId { get; init; }
     public required IEnumerable<ActivityDocument> Activities { get; init; }
 }

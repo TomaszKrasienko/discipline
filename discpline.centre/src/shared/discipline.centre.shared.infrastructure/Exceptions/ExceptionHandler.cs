@@ -17,63 +17,61 @@ internal sealed class ExceptionHandler(ILogger<IExceptionHandler> logger,
         Exception exception,
         CancellationToken cancellationToken)
     {
-        if (exception is ValidationException validationException)
-        {
-            await HandleValidationException(validationException, httpContext, cancellationToken);
-            return true;
-        }
-
         await HandleException(exception, httpContext, cancellationToken);
         
         logger.LogError(exception, exception.Message);
         return true;
     }
 
-    private async Task HandleValidationException(ValidationException validationException,
-        HttpContext httpContext,
-        CancellationToken cancellationToken)
-    {
-        Dictionary<string, object> errors = [];
-
-        foreach (var arg in validationException.Errors)
-        {
-            var errorMessage = errorLocalizationService.GetMessage(arg.Value);
-            errors.Add(arg.Key, errorMessage);
-        }
-            
-        var problemDetails = new ProblemDetails
-        {
-            Status = StatusCodes.Status422UnprocessableEntity,
-            Title = validationException.Code,
-            Type = validationException.GetType().Name
-        };
-        
-        problemDetails.Extensions.Add("errors", errors);
-        httpContext.Response.StatusCode = StatusCodes.Status422UnprocessableEntity;
-        await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
-    }
-
     private async Task HandleException(Exception exception,
         HttpContext httpContext,
         CancellationToken cancellationToken)
     {
-        var (status, code, args) = exception switch
-        {
-            NotFoundException exc => (StatusCodes.Status404NotFound, exc.Code, exc.Args),
-            DisciplineException exc => (StatusCodes.Status400BadRequest, exc.Code, exc.Args),
-            _ => (StatusCodes.Status500InternalServerError, "Unexpected", null)
-        };
+        int status;
+        ProblemDetails problemDetails;
         
-        var errorMessage = errorLocalizationService.GetMessage(code);
-        var problemDetails = new ProblemDetails
+        if (exception is DisciplineException disciplineException &&
+            IsAuthorizeException(disciplineException.Code))
         {
-            Status = status,
-            Title = code,
-            Type = exception.GetType().Name,
-            Detail = args is null ? errorMessage : String.Format(errorMessage, args)
-        };
+            var errorMessage = errorLocalizationService.GetMessage(disciplineException.Code);
+            var prefix = disciplineException.Code.Split('.')[0];
+            
+            problemDetails = new ProblemDetails
+            {
+                Status = StatusCodes.Status400BadRequest,
+                Title = $"{prefix}.Unauthorized",
+                Type = nameof(DisciplineException),
+                Detail = errorMessage
+            };
+            
+            status = StatusCodes.Status400BadRequest;
+        }
+        else
+        {
+            var (statusCode, code, args) = exception switch
+            {
+                NotFoundException exc => (StatusCodes.Status404NotFound, exc.Code, exc.Args),
+                DisciplineException exc => (StatusCodes.Status400BadRequest, exc.Code, exc.Args),
+                _ => (StatusCodes.Status500InternalServerError, "Unexpected", null)
+            };
+        
+            var errorMessage = errorLocalizationService.GetMessage(code);
+            problemDetails = new ProblemDetails
+            {
+                Status = statusCode,
+                Title = code,
+                Type = exception.GetType().Name,
+                Detail = args is null ? errorMessage : String.Format(errorMessage, args)
+            };
+        
+            status = statusCode;
+        }
         
         httpContext.Response.StatusCode = status;
         await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
     }
+
+    private bool IsAuthorizeException(string code)
+        => code.StartsWith("SignIn")
+        || code.StartsWith("Refresh");
 }

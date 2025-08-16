@@ -7,11 +7,11 @@ namespace discipline.centre.shared.infrastructure.IdentityContext.Internals;
 
 internal sealed class IdentityContext : IIdentityContext
 {
-    private readonly UserId? _userId;
+    private readonly AccountId? _accountId;
     public bool IsAuthenticated { get; }
     public string? Status { get; }
-    public UserId? GetUser()
-        =>  _userId ?? null;
+    public AccountId? GetAccount()
+        =>  _accountId ?? null;
 
     public IdentityContext(IHttpContextAccessor httpContextAccessor)
     {
@@ -20,20 +20,14 @@ internal sealed class IdentityContext : IIdentityContext
             return;
         }
         
-        var user = httpContextAccessor.HttpContext.User;
-        IsAuthenticated = user.Identity?.IsAuthenticated ?? false;
+        var account = httpContextAccessor.HttpContext.User;
+        IsAuthenticated = account.Identity?.IsAuthenticated ?? false;
 
-        if (!IsAuthenticated)
+        if (!IsAuthenticated || account.Identity?.Name is null)
         {
             return;
         }
 
-        if (!Ulid.TryParse(user.Identity?.Name, out var userId))
-        {
-            return;
-        }
-
-        _userId = new UserId(userId);
-        Status = user.Claims.SingleOrDefault(x => x.Type == "Status")?.Value;
+        _accountId = AccountId.Parse(account.Identity?.Name!);
     }
 }

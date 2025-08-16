@@ -25,7 +25,7 @@ public sealed class UserCalendarDayMapperExtensionsTests
         // Assert
         result.UserCalendarId.ShouldBe(userCalendarDay.Id.ToString());
         result.Day.ShouldBe(userCalendarDay.Day.Value);
-        result.UserId.ShouldBe(userCalendarDay.UserId.ToString());
+        result.UserId.ShouldBe(userCalendarDay.AccountId.ToString());
 
         var resultImportantDate = result.Events.Single(x => x is ImportantDateEventDocument);
         resultImportantDate.EventId.ShouldBe(importantDateEvent.Id.ToString());

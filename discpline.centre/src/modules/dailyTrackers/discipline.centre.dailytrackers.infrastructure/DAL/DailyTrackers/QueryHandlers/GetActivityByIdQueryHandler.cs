@@ -16,7 +16,7 @@ internal sealed class GetActivityByIdQueryHandler(
         var result = await dailyTrackersMongoContext
             .GetCollection<DailyTrackerDocument>()
             .Find(x
-                => x.UserId == query.UserId.ToString()
+                => x.AccountId == query.AccountId.ToString()
                    && x.Activities.Any(y => y.ActivityId == query.ActivityId.ToString()))
             .SingleOrDefaultAsync(cancellationToken);
         

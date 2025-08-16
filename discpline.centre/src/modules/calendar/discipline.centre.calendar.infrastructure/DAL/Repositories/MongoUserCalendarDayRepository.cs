@@ -11,11 +11,11 @@ namespace discipline.centre.calendar.infrastructure.DAL.Repositories;
 internal sealed class MongoUserCalendarDayRepository(
     CalendarMongoContext context) : IReadUserCalendarRepository, IReadWriteUserCalendarRepository
 {
-    public async Task<UserCalendarDay?> GetByDayAsync(UserId userId, Day day, CancellationToken cancellationToken)
+    public async Task<UserCalendarDay?> GetByDayAsync(AccountId accountId, Day day, CancellationToken cancellationToken)
         => (await context.GetCollection<UserCalendarDayDocument>()
             .Find(x 
                 => x.Day == day.Value
-                && x.UserId == userId.ToString())
+                && x.UserId == accountId.ToString())
             .SingleOrDefaultAsync(cancellationToken)).AsEntity();
 
     public Task AddAsync(UserCalendarDay userCalendarDay, CancellationToken cancellationToken)

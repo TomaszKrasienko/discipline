@@ -3,7 +3,7 @@ using discipline.daily_trackers.domain.DailyTrackers.Specifications;
 using discipline.daily_trackers.domain.SharedKernel.TypeIdentifiers;
 using Shouldly;
 
-namespace discipline.centre.dailytrackers.domain.unitTests.ActivityTests;
+namespace discipline.daily_trackers.domain.tests.ActivityTests;
 
 public sealed class ClearParentRuleIdTests
 {

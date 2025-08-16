@@ -19,7 +19,7 @@ public sealed class ActivityRuleMappingExtensionsTests
         
         // Assert
         result.Id.ShouldBe(activityRule.Id.ToString());
-        result.UserId.ShouldBe(activityRule.UserId.ToString());
+        result.UserId.ShouldBe(activityRule.AccountId.ToString());
         result.Details.Title.ShouldBe(activityRule.Details.Title);
         result.Details.Note.ShouldBe(activityRule.Details.Note);
         result.SelectedMode.Mode.ShouldBe(activityRule.Mode.Mode.Value);
@@ -38,7 +38,7 @@ public sealed class ActivityRuleMappingExtensionsTests
         
         // Assert
         result.Id.ShouldBe(activityRule.Id.ToString());
-        result.UserId.ShouldBe(activityRule.UserId.ToString());
+        result.UserId.ShouldBe(activityRule.AccountId.ToString());
         result.Details.Title.ShouldBe(activityRule.Details.Title);
         result.Details.Note.ShouldBe(activityRule.Details.Note);
         result.SelectedMode.Mode.ShouldBe(activityRule.Mode.Mode.Value);
@@ -57,7 +57,7 @@ public sealed class ActivityRuleMappingExtensionsTests
         
         // Assert
         result.Id.ShouldBe(activityRule.Id.ToString());
-        result.UserId.ShouldBe(activityRule.UserId.ToString());
+        result.UserId.ShouldBe(activityRule.AccountId.ToString());
         result.Details.Title.ShouldBe(activityRule.Details.Title);
         result.Details.Note.ShouldBe(activityRule.Details.Note);
         result.SelectedMode.Mode.ShouldBe(activityRule.Mode.Mode.Value);

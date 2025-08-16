@@ -22,10 +22,10 @@ public sealed class DeleteActivityCommandHandlerTests
             null, []);
         
         _readWriteDailyTrackerRepository
-            .GetDailyTrackerByIdAsync(dailyTracker.UserId, dailyTracker.Id, CancellationToken.None)
+            .GetDailyTrackerByIdAsync(dailyTracker.AccountId, dailyTracker.Id, CancellationToken.None)
             .Returns(dailyTracker);
         
-        var command = new DeleteActivityCommand(dailyTracker.UserId, dailyTracker.Id, activity.Id);
+        var command = new DeleteActivityCommand(dailyTracker.AccountId, dailyTracker.Id, activity.Id);
         
         // Act
         await Act(command);
@@ -46,10 +46,10 @@ public sealed class DeleteActivityCommandHandlerTests
             null, []);
         
         _readWriteDailyTrackerRepository
-            .GetDailyTrackerByIdAsync(dailyTracker.UserId, dailyTracker.Id, CancellationToken.None)
+            .GetDailyTrackerByIdAsync(dailyTracker.AccountId, dailyTracker.Id, CancellationToken.None)
             .Returns(dailyTracker);
         
-        var command = new DeleteActivityCommand(dailyTracker.UserId, dailyTracker.Id, activity.Id);
+        var command = new DeleteActivityCommand(dailyTracker.AccountId, dailyTracker.Id, activity.Id);
         
         // Act
         await Act(command);
@@ -67,10 +67,10 @@ public sealed class DeleteActivityCommandHandlerTests
         var activity = dailyTracker.Activities.Single();
         
         _readWriteDailyTrackerRepository
-            .GetDailyTrackerByIdAsync(dailyTracker.UserId, dailyTracker.Id, CancellationToken.None)
+            .GetDailyTrackerByIdAsync(dailyTracker.AccountId, dailyTracker.Id, CancellationToken.None)
             .Returns(dailyTracker);
         
-        var command = new DeleteActivityCommand(dailyTracker.UserId, dailyTracker.Id, activity.Id);
+        var command = new DeleteActivityCommand(dailyTracker.AccountId, dailyTracker.Id, activity.Id);
         
         // Act
         await Act(command);

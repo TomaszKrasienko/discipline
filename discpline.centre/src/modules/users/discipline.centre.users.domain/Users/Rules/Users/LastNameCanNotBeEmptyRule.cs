@@ -5,8 +5,7 @@ namespace discipline.centre.users.domain.Users.Rules.Users;
 
 internal sealed class LastNameCanNotBeEmptyRule(string lastName) : IBusinessRule
 {
-    public Exception Exception => new DomainException("User.FullName.LastName.Empty",
-        "Last name can not be empty");
+    public Exception Exception => new DomainException("User.FullName.EmptyLastName");
 
     public bool IsBroken()
         => string.IsNullOrWhiteSpace(lastName);

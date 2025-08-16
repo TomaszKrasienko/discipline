@@ -18,11 +18,11 @@ public sealed class DeleteActivityRuleStageCommandHandlerTests
         // Arrange
         var activityRule = ActivityRuleFakeDataFactory.Get().WithStage();
         
-        var command = new DeleteActivityRuleStageCommand(activityRule.UserId,
+        var command = new DeleteActivityRuleStageCommand(activityRule.AccountId,
             activityRule.Id, StageId.New());
 
         _readWriteActivityRuleRepository
-            .GetByIdAsync(command.ActivityRuleId, command.UserId, CancellationToken.None)
+            .GetByIdAsync(command.ActivityRuleId, command.AccountId, CancellationToken.None)
             .Returns(activityRule);
         
         // Act
@@ -40,11 +40,11 @@ public sealed class DeleteActivityRuleStageCommandHandlerTests
         // Arrange
         var activityRule = ActivityRuleFakeDataFactory.Get().WithStage();
         
-        var command = new DeleteActivityRuleStageCommand(activityRule.UserId,
+        var command = new DeleteActivityRuleStageCommand(activityRule.AccountId,
             activityRule.Id, activityRule.Stages.Single().Id);
 
         _readWriteActivityRuleRepository
-            .GetByIdAsync(command.ActivityRuleId, command.UserId, CancellationToken.None)
+            .GetByIdAsync(command.ActivityRuleId, command.AccountId, CancellationToken.None)
             .Returns(activityRule);
         
         // Act

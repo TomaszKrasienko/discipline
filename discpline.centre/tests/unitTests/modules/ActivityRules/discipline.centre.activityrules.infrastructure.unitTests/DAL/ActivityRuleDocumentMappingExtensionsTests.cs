@@ -20,7 +20,7 @@ public sealed class ActivityRuleDocumentMappingExtensionsTests
         
         // Assert
         entity.Id.ShouldBe(ActivityRuleId.Parse(activityRuleDocument.Id));
-        entity.UserId.ShouldBe(UserId.Parse(activityRuleDocument.UserId));
+        entity.AccountId.ShouldBe(AccountId.Parse(activityRuleDocument.UserId));
         entity.Details.Title.ShouldBe(activityRuleDocument.Details.Title);
         entity.Details.Note.ShouldBe(activityRuleDocument.Details.Note);
         entity.Mode.Mode.Value.ShouldBe(activityRuleDocument.SelectedMode.Mode);
@@ -40,7 +40,7 @@ public sealed class ActivityRuleDocumentMappingExtensionsTests
         
         // Assert
         entity.Id.ShouldBe(ActivityRuleId.Parse(activityRuleDocument.Id));
-        entity.UserId.ShouldBe(UserId.Parse(activityRuleDocument.UserId));
+        entity.AccountId.ShouldBe(AccountId.Parse(activityRuleDocument.UserId));
         entity.Details.Title.ShouldBe(activityRuleDocument.Details.Title);
         entity.Details.Note.ShouldBe(activityRuleDocument.Details.Note);
         entity.Mode.Mode.Value.ShouldBe(activityRuleDocument.SelectedMode.Mode);
@@ -59,7 +59,7 @@ public sealed class ActivityRuleDocumentMappingExtensionsTests
         
         // Assert
         entity.Id.ShouldBe(ActivityRuleId.Parse(activityRuleDocument.Id));
-        entity.UserId.ShouldBe(UserId.Parse(activityRuleDocument.UserId));
+        entity.AccountId.ShouldBe(AccountId.Parse(activityRuleDocument.UserId));
         entity.Details.Title.ShouldBe(activityRuleDocument.Details.Title);
         entity.Details.Note.ShouldBe(activityRuleDocument.Details.Note);
         entity.Mode.Mode.Value.ShouldBe(activityRuleDocument.SelectedMode.Mode);

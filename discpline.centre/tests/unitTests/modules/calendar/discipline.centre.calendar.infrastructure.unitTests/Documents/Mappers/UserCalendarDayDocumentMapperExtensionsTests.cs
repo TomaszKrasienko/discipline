@@ -25,7 +25,7 @@ public sealed class UserCalendarDayDocumentMapperExtensionsTests
         
         // Assert
         result.Id.Value.ToString().ShouldBe(document.UserCalendarId);
-        result.UserId.Value.ToString().ShouldBe(document.UserId);
+        result.AccountId.ToString().ShouldBe(document.UserId);
         result.Day.Value.ShouldBe(document.Day);
 
         var timeEvent = (TimeEvent)result.Events.Single(x => x is TimeEvent);

@@ -20,7 +20,7 @@ public sealed class DailyTrackerMappingExtensionsTests
         
         //assert
         document.DailyTrackerId.ShouldBe(dailyTracker.Id.ToString());
-        document.UserId.ShouldBe(dailyTracker.UserId.ToString());
+        document.AccountId.ShouldBe(dailyTracker.AccountId.ToString());
         document.Day.ShouldBe(dailyTracker.Day.Value);
         document.Activities.First().Title.ShouldBe(activity.Details.Title);
         document.Activities.First().Note.ShouldBe(activity.Details.Note);
