@@ -3,12 +3,12 @@ using discipline.centre.shared.abstractions.SharedKernel.Exceptions;
 using Shouldly;
 using Xunit;
 
-namespace discipline.centre.activityrules.domain.unitTests.ValueObjects.Stages;
+namespace discipline.centre.activityrules.domain.unittests.ValueObjects.Stages;
 
 public sealed class TitleTests
 {
     [Fact]
-    public void GivenValidValue_WhenCreate_ThenReturnTitleWithValue()
+    public void GivenValidValue_WhenCreate_ThenReturnsTitleWithValue()
     {
         // Arrange
         const string value = "test_title";
@@ -21,7 +21,7 @@ public sealed class TitleTests
     }
 
     [Fact]
-    public void GivenEmptyValue_WhenCreate_ThenThrowDomainExceptionActivityRuleStageTitleTooLong()
+    public void GivenEmptyValue_WhenCreate_ThenThrowsDomainExceptionActivityRuleStageTitleTooLong()
     {
         // Act
         var exception = Record.Exception(() => Title.Create(string.Empty));
@@ -32,7 +32,7 @@ public sealed class TitleTests
     }
 
     [Fact]
-    public void GivenValueLongerThan30Characters_WhenCreate_ThenThrowDomainExceptionWithCodeActivityRuleTitleTooLong()
+    public void GivenValueLongerThan30Characters_WhenCreate_ThenThrowsDomainExceptionWithCodeActivityRuleTitleTooLong()
     {
         // Act
         var exception = Record.Exception(() => Title.Create(new string('t', 31)));

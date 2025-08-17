@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <RootNamespace>discipline.centre.activityrules.integrationTests</RootNamespace>
+        <RootNamespace>discipline.centre.activityrules.integrationtests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -34,7 +34,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\shared\discipline.centre.activityrules.tests.sharedkernel\discipline.centre.activityrules.tests.sharedkernel.csproj" />
-      <ProjectReference Include="..\discipline.centre.integrationTests.sharedKernel\discipline.centre.integrationTests.sharedKernel.csproj" />
+      <ProjectReference Include="..\discipline.centre.integrationtests.sharedkernel\discipline.centre.integrationtests.sharedkernel.csproj" />
     </ItemGroup>
 
 </Project>

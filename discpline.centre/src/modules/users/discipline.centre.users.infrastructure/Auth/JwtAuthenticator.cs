@@ -17,7 +17,10 @@ internal sealed class JwtAuthenticator(
     private readonly KeyPublishingOptions _keyPublishingOptions = options.Value.KeyPublishing;
     private readonly JwtSecurityTokenHandler _jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
 
-    public string CreateToken(AccountId accountId, int? numberOfDailyTasks, int? numberOfRules)
+    public string CreateToken(
+        AccountId accountId,
+        int? numberOfDailyTasks,
+        int? numberOfRules)
     {
         var privateKey = GetPrivateKey();
         var signingCredentials = new SigningCredentials(
@@ -48,7 +51,7 @@ internal sealed class JwtAuthenticator(
                 numberOfRules.Value.ToString()));
         }
         
-        var now = timeProvider.GetUtcNow();
+        var now = timeProvider.GetUtcNow().ToLocalTime();
         var expirationTime = now.Add(_keyPublishingOptions.TokenExpiry);
 
         var jwt = new JwtSecurityToken(

@@ -5,11 +5,13 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 public static class UsersServicesInfrastructureConfigExtensions
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services, string assemblyName,
+    public static IServiceCollection AddInfrastructure(
+        this IServiceCollection services,
+        string moduleNae,
         IConfiguration configuration)
         => services
             .AddPasswordsSecure()
-            .AddDal(assemblyName)
+            .AddDal(moduleNae)
             .AddAuth(configuration)
             .AddTokenStorage()
             .AddRefreshTokenStorage(configuration)

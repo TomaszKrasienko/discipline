@@ -18,10 +18,12 @@ public sealed class CreateActivityRuleCommandHandlerTests
     private Task Act(CreateActivityRuleCommand command) => _handler.HandleAsync(command, CancellationToken.None);
 
     [Fact]
-    public async Task GivenCorrectlyAddedActivityRule_WhenHandleAsync_ShouldPublishIntegrationEvent()
+    public async Task GivenCorrectlyAddedActivityRule_WhenHandleAsync_ThenPublishesIntegrationEvent()
     {
         // Arrange
-        var command = new CreateActivityRuleCommand(AccountId.New(), ActivityRuleId.New(), 
+        var command = new CreateActivityRuleCommand(
+            AccountId.New(),
+            ActivityRuleId.New(), 
             new ActivityRuleDetailsSpecification("test_title", "test_note"),
             new ActivityRuleModeSpecification(RuleMode.EveryDay, null));
         
@@ -39,10 +41,12 @@ public sealed class CreateActivityRuleCommandHandlerTests
     }
     
     [Fact]
-    public async Task GivenUniqueTitle_WhenHandleAsync_ShouldAddNewActivityRule()
+    public async Task GivenUniqueTitle_WhenHandleAsync_ThenAddsNewActivityRule()
     {
         // Arrange
-        var command = new CreateActivityRuleCommand(AccountId.New(), ActivityRuleId.New(), 
+        var command = new CreateActivityRuleCommand(
+            AccountId.New(),
+            ActivityRuleId.New(), 
             new ActivityRuleDetailsSpecification("test_title", "test_note"),
             new ActivityRuleModeSpecification(RuleMode.EveryDay, null));
         
@@ -65,10 +69,12 @@ public sealed class CreateActivityRuleCommandHandlerTests
     }
     
     [Fact]
-    public async Task GivenAlreadyRegisteredTitle_WhenHandleAsync_ShouldThrowNotUniqueExceptionWithCodeCreateActivityRuleNotUniqueTitle()
+    public async Task GivenAlreadyRegisteredTitle_WhenHandleAsync_ThenThrowsNotUniqueExceptionWithCodeCreateActivityRuleNotUniqueTitle()
     {
         // Arrange
-        var command = new CreateActivityRuleCommand(AccountId.New(), ActivityRuleId.New(), 
+        var command = new CreateActivityRuleCommand(
+            AccountId.New(),
+            ActivityRuleId.New(), 
             new ActivityRuleDetailsSpecification("test_title", "test_note"),
             new ActivityRuleModeSpecification(RuleMode.EveryDay, null));
         

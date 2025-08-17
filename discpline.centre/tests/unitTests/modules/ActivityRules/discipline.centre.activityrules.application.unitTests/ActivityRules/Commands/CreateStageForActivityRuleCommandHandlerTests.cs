@@ -16,11 +16,12 @@ public sealed class CreateStageForActivityRuleCommandHandlerTests
     private Task Act(CreateStageForActivityRuleCommand command) => _handler.HandleAsync(command, CancellationToken.None);
 
     [Fact]
-    public async Task GivenExistingActivityRule_WhenHandleAsync_ThenShouldUpdateActivityRule()
+    public async Task GivenExistingActivityRule_WhenHandleAsync_ThenUpdatesActivityRule()
     {
         // Arrange
         var activityRule = ActivityRuleFakeDataFactory.Get();
-        var command = new CreateStageForActivityRuleCommand(activityRule.AccountId,
+        var command = new CreateStageForActivityRuleCommand(
+            activityRule.AccountId,
             activityRule.Id,
             StageId.New(),
             "test_title",
@@ -40,11 +41,12 @@ public sealed class CreateStageForActivityRuleCommandHandlerTests
     }
     
     [Fact]
-    public async Task GivenExistingActivityRule_WhenHandleAsync_ThenShouldAddStageToActivityRule()
+    public async Task GivenExistingActivityRule_WhenHandleAsync_ThenAddsStageToActivityRule()
     {
         // Arrange
         var activityRule = ActivityRuleFakeDataFactory.Get();
-        var command = new CreateStageForActivityRuleCommand(activityRule.AccountId,
+        var command = new CreateStageForActivityRuleCommand(
+            activityRule.AccountId,
             activityRule.Id,
             StageId.New(),
             "test_title",
@@ -64,10 +66,11 @@ public sealed class CreateStageForActivityRuleCommandHandlerTests
     }
     
     [Fact]
-    public async Task GivenNotExistingActivityRule_WhenHandleAsync_ThenThrowNotFoundExceptionWithCodeCreateStageForActivityRule_ActivityRuleNotFound()
+    public async Task GivenNotExistingActivityRule_WhenHandleAsync_ThenThrowsNotFoundExceptionWithCodeCreateStageForActivityRule_ActivityRuleNotFound()
     {
         // Arrange
-        var command = new CreateStageForActivityRuleCommand(AccountId.New(),
+        var command = new CreateStageForActivityRuleCommand(
+            AccountId.New(),
             ActivityRuleId.New(),
             StageId.New(),
             "test_title",

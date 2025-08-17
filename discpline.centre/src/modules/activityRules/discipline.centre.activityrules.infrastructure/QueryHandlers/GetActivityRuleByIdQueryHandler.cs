@@ -1,11 +1,11 @@
-using discipline.centre.activityrules.application.ActivityRules.DTOs.Responses;
 using discipline.centre.activityrules.application.ActivityRules.DTOs.Responses.ActivityRules;
 using discipline.centre.activityrules.application.ActivityRules.Queries;
+using discipline.centre.activityrules.infrastructure.DAL;
 using discipline.centre.activityrules.infrastructure.DAL.Documents;
 using discipline.centre.shared.abstractions.CQRS.Queries;
 using MongoDB.Driver;
 
-namespace discipline.centre.activityrules.infrastructure.DAL.QueryHandlers;
+namespace discipline.centre.activityrules.infrastructure.QueryHandlers;
 
 internal sealed class GetActivityRuleByIdQueryHandler(
     ActivityRulesMongoContext context) : IQueryHandler<GetActivityRuleByIdQuery, ActivityRuleResponseDto?>
@@ -14,6 +14,6 @@ internal sealed class GetActivityRuleByIdQueryHandler(
         => (await context.GetCollection<ActivityRuleDocument>()
             .Find(x 
                 => x.Id == query.ActivityRuleId.ToString()
-                && x.UserId == query.AccountId.ToString())
+                && x.AccountId == query.AccountId.ToString())
             .SingleOrDefaultAsync(cancellationToken))?.AsResponseDto();
 }

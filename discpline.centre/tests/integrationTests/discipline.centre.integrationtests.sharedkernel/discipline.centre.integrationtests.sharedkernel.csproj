@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-        <RootNamespace>discipline.centre.integrationTests.sharedKernel</RootNamespace>
+        <RootNamespace>discipline.centre.integrationtests.sharedkernel</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

@@ -15,11 +15,11 @@ public sealed class ActivityRuleMappingExtensionsTests
         var activityRule = ActivityRuleFakeDataFactory.Get();
         
         // Act
-        var result = activityRule.AsDocument();
+        var result = activityRule.ToDocument();
         
         // Assert
         result.Id.ShouldBe(activityRule.Id.ToString());
-        result.UserId.ShouldBe(activityRule.AccountId.ToString());
+        result.AccountId.ShouldBe(activityRule.AccountId.ToString());
         result.Details.Title.ShouldBe(activityRule.Details.Title);
         result.Details.Note.ShouldBe(activityRule.Details.Note);
         result.SelectedMode.Mode.ShouldBe(activityRule.Mode.Mode.Value);
@@ -34,11 +34,11 @@ public sealed class ActivityRuleMappingExtensionsTests
         var activityRule = ActivityRuleFakeDataFactory.Get(true, selectedDays.ToHashSet());
         
         // Act
-        var result = activityRule.AsDocument();
+        var result = activityRule.ToDocument();
         
         // Assert
         result.Id.ShouldBe(activityRule.Id.ToString());
-        result.UserId.ShouldBe(activityRule.AccountId.ToString());
+        result.AccountId.ShouldBe(activityRule.AccountId.ToString());
         result.Details.Title.ShouldBe(activityRule.Details.Title);
         result.Details.Note.ShouldBe(activityRule.Details.Note);
         result.SelectedMode.Mode.ShouldBe(activityRule.Mode.Mode.Value);
@@ -53,11 +53,11 @@ public sealed class ActivityRuleMappingExtensionsTests
         var stage = activityRule.Stages.Single();
         
         // Act
-        var result = activityRule.AsDocument();
+        var result = activityRule.ToDocument();
         
         // Assert
         result.Id.ShouldBe(activityRule.Id.ToString());
-        result.UserId.ShouldBe(activityRule.AccountId.ToString());
+        result.AccountId.ShouldBe(activityRule.AccountId.ToString());
         result.Details.Title.ShouldBe(activityRule.Details.Title);
         result.Details.Note.ShouldBe(activityRule.Details.Note);
         result.SelectedMode.Mode.ShouldBe(activityRule.Mode.Mode.Value);

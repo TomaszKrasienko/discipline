@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <RootNamespace>discipline.centre.activityrules.domain.unitTests</RootNamespace>
+        <RootNamespace>discipline.centre.activityrules.domain.unittests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

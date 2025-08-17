@@ -3,12 +3,12 @@ using discipline.centre.shared.abstractions.SharedKernel.Exceptions;
 using Shouldly;
 using Xunit;
 
-namespace discipline.centre.activityrules.domain.unitTests.ValueObjects.Stages;
+namespace discipline.centre.activityrules.domain.unittests.ValueObjects.Stages;
 
 public sealed class OrderIndexTests
 {
     [Fact]
-    public void GivenPositiveValue_WhenCreate_ThenReturnOrderIndexWithValue()
+    public void GivenPositiveValue_WhenCreate_ThenReturnsOrderIndexWithValue()
     {
         // Arrange
         const int value = 1;
@@ -21,7 +21,7 @@ public sealed class OrderIndexTests
     }
 
     [Fact]
-    public void GivenValueNegativeOrZero_WhenCreate_ThenThrowDomainExceptionWithCodeActivityRuleStageIndexLessThanOne()
+    public void GivenValueNegativeOrZero_WhenCreate_ThenThrowsDomainExceptionWithCodeActivityRuleStageIndexLessThanOne()
     {
         // Act
         var exception = Record.Exception(() => OrderIndex.Create(0));

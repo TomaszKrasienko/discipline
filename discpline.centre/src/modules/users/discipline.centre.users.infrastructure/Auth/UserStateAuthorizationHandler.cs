@@ -1,9 +1,9 @@
 using discipline.centre.shared.infrastructure.Auth;
+using discipline.centre.users.domain.Accounts.Enums;
 using Microsoft.AspNetCore.Authorization;
 
 namespace discipline.centre.users.infrastructure.Auth;
 
-//TODO: Change to account state JwtAuthenticator
 internal sealed class UserStateAuthorizationHandler() : AuthorizationHandler<UserStateRequirement>
 {
     protected override Task HandleRequirementAsync(AuthorizationHandlerContext context, UserStateRequirement requirement)
@@ -12,22 +12,21 @@ internal sealed class UserStateAuthorizationHandler() : AuthorizationHandler<Use
         {
             throw new ArgumentException("Context can not be null");
         }
-        
-        if (!(Ulid.TryParse(context.User?.Identity?.Name, out _)))
-        {
-            context.Succeed(requirement);
-            return Task.CompletedTask;
-        }
 
-        var statusClaim = context.User?.Claims.SingleOrDefault(x => x.Type == CustomClaimTypes.Status);
+        var statusClaim = context.User.Claims.SingleOrDefault(x 
+            => x.Type == CustomClaimTypes.Status);
 
         if (statusClaim is null)
         {
             context.Fail();
             return Task.CompletedTask;
         }
+
+        if (statusClaim.Value == AccountState.Active.Value)
+        {
+            context.Succeed(requirement);
+        }
         
-        context.Fail();
         return Task.CompletedTask;
     }
 }

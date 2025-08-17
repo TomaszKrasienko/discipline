@@ -3,7 +3,9 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 public static class CalendarServicesInfrastructureConfiguration
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services)
+    public static IServiceCollection AddInfrastructure(
+        this IServiceCollection services,
+        string moduleName)
         => services
-            .AddDal();
+            .AddDal(moduleName);
 }

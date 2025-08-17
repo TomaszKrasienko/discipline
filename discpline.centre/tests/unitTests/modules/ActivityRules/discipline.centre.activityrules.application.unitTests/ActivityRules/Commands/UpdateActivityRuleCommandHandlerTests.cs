@@ -20,7 +20,7 @@ public sealed class UpdateActivityRuleCommandHandlerTests
     private Task Act(UpdateActivityRuleCommand command) => _handler.HandleAsync(command, CancellationToken.None);
 
     [Fact]
-    public async Task GivenUniqueTitleAndExistingActivityRule_WhenHandleAsync_ShouldPublishIntegrationEvent()
+    public async Task GivenUniqueTitleAndExistingActivityRule_WhenHandleAsync_ThenPublishesIntegrationEvent()
     {
         // Arrange
         var cancellationToken = CancellationToken.None;
@@ -50,7 +50,7 @@ public sealed class UpdateActivityRuleCommandHandlerTests
     }
     
     [Fact]
-    public async Task GivenUniqueTitleAndExistingActivityRule_WhenHandleAsync_ShouldUpdateActivityRule()
+    public async Task GivenUniqueTitleAndExistingActivityRule_WhenHandleAsync_ThenUpdatesActivityRule()
     {
         // Arrange
         var cancellationToken = CancellationToken.None;
@@ -83,7 +83,7 @@ public sealed class UpdateActivityRuleCommandHandlerTests
     }
     
     [Fact]
-    public async Task GivenNotUniqueTitle_WhenHandleAsync_ShouldThrowNotUniqueExceptionWithCodeUpdateActivityRuleNotUniqueTitle()
+    public async Task GivenNotUniqueTitle_WhenHandleAsync_ThenThrowsNotUniqueExceptionWithCodeUpdateActivityRuleNotUniqueTitle()
     {
         // Arrange
         var cancellationToken = CancellationToken.None;
@@ -111,7 +111,7 @@ public sealed class UpdateActivityRuleCommandHandlerTests
     }
     
     [Fact]
-    public async Task GivenNotExistingActivityRule_WhenHandleAsync_ThenThrowNotFoundExceptionWithCodeUpdateActivityRuleActivityRuleNotFound()
+    public async Task GivenNotExistingActivityRule_WhenHandleAsync_ThenThrowsNotFoundExceptionWithCodeUpdateActivityRuleActivityRuleNotFound()
     {
         // Arrange
         var command = new UpdateActivityRuleCommand(AccountId.New(), ActivityRuleId.New(), 

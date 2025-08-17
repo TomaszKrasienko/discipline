@@ -92,7 +92,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "activityRules", "activityRu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.centre.activityrules.infrastructure.unitTests", "discpline.centre\tests\unitTests\modules\ActivityRules\discipline.centre.activityrules.infrastructure.unitTests\discipline.centre.activityrules.infrastructure.unitTests.csproj", "{BCA44646-D408-4295-BB50-EF9DC15C4E0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.centre.activityrules.domain.unitTests", "discpline.centre\tests\unitTests\modules\ActivityRules\discipline.centre.activityrules.domain.unitTests\discipline.centre.activityrules.domain.unitTests.csproj", "{DDDF10DA-DD35-4890-8DF0-88839F9FDA5B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.centre.activityrules.domain.unittests", "discpline.centre\tests\unitTests\modules\ActivityRules\discipline.centre.activityrules.domain.unittests\discipline.centre.activityrules.domain.unittests.csproj", "{DDDF10DA-DD35-4890-8DF0-88839F9FDA5B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.centre.activityrules.application.unitTests", "discpline.centre\tests\unitTests\modules\activityRules\discipline.centre.activityrules.application.unitTests\discipline.centre.activityrules.application.unitTests.csproj", "{6DD78402-3F23-4499-882B-7B9A86184822}"
 EndProject
@@ -117,9 +117,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.centre.users.int
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.centre.dailytrackers.integrationTests", "discpline.centre\tests\integrationTests\discipline.centre.dailytrackers.integrationTests\discipline.centre.dailytrackers.integrationTests.csproj", "{A5EE40CA-6AE7-4C2D-9D1A-7FE2416C553F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.centre.activityrules.integrationTests", "discpline.centre\tests\integrationTests\discipline.centre.activityrules.integrationTests\discipline.centre.activityrules.integrationTests.csproj", "{8ADAAF17-4CEF-4139-959E-4749386E5685}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.centre.activityrules.integrationtests", "discpline.centre\tests\integrationTests\discipline.centre.activityrules.integrationtests\discipline.centre.activityrules.integrationtests.csproj", "{8ADAAF17-4CEF-4139-959E-4749386E5685}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.centre.integrationTests.sharedkernel", "discpline.centre\tests\integrationTests\discipline.centre.integrationTests.sharedkernel\discipline.centre.integrationTests.sharedkernel.csproj", "{3A1728D9-ACE9-46F9-8A27-71116810457A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.centre.integrationtests.sharedkernel", "discpline.centre\tests\integrationTests\discipline.centre.integrationtests.sharedkernel\discipline.centre.integrationtests.sharedkernel.csproj", "{3A1728D9-ACE9-46F9-8A27-71116810457A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "discipline.hangfire", "discipline.hangfire", "{ED058535-4A2C-453E-8AB1-0D3F6B4F9DE8}"
 EndProject

@@ -3,9 +3,11 @@ using MongoDB.Driver;
 
 namespace discipline.centre.users.infrastructure.DAL;
 
-internal sealed class UsersMongoContext(IMongoClient mongoClient, 
-    IMongoCollectionNameConvention mongoCollectionNameConvention) 
-        : MongoCollectionContext(mongoClient, mongoCollectionNameConvention, "users-module")
+internal sealed class UsersMongoContext(
+    IMongoClient mongoClient, 
+    IMongoCollectionNameConvention mongoCollectionNameConvention,
+    string moduleName) 
+        : MongoCollectionContext(mongoClient, mongoCollectionNameConvention, moduleName)
 {
     
 }

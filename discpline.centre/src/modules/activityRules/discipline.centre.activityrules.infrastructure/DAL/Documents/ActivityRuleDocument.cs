@@ -7,7 +7,7 @@ internal sealed record ActivityRuleDocument : IDocument
 {
     [BsonId]
     public required string Id { get; init; }
-    public required string UserId { get; init; }
+    public required string AccountId { get; init; }
     public required ActivityRuleDetailsDocument Details { get; init; }
     public required ActivityRuleSelectedModeDocument SelectedMode { get; init; }
     public required IEnumerable<StageDocument> Stages { get; init; }

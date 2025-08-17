@@ -3,6 +3,8 @@ using MongoDB.Driver;
 
 namespace discipline.centre.dailytrackers.infrastructure.DAL;
 
-internal sealed class DailyTrackersMongoContext(IMongoClient mongoClient,
-    IMongoCollectionNameConvention mongoCollectionNameConvention)
-    : MongoCollectionContext(mongoClient, mongoCollectionNameConvention, "daily-trackers-module");
+internal sealed class DailyTrackersMongoContext(
+    IMongoClient mongoClient,
+    IMongoCollectionNameConvention mongoCollectionNameConvention,
+    string moduleName)
+    : MongoCollectionContext(mongoClient, mongoCollectionNameConvention, moduleName);

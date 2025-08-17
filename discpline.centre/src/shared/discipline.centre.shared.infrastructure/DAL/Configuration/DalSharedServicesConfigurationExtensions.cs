@@ -37,10 +37,6 @@ public static class DalSharedServicesConfigurationExtensions
         => services
             .AddScoped<IUnitOfWork, MongoUnitOfWork>();
 
-    public static IServiceCollection AddMongoContext<T>(this IServiceCollection services)
-        where T : class, IMongoCollectionContext
-        => services.AddScoped<T>();
-
     public static IServiceCollection AddRepositories<TReadRepository, TReadWriteRepository, TRepository>(
         this IServiceCollection services) 
         where TRepository : class, TReadRepository, TReadWriteRepository 

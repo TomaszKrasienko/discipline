@@ -20,26 +20,32 @@ public sealed class ActivityRule : AggregateRoot<ActivityRuleId, Ulid>
     public SelectedMode Mode { get; private set; }
     public IReadOnlyList<Stage> Stages => _stages.ToArray();
     
-    /// <summary>
-    /// Constructor for mapping to mongo documents
-    /// </summary>
-    public ActivityRule(ActivityRuleId id, AccountId accountId, Details details,
-        SelectedMode mode, List<Stage> stages) : base(id)
-    {   
-        AccountId = accountId;
-        Details = details;  
-        Mode = mode;
-        _stages = stages;   
-    }
-    
-    private ActivityRule(ActivityRuleId id, AccountId accountId, Details details,
+    private ActivityRule(
+        ActivityRuleId id, 
+        AccountId accountId, 
+        Details details,
         SelectedMode mode) : base(id)
     {        
         AccountId = accountId;
         Details = details;  
         Mode = mode;
-        
-        AddDomainEvent(new ActivityRuleCreated(id, accountId, details, mode));
+    }
+    
+    /// <summary>
+    /// Use only for MongoDB
+    /// </summary>
+    public ActivityRule(
+        ActivityRuleId id, 
+        AccountId accountId, 
+        Details details,
+        SelectedMode mode,
+        List<Stage> stages) : this(
+            id,
+            accountId,
+            details,
+            mode)
+    {   
+        _stages = stages;   
     }
     
     public static ActivityRule Create(ActivityRuleId id, 
@@ -51,10 +57,16 @@ public sealed class ActivityRule : AggregateRoot<ActivityRuleId, Ulid>
         var activityRuleMode = SelectedMode.Create(mode.Mode, mode.Days);
         var activityRule = new ActivityRule(id, accountId, activityRuleDetails, activityRuleMode);
         
+        activityRule.AddDomainEvent(new ActivityRuleCreated(
+                id,
+                accountId,
+                activityRuleDetails,
+                activityRuleMode));
+        
         return activityRule;
     }
 
-    public void Edit(
+    public void Update(
         ActivityRuleDetailsSpecification details, 
         ActivityRuleModeSpecification mode)
     {

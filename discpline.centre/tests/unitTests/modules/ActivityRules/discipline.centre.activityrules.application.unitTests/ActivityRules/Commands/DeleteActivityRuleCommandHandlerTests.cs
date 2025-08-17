@@ -61,44 +61,44 @@ public sealed class DeleteActivityRuleCommandHandlerTests
     }
     
     [Fact]
-    public async Task HandleAsync_GivenNotExistingActivityRule_ShouldNotAttemptsToDeleteByRepository()
+    public async Task HandleAsync_GivenNotExistingActivityRule_ThenNotAttemptsToDeleteByRepository()
     {
-        //arrange
+        // Arrange
         var command = new DeleteActivityRuleCommand(AccountId.New(), ActivityRuleId.New());
 
         _readWriteActivityRuleRepository
             .GetByIdAsync(command.ActivityRuleId, command.AccountId)
             .ReturnsNull();
         
-        //act
+        // Act
         await Act(command);
         
-        //assert
+        // Assert
         await _readWriteActivityRuleRepository
             .Received(0)
             .DeleteAsync(Arg.Any<ActivityRule>(), CancellationToken.None);
     }
     
     [Fact]
-    public async Task HandleAsync_GivenNotExistingActivityRule_ShouldNotAttemptsToSendActivityRuleRemovedEvent()
+    public async Task HandleAsync_GivenNotExistingActivityRule_ThenNotAttemptsToSendActivityRuleRemovedEvent()
     {
-        //arrange
+        // Arrange
         var command = new DeleteActivityRuleCommand(AccountId.New(), ActivityRuleId.New());
 
         _readWriteActivityRuleRepository
             .GetByIdAsync(command.ActivityRuleId, command.AccountId)
             .ReturnsNull();
         
-        //act
+        // Act
         await Act(command);
         
-        //assert
+        // Assert
         await _eventProcessor
             .Received(0)
             .PublishAsync(Arg.Any<ActivityRuleDeleted>());
     }
     
-    #region arrange
+    #region Arrange
     private readonly IReadWriteActivityRuleRepository _readWriteActivityRuleRepository;
     private readonly IEventProcessor _eventProcessor;
     private readonly ICommandHandler<DeleteActivityRuleCommand> _handler;

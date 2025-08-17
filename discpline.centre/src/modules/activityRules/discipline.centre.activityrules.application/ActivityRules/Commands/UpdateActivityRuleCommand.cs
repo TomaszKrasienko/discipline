@@ -31,7 +31,7 @@ internal sealed class UpdateActivityRuleCommandHandler(
             throw new NotUniqueException("UpdateActivityRule.NotUniqueTitle", command.Details.Title);
         }
         
-        activityRule.Edit(command.Details, command.Mode);
+        activityRule.Update(command.Details, command.Mode);
         
         await readWriteActivityRuleRepository.UpdateAsync(activityRule, cancellationToken);
         

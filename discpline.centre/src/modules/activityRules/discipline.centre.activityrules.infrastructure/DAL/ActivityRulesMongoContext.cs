@@ -5,8 +5,9 @@ namespace discipline.centre.activityrules.infrastructure.DAL;
 
 internal sealed class ActivityRulesMongoContext(
     IMongoClient mongoClient, 
-    IMongoCollectionNameConvention mongoCollectionNameConvention) 
-    : MongoCollectionContext(mongoClient, mongoCollectionNameConvention, "activity-rules-module")
+    IMongoCollectionNameConvention mongoCollectionNameConvention,
+    string moduleName) 
+    : MongoCollectionContext(mongoClient, mongoCollectionNameConvention, moduleName)
 {
     
 }

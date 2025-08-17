@@ -22,7 +22,7 @@ internal static class ActivityRuleDocumentFakeDataFactory
         return new ActivityRuleDocument()
         {
             Id = ActivityRuleId.New().ToString(),
-            UserId = UserId.New().ToString(),
+            AccountId = UserId.New().ToString(),
             Details = new ActivityRuleDetailsDocument(faker.Random.String2(length: 10),
                 withNote ? faker.Lorem.Word() : null),
             SelectedMode = new ActivityRuleSelectedModeDocument(mode.Value, selectedDays),

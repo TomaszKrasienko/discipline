@@ -16,7 +16,7 @@ namespace discipline.centre.users.application.unittests.Accounts.Commands;
 
 public sealed class SignInCommandHandlerTests
 {
-     private Task Act(SignInCommand command) => _handler.HandleAsync(command, default);
+     private Task Act(SignInCommand command) => _handler.HandleAsync(command, CancellationToken.None);
 
      [Fact]
      public async Task GivenExistingAccountWithValidPassword_WhenHandleAsync_ThenSavesTokensByTokenStorage()

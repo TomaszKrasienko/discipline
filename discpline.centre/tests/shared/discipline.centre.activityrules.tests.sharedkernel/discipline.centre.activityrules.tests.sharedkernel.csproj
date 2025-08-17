@@ -7,7 +7,8 @@
     </PropertyGroup>
     
     <ItemGroup>
-        <InternalsVisibleTo Include="discipline.centre.activityrules.infrastructure.unitTests"/>
+        <InternalsVisibleTo Include="discipline.centre.activityrules.infrastructure.unittests"/>
+        <InternalsVisibleTo Include="discipline.centre.activityrules.integrationtests"/>
     </ItemGroup>
     
     <ItemGroup>

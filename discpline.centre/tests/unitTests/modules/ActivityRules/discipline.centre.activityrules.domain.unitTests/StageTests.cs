@@ -3,10 +3,12 @@ using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using Shouldly;
 using Xunit;
 
-namespace discipline.centre.activityrules.domain.unitTests.StageTests;
+namespace discipline.centre.activityrules.domain.unittests;
 
-public sealed class CreateTests
+public sealed class StageTests
 {
+    #region Create
+    
     [Fact]
     public void GivenValidArguments_WhenCreate_ThenReturnStageWithValues()
     {
@@ -56,4 +58,23 @@ public sealed class CreateTests
         exception.ShouldBeOfType<DomainException>();
         ((DomainException)exception).Code.ShouldBe("ActivityRule.Stage.Index.ValueBelowOne");
     }
+    
+    #endregion
+    #region UpdateIndex
+    
+    [Fact]
+    public void GivenPositiveIndex_WhenUpdateIndex_ShouldChangeStageIndex()
+    {
+        // Arrange
+        var stage = Stage.Create(StageId.New(), "test_title", 1);
+        const int expectedIndex = 2;
+        
+        // Act
+        stage.UpdateIndex(expectedIndex);
+        
+        // Assert
+        stage.Index.Value.ShouldBe(expectedIndex);
+    }
+    
+    #endregion
 }

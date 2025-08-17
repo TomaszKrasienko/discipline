@@ -15,7 +15,7 @@ internal sealed class DailyTrackersModule : IModule
     
     public void Register(IServiceCollection services, IConfiguration configuration)
         => services
-            .AddInfrastructure()
+            .AddInfrastructure(ModuleName)
             .AddRabbitMqConsumer<CreateActivityFromActivityRuleCommand>();
 
     public void Use(WebApplication app)

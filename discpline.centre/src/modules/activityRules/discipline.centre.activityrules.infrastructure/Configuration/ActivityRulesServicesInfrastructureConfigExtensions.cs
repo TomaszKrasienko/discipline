@@ -3,7 +3,7 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 public static class ActivityRulesServicesInfrastructureConfigExtensions
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services, string assemblyName)
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, string moduleName)
         => services
-            .AddDal(assemblyName);
+            .AddDal(moduleName);
 }

@@ -5,12 +5,12 @@ using discipline.centre.shared.abstractions.SharedKernel.Exceptions;
 using Shouldly;
 using Xunit;
 
-namespace discipline.centre.activityrules.domain.unitTests.ValueObjects.ActivityRules;
+namespace discipline.centre.activityrules.domain.unittests.ValueObjects.ActivityRules;
 
 public sealed class SelectedModeTests
 {
     [Fact]
-    public void GivenModeThatRequireSelectedDaysWithSelectedDays_WhenCreate_ThenReturnSelectedModeWithValues()
+    public void GivenModeThatRequireSelectedDaysWithSelectedDays_WhenCreate_ThenReturnsSelectedModeWithValues()
     {
         // Arrange
         var mode = RuleMode.Custom;
@@ -25,7 +25,7 @@ public sealed class SelectedModeTests
     }
     
     [Fact]
-    public void GivenModeThatNotRequireSelectedDaysWithoutSelectedDays_WhenCreate_ThenReturnSelectedModeWithValues()
+    public void GivenModeThatNotRequireSelectedDaysWithoutSelectedDays_WhenCreate_ThenReturnsSelectedModeWithValues()
     {
         // Arrange
         var mode = RuleMode.EveryDay;
@@ -39,7 +39,7 @@ public sealed class SelectedModeTests
     }
 
     [Fact]
-    public void GivenModeThatRequireSelectedDaysWithoutSelectedDays_WhenCreate_ThenThrowDomainExceptionWitCodeActivityRulesModeRuleModeRequireSelectedDays()
+    public void GivenModeThatRequireSelectedDaysWithoutSelectedDays_WhenCreate_ThenThrowsDomainExceptionWitCodeActivityRulesModeRuleModeRequireSelectedDays()
     {
         // Act
         var exception = Record.Exception(() => SelectedMode.Create(RuleMode.Custom, null));
@@ -50,7 +50,7 @@ public sealed class SelectedModeTests
     }
     
     [Fact]
-    public void GivenDaysOutOfRange_WhenCreate_ThenThrowDomainExceptionWithCodeActivityRuleModeSelectedDayOutOfRange()
+    public void GivenDaysOutOfRange_WhenCreate_ThenThrowsDomainExceptionWithCodeActivityRuleModeSelectedDayOutOfRange()
     {
         // Act
         var exception = Record.Exception(() => SelectedMode.Create(RuleMode.Custom, [7]));
