@@ -48,7 +48,9 @@ internal sealed class RefreshCommandHandler(
         
         var token = authenticator.CreateToken(
                 account.Id, 
-                subscription!.GetAllowedNumberOfDailyTasks(),
+                subscription.Type.HasExpiryDate,
+                account.ActiveSubscriptionOrder.Interval.FinishDate,
+                subscription.GetAllowedNumberOfDailyTasks(),
                 subscription.GetAllowedNumberOfRules());
         var refreshToken = await refreshTokenManager.GenerateAndReplaceAsync(account.Id, cancellationToken);
 

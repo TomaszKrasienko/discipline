@@ -48,8 +48,15 @@ internal sealed class SignInCommandHandler(
                 activeSubscriptionOrder.SubscriptionId,
                 cancellationToken);
 
+        if (subscription is null)
+        {
+            throw new NotFoundException("SignIn.Subscription");
+        }
+
         var token = authenticator.CreateToken(
             account.Id,
+            subscription.Type.HasExpiryDate,
+            activeSubscriptionOrder.Interval.FinishDate,
             subscription?.GetAllowedNumberOfDailyTasks(),
             subscription?.GetAllowedNumberOfRules());
         

@@ -6,6 +6,8 @@ public interface IAuthenticator
 {
     string CreateToken(
         AccountId accountId,
+        bool hasPayedSubscription,
+        DateOnly? activeTill,
         int? numberOfDailyTasks,
         int? numberOfRules);
 }

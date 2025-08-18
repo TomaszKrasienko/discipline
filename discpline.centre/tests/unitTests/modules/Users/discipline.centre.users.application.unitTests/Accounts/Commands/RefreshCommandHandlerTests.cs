@@ -51,6 +51,8 @@ public sealed class RefreshCommandHandlerTests
         _authenticator
             .CreateToken(
                 account.Id,
+                subscription.Type.HasExpiryDate,
+                account.ActiveSubscriptionOrder.Interval.FinishDate,
                 subscription.GetAllowedNumberOfDailyTasks(),
                 subscription.GetAllowedNumberOfRules())
             .Returns(token);
@@ -137,6 +139,37 @@ public sealed class RefreshCommandHandlerTests
         // Act
         var exception = await Record.ExceptionAsync(() => Act(command));
         
+        // Assert
+        exception.ShouldBeOfType<NotFoundException>();
+        ((NotFoundException)exception).Code.ShouldBe("Refresh.Subscription");
+    }
+    
+    [Fact]
+    public async Task GivenNotExistingSubscription_WhenHandleAsync_ThenThrowsNotFoundExceptionWith_Refresh_Subscription()
+    {
+        // Arrange
+        var cancellationToken = CancellationToken.None;
+        var account = AccountFakeDataFactory
+            .Get()
+            .WithSubscriptionOrder();
+        
+        var command = new RefreshCommand(account.Id, Guid.NewGuid().ToString());
+        
+        _refreshTokenManager
+            .DoesRefreshTokenExistAsync(command.RefreshToken, command.AccountId, cancellationToken)
+            .Returns(true);
+         
+        _readAccountRepository
+            .GetByIdAsync(command.AccountId, cancellationToken)
+            .Returns(account);
+         
+        _readSubscriptionRepository
+            .GetByIdAsync(account.ActiveSubscriptionOrder!.SubscriptionId, cancellationToken)
+            .ReturnsNull();
+         
+        // Act
+        var exception = await Record.ExceptionAsync(async () => await Act(command));
+         
         // Assert
         exception.ShouldBeOfType<NotFoundException>();
         ((NotFoundException)exception).Code.ShouldBe("Refresh.Subscription");

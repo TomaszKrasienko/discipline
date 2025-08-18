@@ -86,7 +86,8 @@ public abstract class BaseTestsController : IDisposable
         Authorize(
             account,
             subscription.ToEntity(new StandardSubscriptionPolicy()),
-            timeProvider);
+            timeProvider,
+            null);
         
         return account;
     }
@@ -102,7 +103,8 @@ public abstract class BaseTestsController : IDisposable
     protected virtual void Authorize(
         Account account,
         Subscription subscription,
-        TimeProvider timeProvider)
+        TimeProvider timeProvider,
+        DateOnly? activeTill)
     {
         var optionsProvider = new OptionsProvider();
         var authOptions = optionsProvider.Get<JwtOptions>();
@@ -111,6 +113,8 @@ public abstract class BaseTestsController : IDisposable
             Options.Create(authOptions));
         var token = authenticator.CreateToken(
             account.Id,
+            subscription.Type.HasExpiryDate,
+            activeTill,
             subscription.GetAllowedNumberOfDailyTasks(),
             subscription.GetAllowedNumberOfRules());
         

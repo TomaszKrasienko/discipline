@@ -1,4 +1,5 @@
 using Bogus;
+using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.users.domain.Accounts;
 using discipline.centre.users.domain.Subscriptions.Enums;
 using discipline.centre.users.infrastructure.DAL.Accounts.Documents;
@@ -30,7 +31,8 @@ internal static class AccountDocumentFakeDataFactory
 
     public static AccountDocument WithSubscriptionOrder(
         this AccountDocument accountDocument,
-        bool withPayment = false)
+        bool withPayment = false,
+        SubscriptionId? subscriptionId = null)
     {
         var faker = new Faker();
         var startDate = DateOnly
@@ -40,7 +42,7 @@ internal static class AccountDocumentFakeDataFactory
 
         var subscription = new SubscriptionOrderDocument
         {
-            Id = Ulid.NewUlid().ToString(),
+            Id = subscriptionId is null ? Ulid.NewUlid().ToString() : subscriptionId.Value.ToString(),
             Interval = new IntervalDocument
             {
                 StartDate = startDate,

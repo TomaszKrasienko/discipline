@@ -19,6 +19,8 @@ internal sealed class JwtAuthenticator(
 
     public string CreateToken(
         AccountId accountId,
+        bool hasPayedSubscription,
+        DateOnly? activeTill,
         int? numberOfDailyTasks,
         int? numberOfRules)
     {
@@ -34,9 +36,15 @@ internal sealed class JwtAuthenticator(
         List<Claim> claims =
         [
             new(JwtRegisteredClaimNames.UniqueName, accountId.Value.ToString()),
-            new(CustomClaimTypes.Status, status.Value)
+            new(CustomClaimTypes.Status, status.Value),
+            new (CustomClaimTypes.IsPayedSubscription, hasPayedSubscription.ToString())
         ];
 
+        if (activeTill is not null)
+        {
+            claims.Add(new Claim(CustomClaimTypes.IsPayedSubscription, activeTill.Value.ToString()));
+        }
+        
         if (numberOfDailyTasks is not null)
         {
             claims.Add(new Claim(

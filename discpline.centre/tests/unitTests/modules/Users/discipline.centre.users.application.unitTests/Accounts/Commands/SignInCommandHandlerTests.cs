@@ -9,6 +9,7 @@ using discipline.centre.users.domain.Accounts.Services.Abstractions;
 using discipline.centre.users.domain.Subscriptions.Repositories;
 using discipline.centre.users.tests.sharedkernel.Domain;
 using NSubstitute;
+using NSubstitute.ReturnsExtensions;
 using Shouldly;
 using Xunit;
 
@@ -38,12 +39,18 @@ public sealed class SignInCommandHandlerTests
 
          var subscription = SubscriptionFakeDataFactory
              .GetPremium();
+         
+         _readSubscriptionRepository
+             .GetByIdAsync(account.ActiveSubscriptionOrder!.SubscriptionId, cancellationToken)
+             .Returns(subscription);
 
          var token = Guid.NewGuid().ToString();
          
          _authenticator
              .CreateToken(
                  account.Id,
+                 subscription.Type.HasExpiryDate,
+                 account.ActiveSubscriptionOrder!.Interval.FinishDate,
                  subscription.GetAllowedNumberOfDailyTasks(),
                  subscription.GetAllowedNumberOfRules())
              .Returns(token);
@@ -130,6 +137,37 @@ public sealed class SignInCommandHandlerTests
          // Assert
          exception.ShouldBeOfType<InvalidArgumentException>();
          ((InvalidArgumentException)exception).Code.ShouldBe("SignIn.NullActiveSubscriptionOrder");
+     }
+     
+     [Fact]
+     public async Task GivenNotExistingSubscription_WhenHandleAsync_ThenThrowsNotFoundExceptionWith_SignIn_Subscription()
+     {
+         // Arrange
+         var cancellationToken = CancellationToken.None;
+         var account = AccountFakeDataFactory
+             .Get()
+             .WithSubscriptionOrder();
+         
+         var command = new SignInCommand(account.Login.Value, "Test123!");
+         
+         _readWriteAccountRepository
+             .GetByLoginAsync(command.Email, cancellationToken)
+             .Returns(account);
+         
+         _passwordManager
+             .VerifyPassword(account.Password.Value, command.Password)
+             .Returns(true);
+
+         _readSubscriptionRepository
+             .GetByIdAsync(account.ActiveSubscriptionOrder!.SubscriptionId, cancellationToken)
+             .ReturnsNull();
+         
+         // Act
+         var exception = await Record.ExceptionAsync(async () => await Act(command));
+         
+         // Assert
+         exception.ShouldBeOfType<NotFoundException>();
+         ((NotFoundException)exception).Code.ShouldBe("SignIn.Subscription");
      }
      
     #region Arrange

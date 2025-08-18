@@ -17,7 +17,7 @@ public sealed class CreateActivityRuleDtoMapperExtensionsTests
         var accountId = AccountId.New();
         
         //act
-        var result = dto.MapAsCommand(accountId, activityRuleId);
+        var result = dto.ToCommand(accountId, activityRuleId);
         
         //assert
         result.Id.ShouldBe(activityRuleId);
@@ -38,7 +38,7 @@ public sealed class CreateActivityRuleDtoMapperExtensionsTests
         var accountId = AccountId.New();
         
         //act
-        var result = dto.MapAsCommand(accountId, activityRuleId);
+        var result = dto.ToCommand(accountId, activityRuleId);
         
         //assert
         result.Id.ShouldBe(activityRuleId);

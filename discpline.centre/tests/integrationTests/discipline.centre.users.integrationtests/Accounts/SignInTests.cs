@@ -1,13 +1,17 @@
 using System.Net;
 using System.Net.Http.Json;
 using discipline.centre.integrationTests.sharedKernel;
+using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.users.application.Accounts.Commands;
 using discipline.centre.users.application.Accounts.DTOs;
 using discipline.centre.users.application.Users.DTOs;
+using discipline.centre.users.domain.Subscriptions.Enums;
 using discipline.centre.users.infrastructure.DAL.Accounts.Documents;
+using discipline.centre.users.infrastructure.DAL.Subscriptions.Documents;
 using discipline.centre.users.tests.sharedkernel.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Driver;
 using Shouldly;
 using Xunit;
 
@@ -20,16 +24,21 @@ public sealed class SignInTests() : BaseTestsController("users-module")
     public async Task GivenSignInRequest_WhenCallTo_api_accounts_signed_in_ThenReturns200StatusCodeWithTokenAndRefreshToken_StoreRefreshToken()
     {
         // Arrange
+        var subscription = await TestAppDb
+            .GetCollection<SubscriptionDocument>()
+            .Find(x => x.Type == SubscriptionType.Standard.Value)
+            .SingleAsync();
+        
         var accountDocument = AccountDocumentFakeDataFactory
             .Get()
-            .WithSubscriptionOrder();
+            .WithSubscriptionOrder(
+                subscriptionId: SubscriptionId.Parse(subscription.Id));
 
         var password = AccountDocumentFakeDataFactory.GetPassword();
         
         await TestAppDb
             .GetCollection<AccountDocument>()
             .InsertOneAsync(accountDocument);
-        
         
         var command = new SignInCommand(accountDocument.Login, password!);
         

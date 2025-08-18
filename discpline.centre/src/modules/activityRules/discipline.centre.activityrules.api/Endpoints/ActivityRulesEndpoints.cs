@@ -13,6 +13,8 @@ using discipline.centre.shared.infrastructure.Auth;
 using discipline.centre.shared.infrastructure.IdentityContext.Abstractions;
 using discipline.centre.shared.infrastructure.ResourceHeader;
 using discipline.centre.shared.infrastructure.Validation;
+using discipline.centre.shared.infrastructure.Validation.Mappers;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -26,18 +28,32 @@ internal static class ActivityRulesEndpoints
     
     internal static WebApplication MapActivityRulesEndpoints(this WebApplication app)
     {
-        app.MapPost($"api/{ActivityRulesTag}", async (ActivityRuleRequestDto command, IHttpContextAccessor httpContext, 
-                ICqrsDispatcher dispatcher, CancellationToken cancellationToken, IIdentityContext identityContext) => 
+        app.MapPost(
+                $"api/{ActivityRulesTag}", 
+                async (
+                    ActivityRuleRequestDto command,
+                    IHttpContextAccessor httpContext, 
+                    ICqrsDispatcher dispatcher,
+                    CancellationToken cancellationToken,
+                    IIdentityContext identityContex,
+                    IValidator<ActivityRuleRequestDto> validator) => 
             {
+                var validationResult = await validator.ValidateAsync(command, cancellationToken);
+
+                if (!validationResult.IsValid)
+                {
+                    return Results.UnprocessableEntity(validationResult.ToProblemDetails());
+                }
+                
                 var activityRuleId = ActivityRuleId.New();
-                var userId = identityContext.GetAccount();
+                var userId = identityContex.GetAccount();
 
                 if (userId is null)
                 {
                     return Results.Unauthorized();
                 }
                 
-                await dispatcher.HandleAsync(command.MapAsCommand(userId.Value, activityRuleId), cancellationToken);
+                await dispatcher.HandleAsync(command.ToCommand(userId.Value, activityRuleId), cancellationToken);
                 httpContext.AddResourceIdHeader(activityRuleId.ToString());
                 
                 return Results.CreatedAtRoute(nameof(GetActivityRuleById), new {activityRuleId = activityRuleId.ToString()}, null);
@@ -56,11 +72,13 @@ internal static class ActivityRulesEndpoints
             .RequireAuthorization()
             .RequireAuthorization(UserStatePolicy.Name);
 
-        app.MapPost($"api/{ActivityRulesTag}/{{activityRuleId:ulid}}/stages", async (Ulid activityRuleId, 
-                CreateStageRequestDto dto, 
-                ICqrsDispatcher dispatcher, 
-                IIdentityContext identityContext, 
-                CancellationToken cancellationToken) =>
+        app.MapPost($"api/{ActivityRulesTag}/{{activityRuleId:ulid}}/stages", 
+                async (
+                    Ulid activityRuleId, 
+                    CreateStageRequestDto dto, 
+                    ICqrsDispatcher dispatcher, 
+                    IIdentityContext identityContext, 
+                    CancellationToken cancellationToken) =>
             {
                 var userId = identityContext.GetAccount();
 
