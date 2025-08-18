@@ -42,7 +42,7 @@ internal static class AccountDocumentFakeDataFactory
 
         var subscription = new SubscriptionOrderDocument
         {
-            Id = subscriptionId is null ? Ulid.NewUlid().ToString() : subscriptionId.Value.ToString(),
+            Id = Ulid.NewUlid().ToString(),
             Interval = new IntervalDocument
             {
                 StartDate = startDate,
@@ -63,7 +63,7 @@ internal static class AccountDocumentFakeDataFactory
                         CreatedAt = DateTimeOffset.Now
                     }
                     : null,
-            SubscriptionId = Ulid.NewUlid().ToString(),
+            SubscriptionId = subscriptionId is null ? Ulid.NewUlid().ToString() : subscriptionId.Value.ToString(),
         };
         
         accountDocument.SubscriptionOrders.Add(subscription);
