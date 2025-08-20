@@ -6,6 +6,7 @@ namespace discipline.centre.activityrules.application.ActivityRules.DTOs.Mappers
 
 public static class CreateStageRequestDtoMapperExtensions
 {
+    //TODO: Name change
     public static CreateStageForActivityRuleCommand MapAsCommand(this CreateStageRequestDto dto, 
         AccountId accountId, 
         ActivityRuleId activityRuleId,

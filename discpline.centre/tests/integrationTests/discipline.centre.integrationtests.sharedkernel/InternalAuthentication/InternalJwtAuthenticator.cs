@@ -7,7 +7,10 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace discipline.centre.integrationTests.sharedKernel.InternalAuthentication;
 
-internal sealed class InternalJwtAuthenticator(IClock clock, IOptions<InternalKeyOptions> options)
+internal sealed class InternalJwtAuthenticator(
+    DateTimeOffset now,
+    IOptions<InternalKeyOptions> options,
+    DateTimeOffset? expires = null)
 {
     private readonly InternalKeyOptions _options = options.Value;
     private readonly JwtSecurityTokenHandler _jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
@@ -20,8 +23,7 @@ internal sealed class InternalJwtAuthenticator(IClock clock, IOptions<InternalKe
         var privateKey = new RsaSecurityKey(privateRsa);
         var signingCredentials = new SigningCredentials(privateKey, SecurityAlgorithms.RsaSha256);
 
-        var now = clock.DateTimeNow();
-        var expirationTime = now.AddMinutes(1);
+        var expirationTime = expires ?? now.AddMinutes(1);
 
         var jwt = new JwtSecurityToken(
             issuer: _options.Issuer,

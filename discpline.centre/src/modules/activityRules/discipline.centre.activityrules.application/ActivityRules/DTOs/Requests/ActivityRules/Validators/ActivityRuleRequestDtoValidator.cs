@@ -8,7 +8,7 @@ public sealed class ActivityRuleRequestDtoValidator : AbstractValidator<Activity
     {
         RuleFor(x => x.Details)
             .NotNull()
-            .WithErrorCode("Validation.Details.Null");
+            .WithErrorCode("ActivityRule.Validation.Details.Null");
 
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         When(x => x.Details is not null, () =>
@@ -19,7 +19,7 @@ public sealed class ActivityRuleRequestDtoValidator : AbstractValidator<Activity
         
         RuleFor(x => x.Mode)
             .NotNull()
-            .WithErrorCode("Validation.Mode.Null");
+            .WithErrorCode("ActivityRule.Validation.Mode.Null");
 
         // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
         When(x => x.Mode is not null, () =>

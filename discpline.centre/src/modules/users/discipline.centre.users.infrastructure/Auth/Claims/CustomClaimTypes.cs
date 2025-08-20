@@ -1,4 +1,4 @@
-namespace discipline.centre.users.infrastructure.Auth;
+namespace discipline.centre.users.infrastructure.Auth.Claims;
 
 internal static class CustomClaimTypes
 {

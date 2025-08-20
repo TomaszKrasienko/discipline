@@ -53,7 +53,7 @@ internal static class CalendarEndpoints
         .WithTags(CalendarTag)
         .WithDescription("Creates time event in calendar")
         .RequireAuthorization()
-        .RequireAuthorization(UserStatePolicy.Name);
+        .RequireAuthorization(AuthPolicies.AccountSubscriptionPolicy);
         
         return app;
     }

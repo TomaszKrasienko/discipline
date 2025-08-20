@@ -70,26 +70,35 @@ internal static class ActivityRulesEndpoints
                 Description = "Adds activity rule"
             })
             .RequireAuthorization()
-            .RequireAuthorization(UserStatePolicy.Name);
+            .RequireAuthorization(AuthPolicies.AccountSubscriptionPolicy);
 
-        app.MapPost($"api/{ActivityRulesTag}/{{activityRuleId:ulid}}/stages", 
+        app.MapPost(
+                $"api/{ActivityRulesTag}/{{activityRuleId:ulid}}/stages", 
                 async (
                     Ulid activityRuleId, 
                     CreateStageRequestDto dto, 
+                    IValidator<CreateStageRequestDto> validator,
                     ICqrsDispatcher dispatcher, 
                     IIdentityContext identityContext, 
                     CancellationToken cancellationToken) =>
             {
-                var userId = identityContext.GetAccount();
+                var validationResult = await validator.ValidateAsync(dto, cancellationToken);
+                
+                if (!validationResult.IsValid)
+                {
+                    return Results.UnprocessableEntity(validationResult.ToProblemDetails());
+                }
+                
+                var accountId = identityContext.GetAccount();
 
-                if (userId is null)
+                if (accountId is null)
                 {
                     return Results.Unauthorized();
                 }
                 
                 var stronglyActivityRuleId = new ActivityRuleId(activityRuleId);
                 var stageId = StageId.New();
-                var command = dto.MapAsCommand(userId.Value, stronglyActivityRuleId, stageId);
+                var command = dto.MapAsCommand(accountId.Value, stronglyActivityRuleId, stageId);
                 await dispatcher.HandleAsync(command, cancellationToken);
 
                 //TODO: Should returns 201
@@ -107,7 +116,7 @@ internal static class ActivityRulesEndpoints
                 Description = "Creates new stage for activity rule"
             })
             .RequireAuthorization()
-            .RequireAuthorization(UserStatePolicy.Name);
+            .RequireAuthorization(AuthPolicies.AccountSubscriptionPolicy);
 
         app.MapPut($"api/{ActivityRulesTag}/{{activityRuleId:ulid}}", async (Ulid activityRuleId, UpdateActivityRuleDto dto,
             CancellationToken cancellationToken, ICqrsDispatcher dispatcher, IIdentityContext identityContext) =>
@@ -136,7 +145,7 @@ internal static class ActivityRulesEndpoints
             Description = "Adds activity rule"
         })
         .RequireAuthorization()
-        .RequireAuthorization(UserStatePolicy.Name);
+        .RequireAuthorization(AuthPolicies.AccountSubscriptionPolicy);
 
         app.MapDelete($"api/{ActivityRulesTag}/{{activityRuleId:ulid}}", async (Ulid activityRuleId, 
                 CancellationToken cancellationToken, ICqrsDispatcher dispatcher, IIdentityContext identityContext) =>
@@ -163,7 +172,7 @@ internal static class ActivityRulesEndpoints
             Description = "Removes activity rule"
         })
         .RequireAuthorization()
-        .RequireAuthorization(UserStatePolicy.Name);
+        .RequireAuthorization(AuthPolicies.AccountSubscriptionPolicy);
         
         app.MapDelete($"api/{ActivityRulesTag}/{{activityRuleId:ulid}}/stages/{{stageId:ulid}}", async (Ulid activityRuleId, 
                 Ulid stageId, CancellationToken cancellationToken, ICqrsDispatcher dispatcher, IIdentityContext identityContext) =>
@@ -191,7 +200,7 @@ internal static class ActivityRulesEndpoints
                 Description = "Removes activity rule stage"
             })
             .RequireAuthorization()
-            .RequireAuthorization(UserStatePolicy.Name);
+            .RequireAuthorization(AuthPolicies.AccountSubscriptionPolicy);
 
         app.MapGet($"api/{ActivityRulesTag}", async (CancellationToken cancellationToken, 
                 ICqrsDispatcher dispatcher, IIdentityContext identityContext) =>
@@ -217,7 +226,7 @@ internal static class ActivityRulesEndpoints
                 Description = "Get activity rules collection" 
             })
             .RequireAuthorization()
-            .RequireAuthorization(UserStatePolicy.Name);
+            .RequireAuthorization(AuthPolicies.AccountSubscriptionPolicy);
         
         app.MapGet($"api/{ActivityRulesTag}/{{activityRuleId:ulid}}", async (Ulid activityRuleId,
                 CancellationToken cancellationToken, ICqrsDispatcher dispatcher, IIdentityContext identityContext) =>
@@ -244,7 +253,7 @@ internal static class ActivityRulesEndpoints
                Description = "Get activity rule by id" 
             })
             .RequireAuthorization()
-            .RequireAuthorization(UserStatePolicy.Name);
+            .RequireAuthorization(AuthPolicies.AccountSubscriptionPolicy);
 
         app.MapGet($"api/{ActivityRulesTag}/modes", async (CancellationToken cancellationToken,
                 ICqrsDispatcher dispatcher) =>
@@ -262,7 +271,7 @@ internal static class ActivityRulesEndpoints
                 Description = "Retrieves all activity rules modes"
             })
             .RequireAuthorization()
-            .RequireAuthorization(UserStatePolicy.Name);
+            .RequireAuthorization(AuthPolicies.AccountSubscriptionPolicy);
         
         return app;
     }

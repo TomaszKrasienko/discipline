@@ -4,6 +4,7 @@ using System.Security.Cryptography;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.users.application.Accounts.Services;
 using discipline.centre.users.domain.Accounts.Enums;
+using discipline.centre.users.infrastructure.Auth.Claims;
 using discipline.centre.users.infrastructure.Auth.Configuration.Options;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -42,7 +43,7 @@ internal sealed class JwtAuthenticator(
 
         if (activeTill is not null)
         {
-            claims.Add(new Claim(CustomClaimTypes.IsPayedSubscription, activeTill.Value.ToString()));
+            claims.Add(new Claim(CustomClaimTypes.ActiveTill, activeTill.Value.ToString()));
         }
         
         if (numberOfDailyTasks is not null)

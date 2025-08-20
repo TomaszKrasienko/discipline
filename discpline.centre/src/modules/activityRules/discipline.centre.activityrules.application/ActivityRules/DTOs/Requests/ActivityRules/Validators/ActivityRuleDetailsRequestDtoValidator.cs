@@ -9,8 +9,8 @@ public sealed class ActivityRuleDetailsRequestDtoValidator : AbstractValidator<A
         RuleFor(x => x.Title)
             .NotNull()
             .NotEmpty()
-            .WithErrorCode("Validation.Details.Title.Empty")
+            .WithErrorCode("ActivityRule.Validation.Details.Title.Empty")
             .MaximumLength(30)
-            .WithMessage("Validation.Details.Title.TooLong");
+            .WithMessage("ActivityRule.Validation.Details.Title.TooLong");
     }
 }

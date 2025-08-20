@@ -9,10 +9,10 @@ namespace discipline.centre.activityrules.application.unitTests.ActivityRules.DT
 public sealed class ActivityRuleModeRequestDtoValidatorTests
 {
     [Fact]
-    public void GivenNotEmptyTitle_WhenTestValidate_ShouldNotHaveAnyValidationErrors()
+    public void GivenValidActivityRuleModeRequestDto_WhenTestValidate_ShouldNotHaveAnyValidationErrors()
     {
         // Arrange
-        var dto = new ActivityRuleModeRequestDto("test_mode", null);
+        var dto = new ActivityRuleModeRequestDto("test_mode", [1,2]);
         
         // Act
         var result = _validator.TestValidate(dto);
@@ -22,7 +22,7 @@ public sealed class ActivityRuleModeRequestDtoValidatorTests
     }
     
     [Fact]
-    public void GivenEmptyTitle_WhenTestValidate_ShouldHaveErrorForTitleWithCodeValidation_EmptyActivityRuleTitle()
+    public void GivenEmptyMode_WhenTestValidate_ShouldHaveErrorForTitleWithErrorCode_Validation_Mode_Mode_Empty()
     {
         // Arrange
         var dto = new ActivityRuleModeRequestDto(string.Empty, null);
@@ -34,13 +34,13 @@ public sealed class ActivityRuleModeRequestDtoValidatorTests
         result.ShouldHaveValidationErrorFor(x => x.Mode);
         result.Errors
             .Any(x 
-                => x.PropertyName == nameof(ActivityRuleModeRequestDto.Mode) 
-                && x.ErrorMessage == "Validation.EmptyActivityRuleMode")
+                => x.PropertyName == nameof(ActivityRuleModeRequestDto.Mode) &&
+                   x.ErrorCode == "ActivityRule.Validation.Mode.Mode.Empty")
             .ShouldBeTrue();
     }
     
     [Fact]
-    public void GivenDayOutOfRange_WhenTestValidate_ShouldHaveErrorForDaysWithCodeValidation_ActivityRuleDaysOutOfRange()
+    public void GivenDayOutOfRange_WhenTestValidate_ShouldHaveErrorForDaysWithErrorCode_Validation_Mode_Days_OutOfRange()
     {
         // Arrange
         var dto = new ActivityRuleModeRequestDto("test_mode", [7]);
@@ -52,8 +52,8 @@ public sealed class ActivityRuleModeRequestDtoValidatorTests
         result.ShouldHaveValidationErrorFor(x => x.Days);
         result.Errors
             .Any(x 
-                => x.PropertyName == nameof(ActivityRuleModeRequestDto.Days) 
-                && x.ErrorMessage == "Validation.ActivityRuleDaysOutOfRange")
+                => x.PropertyName == nameof(ActivityRuleModeRequestDto.Days) &&
+                   x.ErrorCode == "ActivityRule.Validation.Mode.Days.OutOfRange")
             .ShouldBeTrue();
     }
     

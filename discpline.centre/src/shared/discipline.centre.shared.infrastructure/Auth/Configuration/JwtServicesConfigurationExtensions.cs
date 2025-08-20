@@ -18,7 +18,7 @@ internal static class JwtServicesConfigurationExtensions
         => services
             .ValidateAndAddOptions(configuration)
             .AddTokenValidation()
-            .AddUserStateChecking();
+            .AddRequirements();
 
     private static IServiceCollection ValidateAndAddOptions(this IServiceCollection services,
         IConfiguration configuration)
@@ -87,13 +87,13 @@ internal static class JwtServicesConfigurationExtensions
         return new RsaSecurityKey(publicInternalRsa);
     }
     
-    private static IServiceCollection AddUserStateChecking(this IServiceCollection services)
+    private static IServiceCollection AddRequirements(this IServiceCollection services)
     {
         services.AddAuthorization(options =>
         {
-            options.AddPolicy(UserStatePolicy.Name, policy =>
+            options.AddPolicy(AuthPolicies.AccountSubscriptionPolicy, policy =>
             {
-                policy.Requirements.Add(new UserStateRequirement());
+                policy.Requirements.Add(new AccountSubscriptionRequirement());
             });
         });
         return services;

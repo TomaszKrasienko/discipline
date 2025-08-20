@@ -9,13 +9,13 @@ public sealed class ActivityRuleModeRequestDtoValidator : AbstractValidator<Acti
         RuleFor(x => x.Mode)
             .NotNull()
             .NotEmpty()
-            .WithErrorCode("Validation.Mode.Mode.Empty");
+            .WithErrorCode("ActivityRule.Validation.Mode.Mode.Empty");
 
         When(x => x.Days is not null, () =>
         {
             RuleFor(field => field.Days)
                 .Must(days => !days!.Any(d => d > (int)DayOfWeek.Saturday))
-                .WithErrorCode("Validation.Mode.Days.OutOfRange");
+                .WithErrorCode("ActivityRule.Validation.Mode.Days.OutOfRange");
         });
     }
 }

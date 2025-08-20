@@ -66,7 +66,7 @@ public sealed class CreateActivityRuleTests() : BaseTestsController("activity-ru
     }
     
     [Fact]
-    public async Task GivenInvalidActivityRuleRequest_WhenCallTo_Create_api_activity_rules_ShouldReturn422StatusCodeWithErrorCode()
+    public async Task GivenInvalidActivityRuleRequest_WhenCallTo_api_activity_rules_ShouldReturn422StatusCodeWithErrorCode()
     {
         // Arrange
         await AuthorizeWithFreeSubscriptionPicked();
@@ -81,11 +81,11 @@ public sealed class CreateActivityRuleTests() : BaseTestsController("activity-ru
         response.StatusCode.ShouldBe(HttpStatusCode.UnprocessableEntity);
         
         var problemDetails = await response.Content.ReadFromJsonAsync<ProblemDetails>();
-        problemDetails!.Title.ShouldBe("Validation.Details.Title.Empty");
+        problemDetails!.Title.ShouldBe("ActivityRule.Validation.Details.Title.Empty");
     }
     
     [Fact]
-    public async Task GivenUnauthorized_WhenCallTo_Create_api_activity_rules_ShouldReturn401StatusCode()
+    public async Task GivenUnauthorized_WhenCallTo_api_activity_rules_ShouldReturn401StatusCode()
     {
         // Arrange
         var command = new ActivityRuleRequestDto(
@@ -100,15 +100,16 @@ public sealed class CreateActivityRuleTests() : BaseTestsController("activity-ru
     }
      
     [Fact]
-    public async Task GivenWithoutActiveSubscription_WhenCallTo_Create_api_activity_rules_ShouldReturn403StatusCode()
+    public async Task GivenWithoutActiveSubscription_WhenCallTo_api_activity_rules_ShouldReturn403StatusCode()
     {
         // Arrange
+        await AuthorizedWithExpiredToken();
         var command = new ActivityRuleRequestDto(
             new ActivityRuleDetailsRequestDto("test_title", null),
             new ActivityRuleModeRequestDto(RuleMode.EveryDay.Value, null));
         
         // Act
-        var response = await HttpClient.PostAsJsonAsync("api/activity-rules-module/activity-rules", command);
+        var response = await HttpClient.PostAsJsonAsync("api/activity-rules", command);
         
         // Assert
         response.StatusCode.ShouldBe(HttpStatusCode.Forbidden);

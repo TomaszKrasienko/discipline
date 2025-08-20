@@ -54,7 +54,7 @@ internal static class DailyTrackersEndpoints
             .WithTags(DailyTrackersTag)
             .WithDescription("Creates activity from provided activity rule.")
             .RequireAuthorization()
-            .RequireAuthorization(UserStatePolicy.Name);
+            .RequireAuthorization(AuthPolicies.AccountSubscriptionPolicy);
         
         app.MapPost($"api/{DailyTrackersModule.ModuleName}/{DailyTrackersTag}/activities", async (
             CreateActivityDto dto, CancellationToken cancellationToken, ICqrsDispatcher dispatcher,
@@ -81,7 +81,7 @@ internal static class DailyTrackersEndpoints
             .WithTags(DailyTrackersTag)
             .WithDescription("Creates activity.")
             .RequireAuthorization()
-            .RequireAuthorization(UserStatePolicy.Name);
+            .RequireAuthorization(AuthPolicies.AccountSubscriptionPolicy);
         
         app.MapGet(
                 $"api/{DailyTrackersTag}/activities/{{activityId:ulid}}", 
@@ -111,7 +111,7 @@ internal static class DailyTrackersEndpoints
             .WithTags(DailyTrackersTag)
             .WithDescription("Gets activity by its unique identifier.")
             .RequireAuthorization()
-            .RequireAuthorization(UserStatePolicy.Name);
+            .RequireAuthorization(AuthPolicies.AccountSubscriptionPolicy);
         
         app.MapGet($"api/{DailyTrackersModule.ModuleName}/{DailyTrackersTag}/{{day:dateonly}}", async (
             DateOnly day, CancellationToken cancellationToken, IIdentityContext identityContext,
@@ -136,7 +136,7 @@ internal static class DailyTrackersEndpoints
             .WithTags(DailyTrackersTag)
             .WithDescription("Gets activity by its day.")
             .RequireAuthorization()
-            .RequireAuthorization(UserStatePolicy.Name);
+            .RequireAuthorization(AuthPolicies.AccountSubscriptionPolicy);
         
         app.MapPatch($"api/{DailyTrackersModule.ModuleName}/{DailyTrackersTag}/{{dailyTrackerId:ulid}}/activities/{{activityId:ulid}}/check",
             async (Ulid dailyTrackerId, Ulid activityId, CancellationToken cancellationToken, IIdentityContext identityContext, ICqrsDispatcher dispatcher) =>
@@ -163,7 +163,7 @@ internal static class DailyTrackersEndpoints
             .WithTags(DailyTrackersTag)
             .WithDescription("Changes checked flag at activity")
             .RequireAuthorization()
-            .RequireAuthorization(UserStatePolicy.Name);
+            .RequireAuthorization(AuthPolicies.AccountSubscriptionPolicy);
         
         app.MapPatch($"api/{DailyTrackersModule.ModuleName}/{DailyTrackersTag}/{{dailyTrackerId:ulid}}/activities/{{activityId:ulid}}/stages/{{stageId:ulid}}/check", 
             async (Ulid dailyTrackerId, Ulid activityId, Ulid stageId, CancellationToken cancellationToken, IIdentityContext identityContext, ICqrsDispatcher dispatcher) =>
@@ -191,7 +191,7 @@ internal static class DailyTrackersEndpoints
             .WithTags(DailyTrackersTag)
             .WithDescription("Changes checked flag at activity stage")
             .RequireAuthorization()
-            .RequireAuthorization(UserStatePolicy.Name);
+            .RequireAuthorization(AuthPolicies.AccountSubscriptionPolicy);
         
         app.MapDelete($"api/{DailyTrackersModule.ModuleName}/{DailyTrackersTag}/{{dailyTrackerId:ulid}}/activities/{{activityId:ulid}}",
                 async (Ulid dailyTrackerId, Ulid activityId, CancellationToken cancellationToken, IIdentityContext identityContext, ICqrsDispatcher dispatcher) =>
@@ -216,7 +216,7 @@ internal static class DailyTrackersEndpoints
             .WithTags(DailyTrackersTag)
             .WithDescription("Removes activity")
             .RequireAuthorization()
-            .RequireAuthorization(UserStatePolicy.Name);
+            .RequireAuthorization(AuthPolicies.AccountSubscriptionPolicy);
         
         app.MapDelete($"api/{DailyTrackersModule.ModuleName}/{DailyTrackersTag}/{{dailyTrackerId:ulid}}/activities/{{activityId:ulid}}/stages/{{stageId:ulid}}",
             async (Ulid dailyTrackerId, Ulid activityId, Ulid stageId, CancellationToken cancellationToken, IIdentityContext identityContext, ICqrsDispatcher dispatcher) =>
@@ -244,7 +244,7 @@ internal static class DailyTrackersEndpoints
             .WithTags(DailyTrackersTag)
             .WithDescription("Removes activity stage")
             .RequireAuthorization()
-            .RequireAuthorization(UserStatePolicy.Name);
+            .RequireAuthorization(AuthPolicies.AccountSubscriptionPolicy);
         
         return app;
     }

@@ -55,7 +55,7 @@ public abstract class BaseTestsController : IDisposable
     
     protected async Task<Account> AuthorizeWithFreeSubscriptionPicked()
     {
-        var subscription = await TestAppDb
+        var subscriptionDocument = await TestAppDb
             .GetCollection<SubscriptionDocument>("users-module")
             .Find(x => x.Type == SubscriptionType.Standard.Value)
             .SingleAsync();
@@ -73,8 +73,8 @@ public abstract class BaseTestsController : IDisposable
             "joe.doe@discipline.pl",
             password,
             new SubscriptionOrderSpecification(
-                SubscriptionId.Parse(subscription.Id),
-                subscription.Type,
+                SubscriptionId.Parse(subscriptionDocument.Id),
+                subscriptionDocument.Type,
                 null,
                 SubscriptionType.Standard.HasPayment,
                 null));
@@ -85,20 +85,66 @@ public abstract class BaseTestsController : IDisposable
         
         Authorize(
             account,
-            subscription.ToEntity(new StandardSubscriptionPolicy()),
+            subscriptionDocument.ToEntity(new StandardSubscriptionPolicy()),
             timeProvider,
             null);
         
         return account;
     }
-    //
-    // protected async Task<User> AuthorizeWithoutSubscription()
-    // {
-    //     var user = UserFakeDataFactory.Get();
-    //     await TestAppDb.GetCollection<UserDocument>().InsertOneAsync(user.MapAsDocument(Guid.NewGuid().ToString()));
-    //     Authorize(user.Id, user.Email, user.Status);
-    //     return user;
-    // }
+    
+    protected async Task<Account> AuthorizedWithExpiredToken()
+    {
+        var subscriptionDocument = await TestAppDb
+            .GetCollection<SubscriptionDocument>("users-module")
+            .Find(x => x.Type == SubscriptionType.Standard.Value)
+            .SingleAsync();
+
+        var passwordHasher = new PasswordHasher<Account>();
+        var passwordManager = new PasswordManager(passwordHasher);
+        var timeProvider = TimeProvider.System;
+        var accountService = new AccountService(
+            passwordManager, 
+            timeProvider);
+        const string password = "password";
+
+        var account = accountService.Create(
+            AccountId.New(),
+            "joe.doe@discipline.pl",
+            password,
+            new SubscriptionOrderSpecification(
+                SubscriptionId.Parse(subscriptionDocument.Id),
+                subscriptionDocument.Type,
+                null,
+                SubscriptionType.Standard.HasPayment,
+                null));
+
+        await TestAppDb
+            .GetCollection<AccountDocument>("users-module")
+            .InsertOneAsync(account.ToDocument());
+
+        var subscription = subscriptionDocument.ToEntity(new StandardSubscriptionPolicy()); 
+        
+        var optionsProvider = new OptionsProvider();
+        var authOptions = optionsProvider.Get<JwtOptions>();
+        var authenticator = new JwtAuthenticator(
+            timeProvider, 
+            Options.Create(authOptions));
+
+        var now = timeProvider.GetUtcNow();
+        
+        var token = authenticator.CreateToken(
+            account.Id,
+            subscription.Type.HasExpiryDate,
+            DateOnly.FromDateTime(now.AddDays(-1).DateTime),
+            subscription.GetAllowedNumberOfDailyTasks(),
+            subscription.GetAllowedNumberOfRules());
+        
+        HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
+            "bearer",
+            token);
+        
+        return account;
+    }
     
     protected virtual void Authorize(
         Account account,
@@ -127,7 +173,8 @@ public abstract class BaseTestsController : IDisposable
     {
         var optionsProvider = new OptionsProvider();
         var internalAuthOptions = optionsProvider.Get<InternalKeyOptions>();
-        var authenticator = new InternalJwtAuthenticator(new Clock(), Options.Create(internalAuthOptions));
+        var now = TimeProvider.System.GetUtcNow();
+        var authenticator = new InternalJwtAuthenticator(now, Options.Create(internalAuthOptions));
         var token = authenticator.CreateToken();
         HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", token);
     }

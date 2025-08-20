@@ -9,7 +9,7 @@ namespace discipline.centre.activityrules.application.unitTests.ActivityRules.DT
 public sealed class ActivityRuleDetailsRequestDtoValidatorTests
 {
     [Fact]
-    public void GivenNotEmptyTitle_WhenTestValidate_ShouldNotHaveAnyValidationErrors()
+    public void GivenValidActivityRuleDetailsRequestDto_WhenTestValidate_ShouldNotHaveAnyValidationErrors()
     {
         // Arrange
         var dto = new ActivityRuleDetailsRequestDto("test_title", null);
@@ -22,7 +22,7 @@ public sealed class ActivityRuleDetailsRequestDtoValidatorTests
     }
     
     [Fact]
-    public void GivenEmptyTitle_WhenTestValidate_ShouldHaveErrorForTitleWithCodeValidation_EmptyActivityRuleTitle()
+    public void GivenEmptyTitle_WhenTestValidate_ShouldHaveErrorForTitleWithErrorCode_ActivityRule_Validation_Details_Title_Empty()
     {
         // Arrange
         var dto = new ActivityRuleDetailsRequestDto(string.Empty, null);
@@ -35,12 +35,12 @@ public sealed class ActivityRuleDetailsRequestDtoValidatorTests
         result.Errors
             .Any(x 
                 => x.PropertyName == nameof(ActivityRuleDetailsRequestDto.Title)
-                && x.ErrorMessage == "Validation.EmptyActivityRuleTitle")
+                && x.ErrorCode == "ActivityRule.Validation.Details.Title.Empty")
             .ShouldBeTrue();
     }
     
     [Fact]
-    public void GivenTitleLongerThan30Characters_WhenTestValidate_ShouldHaveErrorForTitleWithCodeValidation_ActivityRuleTitleTooLong()
+    public void GivenTitleLongerThan30Characters_WhenTestValidate_ShouldHaveErrorForTitleWithCode_ActivityRule_Validation_Details_Title_TooLong()
     {
         // Arrange
         var dto = new ActivityRuleDetailsRequestDto(new string('t', 31), null);
@@ -53,7 +53,7 @@ public sealed class ActivityRuleDetailsRequestDtoValidatorTests
         result.Errors
             .Any(x 
                 => x.PropertyName == nameof(ActivityRuleDetailsRequestDto.Title)
-                && x.ErrorMessage == "Validation.ActivityRuleTitleTooLong")
+                && x.ErrorMessage == "ActivityRule.Validation.Details.Title.TooLong")
             .ShouldBeTrue();
     }
     
