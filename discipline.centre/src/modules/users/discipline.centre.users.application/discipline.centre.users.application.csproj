@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>discipline.centre.users.application</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\Shared\discipline.centre.shared.abstractions\discipline.centre.shared.abstractions.csproj" />
+      <ProjectReference Include="..\discipline.centre.users.domain\discipline.centre.users.domain.csproj" />
+    </ItemGroup>
+    
+    <ItemGroup>
+        <InternalsVisibleTo Include="discipline.centre.users.application.unittests"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FluentValidation" />
+        <PackageReference Include="System.Text.Json" />
+    </ItemGroup>
+
+</Project>
