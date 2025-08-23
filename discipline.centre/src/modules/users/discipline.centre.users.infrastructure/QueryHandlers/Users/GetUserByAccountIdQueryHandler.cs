@@ -6,7 +6,7 @@ using discipline.centre.users.infrastructure.DAL.Accounts.Documents;
 using discipline.centre.users.infrastructure.DAL.Users.Documents;
 using MongoDB.Driver;
 
-namespace discipline.centre.users.infrastructure.QueryHandlers;
+namespace discipline.centre.users.infrastructure.QueryHandlers.Users;
 
 internal sealed class GetUserByAccountIdQueryHandler(
     UsersMongoContext context) : IQueryHandler<GetUserByAccountIdQuery, UserResponseDto?>, IQuery<UserResponseDto>

@@ -22,6 +22,7 @@ internal sealed class UsersModule : IModule
     {
         app
             .MapUsersEndpoints()
-            .MapAccountEndpoints();
+            .MapAccountEndpoints()
+            .MapSubscriptionEndpoints();
     }
 }

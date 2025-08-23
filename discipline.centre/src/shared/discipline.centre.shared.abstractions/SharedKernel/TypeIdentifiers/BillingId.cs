@@ -1,3 +1,5 @@
+using discipline.centre.shared.abstractions.Exceptions;
+
 namespace discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 
 public sealed record BillingId(Ulid Value) : ITypeId<BillingId, Ulid>
@@ -8,7 +10,7 @@ public sealed record BillingId(Ulid Value) : ITypeId<BillingId, Ulid>
     {
         if (!Ulid.TryParse(stringTypedId, out var parsedId))
         {
-            throw new ArgumentException($"Can not parse stronglyTypedId of type: {nameof(BillingId)}");
+            throw new InvalidArgumentException("BillingId.InvalidFormat");
         }
 
         return new BillingId(parsedId);

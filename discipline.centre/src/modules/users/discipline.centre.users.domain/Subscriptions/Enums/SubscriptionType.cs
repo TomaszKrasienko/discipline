@@ -1,3 +1,5 @@
+using discipline.centre.shared.abstractions.Exceptions;
+
 namespace discipline.centre.users.domain.Subscriptions.Enums;
 
 public sealed record SubscriptionType
@@ -33,7 +35,7 @@ public sealed record SubscriptionType
         nameof(Premium) => Premium,
         nameof(Standard) => Standard,
         nameof(Admin) => Admin,
-        _ => throw new ArgumentException("SubscriptionType.InvalidFormat")
+        _ => throw new InvalidArgumentException("SubscriptionType.InvalidFormat")
     };
 
     public override string ToString()

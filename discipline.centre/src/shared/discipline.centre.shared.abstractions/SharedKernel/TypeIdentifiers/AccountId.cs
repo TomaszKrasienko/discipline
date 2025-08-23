@@ -1,3 +1,5 @@
+using discipline.centre.shared.abstractions.Exceptions;
+
 namespace discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 
 public readonly record struct AccountId(Ulid Value) : ITypeId<AccountId, Ulid>
@@ -8,7 +10,7 @@ public readonly record struct AccountId(Ulid Value) : ITypeId<AccountId, Ulid>
     {
         if (!Ulid.TryParse(stringTypedId, out var parsed))
         {
-            throw new ArgumentException($"Invalid account Id value: {parsed}");
+            throw new InvalidArgumentException("AccountId.InvalidFormat");
         }
         
         return new AccountId(parsed);   

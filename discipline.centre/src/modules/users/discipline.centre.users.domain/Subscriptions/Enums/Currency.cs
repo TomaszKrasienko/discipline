@@ -1,3 +1,5 @@
+using discipline.centre.shared.abstractions.Exceptions;
+
 namespace discipline.centre.users.domain.Subscriptions.Enums;
 
 public sealed record Currency
@@ -18,6 +20,6 @@ public sealed record Currency
     public static Currency FromValue(string shortcut) => shortcut switch
     {
         "PLN" => Pln,
-        _ => throw new ArgumentException("Currency.InvalidFormat")
+        _ => throw new InvalidArgumentException("Currency.InvalidFormat")
     };
 };

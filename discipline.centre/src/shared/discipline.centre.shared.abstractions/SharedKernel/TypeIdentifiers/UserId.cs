@@ -1,3 +1,5 @@
+using discipline.centre.shared.abstractions.Exceptions;
+
 namespace discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 
 public readonly record struct UserId(Ulid Value) : ITypeId<UserId, Ulid>
@@ -8,7 +10,7 @@ public readonly record struct UserId(Ulid Value) : ITypeId<UserId, Ulid>
     {
         if (!Ulid.TryParse(stringTypedId, out var parsedId))
         {
-            throw new ArgumentException($"Can not parse stronglyTypedId of type: {nameof(UserId)}");
+            throw new InvalidArgumentException("UserId.InvalidFormat");
         }
 
         return new UserId(parsedId);

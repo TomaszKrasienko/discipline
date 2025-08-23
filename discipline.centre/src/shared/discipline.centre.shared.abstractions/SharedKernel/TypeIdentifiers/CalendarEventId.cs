@@ -1,3 +1,5 @@
+using discipline.centre.shared.abstractions.Exceptions;
+
 namespace discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 
 public sealed record CalendarEventId(Ulid Value) : ITypeId<CalendarEventId, Ulid>
@@ -8,7 +10,7 @@ public sealed record CalendarEventId(Ulid Value) : ITypeId<CalendarEventId, Ulid
     {
         if (!Ulid.TryParse(stringTypedId, out var parsedId))
         {
-            throw new ArgumentException($"Can not parse stronglyTypedId of type: {nameof(CalendarEventId)}");
+            throw new InvalidArgumentException("CalendarEventId.InvalidFormat");
         }
 
         return new CalendarEventId(parsedId);

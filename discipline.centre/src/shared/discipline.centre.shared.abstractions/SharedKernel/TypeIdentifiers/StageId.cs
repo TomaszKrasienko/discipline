@@ -1,3 +1,5 @@
+using discipline.centre.shared.abstractions.Exceptions;
+
 namespace discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 
 public sealed record StageId(Ulid Value) : ITypeId<StageId, Ulid>
@@ -8,7 +10,7 @@ public sealed record StageId(Ulid Value) : ITypeId<StageId, Ulid>
     { 
         if (!Ulid.TryParse(stringTypedId, out var parsedId))
         {
-            throw new ArgumentException($"Can not parse stronglyTypedId of type: {nameof(StageId)}");
+            throw new InvalidArgumentException("StageId.InvalidFormat");
         }
 
         return new StageId(parsedId);

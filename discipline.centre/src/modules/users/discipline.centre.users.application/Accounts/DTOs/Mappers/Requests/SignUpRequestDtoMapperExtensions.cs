@@ -16,7 +16,9 @@ public static class SignUpRequestDtoMapperExtensions
             request.Email,
             request.Password,
             SubscriptionId.Parse(request.SubscriptionId),
-            Period.FromValue(request.Period),
+            request.Period is null 
+                ? null 
+                : Period.FromValue(request.Period),
             request.FirstName,
             request.LastName,
             request.PaymentValue);  

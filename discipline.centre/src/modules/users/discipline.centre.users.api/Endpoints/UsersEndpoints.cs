@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 // ReSharper disable All
-namespace discipline.centre.users.api.Endpoints;
+namespace Microsoft.AspNetCore.Builder;
 
 internal static class UsersEndpoints
 {

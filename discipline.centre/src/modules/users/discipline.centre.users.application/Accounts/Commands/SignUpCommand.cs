@@ -19,7 +19,7 @@ public sealed record SignUpCommand(
     string Email, 
     string Password,
     SubscriptionId SubscriptionId,
-    Period Period,
+    Period? Period,
     string FirstName,
     string LastName,
     decimal? PaymentValue) : ICommand;

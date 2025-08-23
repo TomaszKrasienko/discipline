@@ -1,3 +1,5 @@
+using discipline.centre.shared.abstractions.Exceptions;
+
 namespace discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 
 public sealed record EventId(Ulid Value) : ITypeId<EventId, Ulid>
@@ -8,7 +10,7 @@ public sealed record EventId(Ulid Value) : ITypeId<EventId, Ulid>
     {
         if (!Ulid.TryParse(stringTypedId, out var parsedId))
         {
-            throw new ArgumentException($"Can not parse stronglyTypedId of type: {nameof(EventId)}");
+            throw new InvalidArgumentException("EventId.InvalidFormat");
         }
 
         return new EventId(parsedId);
