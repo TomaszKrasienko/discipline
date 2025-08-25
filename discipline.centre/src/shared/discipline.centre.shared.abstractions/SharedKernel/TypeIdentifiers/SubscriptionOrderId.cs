@@ -15,4 +15,7 @@ public readonly record struct SubscriptionOrderId(Ulid Value) : ITypeId<Subscrip
 
         return new SubscriptionOrderId(parsedId);
     }
+
+    public override string ToString()
+        => Value.ToString();
 }

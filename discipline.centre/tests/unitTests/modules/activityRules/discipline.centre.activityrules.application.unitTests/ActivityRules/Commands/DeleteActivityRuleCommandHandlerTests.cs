@@ -55,7 +55,9 @@ public sealed class DeleteActivityRuleCommandHandlerTests
         // Assert
         await _eventProcessor
             .Received(1)
-            .PublishAsync(Arg.Is<ActivityRuleDeleted>(arg
+            .PublishAsync(
+                CancellationToken.None,
+                Arg.Is<ActivityRuleDeleted>(arg
                 => arg.UserId == activityRule.AccountId.Value
                 && arg.ActivityRuleId == activityRule.Id.Value));
     }
@@ -95,7 +97,9 @@ public sealed class DeleteActivityRuleCommandHandlerTests
         // Assert
         await _eventProcessor
             .Received(0)
-            .PublishAsync(Arg.Any<ActivityRuleDeleted>());
+            .PublishAsync(
+                CancellationToken.None,
+                Arg.Any<ActivityRuleDeleted>());
     }
     
     #region Arrange

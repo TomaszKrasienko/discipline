@@ -1,5 +1,4 @@
-using discipline.hangfire.activity_rules.DAL;
-using discipline.hangfire.activity_rules.Facades;
+using discipline.hangfire.activity_rules.DAL.Repositories;
 using discipline.hangfire.activity_rules.Models;
 using discipline.hangfire.shared.abstractions.Events;
 using discipline.hangfire.shared.abstractions.Identifiers;
@@ -9,13 +8,22 @@ namespace discipline.hangfire.activity_rules.Events.External.Handlers;
 
 internal sealed class ActivityRuleRegisteredHandler(
     ILogger<ActivityRuleRegisteredHandler> logger,
-    ICentreFacade centreFacade,
-    ActivityRuleDbContext context) : IEventHandler<ActivityRuleRegistered>
+    IActivityRuleRepository repository) : IEventHandler<ActivityRuleRegistered>
 {
     public async Task HandleAsync(ActivityRuleRegistered @event, CancellationToken cancellationToken)
     {
+        logger.LogInformation("ActivityRuleRegisteredHandler.HandleAsync called");
+        
         var stronglyActivityRuleId = ActivityRuleId.Parse(@event.ActivityRuleId);
         var stronglyUserId = UserId.Parse(@event.UserId);
+
+        if (await repository.DoesActivityRuleExistAsync(
+                stronglyActivityRuleId,
+                stronglyUserId,
+                cancellationToken))
+        {
+            return;
+        }
 
         var activityRule = ActivityRule.Create(
             stronglyActivityRuleId,
@@ -24,7 +32,6 @@ internal sealed class ActivityRuleRegisteredHandler(
             @event.Mode,
             @event.Days);
         
-        context.Add(activityRule);
-        await context.SaveChangesAsync(cancellationToken);
+        await repository.AddAsync(activityRule, cancellationToken);
     }
 }

@@ -1,10 +1,11 @@
 using discipline.centre.shared.abstractions.Messaging;
 using discipline.centre.shared.abstractions.Serialization;
 using discipline.centre.shared.infrastructure.Messaging.Abstractions;
+using discipline.centre.shared.infrastructure.Messaging.RabbitMq;
 using discipline.centre.shared.infrastructure.Messaging.RabbitMq.Abstractions;
 using RabbitMQ.Client;
 
-namespace discipline.centre.shared.infrastructure.Messaging.RabbitMq;
+namespace discipline.centre.shared.infrastructure.Messaging.Publishers;
 
 internal sealed class RabbitMqMessagePublisher(
     RabbitMqChannelFactory channelFactory,
@@ -35,4 +36,6 @@ internal sealed class RabbitMqMessagePublisher(
             mandatory:  true,
             cancellationToken: cancellationToken);
     }
+
+    public bool IsOutbox() => false;
 }

@@ -1,5 +1,6 @@
 using discipline.centre.shared.infrastructure.Messaging.Abstractions;
 using discipline.centre.shared.infrastructure.Messaging.Internal.Configuration;
+using discipline.centre.shared.infrastructure.Messaging.Publishers.Configuration;
 using discipline.centre.shared.infrastructure.Messaging.RabbitMq;
 using discipline.centre.shared.infrastructure.Messaging.RabbitMq.Abstractions;
 using discipline.centre.shared.infrastructure.Messaging.RabbitMq.Configuration;
@@ -14,6 +15,7 @@ internal static class MessageServicesConfigurationExtensions
         => services
             .AddRabbitMq(configuration)
             .AddInternalMessaging()
-            .AddSingleton<IMessageConventionProvider, MessageConventionProvider>()
-            .AddSingleton(typeof(IMessageHandler<>), typeof(MessageHandler<>));
+            .AddSingleton(typeof(IMessageHandler<>), typeof(MessageHandler<>))
+            .AddOutbox(configuration)
+            .AddPublishers();
 }

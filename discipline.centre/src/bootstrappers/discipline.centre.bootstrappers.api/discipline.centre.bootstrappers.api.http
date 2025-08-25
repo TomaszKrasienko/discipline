@@ -27,7 +27,7 @@ Content-Type: application/json
   "paymentValue": null
 }
 
-###
+### Gettings tokens for account
 # @name sign_in
 POST {{host_address}}/api/accounts/signed-in
 Content-Type: application/json
@@ -61,20 +61,6 @@ Content-Type: application/json
 GET {{host_address}}/api/users/me
 Authorization: Bearer {{token}}
 
-###
-GET {{host_address}}/api/users-module/users/{{user_id}}
-Authorization: bearer {{token}}
-
-
-###
-POST {{host_address}}/api/users-module/users/subscription-order
-Authorization: bearer {{token}}
-Content-Type: application/json
-
-{
-  "subscriptionId": "01JDEMJMBP7DMM3GMNWCE62FS2"
-}
-
 ### Activity Rules
 
 ###
@@ -86,7 +72,7 @@ Content-Type: application/json
 
 {
   "details": {
-    "title": "title",
+    "title": "title6",
     "note": "without any notes"
   },
   "mode": {

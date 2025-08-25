@@ -1,6 +1,5 @@
 using discipline.centre.dailytrackers.application.DailyTrackers.Commands;
 using discipline.centre.shared.abstractions.Modules;
-using discipline.centre.shared.infrastructure.Events.Brokers.Redis.Configuration;
 using discipline.centre.shared.infrastructure.Messaging.RabbitMq.Configuration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;

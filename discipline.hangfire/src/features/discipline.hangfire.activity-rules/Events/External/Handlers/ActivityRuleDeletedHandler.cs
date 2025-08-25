@@ -1,4 +1,5 @@
 using discipline.hangfire.activity_rules.DAL;
+using discipline.hangfire.activity_rules.DAL.Repositories;
 using discipline.hangfire.activity_rules.Models;
 using discipline.hangfire.shared.abstractions.Events;
 using discipline.hangfire.shared.abstractions.Identifiers;
@@ -9,24 +10,28 @@ namespace discipline.hangfire.activity_rules.Events.External.Handlers;
 
 internal sealed class ActivityRuleDeletedHandler(
     ILogger<ActivityRuleDeletedHandler> logger,
-    ActivityRuleDbContext context) : IEventHandler<ActivityRuleDeleted>
+    IActivityRuleRepository activityRuleRepository) : IEventHandler<ActivityRuleDeleted>
 {
     public async Task HandleAsync(ActivityRuleDeleted @event, CancellationToken cancellationToken)
     {
+        logger.LogInformation("ActivityRuleDeletedHandler.HandleAsync called");
+        
         var stronglyActivityRuleId = ActivityRuleId.Parse(@event.ActivityRuleId);
         var stronglyUserId = UserId.Parse(@event.UserId);
         
-        var activityRule = await context.Set<ActivityRule>()
-            .SingleOrDefaultAsync(x 
-                => x.ActivityRuleId == stronglyActivityRuleId
-                   && x.UserId == stronglyUserId, cancellationToken);
+        var activityRule = await activityRuleRepository
+            .GetByIdAsync(
+                stronglyActivityRuleId,
+                stronglyUserId,
+                cancellationToken);
 
         if (activityRule is null)
         {
             return;
         }
         
-        context.Remove(activityRule);
-        await context.SaveChangesAsync(cancellationToken);
+        await activityRuleRepository.DeleteAsync(
+            activityRule,
+            cancellationToken);
     }
 }

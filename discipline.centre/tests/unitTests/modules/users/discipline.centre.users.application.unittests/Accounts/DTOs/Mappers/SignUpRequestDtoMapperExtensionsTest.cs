@@ -31,7 +31,7 @@ public sealed class SignUpRequestDtoMapperExtensionsTest
         command.Email.ShouldBe(request.Email);
         command.Password.ShouldBe(request.Password);
         command.SubscriptionId.Value.ToString().ShouldBe(request.SubscriptionId);
-        command.Period.Value.ShouldBe(request.Period);
+        command.Period!.Value.Value.ShouldBe(request.Period);
         command.FirstName.ShouldBe(request.FirstName);
         command.LastName.ShouldBe(request.LastName);
         command.PaymentValue.ShouldBe(request.PaymentValue);

@@ -37,7 +37,9 @@ public sealed class CreateActivityRuleCommandHandlerTests
         // Assert
         await _eventProcessor
             .Received(1)
-            .PublishAsync(Arg.Any<IEvent>());
+            .PublishAsync(
+                CancellationToken.None,
+                Arg.Any<IEvent>());
     }
     
     [Fact]

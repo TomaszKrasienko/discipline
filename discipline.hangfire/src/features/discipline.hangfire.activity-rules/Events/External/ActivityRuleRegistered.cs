@@ -6,6 +6,5 @@ internal sealed record ActivityRuleRegistered(
     string ActivityRuleId,
     string UserId,
     string Title,
-    string? Note,
     string Mode,
     IReadOnlyCollection<int>? Days) : IEvent;

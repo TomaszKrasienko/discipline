@@ -16,7 +16,7 @@ public static class AddActivityRulesServicesConfigurationExtensions
             .AddActivityRuleClientService(configuration)
             .AddDal()
             .AddTransient<ICentreFacade, CentreFacade>()
-            .AddTransient<IActivityRulesApi,  ActivityRulesApi>()
+            .AddTransient<IActivityRulesApi, ActivityRulesApi>()
             .AddRabbitMqConsumer<ActivityRuleRegistered>()
             .AddRabbitMqConsumer<ActivityRuleChanged>()
             .AddRabbitMqConsumer<ActivityRuleDeleted>();

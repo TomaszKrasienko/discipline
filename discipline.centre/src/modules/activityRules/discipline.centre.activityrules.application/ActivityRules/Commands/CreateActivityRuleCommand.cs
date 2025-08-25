@@ -30,7 +30,8 @@ internal sealed class CreateActivityRuleCommandHandler(
             command.Mode);
         
         await readWriteActivityRuleRepository.AddAsync(activityRule, cancellationToken);
-        await eventProcessor.PublishAsync(activityRule.DomainEvents.Select(x
-            => x.MapAsIntegrationEvent()).ToArray());
+        await eventProcessor.PublishAsync(
+            cancellationToken, 
+            activityRule.DomainEvents.Select(x => x.MapAsIntegrationEvent()).ToArray());
     }
 }

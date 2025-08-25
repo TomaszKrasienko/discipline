@@ -11,7 +11,6 @@ internal static class EventsServicesConfigurationExtensions
     internal static IServiceCollection AddEvents(this IServiceCollection services, IConfiguration configuration,
         IEnumerable<Assembly> assemblies)
         => services
-            .AddRedisBroker(configuration)
             .AddSingleton<IEventProcessor, EventProcessor>()
             .AddSingleton<IEventDispatcher, EventDispatcher>()
             .AddEventHandlers(assemblies);

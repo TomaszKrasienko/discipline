@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace discipline.hangfire.activity_rules.DAL;
 
-internal sealed class ActivityRuleDbContext(DbContextOptions<ActivityRuleDbContext> contextOptions)
+internal class ActivityRuleDbContext(DbContextOptions<ActivityRuleDbContext> contextOptions)
     : DbContext(contextOptions)
 {
     protected override void OnModelCreating(ModelBuilder modelBuilder)
