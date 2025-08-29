@@ -1,5 +1,6 @@
 using discipline.hangfire.activity_rules.DAL;
 using discipline.hangfire.activity_rules.Models;
+using discipline.hangfire.activity_rules.Strategies.Abstractions;
 using discipline.hangfire.shared.abstractions.Events;
 using discipline.hangfire.shared.abstractions.Identifiers;
 using Microsoft.EntityFrameworkCore;
@@ -9,28 +10,26 @@ namespace discipline.hangfire.activity_rules.Events.External.Handlers;
 
 internal sealed class ActivityRuleModifiedHandler(
     ILogger<ActivityRuleModifiedHandler> logger,
+    IEnumerable<IActivityRuleHandlingStrategy> strategies,
     ActivityRuleDbContext context) : IEventHandler<ActivityRuleModified>
 {
-    public async Task HandleAsync(ActivityRuleModified @event, CancellationToken cancellationToken)
+    public async Task HandleAsync(
+        ActivityRuleModified @event, 
+        CancellationToken cancellationToken, 
+        string? messageType = null)
     {
-        var stronglyActivityRuleId = ActivityRuleId.Parse(@event.ActivityRuleId);
-        var stronglyUserId = UserId.Parse(@event.UserId);
-        
-        var activityRule = await context.Set<ActivityRule>()
-            .SingleOrDefaultAsync(x 
-                => x.ActivityRuleId == stronglyActivityRuleId
-                && x.UserId == stronglyUserId, cancellationToken);
-
-        if (activityRule is null)
+        if (messageType is null)
         {
-            throw new ArgumentException($"Activity rule with id {stronglyActivityRuleId} not found");
+            throw new ArgumentNullException(nameof(messageType));
         }
-
-        activityRule.UpdateMode(
-            @event.Title,
-            @event.Mode,
-            @event.Days);
         
-        await context.SaveChangesAsync(cancellationToken);
+        var strategy = strategies.SingleOrDefault(x => x.CanBeApplied(messageType));
+
+        if (strategy is null)
+        {
+            throw new InvalidOperationException($"No strategy found for {messageType}");
+        }
+        
+        await strategy.HandleAsync(@event, cancellationToken);
     }
 }

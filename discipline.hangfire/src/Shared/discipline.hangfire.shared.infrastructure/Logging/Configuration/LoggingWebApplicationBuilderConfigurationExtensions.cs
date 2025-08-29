@@ -2,6 +2,8 @@ using discipline.hangfire.infrastructure.Configuration;
 using discipline.hangfire.infrastructure.Configuration.Options;
 using discipline.hangfire.infrastructure.Logging.Configuration.Options;
 using Serilog;
+using Serilog.Events;
+using Serilog.Sinks.SystemConsole.Themes;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.AspNetCore.Builder;
@@ -18,8 +20,13 @@ internal static class LoggingWebApplicationBuilderConfigurationExtensions
             configuration
                 .ReadFrom.Configuration(context.Configuration)
                 .Enrich.FromLogContext()
+                .MinimumLevel.Information()
+                .MinimumLevel.Override("Hangfire", LogEventLevel.Warning)
+                .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
                 .Enrich.WithProperty("ConnectionName", appOptions.Name)
-                .WriteTo.Console(outputTemplate:"[{Timestamp:HH:mm:ss} {Level:u3}] {Message}{NewLine}")
+                .WriteTo.Console(
+                    outputTemplate:"[{Timestamp:HH:mm:ss} {Level:u3}] {Message}{NewLine}",
+                    theme:AnsiConsoleTheme.Code)
                 .WriteTo.Seq(seqOptions.Url);
         });
 

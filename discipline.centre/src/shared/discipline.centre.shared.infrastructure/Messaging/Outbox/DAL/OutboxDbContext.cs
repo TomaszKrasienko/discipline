@@ -1,4 +1,4 @@
-using discipline.centre.shared.infrastructure.Messaging.Publishers.Outbox.Models;
+using discipline.centre.shared.infrastructure.Messaging.Outbox.Models;
 using Microsoft.EntityFrameworkCore;
 using UlidTypeConverter = discipline.centre.shared.infrastructure.Messaging.Publishers.Outbox.DAL.UlidTypeConverter;
 

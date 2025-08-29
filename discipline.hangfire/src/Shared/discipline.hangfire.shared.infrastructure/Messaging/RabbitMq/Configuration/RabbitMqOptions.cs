@@ -13,5 +13,5 @@ internal sealed record RabbitMqOptions
 public sealed record MessageRouteOptions
 {
     public required string Exchange { get; init; }
-    public required string RoutingKey { get; init; }
+    public required string[] RoutingKeys { get; init; }
 }

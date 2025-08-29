@@ -46,11 +46,11 @@ app.UseHttpsRedirection();
 RecurringJob.AddOrUpdate<IAddPlannedTasksApi>(
     "execute-task-planning",
     job => job.ExecuteTaskPlanning(CancellationToken.None), 
-    Cron.Daily);
-
-RecurringJob.AddOrUpdate<ICreateActivityFromPlannedApi>(
-    "create-activity-from-planned",
-    job => job.ExecuteTaskCreating(CancellationToken.None),
-    Cron.Daily);
+    Cron.Minutely);
+//
+// RecurringJob.AddOrUpdate<ICreateActivityFromPlannedApi>(
+//     "create-activity-from-planned",
+//     job => job.ExecuteTaskCreating(CancellationToken.None),
+//     Cron.Daily);
 
 await app.RunAsync();

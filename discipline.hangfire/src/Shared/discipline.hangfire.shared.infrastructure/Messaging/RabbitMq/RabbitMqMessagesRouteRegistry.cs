@@ -10,13 +10,13 @@ internal sealed class RabbitMqMessagesRouteRegistry(
 {
     private readonly Dictionary<string,MessageRouteOptions> _options = options.Value.Routes;
     
-    public (string exchange, string routingKey) GetRoute<TMessage>() where TMessage : class, IMessage
+    public (string exchange, List<string> routingKeys) GetRoute<TMessage>() where TMessage : class, IMessage
     {
         var typeName = typeof(TMessage).Name;
 
         if (_options.TryGetValue(typeName, out var route))
         {
-            return (route.Exchange, route.RoutingKey);
+            return (route.Exchange, route.RoutingKeys.ToList());
         }
         
         throw new ArgumentException($"{typeName} is not registered");

@@ -1,4 +1,4 @@
-namespace discipline.centre.shared.infrastructure.Messaging.Publishers.Outbox.Models;
+namespace discipline.centre.shared.infrastructure.Messaging.Outbox.Models;
 
 public sealed class OutboxMessage
 {
@@ -6,8 +6,8 @@ public sealed class OutboxMessage
     public string JsonContent { get; }
     public string MessageType { get; }
     public DateTimeOffset CreatedAt { get; }
-    public DateTimeOffset? SentAt { get; }
-    public int RetryCount { get; }
+    public DateTimeOffset? SentAt { get; private set; }
+    public int RetryCount { get; private set; }
 
     //TODO: Factory method
     public OutboxMessage(
@@ -25,4 +25,10 @@ public sealed class OutboxMessage
         SentAt = sentAt;
         RetryCount = retryCount;
     }
+    
+    internal void SetSentAt(DateTimeOffset sentAt)
+        =>  SentAt = sentAt;
+    
+    internal void IncreaseRetryCount()
+        => RetryCount++;
 }

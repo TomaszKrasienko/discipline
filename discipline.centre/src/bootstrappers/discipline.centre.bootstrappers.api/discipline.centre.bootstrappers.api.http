@@ -72,11 +72,11 @@ Content-Type: application/json
 
 {
   "details": {
-    "title": "title6",
+    "title": "My first test",
     "note": "without any notes"
   },
   "mode": {
-    "mode": "FirstDayOfMonth"
+    "mode": "EveryDay"
   },
   "stages": [
   ]
@@ -101,7 +101,7 @@ Content-Type: application/json
 
 {
   "details": {
-    "title": "My second new rule",
+    "title": "My second new rule 1",
     "note": "without any notes"
   },
   "mode": {
