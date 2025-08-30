@@ -1,7 +1,7 @@
 {
   "dailytrackers": {
     "module": {
-      "enabled": true
+      "enabled": "false"
     }
   }
 }

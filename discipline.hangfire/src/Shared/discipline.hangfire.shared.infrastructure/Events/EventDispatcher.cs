@@ -6,10 +6,13 @@ namespace discipline.hangfire.infrastructure.Events;
 internal sealed class EventDispatcher(
     IServiceProvider serviceProvider) : IEventDispatcher
 {
-    public async Task HandleAsync<TEvent>(TEvent @event, CancellationToken cancellationToken) where TEvent : class, IEvent
+    public async Task HandleAsync<TEvent>(
+        TEvent @event,
+        CancellationToken cancellationToken, 
+        string? messageType = null) where TEvent : class, IEvent
     {
         using var scope = serviceProvider.CreateScope();
         var handler = scope.ServiceProvider.GetRequiredService<IEventHandler<TEvent>>();
-        await handler.HandleAsync(@event, cancellationToken);
+        await handler.HandleAsync(@event, cancellationToken, messageType);
     }
 }

@@ -43,7 +43,7 @@ public sealed class ActivityRuleModeRequestDtoValidatorTests
     public void GivenDayOutOfRange_WhenTestValidate_ShouldHaveErrorForDaysWithErrorCode_Validation_Mode_Days_OutOfRange()
     {
         // Arrange
-        var dto = new ActivityRuleModeRequestDto("test_mode", [7]);
+        var dto = new ActivityRuleModeRequestDto("test_mode", [8]);
         
         // Act
         var result = _validator.TestValidate(dto);

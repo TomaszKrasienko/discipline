@@ -1,5 +1,5 @@
 using discipline.centre.shared.abstractions.Events;
-using discipline.centre.shared.infrastructure.Messaging.Abstractions;
+using discipline.centre.shared.infrastructure.Messaging.Publishers.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace discipline.centre.shared.infrastructure.Events;
@@ -7,15 +7,19 @@ namespace discipline.centre.shared.infrastructure.Events;
 internal sealed class EventProcessor(
     IServiceProvider serviceProvider) : IEventProcessor
 {
-    public async Task PublishAsync(params IEvent[] domainEvents)
+    public async Task PublishAsync(
+        CancellationToken cancellationToken = default,
+        params IEvent[] events)
     {
         using var scope = serviceProvider.CreateScope();
-        var messagePublishers = scope.ServiceProvider.GetRequiredService<IEnumerable<IMessagePublisher>>().ToList();
+        var messageProcessor = scope.ServiceProvider.GetRequiredService<IMessageProcessor>();
+        List<Task> tasks = new List<Task>();
         
-        foreach (var @event in domainEvents)
+        foreach (var @event in events)
         {
-            var sendingTasks = messagePublishers.Select(x => x.PublishAsync(@event));
-            await Task.WhenAll(sendingTasks);
+            tasks.Add(messageProcessor.PublishAsync(@event, cancellationToken));
         }
+        
+        await Task.WhenAll(tasks);
     }
 }

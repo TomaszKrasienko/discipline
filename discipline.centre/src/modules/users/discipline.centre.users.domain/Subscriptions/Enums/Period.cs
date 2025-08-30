@@ -1,3 +1,5 @@
+using discipline.centre.shared.abstractions.Exceptions;
+
 namespace discipline.centre.users.domain.Subscriptions.Enums;
 
 public readonly record struct Period
@@ -23,6 +25,6 @@ public readonly record struct Period
     {
         nameof(Month) => Month,
         nameof(Year) => Year,
-        _ => throw new ArgumentException("Period.InvalidFormat")
+        _ => throw new InvalidArgumentException("Period.InvalidFormat")
     };
 };

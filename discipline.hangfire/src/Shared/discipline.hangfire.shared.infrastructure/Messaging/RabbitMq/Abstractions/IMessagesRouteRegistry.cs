@@ -4,5 +4,5 @@ namespace discipline.hangfire.infrastructure.Messaging.RabbitMq.Abstractions;
 
 internal interface IMessagesRouteRegistry
 {
-    (string exchange, string routingKey) GetRoute<TMessage>() where TMessage : class, IMessage;
+    (string exchange, List<string> routingKeys) GetRoute<TMessage>() where TMessage : class, IMessage;
 }

@@ -1,3 +1,5 @@
+using discipline.centre.shared.abstractions.Exceptions;
+
 namespace discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 
 public record DailyTrackerId(Ulid Value) : ITypeId<DailyTrackerId, Ulid>
@@ -8,7 +10,7 @@ public record DailyTrackerId(Ulid Value) : ITypeId<DailyTrackerId, Ulid>
     {
         if (!Ulid.TryParse(stringTypedId, out var parsedId))
         {
-            throw new ArgumentException($"Can not parse stronglyTypedId of type: {nameof(DailyTrackerId)}");
+            throw new InvalidArgumentException("DailyTrackerId.InvalidFormat");
         }
 
         return new DailyTrackerId(parsedId);

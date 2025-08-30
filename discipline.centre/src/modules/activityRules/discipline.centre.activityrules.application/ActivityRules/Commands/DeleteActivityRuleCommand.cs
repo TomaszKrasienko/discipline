@@ -25,6 +25,8 @@ internal sealed class DeleteActivityRuleCommandHandler(
         await readWriteActivityRuleRepository.DeleteAsync(activityRule, cancellationToken);
         
         var @event = new ActivityRuleDeleted(command.AccountId.Value, activityRule.Id.Value);
-        await eventProcessor.PublishAsync(@event);
+        await eventProcessor.PublishAsync(
+            cancellationToken,
+            @event);
     }
 }

@@ -1,13 +1,11 @@
 using discipline.hangfire.create_activity_from_planned.Commands;
-using discipline.hangfire.create_activity_from_planned.Publishers.Abstractions;
 using discipline.hangfire.shared.abstractions.Api;
 
 namespace discipline.hangfire.create_activity_from_planned;
 
 internal sealed class CreateActivityFromPlannedApi(
     IAddPlannedTasksApi addPlannedTasksApi,
-    TimeProvider timeProvider,
-    IBrokerPublisher brokerPublisher) : ICreateActivityFromPlannedApi
+    TimeProvider timeProvider) : ICreateActivityFromPlannedApi
 {
     public async Task ExecuteTaskCreating(CancellationToken cancellationToken)
     {
@@ -20,13 +18,13 @@ internal sealed class CreateActivityFromPlannedApi(
 
             //TODO: Outbox pattern
             
-            List<Task> creatingTasks =
-            [
-                brokerPublisher.SendAsync(command, cancellationToken),
-                addPlannedTasksApi.MarkAsPlanned(plannedTask.Id, cancellationToken)
-            ];
+            // List<Task> creatingTasks =
+            // [
+            //     brokerPublisher.SendAsync(command, cancellationToken),
+            //     addPlannedTasksApi.MarkAsPlanned(plannedTask.Id, cancellationToken)
+            // ];
 
-            await Task.WhenAll(creatingTasks);
+            // await Task.WhenAll(creatingTasks);
         }
     }
 }

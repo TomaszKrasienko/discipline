@@ -33,7 +33,6 @@ public static class InfrastructureServicesExtensions
             .AddPostgres(configuration)
             .AddEvents(assemblies)
             .AddSerializer()
-            .AddRedisBroker(configuration)
             .AddLogging(configuration)
             .AddSingleton(TimeProvider.System)
             .AddMessaging(configuration);

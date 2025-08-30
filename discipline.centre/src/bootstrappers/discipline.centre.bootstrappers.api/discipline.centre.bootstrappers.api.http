@@ -8,24 +8,28 @@ GET {{host_address}}/
 @email = tom.krasienko@gmail.com
 @password = TomaszK123!
 
-###
+
+### Retrieve subscription
+GET {{host_address}}/api/subscription
+
+### Create account with Standard subscription
 # @name sign_up
-POST {{host_address}}/api/users-module/users
+POST {{host_address}}/api/accounts
 Content-Type: application/json
 
-{  
+{
   "email": "{{email}}",
   "password": "{{password}}",
-  "firstName": "Tom",
-  "lastName": "Krasienko"
+  "subscriptionId": "01K3B1HHVMJA576K7PAYY5GKAM",
+  "period": null,
+  "firstName": "FreeUserFirstName",
+  "lastName": "FreeUserLastName",
+  "paymentValue": null
 }
 
-###
-@user_id = {{sign_up.response.headers.x-resource-id}}
-
-###
+### Gettings tokens for account
 # @name sign_in
-POST {{host_address}}/api/users/tokens
+POST {{host_address}}/api/accounts/signed-in
 Content-Type: application/json
 
 {
@@ -57,20 +61,6 @@ Content-Type: application/json
 GET {{host_address}}/api/users/me
 Authorization: Bearer {{token}}
 
-###
-GET {{host_address}}/api/users-module/users/{{user_id}}
-Authorization: bearer {{token}}
-
-
-###
-POST {{host_address}}/api/users-module/users/subscription-order
-Authorization: bearer {{token}}
-Content-Type: application/json
-
-{
-  "subscriptionId": "01JDEMJMBP7DMM3GMNWCE62FS2"
-}
-
 ### Activity Rules
 
 ###
@@ -82,11 +72,11 @@ Content-Type: application/json
 
 {
   "details": {
-    "title": "title",
+    "title": "My second test",
     "note": "without any notes"
   },
   "mode": {
-    "mode": "FirstDayOfMonth"
+    "mode": "EveryDay"
   },
   "stages": [
   ]
@@ -111,7 +101,7 @@ Content-Type: application/json
 
 {
   "details": {
-    "title": "My second new rule",
+    "title": "My second new rule 1",
     "note": "without any notes"
   },
   "mode": {

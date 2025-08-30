@@ -1,3 +1,4 @@
+using discipline.centre.shared.abstractions.Exceptions;
 using discipline.centre.users.domain.Subscriptions;
 using discipline.centre.users.domain.Subscriptions.Policies;
 using discipline.centre.users.domain.Subscriptions.Policies.Abstractions;
@@ -43,8 +44,8 @@ public sealed class SubscriptionDocumentsMapperExtensions
         var exception = Record.Exception(() => document.ToEntity(_policy));
         
         // Assert
-        exception.ShouldBeOfType<ArgumentException>();
-        ((ArgumentException)exception).Message.ShouldBe("SubscriptionId.InvalidFormat");
+        exception.ShouldBeOfType<InvalidArgumentException>();
+        ((InvalidArgumentException)exception).Code.ShouldBe("SubscriptionId.InvalidFormat");
     }
 
     [Fact]
@@ -59,8 +60,8 @@ public sealed class SubscriptionDocumentsMapperExtensions
         var exception = Record.Exception(() => document.ToEntity(_policy));
         
         // Assert
-        exception.ShouldBeOfType<ArgumentException>();
-        ((ArgumentException)exception).Message.ShouldBe("SubscriptionType.InvalidFormat");
+        exception.ShouldBeOfType<InvalidArgumentException>();
+        ((InvalidArgumentException)exception).Code.ShouldBe("SubscriptionType.InvalidFormat");
     }
 
     [Fact]
@@ -75,8 +76,8 @@ public sealed class SubscriptionDocumentsMapperExtensions
         var exception = Record.Exception(() => document.ToEntity(_policy));
         
         // Assert
-        exception.ShouldBeOfType<ArgumentException>();
-        ((ArgumentException)exception).Message.ShouldBe("Currency.InvalidFormat");
+        exception.ShouldBeOfType<InvalidArgumentException>();
+        ((InvalidArgumentException)exception).Code.ShouldBe("Currency.InvalidFormat");
     }
     
     #region Arrange

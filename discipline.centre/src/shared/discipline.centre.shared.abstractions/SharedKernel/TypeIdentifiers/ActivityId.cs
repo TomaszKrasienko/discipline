@@ -1,3 +1,5 @@
+using discipline.centre.shared.abstractions.Exceptions;
+
 namespace discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 
 public sealed record ActivityId(Ulid Value) : ITypeId<ActivityId, Ulid>
@@ -8,7 +10,7 @@ public sealed record ActivityId(Ulid Value) : ITypeId<ActivityId, Ulid>
     {
         if (!Ulid.TryParse(stringTypedId, out var parsedId))
         {
-            throw new ArgumentException($"Can not parse stronglyTypedId of type: {nameof(ActivityId)}");
+            throw new InvalidArgumentException("ActivityId.InvalidFormat");
         }
 
         return new ActivityId(parsedId);

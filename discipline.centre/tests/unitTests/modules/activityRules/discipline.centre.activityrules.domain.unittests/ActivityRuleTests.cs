@@ -65,7 +65,7 @@ public sealed class ActivityRuleTests
         result.Details.Title.ShouldBe(details.Title);
         result.Details.Note.ShouldBe(details.Note);
         result.Mode.Mode.ShouldBe(mode.Mode);
-        result.Mode.Days.IsEqual(mode.Days?.ToList()).ShouldBeTrue();
+        result.Mode.Days.IsEqual(mode.Days).ShouldBeTrue();
     }
 
     [Fact]
@@ -131,7 +131,7 @@ public sealed class ActivityRuleTests
             activityId,
             accountId,
             details,
-            new ActivityRuleModeSpecification(Mode: RuleMode.Custom, Days: [7])));
+            new ActivityRuleModeSpecification(Mode: RuleMode.Custom, Days: [8])));
         
         // Assert
         exception.ShouldBeOfType<DomainException>();
@@ -244,7 +244,7 @@ public sealed class ActivityRuleTests
         activityRule.Details.Title.ShouldBe(details.Title);
         activityRule.Details.Note.ShouldBe(details.Note);
         activityRule.Mode.Mode.ShouldBe(mode.Mode);
-        activityRule.Mode.Days.IsEqual(mode.Days?.ToList()).ShouldBeTrue();
+        activityRule.Mode.Days.IsEqual(mode.Days).ShouldBeTrue();
     }
 
     [Fact]
@@ -301,7 +301,7 @@ public sealed class ActivityRuleTests
         var (details, mode) = GetFilledParamsForUpdate();
         
         // Act
-        var exception = Record.Exception(() => activityRule.Update(details, new ActivityRuleModeSpecification(Mode: RuleMode.Custom, Days: [7])));
+        var exception = Record.Exception(() => activityRule.Update(details, new ActivityRuleModeSpecification(Mode: RuleMode.Custom, Days: [8])));
         
         // Assert
         exception.ShouldBeOfType<DomainException>();

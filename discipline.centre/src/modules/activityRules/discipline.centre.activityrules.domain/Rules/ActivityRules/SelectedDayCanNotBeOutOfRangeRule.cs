@@ -8,5 +8,5 @@ internal sealed class SelectedDayCanNotBeOutOfRangeRule(int value) : IBusinessRu
     public Exception Exception => new DomainException("ActivityRules.Mode.RuleModeSelectedDayOutOfRange", value);
 
     public bool IsBroken()
-        => value is < (int)DayOfWeek.Sunday or > (int)DayOfWeek.Saturday;
+        => value is < 1 or > 7;
 }
