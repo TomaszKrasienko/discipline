@@ -26,7 +26,10 @@ internal sealed class CreateActivityRuleCommandHandler(
             throw new NotUniqueException("CreateActivityRule.NotUniqueTitle",command.Details.Title);
         }
 
-        var activityRule = ActivityRule.Create(command.Id, command.AccountId, command.Details,
+        var activityRule = ActivityRule.Create(
+            command.Id,
+            command.AccountId,
+            command.Details,
             command.Mode);
         
         await readWriteActivityRuleRepository.AddAsync(activityRule, cancellationToken);

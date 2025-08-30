@@ -30,7 +30,7 @@ public sealed class ActivityRuleMappingExtensionsTests
     public void GivenActivityRuleWithSelectedDays_WhenAsDocument_ShouldReturnActivityRuleDocument()
     {
         // Arrange
-        List<int> selectedDays = [0, 1, 2];
+        List<int> selectedDays = [1, 2, 3];
         var activityRule = ActivityRuleFakeDataFactory.Get(true, selectedDays.ToHashSet());
         
         // Act
@@ -42,7 +42,7 @@ public sealed class ActivityRuleMappingExtensionsTests
         result.Details.Title.ShouldBe(activityRule.Details.Title);
         result.Details.Note.ShouldBe(activityRule.Details.Note);
         result.SelectedMode.Mode.ShouldBe(activityRule.Mode.Mode.Value);
-        result.SelectedMode.DaysOfWeek!.ToList().IsEqual(selectedDays);
+        result.SelectedMode.DaysOfWeek!.ToList().IsEqual(selectedDays).ShouldBeTrue();
     }
 
     [Fact]

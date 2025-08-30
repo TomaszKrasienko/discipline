@@ -33,13 +33,14 @@ internal sealed class ActivityRuleCreatedStrategy(
             logger.LogInformation($"Activity rule {stronglyActivityRuleId} already exists");
         }
 
-        ActivityRule.Create(
+        var activityRule = ActivityRule.Create(
             stronglyActivityRuleId,
             stronglyUserId,
             @event.Title,
             @event.Mode,
             @event.Days);
         
+        context.Set<ActivityRule>().Add(activityRule);
         await context.SaveChangesAsync(cancellationToken);
     }
 

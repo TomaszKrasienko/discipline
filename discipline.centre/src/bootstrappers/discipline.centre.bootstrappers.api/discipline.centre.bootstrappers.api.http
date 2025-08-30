@@ -72,7 +72,7 @@ Content-Type: application/json
 
 {
   "details": {
-    "title": "My first test",
+    "title": "My second test",
     "note": "without any notes"
   },
   "mode": {

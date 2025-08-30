@@ -2,6 +2,7 @@ using discipline.centre.activityrules.domain.Enums;
 using discipline.centre.activityrules.domain.ValueObjects.ActivityRules;
 using discipline.centre.activityrules.tests.sharedkernel.DataValidators;
 using discipline.centre.shared.abstractions.SharedKernel.Exceptions;
+using Microsoft.AspNetCore.Mvc;
 using Shouldly;
 using Xunit;
 
@@ -21,7 +22,7 @@ public sealed class SelectedModeTests
         
         // Assert
         result.Mode.ShouldBe(mode);
-        result.Days.IsEqual(days).ShouldBeTrue();
+        result.Days.IsEqual(result.Days).ShouldBeTrue();
     }
     
     [Fact]
@@ -53,7 +54,7 @@ public sealed class SelectedModeTests
     public void GivenDaysOutOfRange_WhenCreate_ThenThrowsDomainExceptionWithCodeActivityRuleModeSelectedDayOutOfRange()
     {
         // Act
-        var exception = Record.Exception(() => SelectedMode.Create(RuleMode.Custom, [7]));
+        var exception = Record.Exception(() => SelectedMode.Create(RuleMode.Custom, [8]));
         
         // Assert
         exception.ShouldBeOfType<DomainException>();

@@ -32,7 +32,7 @@ public sealed class ActivityRuleDocumentMappingExtensionsTests
     public void GivenActivityRuleDocumentWithSelectedDays_WhenAsEntity_ShouldReturnActivityRuleWithSelectedDays()
     {
         // Arrange
-        List<int> selectedDays = [0, 1, 2];
+        List<int> selectedDays = [1, 2, 3];
         var activityRuleDocument = ActivityRuleDocumentFakeDataFactory.Get(false, selectedDays.ToHashSet());
         
         // Act
@@ -44,7 +44,7 @@ public sealed class ActivityRuleDocumentMappingExtensionsTests
         entity.Details.Title.ShouldBe(activityRuleDocument.Details.Title);
         entity.Details.Note.ShouldBe(activityRuleDocument.Details.Note);
         entity.Mode.Mode.Value.ShouldBe(activityRuleDocument.SelectedMode.Mode);
-        entity.Mode.Days.IsEqual(selectedDays).ShouldBeTrue();
+        entity.Mode.Days.IsEqual(selectedDays.ToHashSet()).ShouldBeTrue();
     }
 
     [Fact]

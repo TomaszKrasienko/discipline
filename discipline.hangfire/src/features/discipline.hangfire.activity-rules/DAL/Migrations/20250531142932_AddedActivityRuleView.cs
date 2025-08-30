@@ -12,15 +12,15 @@ namespace discipline.hangfire.activity_rules.DAL.Migrations
         {
             migrationBuilder.Sql(
                 """
-                CREATE VIEW activity-rules."ActivityRulesView"
+                CREATE VIEW "activity-rules"."ActivityRulesView"
                 AS
                 SELECT
-                    ActivityRuleId,
-                    UserId,
-                    Title,
-                    Mode,
-                    SelectedDays
-                FROM activity-rules."ActivityRules";
+                    "ActivityRuleId",
+                    "UserId",
+                    "Title",
+                    "Mode",
+                    "SelectedDays"
+                FROM "activity-rules"."ActivityRules";
                 """);
         }
 
@@ -29,7 +29,7 @@ namespace discipline.hangfire.activity_rules.DAL.Migrations
         {
             migrationBuilder.Sql(
                 """
-                DROP VIEW activity-rules."ActivityRulesView";
+                DROP VIEW "activity-rules"."ActivityRulesView";
                 """
             );
         }

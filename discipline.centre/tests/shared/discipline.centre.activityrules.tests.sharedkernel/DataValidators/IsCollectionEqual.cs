@@ -2,14 +2,14 @@ namespace discipline.centre.activityrules.tests.sharedkernel.DataValidators;
 
 public static class CollectionValidator
 {
-    public static bool IsEqual(this IReadOnlySet<DayOfWeek>? source, List<int>? destination)
+    public static bool IsEqual(this IReadOnlySet<int>? source, IReadOnlySet<int>? destination)
     {
         if (source?.Count != destination?.Count)
         {
             return false;
         }
         
-        var sourceChanged = source!.Select(x => (int)x)
+        var sourceChanged = source!.Select(x => x)
             .OrderBy(x => x)
             .ToList();
         

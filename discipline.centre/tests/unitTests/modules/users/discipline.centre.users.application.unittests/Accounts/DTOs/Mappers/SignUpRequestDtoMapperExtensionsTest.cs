@@ -1,3 +1,4 @@
+using discipline.centre.shared.abstractions.Exceptions;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.users.application.Accounts.DTOs.Requests;
 using discipline.centre.users.domain.Subscriptions.Enums;
@@ -51,7 +52,7 @@ public sealed class SignUpRequestDtoMapperExtensionsTest
             123).ToCommand(AccountId.New()));
         
         // Assert
-        exception.ShouldBeOfType<ArgumentException>();
-        ((ArgumentException)exception).Message.ShouldBe("SubscriptionId.InvalidFormat");
+        exception.ShouldBeOfType<InvalidArgumentException>();
+        ((InvalidArgumentException)exception).Code.ShouldBe("SubscriptionId.InvalidFormat");
     }
 }

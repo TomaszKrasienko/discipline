@@ -8,7 +8,7 @@ namespace discipline.centre.activityrules.domain.ValueObjects.ActivityRules;
 public sealed class SelectedMode : ValueObject
 {
     public RuleMode Mode { get; }
-    public IReadOnlySet<DayOfWeek>? Days { get; }
+    public IReadOnlySet<int>? Days { get; }
 
     public static SelectedMode Create(RuleMode mode, HashSet<int>? days)
     {
@@ -18,18 +18,18 @@ public sealed class SelectedMode : ValueObject
             CheckRule(new SelectedDayCanNotBeOutOfRangeRule(day));
         }
 
-        var selectedDays = days?.Select(x => (DayOfWeek)x)?.ToImmutableHashSet();
+        var selectedDays = days?.Select(x => x)?.ToImmutableHashSet();
         
         return new SelectedMode(mode, selectedDays);
     }
     
-    private SelectedMode(RuleMode mode, IReadOnlySet<DayOfWeek>? days)
+    private SelectedMode(RuleMode mode, IReadOnlySet<int>? days)
     {
         Mode = mode;
         Days = days;
     }
     
-    internal bool HasChanges(RuleMode mode, IReadOnlySet<DayOfWeek>? days)
+    internal bool HasChanges(RuleMode mode, IReadOnlySet<int>? days)
         => Mode != mode
         || days is null ? Days is not null : Days?.SequenceEqual(days) ?? true;
 
