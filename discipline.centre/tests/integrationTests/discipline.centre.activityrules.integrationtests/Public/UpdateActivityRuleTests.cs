@@ -28,7 +28,7 @@ public sealed class UpdateActivityRuleTests() : BaseTestsController("activity-ru
 
         var request = new ActivityRuleRequestDto(
             new ActivityRuleDetailsRequestDto("new_test_title", "new_test_note"),
-            new ActivityRuleModeRequestDto(RuleMode.Custom.Value, [0]));
+            new ActivityRuleModeRequestDto(RuleMode.Custom.Value, [1]));
 
         // Act
         var response = await HttpClient.PutAsJsonAsync($"api/activity-rules/{activityRuleDocument.Id}", request);

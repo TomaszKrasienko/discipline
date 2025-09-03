@@ -3,7 +3,7 @@ using discipline.daily_trackers.domain.SharedKernel.TypeIdentifiers;
 namespace discipline.daily_trackers.domain.SharedKernel;
 
 public abstract class Entity<TIdentifier, TValue>(TIdentifier id) : IEntity 
-    where TIdentifier : class, ITypeId<TIdentifier, TValue>
+    where TIdentifier : struct, ITypeId<TIdentifier, TValue>
     where TValue : struct
 {
     public TIdentifier Id { get; } = id;

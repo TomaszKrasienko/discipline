@@ -1,4 +1,5 @@
 using discipline.centre.shared.abstractions.CQRS.Commands;
+using discipline.centre.shared.abstractions.Events;
 using discipline.centre.shared.abstractions.Exceptions;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.users.application.Accounts.Commands;
@@ -161,6 +162,7 @@ public sealed class SignUpCommandHandlerTests
     private readonly IReadSubscriptionRepository _readSubscriptionRepository;
     private readonly IAccountService _accountService;
     private readonly TimeProvider _timeProvider;
+    private readonly IEventProcessor _eventProcessor;
     private readonly ICommandHandler<SignUpCommand> _handler;
 
     public SignUpCommandHandlerTests()
@@ -170,11 +172,13 @@ public sealed class SignUpCommandHandlerTests
         _readSubscriptionRepository = Substitute.For<IReadSubscriptionRepository>();
         _accountService = Substitute.For<IAccountService>();
         _timeProvider = Substitute.For<TimeProvider>();
+        _eventProcessor = Substitute.For<IEventProcessor>();
         _handler = new SignUpCommandHandler(
             _readWriteAccountRepository,
             _readWriteUserRepository,
             _readSubscriptionRepository,
-            _accountService);
+            _accountService,
+            _eventProcessor);
     }
     #endregion
 }

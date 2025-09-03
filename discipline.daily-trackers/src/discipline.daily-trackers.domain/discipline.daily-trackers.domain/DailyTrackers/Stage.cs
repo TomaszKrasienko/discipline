@@ -13,14 +13,24 @@ public sealed class Stage : Entity<StageId, Ulid>
     
     public IsChecked IsChecked { get; private set; }
     
-    public Stage(StageId stageId, Title title, OrderIndex index, IsChecked isChecked) : base(stageId)
+    /// <summary>
+    /// <remarks>Use only for Mongo purposes</remarks>
+    /// </summary>
+    public Stage(
+        StageId stageId,
+        Title title,
+        OrderIndex index,
+        IsChecked isChecked) : base(stageId)
     {
         Title = title;
         Index = index;
         IsChecked = isChecked;
     }
     
-    internal static Stage Create(StageId stageId, string title, int index)
+    internal static Stage Create(
+        StageId stageId,
+        string title,
+        int index)
         => new (stageId, title, index, false);
     
     internal void MarkAsChecked()

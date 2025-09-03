@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>discipline.hangfire.activity_rule_modification</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Dapper" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" />
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+      <PackageReference Include="OneOf" />
+      <PackageReference Include="Refit" />
+      <PackageReference Include="Refit.HttpClientFactory" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="discipline.hangfire.add-activity-rules.unit_tests"/>
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
+    </ItemGroup>
+    <ItemGroup>
+      <PackageVersion Update="Microsoft.EntityFrameworkCore" Version="9.0.3" />
+      <PackageVersion Update="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\..\Shared\discipline.hangfire.shared.infrastructure\discipline.hangfire.shared.infrastructure.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="DAL\Migrations\" />
+    </ItemGroup>
+    <ItemGroup>
+        <InternalsVisibleTo Include="discipline.hangfire.activity-rules.unit-tests"/>
+    </ItemGroup>
+</Project>

@@ -14,7 +14,7 @@ internal sealed class CreateActivityFromPlannedApi(
 
         foreach (var plannedTask in plannedTasks)
         {
-            var command = new CreateActivityFromActivityRuleCommand(plannedTask.ActivityRuleId, plannedTask.UserId);
+            var command = new CreateActivityFromActivityRuleCommand(plannedTask.ActivityRuleId, plannedTask.AccountId);
 
             //TODO: Outbox pattern
             

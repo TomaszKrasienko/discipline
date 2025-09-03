@@ -16,11 +16,16 @@ public sealed class Day : ValueObject
         }
     }
 
-    private Day(DateOnly value)
-        => Value = value;
+    private Day(DateOnly value) => Value = value;
 
-    public static Day Create(DateOnly value)
-        => new Day(value);
+    public static Day Create(DateOnly value) => new(value);
+
+    //TODO: Unittests
+    public Day GetPriorDay()
+    {
+        var value = _value.AddDays(-1);
+        return Create(value);
+    }
 
     public static implicit operator DateOnly(Day day)
         => day.Value;

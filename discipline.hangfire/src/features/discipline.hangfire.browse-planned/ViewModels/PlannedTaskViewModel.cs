@@ -8,4 +8,4 @@ internal sealed record PlannedTaskViewModel(
     DateTimeOffset CreatedAt,
     bool IsPlannedEnabled,
     bool IsActivityCreated,
-    UserId UserId);
+    AccountId AccountId);

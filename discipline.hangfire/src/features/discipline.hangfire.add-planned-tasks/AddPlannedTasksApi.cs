@@ -30,13 +30,13 @@ internal sealed class AddPlannedTasksApi(ICentreFacade centreFacade,
         
         foreach (var taskToPlan in tasksToPlan)
         {
-            if (await IsPlannedTaskExistsAsync(taskToPlan.ActivityRuleId, taskToPlan.UserId, plannedFor,
+            if (await IsPlannedTaskExistsAsync(taskToPlan.ActivityRuleId, taskToPlan.AccountId, plannedFor,
                     cancellationToken))
             {
                 continue;
             }
             
-            var task = PlannedTask.Create(taskToPlan.ActivityRuleId, taskToPlan.UserId, plannedFor, now);
+            var task = PlannedTask.Create(taskToPlan.ActivityRuleId, taskToPlan.AccountId, plannedFor, now);
                 
             dbContext.Add(task);
         }
@@ -53,7 +53,7 @@ internal sealed class AddPlannedTasksApi(ICentreFacade centreFacade,
                     && x.IsPlannedEnable)
                 .ToListAsync(cancellationToken);
 
-        return plannedTasks.Select(x => new PlannedTaskViewModel(x.Id, x.ActivityRuleId, x.UserId)).ToArray();
+        return plannedTasks.Select(x => new PlannedTaskViewModel(x.Id, x.ActivityRuleId, x.AccountId)).ToArray();
     }
 
     public async Task MarkAsPlanned(Ulid plannedTaskId, CancellationToken cancellationToken)
@@ -64,11 +64,11 @@ internal sealed class AddPlannedTasksApi(ICentreFacade centreFacade,
         await dbContext.SaveChangesAsync(cancellationToken);
     }
 
-    private Task<bool> IsPlannedTaskExistsAsync(ActivityRuleId activityRuleId, UserId userId,
+    private Task<bool> IsPlannedTaskExistsAsync(ActivityRuleId activityRuleId, AccountId accountId,
         DateOnly plannedFor, CancellationToken cancellationToken)
         => dbContext.Set<PlannedTask>()
             .AnyAsync(x 
                 => x.ActivityRuleId == activityRuleId 
-                && x.UserId == userId 
+                && x.AccountId == accountId 
                 && x.PlannedFor == plannedFor, cancellationToken);
 }

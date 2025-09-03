@@ -11,11 +11,12 @@ namespace discipline.hangfire.browse_planned;
 internal sealed class BrowsePlannedApi(
     BrowsePlannedDbContext context) : IBrowsePlannedApi
 {
-    public async Task<ImmutableDictionary<DateOnly, List<PlannedTaskDetailsViewModel>>> GetPlannedTaskDetailsAsync(UserId userId, 
+    public async Task<ImmutableDictionary<DateOnly, List<PlannedTaskDetailsViewModel>>> GetPlannedTaskDetailsAsync(
+        AccountId accountId, 
         CancellationToken cancellationToken = default)
     {
         var result = await context.Set<PlannedTaskViewModel>()
-            .Where(x => x.UserId == userId)
+            .Where(x => x.AccountId == accountId)
             .ToListAsync(cancellationToken);
 
         return result

@@ -1,3 +1,4 @@
+using discipline.hangfire.shared.abstractions.Identifiers;
 using discipline.hangfire.shared.abstractions.ViewModels;
 
 namespace discipline.hangfire.shared.abstractions.Api;
@@ -8,4 +9,6 @@ public interface IActivityRulesApi
         IReadOnlyList<string> modes,
         int selectedDay,
         CancellationToken cancellationToken);
+    
+    Task<IReadOnlyCollection<AccountId>> GetAccountIdsWithActivityRulesAsync(CancellationToken cancellationToken = default);
 }

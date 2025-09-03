@@ -27,6 +27,21 @@ Content-Type: application/json
   "paymentValue": null
 }
 
+### Create account with Standard subscription
+# @name sign_up
+POST {{host_address}}/api/accounts
+Content-Type: application/json
+
+{
+  "email": "tomasz.krasienko@outlook.com",
+  "password": "TomaszK123!",
+  "subscriptionId": "01K3B1HHVMJA576K7PAYY5GKAM",
+  "period": null,
+  "firstName": "FreeUserFirstName",
+  "lastName": "FreeUserLastName",
+  "paymentValue": null
+}
+
 ### Gettings tokens for account
 # @name sign_in
 POST {{host_address}}/api/accounts/signed-in

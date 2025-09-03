@@ -7,6 +7,6 @@ namespace discipline.hangfire.shared.abstractions.Api;
 public interface IBrowsePlannedApi
 {
     Task<ImmutableDictionary<DateOnly, List<PlannedTaskDetailsViewModel>>> GetPlannedTaskDetailsAsync(
-        UserId userId,
+        AccountId accountId,
         CancellationToken cancellationToken = default);
 }

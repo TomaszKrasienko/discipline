@@ -1,6 +1,6 @@
 namespace discipline.daily_trackers.domain.SharedKernel.TypeIdentifiers;
 
-public sealed record ActivityId(Ulid Value) : ITypeId<ActivityId, Ulid>
+public readonly record struct ActivityId(Ulid Value) : ITypeId<ActivityId, Ulid>
 {
     public static ActivityId New() => new(Ulid.NewUlid());
 

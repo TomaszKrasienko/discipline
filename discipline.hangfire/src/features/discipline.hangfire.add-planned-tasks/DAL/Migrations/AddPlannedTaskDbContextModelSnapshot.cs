@@ -28,6 +28,12 @@ namespace discipline.hangfire.add_planned_tasks.DAL.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
+                    b.Property<string>("AccountId")
+                        .IsRequired()
+                        .HasMaxLength(26)
+                        .HasColumnType("character varying(26)")
+                        .HasColumnName("AccountId");
+
                     b.Property<string>("ActivityRuleId")
                         .IsRequired()
                         .HasMaxLength(26)
@@ -49,12 +55,6 @@ namespace discipline.hangfire.add_planned_tasks.DAL.Migrations
                     b.Property<DateOnly>("PlannedFor")
                         .HasColumnType("date")
                         .HasColumnName("PlannedFor");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasMaxLength(26)
-                        .HasColumnType("character varying(26)")
-                        .HasColumnName("UserId");
 
                     b.HasKey("Id");
 

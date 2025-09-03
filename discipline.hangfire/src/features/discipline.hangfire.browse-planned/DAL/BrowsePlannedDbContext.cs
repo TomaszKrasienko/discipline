@@ -18,8 +18,8 @@ internal sealed class BrowsePlannedDbContext(DbContextOptions<BrowsePlannedDbCon
     protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
     {
         configurationBuilder
-            .Properties<UserId>()
-            .HaveConversion<UserIdValueConverter>();
+            .Properties<AccountId>()
+            .HaveConversion<AccountIdValueConverter>();
         
         configurationBuilder
             .Properties<ActivityRuleId>()

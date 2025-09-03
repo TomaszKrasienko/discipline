@@ -1,6 +1,6 @@
 namespace discipline.daily_trackers.domain.SharedKernel.TypeIdentifiers;
 
-public sealed record EventId(Ulid Value) : ITypeId<EventId, Ulid>
+public readonly record struct EventId(Ulid Value) : ITypeId<EventId, Ulid>
 {
     public static EventId New() => new(Ulid.NewUlid());
 

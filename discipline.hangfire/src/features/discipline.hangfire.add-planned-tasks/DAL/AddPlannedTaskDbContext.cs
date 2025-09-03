@@ -20,7 +20,7 @@ internal sealed class AddPlannedTaskDbContext(DbContextOptions<AddPlannedTaskDbC
             .HaveConversion<ActivityRuleIdValueConverter>();
         
         configurationBuilder
-            .Properties<UserId>()
-            .HaveConversion<UserIdValueConverter>();
+            .Properties<AccountId>()
+            .HaveConversion<AccountIdValueConverter>();
     }
 }

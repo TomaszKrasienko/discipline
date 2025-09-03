@@ -5,7 +5,7 @@ namespace discipline.daily_trackers.domain.DailyTrackers.ValueObjects.Stages;
 
 public sealed class OrderIndex : ValueObject
 {
-    private int _index;
+    private readonly int _index;
 
     public int Value
     {

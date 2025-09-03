@@ -6,7 +6,7 @@ internal sealed class PlannedTask
 {
     public Ulid Id { get; }
     public ActivityRuleId ActivityRuleId { get; }
-    public UserId UserId { get; }
+    public AccountId AccountId { get; }
     public DateOnly PlannedFor { get; }
     public DateTimeOffset CreatedAt { get; }
     public bool IsPlannedEnable { get; }
@@ -23,7 +23,7 @@ internal sealed class PlannedTask
 #pragma warning restore CS8618, CS9264
     
     private PlannedTask(ActivityRuleId activityRuleId, 
-        UserId userId, 
+        AccountId accountId, 
         DateOnly plannedFor, 
         DateTimeOffset createdAt, 
         bool isPlannedEnable,
@@ -31,7 +31,7 @@ internal sealed class PlannedTask
     {
         Id = Ulid.NewUlid(); 
         ActivityRuleId = activityRuleId;
-        UserId = userId;
+        AccountId = accountId;
         PlannedFor = plannedFor;
         CreatedAt = createdAt;
         IsPlannedEnable = isPlannedEnable;
@@ -39,11 +39,17 @@ internal sealed class PlannedTask
     }
 
     internal static PlannedTask Create(ActivityRuleId activityRuleId, 
-        UserId userId, 
+        AccountId accountId, 
         DateOnly plannedFor,
         DateTimeOffset createdAt)
     {
-        return new PlannedTask(activityRuleId, userId, plannedFor, createdAt, true, false);
+        return new PlannedTask(
+            activityRuleId,
+            accountId,
+            plannedFor,
+            createdAt,
+            true,
+            false);
     }
     
     internal void MarkAsActivityCreated()

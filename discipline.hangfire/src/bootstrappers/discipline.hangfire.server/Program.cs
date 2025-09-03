@@ -22,7 +22,8 @@ builder.Services
     .SetAddActivityRules(builder.Configuration)
     .SetAddPlannedTasks(builder.Configuration)
     .SetCreateActivityFromPlanned()
-    .SetBrowsePlanned();
+    .SetBrowsePlanned()
+    .SetAccountModification();
 
 builder.UseInfrastructure();
 
@@ -32,7 +33,7 @@ app.MapGet("/api/planned-tasks/{userId}", async (string userId,
     IBrowsePlannedApi browsePlannedApi,
     CancellationToken cancellationToken) =>
     {
-        var stronglyUserId = UserId.Parse(userId);
+        var stronglyUserId = AccountId.Parse(userId);
         var result = await browsePlannedApi
             .GetPlannedTaskDetailsAsync(stronglyUserId, cancellationToken);
         
@@ -46,7 +47,7 @@ app.UseHttpsRedirection();
 RecurringJob.AddOrUpdate<IAddPlannedTasksApi>(
     "execute-task-planning",
     job => job.ExecuteTaskPlanning(CancellationToken.None), 
-    Cron.Minutely);
+    Cron.Hourly);
 //
 // RecurringJob.AddOrUpdate<ICreateActivityFromPlannedApi>(
 //     "create-activity-from-planned",

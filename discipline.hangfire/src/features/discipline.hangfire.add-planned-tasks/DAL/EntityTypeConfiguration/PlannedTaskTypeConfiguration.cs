@@ -20,8 +20,8 @@ internal sealed class PlannedTaskTypeConfiguration : IEntityTypeConfiguration<Pl
             .HasMaxLength(26)
             .IsRequired();
         
-        builder.Property(x => x.UserId)
-            .HasColumnName("UserId")
+        builder.Property(x => x.AccountId)
+            .HasColumnName("AccountId")
             .HasMaxLength(26)
             .IsRequired();
 

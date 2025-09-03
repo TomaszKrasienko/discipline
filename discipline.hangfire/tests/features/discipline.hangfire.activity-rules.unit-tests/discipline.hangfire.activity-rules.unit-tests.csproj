@@ -31,4 +31,8 @@
       <ProjectReference Include="..\..\..\src\features\discipline.hangfire.activity-rules\discipline.hangfire.activity-rules.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="EventsHanders\" />
+    </ItemGroup>
+
 </Project>

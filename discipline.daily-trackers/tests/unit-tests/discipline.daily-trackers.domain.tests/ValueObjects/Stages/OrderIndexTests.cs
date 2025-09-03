@@ -7,7 +7,7 @@ namespace discipline.daily_trackers.domain.tests.ValueObjects.Stages;
 public sealed class OrderIndexTests
 {
     [Fact]
-    public void GivenValidArguments_WhenCreate_ThenReturnOrderIndexWithValue()
+    public void GivenValidArguments_WhenCreate_ThenReturnsOrderIndexWithValue()
     {
         // Arrange
         const int value = 1;
@@ -20,12 +20,12 @@ public sealed class OrderIndexTests
     }
     
     [Fact]
-    public void GivenIndexLessThan0_WhenCreate_ThenThrowDomainExceptionWithCodeDailyTrackerActivityStageIndexLessThanOne()
+    public void GivenIndexLessThan0_WhenCreate_ThenThrowsDomainExceptionWithCodeDailyTrackerActivityStageIndexLessThanOne()
     {
         // Act
         var exception = Record.Exception(() => OrderIndex.Create(0));
         
-        // Aessert
+        // Aesser
         exception.ShouldBeOfType<DomainException>();
         ((DomainException)exception).Code.ShouldBe("DailyTracker.Stage.Index.LessThanOne");
     }

@@ -7,7 +7,7 @@ public interface IBaseTypeId<out TValue>
 }
 
 public interface ITypeId<out TType, out TValue> : IBaseTypeId<TValue> 
-    where TType : class, IBaseTypeId<TValue> 
+    where TType : struct, IBaseTypeId<TValue> 
     where TValue : struct
 {
     static abstract TType New();
