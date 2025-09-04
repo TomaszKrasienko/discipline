@@ -1,6 +1,7 @@
 using discipline.hangfire.account_modification.DAL.Repositories;
 using discipline.hangfire.account_modification.Events.External;
 using discipline.hangfire.account_modification.Events.External.Handlers;
+using discipline.hangfire.account_modification.Models;
 using discipline.hangfire.account_modification.Strategies;
 using discipline.hangfire.account_modification.Strategies.Abstractions;
 using discipline.hangfire.shared.abstractions.Identifiers;
@@ -15,12 +16,50 @@ public sealed class AccountModifiedEventHandlerTests
     public async Task GivenRegisteredEvent_WhenHandleAsync_ShouldAddAccount()
     {
         // Arrange
+        var cancellationToken = CancellationToken.None;
         var accountId = AccountId.New();
         var @event = new AccountModified(accountId.ToString());
-        var message = "TestCreated";
+        const string messageType = "TestRegistered";
+        
+        _repository
+            .DoesExistAsync(AccountId.Parse(@event.AccountId), cancellationToken)
+            .Returns(false);
         
         // Act
-        await _handler.HandleAsync()
+        await _handler.HandleAsync(
+            @event,
+            cancellationToken,
+            messageType);
+        
+        // Assert
+        await _repository
+            .Received(1)
+            .AddAsync(Arg.Any<Account>(), cancellationToken);
+    }
+    
+    [Fact]
+    public async Task GivenRegisteredEvent_WhenHandleAsync_ShouldAddAccount()
+    {
+        // Arrange
+        var cancellationToken = CancellationToken.None;
+        var accountId = AccountId.New();
+        var @event = new AccountModified(accountId.ToString());
+        const string messageType = "TestRegistered";
+        
+        _repository
+            .DoesExistAsync(AccountId.Parse(@event.AccountId), cancellationToken)
+            .Returns(false);
+        
+        // Act
+        await _handler.HandleAsync(
+            @event,
+            cancellationToken,
+            messageType);
+        
+        // Assert
+        await _repository
+            .Received(1)
+            .AddAsync(Arg.Any<Account>(), cancellationToken);
     }
     
     private readonly IAccountRepository _repository;

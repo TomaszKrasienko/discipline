@@ -1,5 +1,6 @@
 using discipline.hangfire.account_modification.Strategies.Abstractions;
 using discipline.hangfire.shared.abstractions.Events;
+using discipline.hangfire.shared.abstractions.Exceptions;
 using Microsoft.Extensions.Logging;
 
 namespace discipline.hangfire.account_modification.Events.External.Handlers;
@@ -22,7 +23,7 @@ internal sealed class AccountModifiedEventHandler(
 
         if (strategy is null)
         {
-            throw new InvalidOperationException($"No strategy found for {messageType}");
+            throw new InvalidArgumentException("AccountModifiedEventHandler.Strategy.Null", messageType);
         }
         
         logger.LogInformation($"Handling {strategy.GetType()} account event handler strategy");
