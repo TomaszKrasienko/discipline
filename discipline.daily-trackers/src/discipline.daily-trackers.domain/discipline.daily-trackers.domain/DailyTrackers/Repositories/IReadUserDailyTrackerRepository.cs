@@ -9,4 +9,9 @@ public interface IReadUserDailyTrackerRepository
         AccountId  accountId,
         Day day,
         CancellationToken cancellationToken = default);
+    
+    Task<bool> DoesExistAsync(
+        AccountId accountId,
+        Day day,
+        CancellationToken cancellationToken = default);
 }

@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\discipline.libs\discipline.libs.cqrs\discipline.libs.cqrs.csproj" />
+      <ProjectReference Include="..\..\..\discipline.libs\discipline.libs.exceptions\discipline.libs.exceptions.csproj" />
       <ProjectReference Include="..\discipline.daily-trackers.domain\discipline.daily-trackers.domain\discipline.daily-trackers.domain.csproj" />
     </ItemGroup>
     <ItemGroup>

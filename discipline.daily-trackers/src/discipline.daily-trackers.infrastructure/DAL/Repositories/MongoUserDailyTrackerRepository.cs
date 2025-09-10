@@ -20,6 +20,14 @@ internal sealed class MongoUserDailyTrackerRepository(
                    x.AccountId == accountId.ToString())
             .SingleOrDefaultAsync(cancellationToken))?.ToEntity();
 
+    public Task<bool> DoesExistAsync(AccountId accountId, Day day, CancellationToken cancellationToken = default)
+        => context
+            .GetCollection<UserDailyTrackerDocument>()
+            .Find(x
+                => x.AccountId == accountId.ToString() &&
+                   x.Day == day)
+            .AnyAsync(cancellationToken);
+
     public Task AddAsync(UserDailyTracker dailyTracker, CancellationToken cancellationToken = default)
         => context
             .GetCollection<UserDailyTrackerDocument>()

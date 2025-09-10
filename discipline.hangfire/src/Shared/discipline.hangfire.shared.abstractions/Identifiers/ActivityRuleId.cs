@@ -1,6 +1,6 @@
 namespace discipline.hangfire.shared.abstractions.Identifiers;
 
-public sealed record ActivityRuleId(Ulid Value)
+public readonly record struct ActivityRuleId(Ulid Value)
 {
     public static ActivityRuleId New()
         => new(Ulid.NewUlid());

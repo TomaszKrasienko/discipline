@@ -1,8 +1,8 @@
-using discipline.hangfire.shared.abstractions.Events;
+using discipline.libs.events.abstractions;
 
-namespace discipline.hangfire.activity_rules.Events.External;
+namespace discipline.hangfire.activity_rule_modification.Events.External;
 
-internal sealed record ActivityRuleModified(
+public sealed record ActivityRuleModified(
     string ActivityRuleId,
     string UserId, 
     string? Title,

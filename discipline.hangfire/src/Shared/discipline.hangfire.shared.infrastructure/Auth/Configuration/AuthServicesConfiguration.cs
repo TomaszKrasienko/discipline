@@ -2,6 +2,7 @@ using discipline.hangfire.infrastructure.Auth;
 using discipline.hangfire.infrastructure.Auth.Configuration;
 using discipline.hangfire.infrastructure.Configuration;
 using discipline.hangfire.shared.abstractions.Auth;
+using discipline.libs.configuration;
 using Microsoft.Extensions.Configuration;
 
 // ReSharper disable once CheckNamespace

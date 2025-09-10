@@ -1,5 +1,7 @@
+using discipline.daily_trackers.application.UserDailyTrackers.Commands.External;
 using discipline.daily_trackers.infrastructure.Configuration.Options;
 using discipline.libs.configuration;
+using discipline.libs.cqrs.Abstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 
@@ -14,7 +16,8 @@ public static class InfrastructureServicesConfigurationExtensions
         => services
             .ValidateAndBind<AppOptions, AppOptionsValidator>(configuration)
             .AddDal(configuration)
-            .AddUiDocumentation();
+            .AddUiDocumentation()
+            .AddRabbit(configuration);
     
     private static IServiceCollection AddUiDocumentation(this IServiceCollection services)
         => services.AddSwaggerGen(swagger =>
@@ -28,4 +31,24 @@ public static class InfrastructureServicesConfigurationExtensions
                 Version = "v1"
             });
         });
+
+    private static IServiceCollection AddRabbit(
+        this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        var appOptions = services.GetOptions<AppOptions>();
+        services.AddRabbitMq(configuration, appOptions.Name!);
+
+        services
+            .AddConsumer<CreateEmptyUserDailyTracker>(sp => 
+            {
+                return (async (msg, ct, mt) =>
+                {
+                    var dispatcher = sp.GetRequiredService<ICqrsDispatcher>();
+                    await dispatcher.HandleAsync(msg.ToCommand(), ct);
+                });
+            });
+        
+        return services;
+    }
 }

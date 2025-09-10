@@ -1,7 +1,7 @@
-using discipline.hangfire.account_modification.DAL.Repositories;
 using discipline.hangfire.account_modification.Events.External;
-using discipline.hangfire.account_modification.Models;
 using discipline.hangfire.account_modification.Strategies.Abstractions;
+using discipline.hangfire.domain.Accounts;
+using discipline.hangfire.shared.abstractions.DAL;
 using discipline.hangfire.shared.abstractions.Identifiers;
 using Microsoft.Extensions.Logging;
 
@@ -9,14 +9,14 @@ namespace discipline.hangfire.account_modification.Strategies;
 
 internal sealed class AccountRegisteredStrategy(
     ILogger<AccountRegisteredStrategy> logger,
-    IAccountRepository accountRepository) : IAccountHandlingStrategy
+    IWriteRepository<Account, AccountId> accountRepository) : IAccountHandlingStrategy
 {
     public async Task HandleAsync(AccountModified @event, CancellationToken cancellationToken)
     {
         var stronglyAccountId = AccountId.Parse(@event.AccountId);
         
         var doesAccountExist = await accountRepository
-            .DoesExistAsync(stronglyAccountId, cancellationToken);
+            .DoesExistAsync(x => x.AccountId == stronglyAccountId, cancellationToken);
 
         if (doesAccountExist)
         {

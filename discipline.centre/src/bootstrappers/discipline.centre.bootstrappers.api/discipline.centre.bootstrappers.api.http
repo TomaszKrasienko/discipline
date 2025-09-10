@@ -5,7 +5,7 @@
 GET {{host_address}}/
 
 ###
-@email = tom.krasienko@gmail.com
+@email = test1@gmail.com
 @password = TomaszK123!
 
 
@@ -20,7 +20,7 @@ Content-Type: application/json
 {
   "email": "{{email}}",
   "password": "{{password}}",
-  "subscriptionId": "01K3B1HHVMJA576K7PAYY5GKAM",
+  "subscriptionId": "01K4HCEBC0HD3MMZQ8MK0QNMGK",
   "period": null,
   "firstName": "FreeUserFirstName",
   "lastName": "FreeUserLastName",

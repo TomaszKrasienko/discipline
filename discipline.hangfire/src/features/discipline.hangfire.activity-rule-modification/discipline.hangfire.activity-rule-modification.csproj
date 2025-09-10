@@ -25,9 +25,6 @@
       <ProjectReference Include="..\..\Shared\discipline.hangfire.shared.infrastructure\discipline.hangfire.shared.infrastructure.csproj" />
     </ItemGroup>
     <ItemGroup>
-      <Folder Include="DAL\Migrations\" />
-    </ItemGroup>
-    <ItemGroup>
         <InternalsVisibleTo Include="discipline.hangfire.activity-rules.unit-tests"/>
     </ItemGroup>
 </Project>

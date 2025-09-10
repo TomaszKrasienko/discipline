@@ -1,6 +1,7 @@
 using discipline.hangfire.infrastructure.Configuration;
 using discipline.hangfire.infrastructure.Configuration.Options;
 using discipline.hangfire.infrastructure.Logging.Configuration.Options;
+using discipline.libs.configuration;
 using Microsoft.Extensions.Configuration;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;

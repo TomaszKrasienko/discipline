@@ -24,6 +24,11 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\..\discipline.libs\discipline.libs.events.abstractions\discipline.libs.events.abstractions.csproj" />
+      <ProjectReference Include="..\..\..\..\discipline.libs\discipline.libs.events\discipline.libs.events.csproj" />
+      <ProjectReference Include="..\..\..\..\discipline.libs\discipline.libs.rabbit-mq\discipline.libs.rabbit-mq.csproj" />
+      <ProjectReference Include="..\..\..\..\discipline.libs\discipline.libs.serialization\discipline.libs.serialization.csproj" />
+      <ProjectReference Include="..\discipline.hangfire.domain\discipline.hangfire.domain.csproj" />
       <ProjectReference Include="..\discipline.hangfire.shared.abstractions\discipline.hangfire.shared.abstractions.csproj" />
     </ItemGroup>
 

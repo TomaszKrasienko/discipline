@@ -1,8 +1,8 @@
-using discipline.hangfire.activity_rules.Strategies.Abstractions;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using discipline.hangfire.activity_rule_modification.Strategies;
+using discipline.hangfire.activity_rule_modification.Strategies.Abstractions;
 
-namespace discipline.hangfire.activity_rules.Strategies.Configuration;
+// ReSharper disable once CheckNamespace
+namespace Microsoft.Extensions.DependencyInjection;
 
 internal static class ActivityRuleStrategyServicesConfigurationExtensions
 {

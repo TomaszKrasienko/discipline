@@ -1,12 +1,8 @@
-using discipline.hangfire.activity_rules.DAL;
-using discipline.hangfire.activity_rules.Models;
-using discipline.hangfire.activity_rules.Strategies.Abstractions;
-using discipline.hangfire.shared.abstractions.Events;
-using discipline.hangfire.shared.abstractions.Identifiers;
-using Microsoft.EntityFrameworkCore;
+using discipline.hangfire.activity_rule_modification.Strategies.Abstractions;
+using discipline.libs.events.abstractions;
 using Microsoft.Extensions.Logging;
 
-namespace discipline.hangfire.activity_rules.Events.External.Handlers;
+namespace discipline.hangfire.activity_rule_modification.Events.External.Handlers;
 
 internal sealed class ActivityRuleModifiedHandler(
     ILogger<ActivityRuleModifiedHandler> logger,

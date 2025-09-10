@@ -1,0 +1,9 @@
+namespace discipline.libs.events.abstractions;
+
+public interface IEventHandler<in TEvent> where TEvent : IEvent
+{
+    Task HandleAsync(
+        TEvent @event,
+        CancellationToken cancellationToken,
+        string? messageType = null);
+}

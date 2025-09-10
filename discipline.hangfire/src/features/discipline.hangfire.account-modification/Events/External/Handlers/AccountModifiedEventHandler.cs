@@ -1,11 +1,11 @@
 using discipline.hangfire.account_modification.Strategies.Abstractions;
-using discipline.hangfire.shared.abstractions.Events;
 using discipline.hangfire.shared.abstractions.Exceptions;
+using discipline.libs.events.abstractions;
 using Microsoft.Extensions.Logging;
 
 namespace discipline.hangfire.account_modification.Events.External.Handlers;
 
-internal sealed class AccountModifiedEventHandler(
+public sealed class AccountModifiedEventHandler(
     ILogger<AccountModifiedEventHandler> logger,
     IEnumerable<IAccountHandlingStrategy> strategies) : IEventHandler<AccountModified>
 {
@@ -16,7 +16,7 @@ internal sealed class AccountModifiedEventHandler(
     {
         if (messageType is null)
         {
-            throw new ArgumentNullException(nameof(messageType));
+            throw new ParameterNullException("AccountModifiedEventHandler.MessageType.Null");
         }
         
         var strategy = strategies.SingleOrDefault(x => x.CanBeApplied(messageType));

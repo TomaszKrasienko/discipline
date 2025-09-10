@@ -1,6 +1,8 @@
 using System.Net.Http.Headers;
+using discipline.hangfire.add_planned_tasks.Clients.Configuration.Options;
 using discipline.hangfire.infrastructure.Configuration;
 using discipline.hangfire.shared.abstractions.Auth;
+using discipline.libs.configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;

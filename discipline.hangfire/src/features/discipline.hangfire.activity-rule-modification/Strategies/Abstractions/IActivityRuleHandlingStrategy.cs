@@ -1,6 +1,6 @@
-using discipline.hangfire.activity_rules.Events.External;
+using discipline.hangfire.activity_rule_modification.Events.External;
 
-namespace discipline.hangfire.activity_rules.Strategies.Abstractions;
+namespace discipline.hangfire.activity_rule_modification.Strategies.Abstractions;
 
 internal interface IActivityRuleHandlingStrategy
 {

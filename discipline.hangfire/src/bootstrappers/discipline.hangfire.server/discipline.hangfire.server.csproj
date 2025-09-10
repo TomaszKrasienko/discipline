@@ -25,9 +25,9 @@
     <ItemGroup>
       <ProjectReference Include="..\..\features\discipline.hangfire.activity-rule-modification\discipline.hangfire.activity-rule-modification.csproj" />
       <ProjectReference Include="..\..\Features\discipline.hangfire.add-planned-tasks\discipline.hangfire.add-planned-tasks.csproj" />
-      <ProjectReference Include="..\..\features\discipline.hangfire.browse-planned\discipline.hangfire.browse-planned.csproj" />
       <ProjectReference Include="..\..\Features\discipline.hangfire.create-activity-from-planned\discipline.hangfire.create-activity-from-planned.csproj" />
       <ProjectReference Include="..\..\features\discipline.hangfire.account-modification\discipline.hangfire.account-modification.csproj" />
+      <ProjectReference Include="..\..\features\discipline.hangfire.create-empty-daily-tracker\discipline.hangfire.create-empty-daily-tracker.csproj" />
       <ProjectReference Include="..\..\Shared\discipline.hangfire.shared.infrastructure\discipline.hangfire.shared.infrastructure.csproj" />
     </ItemGroup>
 

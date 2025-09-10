@@ -1,8 +1,8 @@
-using discipline.hangfire.shared.abstractions.Identifiers;
+using discipline.hangfire.shared.abstractions.ViewModels.Abstractions;
 
 namespace discipline.hangfire.shared.abstractions.ViewModels;
 
-public sealed record AccountViewModel
+public sealed record AccountViewModel : IViewModel
 {
-    public required AccountId AccountId { get; init; }
+    public required string AccountId { get; init; }
 }

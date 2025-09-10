@@ -1,10 +1,6 @@
-using discipline.hangfire.browse_planned.Confguration;
-using discipline.hangfire.create_activity_from_planned.Configuration;
+using discipline.hangfire.create_empty_daily_tracker.Configuration;
 using discipline.hangfire.infrastructure.Configuration;
 using discipline.hangfire.server.Hangfire;
-using discipline.hangfire.shared.abstractions.Api;
-using discipline.hangfire.shared.abstractions.Identifiers;
-using Hangfire;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,35 +15,39 @@ var allAssemblies = AppDomain
 builder.Services
     .AddDisciplineHangfire(builder.Configuration)
     .AddInfrastructure(builder.Configuration, allAssemblies)
+    .SetAccountModification()
     .SetAddActivityRules(builder.Configuration)
     .SetAddPlannedTasks(builder.Configuration)
-    .SetCreateActivityFromPlanned()
-    .SetBrowsePlanned()
-    .SetAccountModification();
+    .SetCreateEmptyUserDailyTracker();
 
 builder.UseInfrastructure();
 
 var app = builder.Build();
 
-app.MapGet("/api/planned-tasks/{userId}", async (string userId, 
-    IBrowsePlannedApi browsePlannedApi,
-    CancellationToken cancellationToken) =>
-    {
-        var stronglyUserId = AccountId.Parse(userId);
-        var result = await browsePlannedApi
-            .GetPlannedTaskDetailsAsync(stronglyUserId, cancellationToken);
-        
-        return Results.Ok(result);
-    })
-    .Produces(StatusCodes.Status200OK);
+// app.MapGet("/api/planned-tasks/{userId}", async (string userId, 
+//     IBrowsePlannedApi browsePlannedApi,
+//     CancellationToken cancellationToken) =>
+//     {
+//         var stronglyUserId = AccountId.Parse(userId);
+//         var result = await browsePlannedApi
+//             .GetPlannedTaskDetailsAsync(stronglyUserId, cancellationToken);
+//         
+//         return Results.Ok(result);
+//     })
+//     .Produces(StatusCodes.Status200OK);
 
 app.UseDisciplineHangfireServer();
 app.UseHttpsRedirection();
 
-RecurringJob.AddOrUpdate<IAddPlannedTasksApi>(
-    "execute-task-planning",
-    job => job.ExecuteTaskPlanning(CancellationToken.None), 
-    Cron.Hourly);
+// RecurringJob.AddOrUpdate<IAddPlannedTasksApi>(
+//     "execute-task-planning",
+//     job => job.ExecuteTaskPlanning(CancellationToken.None), 
+//     Cron.Hourly);
+//
+// RecurringJob.AddOrUpdate<ICreateEmptyDailyTrackerApi>(
+//     "execute-create-empty-daily-tracker",
+//     job => job.Generate(CancellationToken.None), 
+//     Cron.Daily(3, 00));
 //
 // RecurringJob.AddOrUpdate<ICreateActivityFromPlannedApi>(
 //     "create-activity-from-planned",

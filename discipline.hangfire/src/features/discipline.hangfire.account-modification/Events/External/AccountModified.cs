@@ -1,4 +1,4 @@
-using discipline.hangfire.shared.abstractions.Events;
+using discipline.libs.events.abstractions;
 
 namespace discipline.hangfire.account_modification.Events.External;
 

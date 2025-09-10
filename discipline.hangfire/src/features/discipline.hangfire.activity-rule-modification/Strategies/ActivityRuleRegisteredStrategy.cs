@@ -1,16 +1,15 @@
-using discipline.hangfire.activity_rules.DAL;
-using discipline.hangfire.activity_rules.Events.External;
-using discipline.hangfire.activity_rules.Models;
-using discipline.hangfire.activity_rules.Strategies.Abstractions;
+using discipline.hangfire.activity_rule_modification.Events.External;
+using discipline.hangfire.activity_rule_modification.Strategies.Abstractions;
+using discipline.hangfire.domain.ActivityRules;
+using discipline.hangfire.shared.abstractions.DAL;
 using discipline.hangfire.shared.abstractions.Identifiers;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-namespace discipline.hangfire.activity_rules.Strategies;
+namespace discipline.hangfire.activity_rule_modification.Strategies;
 
 internal sealed class ActivityRuleRegisteredStrategy(
     ILogger<ActivityRuleRegisteredStrategy> logger,
-    ActivityRuleDbContext context) : IActivityRuleHandlingStrategy
+    IWriteRepository<ActivityRule, ActivityRuleId> activityRuleRepository) : IActivityRuleHandlingStrategy
 {
     public async Task HandleAsync(ActivityRuleModified @event, CancellationToken cancellationToken)
     {
@@ -23,9 +22,8 @@ internal sealed class ActivityRuleRegisteredStrategy(
         var stronglyActivityRuleId = ActivityRuleId.Parse(@event.ActivityRuleId);
         var stronglyUserId = AccountId.Parse(@event.UserId);
         
-        var doesActivityRuleExist = await context.Set<ActivityRule>()
-            .AnyAsync(x 
-                => x.ActivityRuleId == stronglyActivityRuleId && 
+        var doesActivityRuleExist = await activityRuleRepository.DoesExistAsync(x 
+                => x.ActivityRuleId == stronglyActivityRuleId &&  
                    x.AccountId == stronglyUserId, cancellationToken);
 
         if (doesActivityRuleExist)
@@ -41,8 +39,7 @@ internal sealed class ActivityRuleRegisteredStrategy(
             @event.Mode,
             @event.Days);
         
-        context.Set<ActivityRule>().Add(activityRule);
-        await context.SaveChangesAsync(cancellationToken);
+        await activityRuleRepository.AddAsync(activityRule, cancellationToken);
     }
 
     public bool CanBeApplied(string messageType)

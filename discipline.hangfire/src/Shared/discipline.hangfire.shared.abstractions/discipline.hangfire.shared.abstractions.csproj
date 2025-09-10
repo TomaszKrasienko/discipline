@@ -8,4 +8,8 @@
       <PackageReference Include="Ulid" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\..\discipline.libs\discipline.libs.messaging\discipline.libs.messaging.csproj" />
+    </ItemGroup>
+
 </Project>

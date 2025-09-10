@@ -1,6 +1,5 @@
-using discipline.hangfire.add_planned_tasks;
+using discipline.hangfire.add_planned_tasks.Api;
 using discipline.hangfire.add_planned_tasks.Clients.Configuration;
-using discipline.hangfire.shared.abstractions.Api;
 using Microsoft.Extensions.Configuration;
 
 // ReSharper disable once CheckNamespace
@@ -13,8 +12,7 @@ public static class AddPlannedTasksServicesConfigurationExtensions
 {
     public static IServiceCollection SetAddPlannedTasks(this IServiceCollection services, IConfiguration configuration)
         => services
-            .AddTransient<IAddPlannedTasksApi, AddPlannedTasksApi>()
+            .AddScoped<IAddPlannedTasksApi, AddPlannedTasksApi>()
             .AddFacades()
-            .AddDal()
             .AddCentreClient(configuration);
 }

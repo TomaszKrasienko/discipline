@@ -8,5 +8,7 @@ namespace Microsoft.Extensions.DependencyInjection;
 internal static class AccountStrategyServicesConfigurationExtensions
 {
     internal static IServiceCollection AddAccountStrategy(this IServiceCollection services)
-        => services.AddScoped<IAccountHandlingStrategy, AccountRegisteredStrategy>();
+        => services
+            .AddScoped<IAccountHandlingStrategy, AccountRegisteredStrategy>()
+            .AddScoped<IAccountHandlingStrategy, AccountDeletedStrategy>();
 }
