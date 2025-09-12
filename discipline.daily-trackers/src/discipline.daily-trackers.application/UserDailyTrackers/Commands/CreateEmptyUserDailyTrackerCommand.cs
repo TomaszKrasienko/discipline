@@ -11,14 +11,16 @@ public sealed record CreateEmptyUserDailyTrackerCommand(
     AccountId AccountId,
     DateOnly Day) : ICommand;
     
-internal sealed class CreateEmptyUserDailyTrackerCommandHandler(
+public sealed class CreateEmptyUserDailyTrackerCommandHandler(
     IUserDailyTrackerFactory userDailyTrackerFactory,
     IReadWriteUserDailyTrackerRepository userDailyTrackerRepository) : ICommandHandler<CreateEmptyUserDailyTrackerCommand>
 {
     public async Task HandleAsync(CreateEmptyUserDailyTrackerCommand command, CancellationToken cancellationToken)
     {
-        if (await userDailyTrackerRepository
-                .DoesExistAsync(command.AccountId, command.Day, cancellationToken))
+        if (await userDailyTrackerRepository.DoesExistAsync(
+                command.AccountId,
+                command.Day,
+                cancellationToken))
         {
             throw new DisciplineNotUniqueException("CreateEmptyUserDailyTracker.NotUnique", command.AccountId.ToString(), command.Day.ToString("dd/MM/yyyy"));
         }

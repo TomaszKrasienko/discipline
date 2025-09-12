@@ -158,7 +158,7 @@ namespace discipline.hangfire.infrastructure.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsPlannedEnabled")
+                    b.Property<bool>("PlannedEnable")
                         .HasColumnType("boolean");
 
                     b.Property<DateOnly>("PlannedFor")

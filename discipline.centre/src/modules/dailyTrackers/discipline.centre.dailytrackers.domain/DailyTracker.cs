@@ -17,26 +17,53 @@ public sealed class DailyTracker : AggregateRoot<DailyTrackerId, Ulid>
     /// <summary>
     /// <remarks>Use only for Mongo purposes</remarks>
     /// </summary>
-    public DailyTracker(DailyTrackerId id, Day day, AccountId accountId, List<Activity> activities) : this(id,
-        day, accountId)
-        => _activities = activities;
+    public DailyTracker(
+        DailyTrackerId id,
+        Day day,
+        AccountId accountId,
+        List<Activity> activities) : this(
+            id,
+            day,
+            accountId)
+            => _activities = activities;
 
-    private DailyTracker(DailyTrackerId id, Day day, AccountId accountId) : base(id)
+    private DailyTracker(
+        DailyTrackerId id,
+        Day day,
+        AccountId accountId) : base(id)
     {
         Day = day;
         AccountId = accountId;
     }
 
-    public static DailyTracker Create(DailyTrackerId id, DateOnly day, AccountId accountId, ActivityId activityId,
-        ActivityDetailsSpecification details, ActivityRuleId? parentActivityRuleId, List<StageSpecification>? stages)
+    public static DailyTracker Create(
+        DailyTrackerId id,
+        DateOnly day,
+        AccountId accountId)
+        => new(
+            id,
+            day,
+            accountId);
+
+    public static DailyTracker Create(
+        DailyTrackerId id,
+        DateOnly day,
+        AccountId accountId,
+        ActivityId activityId,
+        ActivityDetailsSpecification details,
+        ActivityRuleId? parentActivityRuleId,
+        List<StageSpecification>? stages)
     {
         var dailyTracker = new DailyTracker(id, day, accountId);
         dailyTracker.AddActivity(activityId, details, parentActivityRuleId, stages);
         return dailyTracker;
     }
 
-    public Activity AddActivity(ActivityId activityId, ActivityDetailsSpecification details,
-        ActivityRuleId? parentActivityRuleId, List<StageSpecification>? stages)
+    public Activity AddActivity(
+        ActivityId activityId,
+        ActivityDetailsSpecification details,
+        ActivityRuleId? parentActivityRuleId,
+        List<StageSpecification>? stages)
     {
         if (_activities.Exists(x => x.Details.Title == details.Title))
         {

@@ -5,7 +5,7 @@
 GET {{host_address}}/
 
 ###
-@email = test1@gmail.com
+@email = test2@gmail.com
 @password = TomaszK123!
 
 
@@ -20,22 +20,7 @@ Content-Type: application/json
 {
   "email": "{{email}}",
   "password": "{{password}}",
-  "subscriptionId": "01K4HCEBC0HD3MMZQ8MK0QNMGK",
-  "period": null,
-  "firstName": "FreeUserFirstName",
-  "lastName": "FreeUserLastName",
-  "paymentValue": null
-}
-
-### Create account with Standard subscription
-# @name sign_up
-POST {{host_address}}/api/accounts
-Content-Type: application/json
-
-{
-  "email": "tomasz.krasienko@outlook.com",
-  "password": "TomaszK123!",
-  "subscriptionId": "01K3B1HHVMJA576K7PAYY5GKAM",
+  "subscriptionId": "01K4ZSRJG2YVHBM8ZC7FC1E9KV",
   "period": null,
   "firstName": "FreeUserFirstName",
   "lastName": "FreeUserLastName",
@@ -87,8 +72,8 @@ Content-Type: application/json
 
 {
   "details": {
-    "title": "My second test",
-    "note": "without any notes"
+    "title": "Test activity rule 1 name",
+    "note": null
   },
   "mode": {
     "mode": "EveryDay"

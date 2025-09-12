@@ -81,12 +81,12 @@ public sealed class DeleteActivityCommandHandlerTests
             .DeleteAsync(dailyTracker, CancellationToken.None);
     }
     
-    private readonly IReadWriteDailyTrackerRepository _readWriteDailyTrackerRepository;
+    private readonly IWriteDailyTrackerRepository _readWriteDailyTrackerRepository;
     private readonly DeleteActivityCommandHandler _handler;
 
     public DeleteActivityCommandHandlerTests()
     {
-        _readWriteDailyTrackerRepository = Substitute.For<IReadWriteDailyTrackerRepository>();
+        _readWriteDailyTrackerRepository = Substitute.For<IWriteDailyTrackerRepository>();
         _handler = new DeleteActivityCommandHandler(_readWriteDailyTrackerRepository);
     }
 }

@@ -1,5 +1,6 @@
 using discipline.centre.dailytrackers.domain;
 using discipline.centre.dailytrackers.domain.Repositories;
+using discipline.centre.dailytrackers.domain.ValueObjects.DailyTrackers;
 using discipline.centre.dailytrackers.infrastructure.DAL.DailyTrackers.Documents;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using MongoDB.Driver;
@@ -7,31 +8,38 @@ using MongoDB.Driver;
 namespace discipline.centre.dailytrackers.infrastructure.DAL.DailyTrackers.Repositories;
 
 internal sealed class MongoDailyTrackerRepository(
-    DailyTrackersMongoContext context) : IReadWriteDailyTrackerRepository
+    DailyTrackersMongoContext context) : IWriteDailyTrackerRepository
 {
+    public Task<bool> ExistsAsync(AccountId accountId, Day day, CancellationToken cancellationToken)
+        => context.GetCollection<DailyTrackerDocument>()
+            .Find(x
+                => x.Day == day &&
+                   x.AccountId == accountId.ToString())
+            .AnyAsync(cancellationToken);
+
     public async Task<DailyTracker?> GetDailyTrackerByDayAsync(AccountId accountId, 
         DateOnly day,
         CancellationToken cancellationToken = default)
         => (await context.GetCollection<DailyTrackerDocument>().Find(x
-                => x.Day == day
-                && x.AccountId == accountId.ToString())
+                => x.Day == day &&
+                   x.AccountId == accountId.ToString())
             .SingleOrDefaultAsync(cancellationToken))?.AsEntity();
 
     public async Task<DailyTracker?> GetDailyTrackerByIdAsync(AccountId accountId, 
         DailyTrackerId id,
         CancellationToken cancellationToken = default)
         => (await context.GetCollection<DailyTrackerDocument>().Find(x
-                => x.DailyTrackerId == id.ToString() 
-                && x.AccountId == accountId.ToString())
+                => x.DailyTrackerId == id.ToString() &&
+                   x.AccountId == accountId.ToString())
             .SingleOrDefaultAsync(cancellationToken))?.AsEntity();
 
     public async Task<List<DailyTracker>> GetDailyTrackersByParentActivityRuleId(AccountId accountId, 
         ActivityRuleId activityRuleId,
         CancellationToken cancellationToken = default)
         => (await context.GetCollection<DailyTrackerDocument>()
-                .Find(dt => dt.Activities.Any(activity
-                                => activity.ParentActivityRuleId == activityRuleId.ToString())
-                            && dt.AccountId == accountId.ToString())
+                .Find(dt => dt.Activities.Any(activity =>
+                                activity.ParentActivityRuleId == activityRuleId.ToString()) &&
+                                dt.AccountId == accountId.ToString())
                 .ToListAsync(cancellationToken))
             .Select(x => x.AsEntity()).ToList();
         

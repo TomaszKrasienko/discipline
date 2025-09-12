@@ -23,12 +23,13 @@ internal static class DalServicesConfigurationExtensions
                     mongoCollectionNameConvention,
                     moduleName);
             })
-            .AddScoped<IReadWriteDailyTrackerRepository, MongoDailyTrackerRepository>()
+            .AddScoped<IReadDailyTrackerRepository, MongoDailyTrackerRepository>()
+            .AddScoped<IWriteDailyTrackerRepository, MongoDailyTrackerRepository>()
             .AddDecorators();
 
     private static IServiceCollection AddDecorators(this IServiceCollection services)
     {
-        services.TryDecorate(typeof(IReadWriteDailyTrackerRepository), typeof(CacheDailyTrackerRepositoryDecorator));
+        services.TryDecorate(typeof(IWriteDailyTrackerRepository), typeof(CacheDailyTrackerRepositoryDecorator));
 
         return services;
     }

@@ -10,6 +10,6 @@ public sealed record PlannedTaskViewModel : IViewModel
     public AccountId AccountId { get; init; }
     public DateOnly PlannedFor { get; init; }
     public DateTimeOffset CreatedAt { get; init; }
-    public bool IsPlannedEnabled { get; init; }
+    public bool PlannedEnable { get; init; }
     public bool ActivityCreated { get; init; }
 }

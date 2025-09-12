@@ -13,13 +13,14 @@ namespace discipline.hangfire.infrastructure.Configuration;
 
 public static class InfrastructureServicesExtensions
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration,
+    public static IServiceCollection AddInfrastructure(
+        this IServiceCollection services,
+        IConfiguration configuration,
         IEnumerable<Assembly> assemblies)
         => services
             .ValidateAndBind<AppOptions, AppOptionsValidator>(configuration)
             .AddAuth(configuration)
             .AddClock()
-            .AddEvents(assemblies)
             .AddSerialization()
             .AddLogging(configuration)
             .AddSingleton(TimeProvider.System)

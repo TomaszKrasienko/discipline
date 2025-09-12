@@ -209,14 +209,14 @@ public sealed class CreateActivityFromActivityRuleCommandHandlerTests
     #region arrange
     private readonly IClock _clock;
     private readonly IActivityRulesApiClient _apiClient;
-    private readonly IReadWriteDailyTrackerRepository _readWriteDailyTrackerRepository;
+    private readonly IWriteDailyTrackerRepository _readWriteDailyTrackerRepository;
     private readonly ICommandHandler<CreateActivityFromActivityRuleCommand> _handler;
 
     public CreateActivityFromActivityRuleCommandHandlerTests()
     {
         _clock = Substitute.For<IClock>();
         _apiClient = Substitute.For<IActivityRulesApiClient>();
-        _readWriteDailyTrackerRepository = Substitute.For<IReadWriteDailyTrackerRepository>();
+        _readWriteDailyTrackerRepository = Substitute.For<IWriteDailyTrackerRepository>();
         _handler = new CreateActivityFromActivityRuleCommandHandler(_clock, _apiClient, _readWriteDailyTrackerRepository);
     }
     #endregion

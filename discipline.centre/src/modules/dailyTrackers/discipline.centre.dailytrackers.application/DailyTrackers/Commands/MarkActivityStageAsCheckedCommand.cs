@@ -10,7 +10,7 @@ public sealed record MarkActivityStageAsCheckedCommand(AccountId AccountId, Dail
     ActivityId ActivityId, StageId StageId) : ICommand;
 
 internal sealed class MarkActivityStageAsCheckedCommandHandler(
-    IReadWriteDailyTrackerRepository writeReadDailyTrackerRepository) : ICommandHandler<MarkActivityStageAsCheckedCommand>
+    IWriteDailyTrackerRepository writeReadDailyTrackerRepository) : ICommandHandler<MarkActivityStageAsCheckedCommand>
 {
     public async Task HandleAsync(MarkActivityStageAsCheckedCommand command, CancellationToken cancellationToken = default)
     {

@@ -96,7 +96,7 @@ namespace discipline.hangfire.infrastructure.DAL.Migrations
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("CreatedAt");
 
-                    b.Property<bool>("PlannedEnabled")
+                    b.Property<bool>("PlannedEnable")
                         .HasColumnType("boolean")
                         .HasColumnName("PlannedEnable");
 
@@ -161,7 +161,7 @@ namespace discipline.hangfire.infrastructure.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<bool>("IsPlannedEnabled")
+                    b.Property<bool>("PlannedEnabled")
                         .HasColumnType("boolean");
 
                     b.Property<DateOnly>("PlannedFor")

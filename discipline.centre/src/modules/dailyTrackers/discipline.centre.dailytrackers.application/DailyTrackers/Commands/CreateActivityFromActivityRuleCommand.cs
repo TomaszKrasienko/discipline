@@ -14,7 +14,7 @@ public sealed record CreateActivityFromActivityRuleCommand(AccountId AccountId ,
 
 internal sealed class CreateActivityFromActivityRuleCommandHandler(
     IClock clock, IActivityRulesApiClient apiClient,
-    IReadWriteDailyTrackerRepository repository) : ICommandHandler<CreateActivityFromActivityRuleCommand>
+    IWriteDailyTrackerRepository repository) : ICommandHandler<CreateActivityFromActivityRuleCommand>
 {
     public async Task HandleAsync(CreateActivityFromActivityRuleCommand command, CancellationToken cancellationToken = default)
     {

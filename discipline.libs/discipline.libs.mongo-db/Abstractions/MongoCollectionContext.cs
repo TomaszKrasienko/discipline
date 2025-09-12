@@ -9,7 +9,7 @@ public abstract class MongoCollectionContext(
 {
     public IMongoCollection<T> GetCollection<T>() where T : IDocument
     {
-        var mongoDatabase = mongoClient.GetDatabase(databaseName);
+        var mongoDatabase = mongoClient.GetDatabase(databaseName.Replace(".", "-"));
         var collectionName = mongoCollectionNameConvention.GetCollectionName<T>();
         return mongoDatabase.GetCollection<T>(collectionName);
     }

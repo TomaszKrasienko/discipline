@@ -1,3 +1,4 @@
+using System.Reflection;
 using discipline.daily_trackers.application.UserDailyTrackers.Commands.External;
 using discipline.daily_trackers.infrastructure.Configuration.Options;
 using discipline.libs.configuration;
@@ -12,9 +13,11 @@ public static class InfrastructureServicesConfigurationExtensions
 {
     public static IServiceCollection AddInfrastructure(
         this IServiceCollection services,
-        IConfiguration configuration)
+        IConfiguration configuration,
+        List<Assembly> allAssemblies)
         => services
             .ValidateAndBind<AppOptions, AppOptionsValidator>(configuration)
+            .AddCqrs(allAssemblies)
             .AddDal(configuration)
             .AddUiDocumentation()
             .AddRabbit(configuration);
@@ -44,7 +47,8 @@ public static class InfrastructureServicesConfigurationExtensions
             {
                 return (async (msg, ct, mt) =>
                 {
-                    var dispatcher = sp.GetRequiredService<ICqrsDispatcher>();
+                    using var scope = sp.CreateScope();
+                    var dispatcher = scope.ServiceProvider.GetRequiredService<ICqrsDispatcher>();
                     await dispatcher.HandleAsync(msg.ToCommand(), ct);
                 });
             });

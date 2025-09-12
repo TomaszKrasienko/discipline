@@ -1,20 +1,24 @@
+using System.Reflection;
+using discipline.hangfire.add_planned_tasks.Api;
+using discipline.hangfire.create_empty_daily_tracker.Api;
 using discipline.hangfire.create_empty_daily_tracker.Configuration;
 using discipline.hangfire.infrastructure.Configuration;
 using discipline.hangfire.server.Hangfire;
+using Hangfire;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var allAssemblies = AppDomain
-    .CurrentDomain
-    .GetAssemblies()
+var basePath = AppContext.BaseDirectory;
+var assemblies = Directory.GetFiles(basePath, "discipline.hangfire*.dll")
+    .Select(Assembly.LoadFrom)
     .ToList();
 
 builder.Services
     .AddDisciplineHangfire(builder.Configuration)
-    .AddInfrastructure(builder.Configuration, allAssemblies)
+    .AddInfrastructure(builder.Configuration, assemblies)
     .SetAccountModification()
     .SetAddActivityRules(builder.Configuration)
     .SetAddPlannedTasks(builder.Configuration)
@@ -39,19 +43,15 @@ var app = builder.Build();
 app.UseDisciplineHangfireServer();
 app.UseHttpsRedirection();
 
-// RecurringJob.AddOrUpdate<IAddPlannedTasksApi>(
-//     "execute-task-planning",
-//     job => job.ExecuteTaskPlanning(CancellationToken.None), 
-//     Cron.Hourly);
-//
-// RecurringJob.AddOrUpdate<ICreateEmptyDailyTrackerApi>(
-//     "execute-create-empty-daily-tracker",
-//     job => job.Generate(CancellationToken.None), 
-//     Cron.Daily(3, 00));
-//
-// RecurringJob.AddOrUpdate<ICreateActivityFromPlannedApi>(
-//     "create-activity-from-planned",
-//     job => job.ExecuteTaskCreating(CancellationToken.None),
-//     Cron.Daily);
+RecurringJob.AddOrUpdate<IAddPlannedTasksApi>(
+    "execute-task-planning",
+    job => job.ExecuteTaskPlanning(CancellationToken.None), 
+    Cron.Hourly);
+
+RecurringJob.AddOrUpdate<ICreateEmptyDailyTrackerApi>(
+    "execute-create-empty-daily-tracker",
+    job => job.Generate(CancellationToken.None), 
+    Cron.Daily(3, 00));
+
 
 await app.RunAsync();

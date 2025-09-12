@@ -10,7 +10,7 @@ public sealed record CheckActivityStageCommand(AccountId AccountId, DailyTracker
     StageId StageId) : ICommand;
 
 internal sealed class CheckActivityStageCommandHandler(
-    IReadWriteDailyTrackerRepository writeReadDailyTrackerRepository) : ICommandHandler<CheckActivityStageCommand>
+    IWriteDailyTrackerRepository writeReadDailyTrackerRepository) : ICommandHandler<CheckActivityStageCommand>
 {
     public async Task HandleAsync(CheckActivityStageCommand command, CancellationToken cancellationToken = default)
     {

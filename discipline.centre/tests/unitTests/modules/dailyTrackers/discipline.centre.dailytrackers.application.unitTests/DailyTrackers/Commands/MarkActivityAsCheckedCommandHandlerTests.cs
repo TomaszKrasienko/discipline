@@ -72,12 +72,12 @@ public sealed class MarkActivityAsCheckedCommandHandlerTests
     }
     
     #region arrange
-    private readonly IReadWriteDailyTrackerRepository _readWriteDailyTrackerRepository;
+    private readonly IWriteDailyTrackerRepository _readWriteDailyTrackerRepository;
     private readonly MarkActivityAsCheckedCommandHandler _handler;
 
     public MarkActivityAsCheckedCommandHandlerTests()
     {
-        _readWriteDailyTrackerRepository = Substitute.For<IReadWriteDailyTrackerRepository>();
+        _readWriteDailyTrackerRepository = Substitute.For<IWriteDailyTrackerRepository>();
         _handler = new MarkActivityAsCheckedCommandHandler(_readWriteDailyTrackerRepository);
     }
 

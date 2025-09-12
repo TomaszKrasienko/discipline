@@ -8,7 +8,7 @@ namespace discipline.centre.dailytrackers.application.DailyTrackers.Commands;
 public sealed record DeleteActivityCommand(AccountId AccountId, DailyTrackerId DailyTrackerId, ActivityId ActivityId) : ICommand;
 
 internal sealed class DeleteActivityCommandHandler(
-    IReadWriteDailyTrackerRepository readWriteDailyTrackerRepository) : ICommandHandler<DeleteActivityCommand>
+    IWriteDailyTrackerRepository readWriteDailyTrackerRepository) : ICommandHandler<DeleteActivityCommand>
 {
     public async Task HandleAsync(DeleteActivityCommand command, CancellationToken cancellationToken)
     {

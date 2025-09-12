@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace discipline.centre.dailytrackers.application.DailyTrackers.Events.Handler;
 
-internal sealed class ActivityRuleDeletedHandler(IReadWriteDailyTrackerRepository readWriteDailyTrackerRepository) : IEventHandler<ActivityRuleDeleted>
+internal sealed class ActivityRuleDeletedHandler(IWriteDailyTrackerRepository readWriteDailyTrackerRepository) : IEventHandler<ActivityRuleDeleted>
 {
     //TODO: string type or implicit operator in strogly type ids?
     public async Task HandleAsync(ActivityRuleDeleted @event, CancellationToken cancellationToken)

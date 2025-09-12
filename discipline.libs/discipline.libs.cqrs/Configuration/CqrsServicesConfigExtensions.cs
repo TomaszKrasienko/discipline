@@ -9,9 +9,9 @@ using discipline.libs.cqrs.Attributes;
 namespace Microsoft.Extensions.DependencyInjection;
 
 
-internal static class CqrsServicesConfigExtensions
+public static class CqrsServicesConfigExtensions
 {
-    internal static IServiceCollection AddCqrs(this IServiceCollection services, IEnumerable<Assembly> assemblies)
+    public static IServiceCollection AddCqrs(this IServiceCollection services, IEnumerable<Assembly> assemblies)
     {
         services.Scan(s => s.FromAssemblies(assemblies)
             .AddClasses(c 

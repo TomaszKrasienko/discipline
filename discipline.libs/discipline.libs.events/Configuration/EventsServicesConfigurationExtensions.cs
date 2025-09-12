@@ -21,6 +21,7 @@ public static class EventsServicesConfigurationExtensions
         this IServiceCollection services,
         IEnumerable<Assembly> assemblies)
     {
+        //TODO: This process does not see internal event handlers. To fix.
         services.Scan(x => x.FromAssemblies(assemblies)
             .AddClasses(c => c.AssignableTo(typeof(IEventHandler<>)))
             .AsImplementedInterfaces()

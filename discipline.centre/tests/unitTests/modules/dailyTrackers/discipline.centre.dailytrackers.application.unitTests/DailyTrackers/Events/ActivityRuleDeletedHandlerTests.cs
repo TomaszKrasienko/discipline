@@ -74,12 +74,12 @@ public sealed class ActivityRuleDeletedHandlerTests
                 Arg.Any<CancellationToken>());
     }
     
-    private readonly IReadWriteDailyTrackerRepository _readWriteDailyTrackerRepository;
+    private readonly IWriteDailyTrackerRepository _readWriteDailyTrackerRepository;
     private readonly ActivityRuleDeletedHandler _handler;
 
     public ActivityRuleDeletedHandlerTests()
     {
-        _readWriteDailyTrackerRepository = Substitute.For<IReadWriteDailyTrackerRepository>();
+        _readWriteDailyTrackerRepository = Substitute.For<IWriteDailyTrackerRepository>();
         _handler = new ActivityRuleDeletedHandler(_readWriteDailyTrackerRepository);
     }
 }

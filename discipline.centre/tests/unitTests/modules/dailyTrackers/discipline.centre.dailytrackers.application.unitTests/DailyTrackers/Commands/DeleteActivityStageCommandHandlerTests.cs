@@ -115,12 +115,12 @@ public sealed class DeleteActivityStageCommandHandlerTests
     }
     
     #region Arrange
-    private readonly IReadWriteDailyTrackerRepository _readWriteDailyTrackerRepository;
+    private readonly IWriteDailyTrackerRepository _readWriteDailyTrackerRepository;
     private readonly DeleteActivityStageCommandHandler _handler;
 
     public DeleteActivityStageCommandHandlerTests()
     {
-        _readWriteDailyTrackerRepository = Substitute.For<IReadWriteDailyTrackerRepository>();
+        _readWriteDailyTrackerRepository = Substitute.For<IWriteDailyTrackerRepository>();
         _handler = new DeleteActivityStageCommandHandler(_readWriteDailyTrackerRepository);
     }
     #endregion

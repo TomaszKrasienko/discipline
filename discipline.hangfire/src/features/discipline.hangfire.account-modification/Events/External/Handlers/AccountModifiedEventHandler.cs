@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace discipline.hangfire.account_modification.Events.External.Handlers;
 
-public sealed class AccountModifiedEventHandler(
+internal sealed class AccountModifiedEventHandler(
     ILogger<AccountModifiedEventHandler> logger,
     IEnumerable<IAccountHandlingStrategy> strategies) : IEventHandler<AccountModified>
 {

@@ -1,5 +1,6 @@
 using discipline.centre.dailytrackers.domain;
 using discipline.centre.dailytrackers.domain.Repositories;
+using discipline.centre.dailytrackers.domain.ValueObjects.DailyTrackers;
 using discipline.centre.dailytrackers.infrastructure.DAL.DailyTrackers.Documents;
 using discipline.centre.shared.abstractions.Cache;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
@@ -7,9 +8,12 @@ using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 namespace discipline.centre.dailytrackers.infrastructure.DAL.DailyTrackers.CacheDecorators;
 
 internal sealed class CacheDailyTrackerRepositoryDecorator(
-    IReadWriteDailyTrackerRepository readWriteDailyTrackerRepository,
-    ICacheFacade cacheFacade) : IReadWriteDailyTrackerRepository
+    IWriteDailyTrackerRepository readWriteDailyTrackerRepository,
+    ICacheFacade cacheFacade) : IWriteDailyTrackerRepository
 {
+    public Task<bool> ExistsAsync(AccountId accountId, Day day, CancellationToken cancellationToken)
+        => readWriteDailyTrackerRepository.ExistsAsync(accountId, day, cancellationToken);
+
     public async Task<DailyTracker?> GetDailyTrackerByDayAsync(AccountId accountId, DateOnly day, CancellationToken cancellationToken)
     {
         var cachedData = await cacheFacade.GetAsync<DailyTrackerDocument>(GetCacheKey(accountId, day.ToString()), cancellationToken);
