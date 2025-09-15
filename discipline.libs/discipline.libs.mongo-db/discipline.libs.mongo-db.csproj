@@ -5,10 +5,11 @@
         <RootNamespace>discipline.libs.mongo_db</RootNamespace>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="MongoDB.Driver" Version="3.4.3" />
+      <PackageReference Include="MongoDB.Driver" Version="3.5.0" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,4 +1,3 @@
-using discipline.centre.shared.abstractions.CQRS.Commands;
 using discipline.centre.shared.abstractions.Events;
 using discipline.centre.shared.abstractions.Exceptions;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
@@ -11,6 +10,7 @@ using discipline.centre.users.domain.Subscriptions.Repositories;
 using discipline.centre.users.domain.Users;
 using discipline.centre.users.domain.Users.Repositories;
 using discipline.centre.users.domain.Users.Specifications;
+using discipline.libs.cqrs.abstractions.Commands;
 
 namespace discipline.centre.users.application.Accounts.Commands;
 

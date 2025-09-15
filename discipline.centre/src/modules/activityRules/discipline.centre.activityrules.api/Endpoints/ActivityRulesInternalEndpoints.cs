@@ -1,12 +1,11 @@
 using discipline.centre.activityrules.application.ActivityRules.Queries;
-using discipline.centre.shared.abstractions.CQRS;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using Microsoft.AspNetCore.Http;
 using discipline.centre.activityrules.api;
 using discipline.centre.activityrules.application.ActivityRules.DTOs;
-using discipline.centre.activityrules.application.ActivityRules.DTOs.Responses;
 using discipline.centre.activityrules.application.ActivityRules.DTOs.Responses.ActivityRules;
 using discipline.centre.shared.infrastructure.Auth.Const;
+using discipline.libs.cqrs.Abstractions;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.AspNetCore.Builder;
@@ -21,7 +20,10 @@ internal static class ActivityRulesInternalEndpoints
     internal static WebApplication MapActivityRulesInternalEndpoints(this WebApplication app)
     {
         app.MapGet($"/{ActivityRulesModule.ModuleName}/{ActivityRulesInternalTag}/{{accountId:ulid}}/{{activityRuleId:ulid}}",
-                async (Ulid accountId, Ulid activityRuleId, CancellationToken cancellationToken,
+                async (
+                    Ulid accountId,
+                    Ulid activityRuleId,
+                    CancellationToken cancellationToken,
                     ICqrsDispatcher dispatcher) =>
                 {
                     // TODO: Account.FromValue or implicit operator

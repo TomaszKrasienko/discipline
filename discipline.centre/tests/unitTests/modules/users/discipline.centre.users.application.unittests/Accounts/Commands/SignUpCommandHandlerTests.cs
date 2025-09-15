@@ -1,4 +1,3 @@
-using discipline.centre.shared.abstractions.CQRS.Commands;
 using discipline.centre.shared.abstractions.Events;
 using discipline.centre.shared.abstractions.Exceptions;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
@@ -12,7 +11,8 @@ using discipline.centre.users.domain.Subscriptions.Enums;
 using discipline.centre.users.domain.Subscriptions.Repositories;
 using discipline.centre.users.domain.Users;
 using discipline.centre.users.domain.Users.Repositories;
-using discipline.centre.users.tests.sharedkernel.Domain;
+using discipline.centre.users.tests.shared_kernel.Domain;
+using discipline.libs.cqrs.abstractions.Commands;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using Shouldly;

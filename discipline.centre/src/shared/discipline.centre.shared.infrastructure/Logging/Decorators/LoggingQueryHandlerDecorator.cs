@@ -1,5 +1,5 @@
 using discipline.centre.shared.abstractions.Attributes;
-using discipline.centre.shared.abstractions.CQRS.Queries;
+using discipline.libs.cqrs.abstractions.Queries;
 using Microsoft.Extensions.Logging;
 
 namespace discipline.centre.shared.infrastructure.Logging.Decorators;

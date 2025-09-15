@@ -6,7 +6,7 @@ using discipline.centre.users.domain.Subscriptions.Enums;
 using discipline.centre.users.infrastructure.DAL.Accounts.Documents;
 using discipline.centre.users.infrastructure.DAL.Subscriptions.Documents;
 using discipline.centre.users.infrastructure.DAL.Users.Documents;
-using discipline.centre.users.tests.sharedkernel.Infrastructure;
+using discipline.centre.users.tests.shared_kernel.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;
 using Shouldly;

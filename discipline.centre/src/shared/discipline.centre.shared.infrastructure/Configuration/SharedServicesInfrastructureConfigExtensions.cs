@@ -4,7 +4,6 @@ using discipline.centre.shared.infrastructure.Constraint.Configuration;
 using discipline.centre.shared.infrastructure.Converters.Configuration;
 using discipline.centre.shared.infrastructure.Logging.Configuration;
 using discipline.centre.shared.infrastructure.Messaging.Configuration;
-using discipline.centre.shared.infrastructure.Serialization.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
@@ -21,12 +20,12 @@ public static class SharedServicesInfrastructureConfigExtensions
             .AddUiDocumentation()
             .AddCorsPolicy()
             .AddCqrs(assemblies)
+            .AddSerialization()
             .AddDal(configuration)
             .AddMessaging(configuration)
             .AddEvents(configuration, assemblies)
             .AddClock()
             .AddJwtAuth(configuration)
-            .AddSerializer()
             .AddDistributedCache(configuration)
             .AddExceptionsHandling(assemblies)
             .AddValidation(assemblies)

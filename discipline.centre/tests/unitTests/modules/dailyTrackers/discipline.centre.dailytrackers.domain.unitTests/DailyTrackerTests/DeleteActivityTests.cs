@@ -1,5 +1,5 @@
+using discipline.centre.daily_trackers.tests.shared_kernel.Domain;
 using discipline.centre.dailytrackers.domain.Specifications;
-using discipline.centre.dailytrackers.tests.sharedkernel.Domain;
 using Shouldly;
 using Xunit;
 

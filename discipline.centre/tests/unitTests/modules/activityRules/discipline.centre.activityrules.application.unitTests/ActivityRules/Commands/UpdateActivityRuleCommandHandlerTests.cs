@@ -1,13 +1,13 @@
+using discipline.centre.activity_rules.tests.shared_kernel.Domain;
 using discipline.centre.activityrules.application.ActivityRules.Commands;
 using discipline.centre.activityrules.domain;
 using discipline.centre.activityrules.domain.Enums;
 using discipline.centre.activityrules.domain.Repositories;
 using discipline.centre.activityrules.domain.Specifications;
-using discipline.centre.activityrules.tests.sharedkernel.Domain;
-using discipline.centre.shared.abstractions.CQRS.Commands;
 using discipline.centre.shared.abstractions.Events;
 using discipline.centre.shared.abstractions.Exceptions;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
+using discipline.libs.cqrs.abstractions.Commands;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using Shouldly;
@@ -132,7 +132,7 @@ public sealed class UpdateActivityRuleCommandHandlerTests
         ((NotFoundException)exception).Code.ShouldBe("UpdateActivityRule.ActivityRuleNotFound");
     }
     
-    #region Arrange;
+    #region Arrange
     private readonly IReadWriteActivityRuleRepository _readWriteActivityRuleRepository;
     private readonly IEventProcessor _eventProcessor;
     private readonly ICommandHandler<UpdateActivityRuleCommand> _handler;

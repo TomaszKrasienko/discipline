@@ -1,9 +1,9 @@
-using discipline.centre.shared.abstractions.CQRS.Queries;
 using discipline.centre.users.application.Users.DTOs.Responses;
 using discipline.centre.users.application.Users.Queries;
 using discipline.centre.users.infrastructure.DAL;
 using discipline.centre.users.infrastructure.DAL.Accounts.Documents;
 using discipline.centre.users.infrastructure.DAL.Users.Documents;
+using discipline.libs.cqrs.abstractions.Queries;
 using MongoDB.Driver;
 
 namespace discipline.centre.users.infrastructure.QueryHandlers.Users;

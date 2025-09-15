@@ -16,7 +16,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <InternalsVisibleTo Include="discipline.daily-trackers.domain"/>
         <InternalsVisibleTo Include="discipline.daily-trackers.tests.shared-kernel"/>
     </ItemGroup>
 </Project>

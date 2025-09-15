@@ -1,8 +1,7 @@
-using discipline.centre.dailytrackers.application.DailyTrackers.DTOs;
 using discipline.centre.dailytrackers.application.DailyTrackers.DTOs.Responses;
 using discipline.centre.dailytrackers.application.DailyTrackers.Queries;
 using discipline.centre.dailytrackers.infrastructure.DAL.DailyTrackers.Documents;
-using discipline.centre.shared.abstractions.CQRS.Queries;
+using discipline.libs.cqrs.abstractions.Queries;
 using MongoDB.Driver;
 
 namespace discipline.centre.dailytrackers.infrastructure.DAL.DailyTrackers.QueryHandlers;

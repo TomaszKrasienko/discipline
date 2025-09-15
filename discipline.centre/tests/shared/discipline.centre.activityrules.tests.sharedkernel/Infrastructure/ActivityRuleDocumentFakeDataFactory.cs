@@ -1,12 +1,9 @@
 using Bogus;
-using discipline.centre.activityrules.domain;
+using discipline.centre.activity_rules.infrastructure.DAL.Documents;
 using discipline.centre.activityrules.domain.Enums;
-using discipline.centre.activityrules.domain.ValueObjects;
-using discipline.centre.activityrules.domain.ValueObjects.ActivityRules;
-using discipline.centre.activityrules.infrastructure.DAL.Documents;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 
-namespace discipline.centre.activityrules.tests.sharedkernel.Infrastructure;
+namespace discipline.centre.activity_rules.tests.shared_kernel.Infrastructure;
 
 internal static class ActivityRuleDocumentFakeDataFactory
 {

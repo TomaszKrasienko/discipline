@@ -1,6 +1,5 @@
+using discipline.centre.daily_trackers.api;
 using discipline.centre.dailytrackers.application.DailyTrackers.Commands;
-using discipline.centre.shared.abstractions.CQRS;
-using discipline.centre.dailytrackers.api;
 using discipline.centre.dailytrackers.application.DailyTrackers.DTOs;
 using discipline.centre.dailytrackers.application.DailyTrackers.DTOs.Responses;
 using discipline.centre.dailytrackers.application.DailyTrackers.Queries;
@@ -8,9 +7,9 @@ using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.shared.infrastructure.Auth;
 using discipline.centre.shared.infrastructure.IdentityContext.Abstractions;
 using discipline.centre.shared.infrastructure.ResourceHeader;
+using discipline.libs.cqrs.Abstractions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-// ReSharper disable All
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.AspNetCore.Builder;

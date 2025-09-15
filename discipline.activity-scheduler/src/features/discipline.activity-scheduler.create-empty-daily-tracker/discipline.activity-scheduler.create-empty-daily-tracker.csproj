@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>discipline.activity_scheduler.create_empty_daily_tracker</RootNamespace>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+    </PropertyGroup>
+    
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\..\discipline.libs\discipline.libs.cqrs.abstractions\discipline.libs.cqrs.abstractions.csproj" />
+      <ProjectReference Include="..\..\shared\discipline.activity-scheduler.shared.abstractions\discipline.activity-scheduler.shared.abstractions.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.9"/>
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4"/>
+    </ItemGroup>
+
+</Project>

@@ -1,7 +1,7 @@
 using discipline.centre.shared.infrastructure.DAL.Collections.Abstractions;
 using MongoDB.Driver;
 
-namespace discipline.centre.activityrules.infrastructure.DAL;
+namespace discipline.centre.activity_rules.infrastructure.DAL;
 
 internal sealed class ActivityRulesMongoContext(
     IMongoClient mongoClient, 

@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>discipline.activity_scheduler.activity_rule_modification</RootNamespace>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+
+
+    <PropertyGroup>
+        <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Dapper" Version="2.1.66"/>
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.9"/>
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4"/>
+      <PackageReference Include="OneOf" Version="3.0.271"/>
+      <PackageReference Include="Refit" Version="8.0.0"/>
+      <PackageReference Include="Refit.HttpClientFactory" Version="8.0.0"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <InternalsVisibleTo Include="discipline.hangfire.add-activity-rules.unit_tests"/>
+        <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
+    </ItemGroup>
+    <ItemGroup>
+      <PackageVersion Update="Microsoft.EntityFrameworkCore" Version="9.0.3" />
+      <PackageVersion Update="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\..\shared\discipline.activity-scheduler.shared.infrastructure\discipline.activity-scheduler.shared.infrastructure.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <InternalsVisibleTo Include="discipline.hangfire.activity-rules.unit-tests"/>
+    </ItemGroup>
+</Project>

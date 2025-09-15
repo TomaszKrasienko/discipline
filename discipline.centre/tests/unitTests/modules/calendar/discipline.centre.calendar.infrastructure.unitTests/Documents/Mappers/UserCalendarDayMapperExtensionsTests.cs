@@ -1,6 +1,6 @@
 using discipline.centre.calendar.domain;
 using discipline.centre.calendar.infrastructure.DAL.Documents;
-using discipline.centre.calendar.tests.sharedkernel.Domain;
+using discipline.centre.calendar.tests.shared_kernel.Domain;
 using Shouldly;
 
 namespace discipline.centre.calendar.infrastructure.unitTests.Documents.Mappers;

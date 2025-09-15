@@ -5,7 +5,7 @@ using discipline.daily_trackers.domain.DailyTrackers.Services;
 using discipline.daily_trackers.domain.DailyTrackers.Specifications;
 using discipline.daily_trackers.domain.SharedKernel.TypeIdentifiers;
 using discipline.daily_trackers.tests.shared_kernel.Domain;
-using discipline.libs.cqrs.Abstractions.Commands;
+using discipline.libs.cqrs.abstractions.Commands;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 
@@ -73,7 +73,7 @@ public sealed class CreateActivityCommandHandlerTests
                 && x.Activities.Any(act => act.Id == command.ActivityId)), CancellationToken.None);
     }
     
-    #region arrange
+    #region Arrange
     private readonly IReadWriteUserDailyTrackerRepository _readWriteUserDailyTrackerRepository;
     private readonly IUserDailyTrackerFactory _dailyTrackerFactory;
     private readonly ICommandHandler<CreateActivityCommand> _handler;

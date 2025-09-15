@@ -1,7 +1,7 @@
+using discipline.centre.daily_trackers.tests.shared_kernel.Domain;
 using discipline.centre.dailytrackers.application.DailyTrackers.Commands;
 using discipline.centre.dailytrackers.domain.Repositories;
 using discipline.centre.dailytrackers.domain.Specifications;
-using discipline.centre.dailytrackers.tests.sharedkernel.Domain;
 using NSubstitute;
 using Shouldly;
 using Xunit;

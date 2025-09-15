@@ -121,27 +121,27 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.centre.activityr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.centre.integrationtests.sharedkernel", "discipline.centre\tests\integrationTests\discipline.centre.integrationtests.sharedkernel\discipline.centre.integrationtests.sharedkernel.csproj", "{3A1728D9-ACE9-46F9-8A27-71116810457A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "discipline.hangfire", "discipline.hangfire", "{ED058535-4A2C-453E-8AB1-0D3F6B4F9DE8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "discipline.activity-scheduler", "discipline.activity-scheduler", "{ED058535-4A2C-453E-8AB1-0D3F6B4F9DE8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3359F922-DB31-4AF6-83A9-DB9AE322BA61}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bootstrappers", "bootstrappers", "{D0B8879C-410E-4A6B-9B8C-E05D5BE61B6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.hangfire.server", "discipline.hangfire\src\bootstrappers\discipline.hangfire.server\discipline.hangfire.server.csproj", "{672A9BAF-CA1B-42C0-AF78-3C1C1E0C68F3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.activity-scheduler.server", "discipline.activity-scheduler\src\bootstrappers\discipline.activity-scheduler.server\discipline.activity-scheduler.server.csproj", "{672A9BAF-CA1B-42C0-AF78-3C1C1E0C68F3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "features", "features", "{F32EC0A8-D999-4FBF-8B7E-A9BFECFE1470}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.hangfire.activity-rule-modification", "discipline.hangfire\src\features\discipline.hangfire.activity-rule-modification\discipline.hangfire.activity-rule-modification.csproj", "{270DC4BF-4D01-4F3C-9BA9-AD52AE3D7372}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.activity-scheduler.activity-rule-modification", "discipline.activity-scheduler\src\features\discipline.activity-scheduler.activity-rule-modification\discipline.activity-scheduler.activity-rule-modification.csproj", "{270DC4BF-4D01-4F3C-9BA9-AD52AE3D7372}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.hangfire.add-planned-tasks", "discipline.hangfire\src\features\discipline.hangfire.add-planned-tasks\discipline.hangfire.add-planned-tasks.csproj", "{57698932-C88E-4259-A683-5F3858237023}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.activity-scheduler.add-planned-tasks", "discipline.activity-scheduler\src\features\discipline.activity-scheduler.add-planned-tasks\discipline.activity-scheduler.add-planned-tasks.csproj", "{57698932-C88E-4259-A683-5F3858237023}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.hangfire.create-activity-from-planned", "discipline.hangfire\src\features\discipline.hangfire.create-activity-from-planned\discipline.hangfire.create-activity-from-planned.csproj", "{7AE79004-0906-4B4A-ADB1-544CCBBE7B1A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.activity-scheduler.create-activity-from-planned", "discipline.activity-scheduler\src\features\discipline.activity-scheduler.create-activity-from-planned\discipline.activity-scheduler.create-activity-from-planned.csproj", "{7AE79004-0906-4B4A-ADB1-544CCBBE7B1A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "shared", "shared", "{58317C2F-74B3-4527-B5A8-3DED99A38FFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.hangfire.shared.abstractions", "discipline.hangfire\src\shared\discipline.hangfire.shared.abstractions\discipline.hangfire.shared.abstractions.csproj", "{224FCB4F-3AD4-4F88-BA2C-A88A285B2A27}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.activity-scheduler.shared.abstractions", "discipline.activity-scheduler\src\shared\discipline.activity-scheduler.shared.abstractions\discipline.activity-scheduler.shared.abstractions.csproj", "{224FCB4F-3AD4-4F88-BA2C-A88A285B2A27}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.hangfire.shared.infrastructure", "discipline.hangfire\src\shared\discipline.hangfire.shared.infrastructure\discipline.hangfire.shared.infrastructure.csproj", "{C16875BD-A84E-4A02-995C-EA8B294082F4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.activity-scheduler.shared.infrastructure", "discipline.activity-scheduler\src\shared\discipline.activity-scheduler.shared.infrastructure\discipline.activity-scheduler.shared.infrastructure.csproj", "{C16875BD-A84E-4A02-995C-EA8B294082F4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "discipline.gateway", "discipline.gateway", "{B61BB279-BA5D-4149-BEA8-8DAD046D8381}"
 EndProject
@@ -185,9 +185,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.libs.configurati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.daily-trackers.api", "discipline.daily-trackers\discipline.daily-trackers.api\discipline.daily-trackers.api.csproj", "{02C9A0AC-D908-484B-8635-41B9706B8714}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.hangfire.account-modification", "discipline.hangfire\src\features\discipline.hangfire.account-modification\discipline.hangfire.account-modification.csproj", "{C7F2BDBE-6034-4265-A471-074639FBC5EA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.activity-scheduler.account-modification", "discipline.activity-scheduler\src\features\discipline.activity-scheduler.account-modification\discipline.activity-scheduler.account-modification.csproj", "{C7F2BDBE-6034-4265-A471-074639FBC5EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.hangfire.create-empty-daily-tracker", "discipline.hangfire\src\features\discipline.hangfire.create-empty-daily-tracker\discipline.hangfire.create-empty-daily-tracker.csproj", "{D38881C4-00FE-43C6-B3B0-EAA79A7F006F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.activity-scheduler.create-empty-daily-tracker", "discipline.activity-scheduler\src\features\discipline.activity-scheduler.create-empty-daily-tracker\discipline.activity-scheduler.create-empty-daily-tracker.csproj", "{D38881C4-00FE-43C6-B3B0-EAA79A7F006F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8A1E129A-557E-4C65-87FE-68C144246A91}"
 EndProject
@@ -203,9 +203,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.libs.serializati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.libs.exceptions", "discipline.libs\discipline.libs.exceptions\discipline.libs.exceptions.csproj", "{139EA119-F155-46F6-A86B-FC303C957559}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.hangfire.domain", "discipline.hangfire\src\shared\discipline.hangfire.domain\discipline.hangfire.domain.csproj", "{4B865275-6171-47E3-9128-EE1C0B98E45B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.activity-scheduler.domain", "discipline.activity-scheduler\src\shared\discipline.activity-scheduler.domain\discipline.activity-scheduler.domain.csproj", "{4B865275-6171-47E3-9128-EE1C0B98E45B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.libs.events", "discipline.libs\discipline.libs.events\discipline.libs.events.csproj", "{BE1798F9-2A00-4EA6-8B86-01BC3852F8DF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.libs.cqrs.abstractions", "discipline.libs\discipline.libs.cqrs.abstractions\discipline.libs.cqrs.abstractions.csproj", "{545C59D6-EC6E-49B3-9619-DD6751495274}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -308,6 +310,7 @@ Global
 		{139EA119-F155-46F6-A86B-FC303C957559} = {4461009C-015E-4983-BF81-292C86A133EC}
 		{4B865275-6171-47E3-9128-EE1C0B98E45B} = {58317C2F-74B3-4527-B5A8-3DED99A38FFF}
 		{BE1798F9-2A00-4EA6-8B86-01BC3852F8DF} = {4461009C-015E-4983-BF81-292C86A133EC}
+		{545C59D6-EC6E-49B3-9619-DD6751495274} = {4461009C-015E-4983-BF81-292C86A133EC}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5E1B23AB-3288-4919-A3F9-C8E250F2F75D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -562,5 +565,9 @@ Global
 		{BE1798F9-2A00-4EA6-8B86-01BC3852F8DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE1798F9-2A00-4EA6-8B86-01BC3852F8DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE1798F9-2A00-4EA6-8B86-01BC3852F8DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{545C59D6-EC6E-49B3-9619-DD6751495274}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{545C59D6-EC6E-49B3-9619-DD6751495274}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{545C59D6-EC6E-49B3-9619-DD6751495274}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{545C59D6-EC6E-49B3-9619-DD6751495274}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

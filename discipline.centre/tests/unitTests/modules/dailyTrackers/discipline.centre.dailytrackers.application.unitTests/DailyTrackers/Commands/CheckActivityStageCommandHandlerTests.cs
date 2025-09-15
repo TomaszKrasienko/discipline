@@ -1,6 +1,6 @@
+using discipline.centre.daily_trackers.tests.shared_kernel.Domain;
 using discipline.centre.dailytrackers.application.DailyTrackers.Commands;
 using discipline.centre.dailytrackers.domain.Repositories;
-using discipline.centre.dailytrackers.tests.sharedkernel.Domain;
 using discipline.centre.shared.abstractions.Exceptions;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using NSubstitute;

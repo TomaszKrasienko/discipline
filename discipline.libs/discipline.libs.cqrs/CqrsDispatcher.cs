@@ -1,6 +1,6 @@
 using discipline.libs.cqrs.Abstractions;
-using discipline.libs.cqrs.Abstractions.Commands;
-using discipline.libs.cqrs.Abstractions.Queries;
+using discipline.libs.cqrs.abstractions.Commands;
+using discipline.libs.cqrs.abstractions.Queries;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace discipline.libs.cqrs;

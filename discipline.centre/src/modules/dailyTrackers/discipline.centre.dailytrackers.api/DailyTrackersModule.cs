@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace discipline.centre.dailytrackers.api;
+namespace discipline.centre.daily_trackers.api;
 
 internal sealed class DailyTrackersModule : IModule
 {

@@ -1,11 +1,11 @@
+using discipline.centre.activity_rules.tests.shared_kernel.Domain;
 using discipline.centre.activityrules.application.ActivityRules.Commands;
 using discipline.centre.activityrules.application.ActivityRules.Events;
 using discipline.centre.activityrules.domain;
 using discipline.centre.activityrules.domain.Repositories;
-using discipline.centre.activityrules.tests.sharedkernel.Domain;
-using discipline.centre.shared.abstractions.CQRS.Commands;
 using discipline.centre.shared.abstractions.Events;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
+using discipline.libs.cqrs.abstractions.Commands;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using Xunit;

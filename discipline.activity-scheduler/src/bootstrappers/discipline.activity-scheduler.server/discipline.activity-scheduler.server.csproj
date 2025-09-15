@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <RootNamespace>discipline.activity_scheduler.server</RootNamespace>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <LangVersion>13</LangVersion>
+    </PropertyGroup>
+    <PropertyGroup>
+        <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Certs\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Hangfire" Version="1.8.21"/>
+      <PackageReference Include="Hangfire.AspNetCore" Version="1.8.21"/>
+      <PackageReference Include="Hangfire.PostgreSql" Version="1.20.12"/>
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.9"/>
+      <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="9.0.4"/>
+      <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.4"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\features\discipline.activity-scheduler.activity-rule-modification\discipline.activity-scheduler.activity-rule-modification.csproj" />
+      <ProjectReference Include="..\..\features\discipline.activity-scheduler.add-planned-tasks\discipline.activity-scheduler.add-planned-tasks.csproj" />
+      <ProjectReference Include="..\..\features\discipline.activity-scheduler.create-activity-from-planned\discipline.activity-scheduler.create-activity-from-planned.csproj" />
+      <ProjectReference Include="..\..\features\discipline.activity-scheduler.account-modification\discipline.activity-scheduler.account-modification.csproj" />
+      <ProjectReference Include="..\..\features\discipline.activity-scheduler.create-empty-daily-tracker\discipline.activity-scheduler.create-empty-daily-tracker.csproj" />
+      <ProjectReference Include="..\..\shared\discipline.activity-scheduler.shared.infrastructure\discipline.activity-scheduler.shared.infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="Certs\private_key_hangfire.pem">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Certs\public_key_hangfire.pem">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Update="appsettings.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
+</Project>

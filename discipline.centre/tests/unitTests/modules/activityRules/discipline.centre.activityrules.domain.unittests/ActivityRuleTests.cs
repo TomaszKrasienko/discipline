@@ -1,7 +1,7 @@
+using discipline.centre.activity_rules.tests.shared_kernel.DataValidators;
+using discipline.centre.activity_rules.tests.shared_kernel.Domain;
 using discipline.centre.activityrules.domain.Enums;
 using discipline.centre.activityrules.domain.Specifications;
-using discipline.centre.activityrules.tests.sharedkernel.DataValidators;
-using discipline.centre.activityrules.tests.sharedkernel.Domain;
 using discipline.centre.shared.abstractions.SharedKernel.Exceptions;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using Shouldly;

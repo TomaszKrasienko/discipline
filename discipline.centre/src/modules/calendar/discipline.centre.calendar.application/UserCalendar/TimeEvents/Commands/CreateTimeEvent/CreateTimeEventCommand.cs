@@ -1,7 +1,7 @@
 using discipline.centre.calendar.domain;
 using discipline.centre.calendar.domain.Repositories;
-using discipline.centre.shared.abstractions.CQRS.Commands;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
+using discipline.libs.cqrs.abstractions.Commands;
 
 namespace discipline.centre.calendar.application.UserCalendar.TimeEvents.Commands.CreateTimeEvent;
 

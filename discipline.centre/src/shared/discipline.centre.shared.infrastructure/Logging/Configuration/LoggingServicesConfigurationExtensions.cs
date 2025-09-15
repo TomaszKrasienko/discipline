@@ -1,9 +1,9 @@
-using discipline.centre.shared.abstractions.CQRS.Commands;
-using discipline.centre.shared.abstractions.CQRS.Queries;
 using discipline.centre.shared.abstractions.Events;
 using discipline.centre.shared.infrastructure.Configuration;
 using discipline.centre.shared.infrastructure.Logging.Configuration.Options;
 using discipline.centre.shared.infrastructure.Logging.Decorators;
+using discipline.libs.cqrs.abstractions.Commands;
+using discipline.libs.cqrs.abstractions.Queries;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OpenTelemetry.Resources;

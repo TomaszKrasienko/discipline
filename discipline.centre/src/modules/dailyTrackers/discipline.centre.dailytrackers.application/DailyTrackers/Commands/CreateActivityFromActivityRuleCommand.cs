@@ -4,9 +4,9 @@ using discipline.centre.dailytrackers.domain;
 using discipline.centre.dailytrackers.domain.Repositories;
 using discipline.centre.dailytrackers.domain.Specifications;
 using discipline.centre.shared.abstractions.Clock;
-using discipline.centre.shared.abstractions.CQRS.Commands;
 using discipline.centre.shared.abstractions.Exceptions;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
+using discipline.libs.cqrs.abstractions.Commands;
 
 namespace discipline.centre.dailytrackers.application.DailyTrackers.Commands;
 

@@ -1,5 +1,5 @@
+using discipline.centre.daily_trackers.tests.shared_kernel.Application;
 using discipline.centre.dailytrackers.application.DailyTrackers.DTOs;
-using discipline.centre.dailytrackers.tests.sharedkernel.Application;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using Shouldly;
 using Xunit;

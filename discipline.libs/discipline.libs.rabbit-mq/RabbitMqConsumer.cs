@@ -57,7 +57,7 @@ internal sealed class RabbitMqConsumer<TMessage> : IHostedService where TMessage
 
                 await _handle(message, cancellationToken, ea.BasicProperties.Type);
             }
-            catch (DisciplineNotUniqueException ex)
+            catch (DisciplineNotUniqueException)
             {
                 _logger.LogWarning("Caught not unique exception. Nacking the message without requeue");
                 await channel.BasicNackAsync(ea.DeliveryTag, false, false, ea.CancellationToken);

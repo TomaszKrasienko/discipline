@@ -3,7 +3,7 @@ using discipline.centre.dailytrackers.domain;
 using discipline.centre.dailytrackers.domain.Specifications;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 
-namespace discipline.centre.dailytrackers.tests.sharedkernel.Domain;
+namespace discipline.centre.daily_trackers.tests.shared_kernel.Domain;
 
 public static class ActivityFakeDataFactory
 {

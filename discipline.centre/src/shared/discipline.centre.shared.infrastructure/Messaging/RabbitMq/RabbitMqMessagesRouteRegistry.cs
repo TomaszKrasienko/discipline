@@ -1,6 +1,6 @@
-using discipline.centre.shared.abstractions.Messaging;
 using discipline.centre.shared.infrastructure.Messaging.RabbitMq.Abstractions;
 using discipline.centre.shared.infrastructure.Messaging.RabbitMq.Configuration;
+using discipline.libs.messaging.Abstractions;
 using Microsoft.Extensions.Options;
 
 namespace discipline.centre.shared.infrastructure.Messaging.RabbitMq;

@@ -1,4 +1,4 @@
-using discipline.libs.cqrs.Abstractions.Commands;
+using discipline.libs.cqrs.abstractions.Commands;
 
 namespace discipline.daily_trackers.application.UserDailyTrackers.Commands.External;
 

@@ -1,7 +1,7 @@
-using discipline.centre.shared.abstractions.Messaging;
 using discipline.centre.shared.infrastructure.Messaging.Abstractions;
 using discipline.centre.shared.infrastructure.Messaging.Outbox.Configuration.Options;
 using discipline.centre.shared.infrastructure.Messaging.Publishers.Abstractions;
+using discipline.libs.messaging.Abstractions;
 using Microsoft.Extensions.Options;
 
 namespace discipline.centre.shared.infrastructure.Messaging.Publishers;

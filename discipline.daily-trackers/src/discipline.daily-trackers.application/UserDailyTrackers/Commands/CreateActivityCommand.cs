@@ -2,7 +2,7 @@ using discipline.daily_trackers.domain.DailyTrackers.Repositories;
 using discipline.daily_trackers.domain.DailyTrackers.Services;
 using discipline.daily_trackers.domain.DailyTrackers.Specifications;
 using discipline.daily_trackers.domain.SharedKernel.TypeIdentifiers;
-using discipline.libs.cqrs.Abstractions.Commands;
+using discipline.libs.cqrs.abstractions.Commands;
 
 namespace discipline.daily_trackers.application.UserDailyTrackers.Commands;
 

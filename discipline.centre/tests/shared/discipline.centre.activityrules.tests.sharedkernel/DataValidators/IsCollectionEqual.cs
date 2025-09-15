@@ -1,4 +1,4 @@
-namespace discipline.centre.activityrules.tests.sharedkernel.DataValidators;
+namespace discipline.centre.activity_rules.tests.shared_kernel.DataValidators;
 
 public static class CollectionValidator
 {

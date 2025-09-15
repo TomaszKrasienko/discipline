@@ -1,0 +1,20 @@
+namespace discipline.activity_scheduler.shared.abstractions.Identifiers;
+
+public readonly record struct ActivityRuleId(Ulid Value)
+{
+    public static ActivityRuleId New()
+        => new(Ulid.NewUlid());
+
+    public static ActivityRuleId Parse(string stringTypedId)
+    {
+        if (!Ulid.TryParse(stringTypedId, out var parsedId))
+        {
+            throw new ArgumentException($"Can not parse stronglyTypedId of type: {nameof(ActivityRuleId)}");
+        }
+
+        return new ActivityRuleId(parsedId);
+    }
+
+    public override string ToString()
+        => Value.ToString();
+}

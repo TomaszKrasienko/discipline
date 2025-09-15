@@ -1,12 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <RootNamespace>discipline.centre.calendar.infrastructure.unitTests</RootNamespace>
+        <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>discipline.centre.calendar.infrastructure.unitTests</RootNamespace>
-        <IsPackable>false</IsPackable>
-        <IsTestProject>true</IsTestProject>
+        <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     </PropertyGroup>
 
     <ItemGroup>

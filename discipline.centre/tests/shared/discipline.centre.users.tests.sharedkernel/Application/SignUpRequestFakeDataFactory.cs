@@ -2,7 +2,7 @@ using Bogus;
 using discipline.centre.users.application.Accounts.DTOs.Requests;
 using discipline.centre.users.domain.Subscriptions.Enums;
 
-namespace discipline.centre.users.tests.sharedkernel.Application;
+namespace discipline.centre.users.tests.shared_kernel.Application;
 
 public static class SignUpRequestFakeDataFactory
 {

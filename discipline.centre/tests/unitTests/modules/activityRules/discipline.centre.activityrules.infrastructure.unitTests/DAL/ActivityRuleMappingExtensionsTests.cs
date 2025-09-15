@@ -1,6 +1,6 @@
+using discipline.centre.activity_rules.tests.shared_kernel.DataValidators;
+using discipline.centre.activity_rules.tests.shared_kernel.Domain;
 using discipline.centre.activityrules.domain;
-using discipline.centre.activityrules.tests.sharedkernel.DataValidators;
-using discipline.centre.activityrules.tests.sharedkernel.Domain;
 using Shouldly;
 using Xunit;
 

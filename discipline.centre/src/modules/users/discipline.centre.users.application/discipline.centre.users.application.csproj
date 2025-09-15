@@ -11,6 +11,7 @@
     
     <ItemGroup>
         <InternalsVisibleTo Include="discipline.centre.users.application.unittests"/>
+        <InternalsVisibleTo Include="discipline.libs.cqrs"/>
     </ItemGroup>
 
     <ItemGroup>

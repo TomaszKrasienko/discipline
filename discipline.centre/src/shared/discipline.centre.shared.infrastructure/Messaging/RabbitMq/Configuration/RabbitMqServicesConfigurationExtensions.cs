@@ -1,8 +1,8 @@
-using discipline.centre.shared.abstractions.Messaging;
 using discipline.centre.shared.infrastructure.Configuration;
 using discipline.centre.shared.infrastructure.Messaging.Abstractions;
 using discipline.centre.shared.infrastructure.Messaging.Publishers;
 using discipline.centre.shared.infrastructure.Messaging.RabbitMq.Abstractions;
+using discipline.libs.messaging.Abstractions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;

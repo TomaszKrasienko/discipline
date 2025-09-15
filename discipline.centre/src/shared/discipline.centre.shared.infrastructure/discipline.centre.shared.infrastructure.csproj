@@ -5,6 +5,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\..\discipline.libs\discipline.libs.cqrs\discipline.libs.cqrs.csproj" />
+      <ProjectReference Include="..\..\..\..\discipline.libs\discipline.libs.serialization\discipline.libs.serialization.csproj" />
       <ProjectReference Include="..\discipline.centre.shared.abstractions\discipline.centre.shared.abstractions.csproj" />
     </ItemGroup>
     <ItemGroup>
@@ -43,5 +45,9 @@
 
     <ItemGroup>
         <InternalsVisibleTo Include="discipline.centre.integrationTests.sharedKernel"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageVersion Update="MongoDb.Driver" Version="3.5.0" />
     </ItemGroup>
 </Project>

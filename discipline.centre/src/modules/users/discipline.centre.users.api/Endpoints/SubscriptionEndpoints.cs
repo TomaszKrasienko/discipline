@@ -1,12 +1,9 @@
-// ReSharper disable All
-
-using discipline.centre.shared.abstractions.CQRS;
 using discipline.centre.users.application.Subscriptions.DTOs;
 using discipline.centre.users.application.Subscriptions.Queries;
-using discipline.centre.users.application.Users.DTOs.Responses;
+using discipline.libs.cqrs.Abstractions;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
+// ReSharper disable once CheckNamespace
 namespace Microsoft.AspNetCore.Builder;
 
 internal static class SubscriptionEndpoints

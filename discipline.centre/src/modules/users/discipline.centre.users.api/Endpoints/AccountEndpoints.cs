@@ -1,10 +1,9 @@
-using discipline.centre.shared.abstractions.CQRS;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.shared.infrastructure.Validation.Mappers;
 using discipline.centre.users.application.Accounts.DTOs;
 using discipline.centre.users.application.Accounts.DTOs.Requests;
 using discipline.centre.users.application.Accounts.Services;
-using discipline.centre.users.application.Users.DTOs;
+using discipline.libs.cqrs.Abstractions;
 using FluentValidation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;

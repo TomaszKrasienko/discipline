@@ -1,4 +1,4 @@
-using discipline.centre.shared.abstractions.Messaging;
+using discipline.libs.messaging.Abstractions;
 
 namespace discipline.centre.shared.infrastructure.Messaging.Abstractions;
 

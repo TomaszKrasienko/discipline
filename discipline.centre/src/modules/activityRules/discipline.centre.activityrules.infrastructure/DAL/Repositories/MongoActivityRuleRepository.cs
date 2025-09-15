@@ -1,3 +1,4 @@
+using discipline.centre.activity_rules.infrastructure.DAL.Documents;
 using discipline.centre.activityrules.domain;
 using discipline.centre.activityrules.domain.Repositories;
 using discipline.centre.activityrules.infrastructure.DAL.Documents;
@@ -5,7 +6,7 @@ using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.shared.infrastructure.DAL;
 using MongoDB.Driver;
 
-namespace discipline.centre.activityrules.infrastructure.DAL.Repositories;
+namespace discipline.centre.activity_rules.infrastructure.DAL.Repositories;
 
 internal sealed class MongoActivityRuleRepository(
     ActivityRulesMongoContext context) : BaseRepository<ActivityRuleDocument>(context), IReadWriteActivityRuleRepository 

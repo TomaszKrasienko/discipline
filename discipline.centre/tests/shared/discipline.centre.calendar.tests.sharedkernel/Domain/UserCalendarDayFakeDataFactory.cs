@@ -2,7 +2,7 @@ using Bogus;
 using discipline.centre.calendar.domain;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 
-namespace discipline.centre.calendar.tests.sharedkernel.Domain;
+namespace discipline.centre.calendar.tests.shared_kernel.Domain;
 
 public static class UserCalendarDayFakeDataFactory
 {

@@ -1,6 +1,5 @@
-using discipline.centre.shared.abstractions.Serialization;
 using discipline.centre.shared.infrastructure.Modules.Abstractions;
-using Newtonsoft.Json;
+using discipline.libs.serializers.Abstractions;
 
 namespace discipline.centre.shared.infrastructure.Modules;
 
