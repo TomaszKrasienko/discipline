@@ -6,7 +6,7 @@ namespace discipline.daily_trackers.application.UserDailyTrackers.DTOs.Requests;
 
 public static class CreateEmptyUserDailyTrackerRequestDtoMapperExtensions
 {
-    public static CreateEmptyUserDailyTrackerCommand ToCommand(this CreateEmptyUserDailyTrackerRequestDto dto)
+    public static CreateUserDailyTrackerCommand ToCommand(this CreateEmptyUserDailyTrackerRequestDto dto)
         => new(
             DailyTrackerId.Parse(dto.DailyTrackerId),
             AccountId.Parse(dto.AccountId),

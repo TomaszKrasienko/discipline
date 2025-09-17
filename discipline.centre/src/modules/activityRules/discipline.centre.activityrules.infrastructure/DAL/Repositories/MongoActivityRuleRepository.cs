@@ -18,6 +18,15 @@ internal sealed class MongoActivityRuleRepository(
                 cancellationToken))?
             .AsEntity();
 
+    public async Task<IReadOnlyCollection<ActivityRule>> GetByIdsAsync(IReadOnlyCollection<ActivityRuleId> ids,
+        AccountId accountId, CancellationToken cancellationToken = default)
+        => (await SearchAsync(x =>
+                x.AccountId == accountId.ToString() &&
+                ids.Select(id => id.ToString()).Contains(x.Id),
+                cancellationToken))
+            .Select(x => x.AsEntity())
+            .ToList();
+    
     public Task<bool> ExistsAsync(string title, AccountId accountId, CancellationToken cancellationToken = default)
         => AnyAsync(x 
                 => x.Details.Title == title && 

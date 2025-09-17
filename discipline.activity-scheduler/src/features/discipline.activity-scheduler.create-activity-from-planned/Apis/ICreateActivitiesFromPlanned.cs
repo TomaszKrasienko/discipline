@@ -36,8 +36,8 @@ internal sealed class CreateActivitiesFromPlanned(
         foreach (var plannedTask in tasksPerAccount)
         {
             commands.Add(new CreateActivityForAccountFromActivityRuleCommand(
-                plannedTask.Value.Select(x => x.ActivityRuleId).ToList(),
-                plannedTask.Key));
+                plannedTask.Value.Select(x => x.ActivityRuleId.ToString()).ToList(),
+                plannedTask.Key.ToString()));
         }
 
         var sendCommandTasks = commands

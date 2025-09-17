@@ -23,7 +23,8 @@ builder.Services
     .SetAccountModification()
     .SetAddActivityRules(builder.Configuration)
     .SetAddPlannedTasks(builder.Configuration)
-    .SetCreateEmptyUserDailyTracker();
+    .SetCreateEmptyUserDailyTracker()
+    .SetCreateActivityFromPlanned();
 
 builder.UseInfrastructure();
 

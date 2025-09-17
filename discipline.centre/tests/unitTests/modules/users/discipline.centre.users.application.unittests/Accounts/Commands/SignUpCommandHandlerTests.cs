@@ -1,5 +1,5 @@
-using discipline.centre.shared.abstractions.Events;
 using discipline.centre.shared.abstractions.Exceptions;
+using discipline.centre.shared.abstractions.Messaging;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.users.application.Accounts.Commands;
 using discipline.centre.users.domain.Accounts;

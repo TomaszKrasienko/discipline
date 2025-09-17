@@ -13,16 +13,21 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 public static class SharedServicesInfrastructureConfigExtensions
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IList<Assembly> assemblies,
+    public static IServiceCollection AddInfrastructure(
+        this IServiceCollection services,
+        IList<Assembly> assemblies,
         IConfiguration configuration)
-        => services
+    {
+        var appOptions = services.GetOptions<AppOptions>();
+        
+        return services
             .AddAppOptions(configuration)
             .AddUiDocumentation()
             .AddCorsPolicy()
             .AddCqrs(assemblies)
             .AddSerialization()
             .AddDal(configuration)
-            .AddMessaging(configuration)
+            .AddMessaging(configuration, appOptions.Name!)
             .AddEvents(configuration, assemblies)
             .AddClock()
             .AddJwtAuth(configuration)
@@ -31,9 +36,10 @@ public static class SharedServicesInfrastructureConfigExtensions
             .AddValidation(assemblies)
             .AddIdentityContext()
             .AddConstraints()
-            .AddModule(assemblies) 
+            .AddModule(assemblies)
             .AddLogging(configuration)
             .AddConverters(assemblies);
+    }
 
     private static IServiceCollection AddAppOptions(this IServiceCollection services, IConfiguration configuration)
         => services.ValidateAndBind<AppOptions, AppOptionsValidator>(configuration);

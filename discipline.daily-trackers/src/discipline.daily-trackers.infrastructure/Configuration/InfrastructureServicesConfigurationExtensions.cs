@@ -43,7 +43,7 @@ public static class InfrastructureServicesConfigurationExtensions
         services.AddRabbitMq(configuration, appOptions.Name!);
 
         services
-            .AddConsumer<CreateEmptyUserDailyTracker>(sp => 
+            .AddConsumer<CreateEmptyUserDailyTrackerCommand>(sp => 
             {
                 return (async (msg, ct, mt) =>
                 {
@@ -51,6 +51,15 @@ public static class InfrastructureServicesConfigurationExtensions
                     var dispatcher = scope.ServiceProvider.GetRequiredService<ICqrsDispatcher>();
                     await dispatcher.HandleAsync(msg.ToCommand(), ct);
                 });
+            })
+            .AddConsumer<CreateActivitiesFromActivityRulesCommand>(sp =>
+            {
+                return async (msg, ct, mt) =>
+                {
+                    using var scope = sp.CreateScope();
+                    var dispatcher = scope.ServiceProvider.GetRequiredService<ICqrsDispatcher>();
+                    await dispatcher.HandleAsync(msg.ToCommand(), ct);
+                };
             });
         
         return services;

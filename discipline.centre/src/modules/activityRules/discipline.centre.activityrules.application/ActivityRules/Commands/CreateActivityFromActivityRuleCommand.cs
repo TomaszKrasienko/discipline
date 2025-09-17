@@ -5,14 +5,14 @@ using discipline.libs.cqrs.abstractions.Commands;
 
 namespace discipline.centre.activityrules.application.ActivityRules.Commands;
 
-public sealed record CreateActivityFromActivityRuleCommand(
+public sealed record CreateActivitiesFromActivityRuleCommand(
     IReadOnlyCollection<ActivityRuleId> ActivityRuleIds,
     AccountId AccountId) : ICommand;
     
 internal sealed class CreateActivityFromActivityRuleCommandHandler(
-    IReadActivityRuleRepository readActivityRuleRepository) : ICommandHandler<CreateActivityFromActivityRuleCommand>
+    IReadActivityRuleRepository readActivityRuleRepository) : ICommandHandler<CreateActivitiesFromActivityRuleCommand>
 {
-    public async Task HandleAsync(CreateActivityFromActivityRuleCommand command, CancellationToken cancellationToken)
+    public async Task HandleAsync(CreateActivitiesFromActivityRuleCommand command, CancellationToken cancellationToken)
     {
         var activityRules = await readActivityRuleRepository
             .GetByIdsAsync(

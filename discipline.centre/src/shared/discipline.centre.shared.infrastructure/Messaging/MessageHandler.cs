@@ -1,7 +1,7 @@
-using discipline.centre.shared.abstractions.Events;
 using discipline.centre.shared.infrastructure.Messaging.Abstractions;
 using discipline.libs.cqrs.Abstractions;
 using discipline.libs.cqrs.abstractions.Commands;
+using discipline.libs.events.abstractions;
 using discipline.libs.messaging.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 

@@ -1,9 +1,6 @@
 using discipline.centre.shared.infrastructure.Messaging.Abstractions;
 using discipline.centre.shared.infrastructure.Messaging.Internal.Configuration;
 using discipline.centre.shared.infrastructure.Messaging.Publishers.Configuration;
-using discipline.centre.shared.infrastructure.Messaging.RabbitMq;
-using discipline.centre.shared.infrastructure.Messaging.RabbitMq.Abstractions;
-using discipline.centre.shared.infrastructure.Messaging.RabbitMq.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,9 +8,12 @@ namespace discipline.centre.shared.infrastructure.Messaging.Configuration;
 
 internal static class MessageServicesConfigurationExtensions
 {
-    internal static IServiceCollection AddMessaging(this IServiceCollection services, IConfiguration configuration)
+    internal static IServiceCollection AddMessaging(
+        this IServiceCollection services,
+        IConfiguration configuration,
+        string appName)
         => services
-            .AddRabbitMq(configuration)
+            .AddRabbitMq(configuration, appName)
             .AddInternalMessaging()
             .AddSingleton(typeof(IMessageHandler<>), typeof(MessageHandler<>))
             .AddOutbox(configuration)

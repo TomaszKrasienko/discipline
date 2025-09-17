@@ -28,6 +28,7 @@ public sealed class UserDailyTracker : AggregateRoot<DailyTrackerId, Ulid>
              id,
              accountId,
              day, 
+             next,
              prior)
          => _activities = activities;
 
@@ -35,24 +36,21 @@ public sealed class UserDailyTracker : AggregateRoot<DailyTrackerId, Ulid>
          DailyTrackerId id,
          AccountId accountId,
          Day day,
+         DailyTrackerId? next,
          DailyTrackerId? prior) : base(id)
      {
          AccountId = accountId;
          Day = day;
          Prior = prior;
      }
-
+    
      internal static UserDailyTracker Create(
          DailyTrackerId id,
          AccountId accountId,
          DateOnly day,
-         ActivityId activityId,
-         ActivityDetailsSpecification details,
-         ActivityRuleId? parentActivityRuleId,
          DailyTrackerId? prior)
      {
-         var dailyTracker = new UserDailyTracker(id, accountId, day, prior);
-         dailyTracker.AddActivity(activityId, details, parentActivityRuleId);
+         var dailyTracker = new UserDailyTracker(id, accountId, day, null, prior);
          return dailyTracker;
      }
 
@@ -60,100 +58,44 @@ public sealed class UserDailyTracker : AggregateRoot<DailyTrackerId, Ulid>
          DailyTrackerId id,
          AccountId accountId,
          DateOnly day,
-         DailyTrackerId? prior)
+         DailyTrackerId? prior,
+         IReadOnlyCollection<ActivitySpecification> activities)
      {
-         var dailyTracker = new UserDailyTracker(id, accountId, day, prior);
-         return dailyTracker;
+         var userDailyTracker = Create(id, accountId, day, prior);
+
+         foreach (var activity in activities)
+         {
+             userDailyTracker.AddActivity(
+                 activity.ActivityId,
+                 activity.Details,
+                 activity.ParentActivityRuleId,
+                 activity.Stages);
+         }
+         
+         return userDailyTracker;
      }
      
      internal void SetNext(DailyTrackerId next)
         => Next = next;
 
-     public Activity AddActivity(
+     private Activity AddActivity(
          ActivityId activityId,
          ActivityDetailsSpecification details,
-         ActivityRuleId? parentActivityRuleId)
+         ActivityRuleId parentActivityRuleId,
+         IReadOnlyCollection<StageSpecification> stages)
      {
          if (_activities.Exists(x => x.Details.Title == details.Title))
          {
              throw new DomainException("DailyTracker.Activity.Title.AlreadyExists");
          }
-
-         Activity activity;
-
-         if (parentActivityRuleId is null)
-         {
-             activity = Activity.Create(
+         
+         var activity = Activity.CreateFromRule(
                  activityId,
-                 details);    
-         }
-         else
-         {
-             activity = Activity.CreateFromRule(
-                 activityId,
-                 parentActivityRuleId.Value,
-                 details);
-         }
+                 parentActivityRuleId,
+                 details,
+                 stages);
          
          _activities.Add(activity);
          return activity;
      }
-     
-//     public void MarkActivityAsChecked(ActivityId activityId)
-//     {
-//         var activity = _activities.SingleOrDefault(x => x.Id == activityId);
-//     
-//         if (activity is null)
-//         {
-//             throw new DomainException("DailyTracker.Activity.NotExists");
-//         }
-//         
-//         activity.MarkAsChecked();
-//     }
-//     
-//     public bool DeleteActivity(ActivityId activityId)
-//     {
-//         var activity = _activities.SingleOrDefault(x => x.Id == activityId);
-//     
-//         if (activity is null)
-//         {
-//             return false;
-//         }
-//         
-//         _activities.Remove(activity);
-//         return true;
-//     }
-//     
-//     public void MarkActivityStageAsChecked(ActivityId activityId, StageId stageId)
-//     {
-//         var activity = _activities.SingleOrDefault(x => x.Id == activityId);
-//         
-//         if (activity is null)
-//         {
-//             throw new DomainException("DailyTracker.Activity.NotFound",
-//                 $"Activity with id {activityId} not found.");    
-//         }
-//         
-//         activity.MarkStageAsChecked(stageId);
-//     }
-//     
-//     public bool DeleteActivityStage(ActivityId activityId, StageId stageId)
-//     {
-//         var activity = _activities.SingleOrDefault(x => x.Id == activityId);
-//     
-//         if (activity is null)
-//         {
-//             return false;
-//         }
-//         
-//         return activity.DeleteStage(stageId);
-//     }
-//     
-//     public void ClearParentActivityRuleIdIs(ActivityRuleId parentActivityRuleId)
-//     {
-//         foreach (var activity in _activities.Where(x => x.ParentActivityRuleId == parentActivityRuleId))
-//         {
-//             activity.ClearParentActivityRuleId();
-//         }
-//     }
 }

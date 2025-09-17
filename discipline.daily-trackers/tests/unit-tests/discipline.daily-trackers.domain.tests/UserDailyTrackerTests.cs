@@ -12,39 +12,6 @@ public sealed class UserDailyTrackerTests
     #region Create
     
     [Fact]
-    public void GivenValidArgumentsWithActivity_WhenCreate_ThenReturnsDailyTrackerWithValue()
-    {
-        // Arrange
-        var dailyTrackerId = DailyTrackerId.New();
-        var accountId = AccountId.New();
-        var day = DateOnly.FromDateTime(DateTime.UtcNow);
-        var activityId = ActivityId.New();
-        var details = new ActivityDetailsSpecification("test_title_activity", "test_notes");
-        var activityRuleId = ActivityRuleId.New();
-        var priorUserDailyTrackerId = DailyTrackerId.New();
-        
-         // Act
-         var result = UserDailyTracker.Create(
-             dailyTrackerId,
-             accountId,
-             day,
-             activityId,
-             details,
-             activityRuleId,
-             priorUserDailyTrackerId);
-     
-         // Assert
-         result.Id.ShouldBe(dailyTrackerId);
-         result.AccountId.ShouldBe(accountId);
-         result.Day.Value.ShouldBe(day);
-         result.Prior.ShouldBe(priorUserDailyTrackerId);
-         result.Activities.First().Id.ShouldBe(activityId);
-         result.Activities.First().Details.Title.ShouldBe(details.Title);
-         result.Activities.First().Details.Note.ShouldBe(details.Note);
-         result.Activities.First().ParentActivityRuleId.ShouldBe(activityRuleId);
-    }
-    
-    [Fact]
     public void GivenValidArguments_WhenCreate_ThenReturnsDailyTrackerWithValue()
     {
         // Arrange

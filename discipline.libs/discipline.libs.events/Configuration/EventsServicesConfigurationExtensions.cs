@@ -1,8 +1,10 @@
 using System.Reflection;
+using discipline.libs.events;
 using discipline.libs.events.abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace discipline.libs.events.Configuration;
+// ReSharper disable once CheckNamespace
+namespace Microsoft.Extensions.DependencyInjection;
 
 public static class EventsServicesConfigurationExtensions
 {
@@ -21,9 +23,11 @@ public static class EventsServicesConfigurationExtensions
         this IServiceCollection services,
         IEnumerable<Assembly> assemblies)
     {
-        //TODO: This process does not see internal event handlers. To fix.
-        services.Scan(x => x.FromAssemblies(assemblies)
-            .AddClasses(c => c.AssignableTo(typeof(IEventHandler<>)))
+        services.Scan(
+            x => x.FromAssemblies(assemblies)
+            .AddClasses(
+                publicOnly:false,
+                action: c => c.AssignableTo(typeof(IEventHandler<>)))
             .AsImplementedInterfaces()
             .WithScopedLifetime());
         return services;

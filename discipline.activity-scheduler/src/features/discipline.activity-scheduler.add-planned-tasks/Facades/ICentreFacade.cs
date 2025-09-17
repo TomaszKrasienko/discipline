@@ -25,9 +25,6 @@ internal sealed class CentreFacade(ILogger<CentreFacade> logger,
 
         if (!activityModesResponse.IsSuccessStatusCode)
         {
-            var stringProblem = await activityModesResponse.Content.ReadAsStringAsync(cancellationToken);
-            var problemDetails = await activityModesResponse.Content.ReadFromJsonAsync<ProblemDetails>(cancellationToken);
-            
             logger.LogError("Failed to get active modes");
             return false;
         }

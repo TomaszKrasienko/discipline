@@ -6,6 +6,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\..\discipline.libs\discipline.libs.cqrs\discipline.libs.cqrs.csproj" />
+      <ProjectReference Include="..\..\..\..\discipline.libs\discipline.libs.events\discipline.libs.events.csproj" />
+      <ProjectReference Include="..\..\..\..\discipline.libs\discipline.libs.rabbit-mq\discipline.libs.rabbit-mq.csproj" />
       <ProjectReference Include="..\..\..\..\discipline.libs\discipline.libs.serialization\discipline.libs.serialization.csproj" />
       <ProjectReference Include="..\discipline.centre.shared.abstractions\discipline.centre.shared.abstractions.csproj" />
     </ItemGroup>

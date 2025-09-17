@@ -49,19 +49,20 @@ internal static class ActivityRulesInternalEndpoints
         app.MapGet($"/{ActivityRulesModule.ModuleName}/{ActivityRulesInternalTag}/modes", async (
                 DateTime day, ICqrsDispatcher dispatcher, CancellationToken cancellationToken) =>
             {
-                var result = await dispatcher.SendAsync(new GetActiveModesByDayQuery(DateOnly.FromDateTime(day)), cancellationToken);
-                
+                var result = await dispatcher.SendAsync(new GetActiveModesByDayQuery(DateOnly.FromDateTime(day)),
+                    cancellationToken);
+
                 return Results.Ok(result);
             })
             .Produces(StatusCodes.Status200OK, typeof(ActiveModesDto))
             .Produces(StatusCodes.Status401Unauthorized, typeof(void))
             .WithName("GetActiveModesByDay")
-            .WithTags(ActivityRulesInternalTag)
-            .RequireAuthorization(policy =>
-            {
-                policy.AuthenticationSchemes.Add(AuthorizationSchemes.HangfireAuthorizeSchema);
-                policy.RequireAuthenticatedUser();
-            });
+            .WithTags(ActivityRulesInternalTag);
+            // .RequireAuthorization(policy =>
+            // {
+            //     policy.AuthenticationSchemes.Add(AuthorizationSchemes.HangfireAuthorizeSchema);
+            //     policy.RequireAuthenticatedUser();
+            // });
             
         return app;
     }

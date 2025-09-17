@@ -17,7 +17,6 @@ internal static class PublishersServicesConfigurationExtensions
             services.AddScoped<IMessagePublisher, OutboxMessagePublisher>();
         }
         
-        services.AddScoped<IMessagePublisher, RabbitMqMessagePublisher>();
         services.AddScoped<IMessagePublisher, InternalAsyncMessagePublisher>();
         services.AddScoped<IMessageProcessor, MessageProcessor>();
         

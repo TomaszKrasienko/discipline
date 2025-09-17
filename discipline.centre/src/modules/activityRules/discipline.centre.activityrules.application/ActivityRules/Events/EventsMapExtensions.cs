@@ -1,6 +1,6 @@
 using discipline.centre.activityrules.domain.Events;
-using discipline.centre.shared.abstractions.Events;
 using discipline.centre.shared.abstractions.SharedKernel;
+using discipline.libs.events.abstractions;
 
 namespace discipline.centre.activityrules.application.ActivityRules.Events;
 

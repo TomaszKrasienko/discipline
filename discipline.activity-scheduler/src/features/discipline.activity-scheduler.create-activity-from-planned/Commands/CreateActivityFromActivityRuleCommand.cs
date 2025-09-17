@@ -4,5 +4,5 @@ using discipline.libs.messaging.Abstractions;
 namespace discipline.activity_scheduler.create_activity_from_planned.Commands;
 
 internal sealed record CreateActivityForAccountFromActivityRuleCommand(
-    IReadOnlyCollection<ActivityRuleId> ActivityRuleId,
-    AccountId AccountId) : IMessage;
+    IReadOnlyCollection<string> ActivityRuleId,
+    string AccountId) : IMessage;
