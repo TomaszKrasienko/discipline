@@ -1,6 +1,7 @@
 using discipline.centre.shared.infrastructure.Messaging.Abstractions;
 using discipline.centre.shared.infrastructure.Messaging.Outbox.Configuration.Options;
 using discipline.centre.shared.infrastructure.Messaging.Publishers.Abstractions;
+using discipline.libs.rabbit_mq.Abstractions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 

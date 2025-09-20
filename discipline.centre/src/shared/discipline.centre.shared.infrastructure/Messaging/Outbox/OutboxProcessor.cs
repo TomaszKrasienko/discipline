@@ -1,7 +1,9 @@
 using discipline.centre.shared.infrastructure.Messaging.Abstractions;
 using discipline.centre.shared.infrastructure.Messaging.Outbox.Configuration.Options;
 using discipline.centre.shared.infrastructure.Messaging.Outbox.DAL;
+using discipline.centre.shared.infrastructure.Messaging.Publishers;
 using discipline.libs.messaging.Abstractions;
+using discipline.libs.rabbit_mq.Abstractions;
 using discipline.libs.serializers.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,7 +29,7 @@ internal sealed class OutboxProcessor(
             using var scope = serviceProvider.CreateScope();
             var outboxContext = scope.ServiceProvider.GetRequiredService<OutboxDbContext>();
             var producers = scope.ServiceProvider.GetRequiredService<IEnumerable<IMessagePublisher>>()
-                .Where(x => !x.IsOutbox())
+                .Where(x => x is not OutboxMessagePublisher)
                 .ToList();
 
             var outboxMessages = await outboxContext
@@ -92,7 +94,6 @@ internal sealed class OutboxProcessor(
         if (type != null)
             return type;
 
-        // Jeśli nie znaleziono, przeszukujemy wszystkie załadowane assembly
         foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
         {
             type = assembly.GetType(fullTypeName);
@@ -100,7 +101,6 @@ internal sealed class OutboxProcessor(
                 return type;
         }
 
-        // Można też spróbować załadować assembly dynamicznie po nazwie, jeśli jest znana
-        return null; // Nie znaleziono typu
+        return null;
     }
 }

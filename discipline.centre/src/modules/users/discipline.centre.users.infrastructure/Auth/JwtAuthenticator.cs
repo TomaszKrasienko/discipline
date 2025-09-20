@@ -60,9 +60,10 @@ internal sealed class JwtAuthenticator(
                 numberOfRules.Value.ToString()));
         }
         
-        var now = timeProvider.GetUtcNow().ToLocalTime();
+        var now = timeProvider.GetUtcNow();
         var expirationTime = now.Add(_keyPublishingOptions.TokenExpiry);
 
+        
         var jwt = new JwtSecurityToken(
             issuer: _keyPublishingOptions.Issuer,
             audience: _keyPublishingOptions.Audience,

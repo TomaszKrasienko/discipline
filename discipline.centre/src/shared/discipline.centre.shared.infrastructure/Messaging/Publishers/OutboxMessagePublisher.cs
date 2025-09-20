@@ -2,6 +2,7 @@ using discipline.centre.shared.infrastructure.Messaging.Abstractions;
 using discipline.centre.shared.infrastructure.Messaging.Outbox.DAL;
 using discipline.centre.shared.infrastructure.Messaging.Outbox.Models;
 using discipline.libs.messaging.Abstractions;
+using discipline.libs.rabbit_mq.Abstractions;
 using discipline.libs.serializers.Abstractions;
 using Microsoft.Extensions.Logging;
 
