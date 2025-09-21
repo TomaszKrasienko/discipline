@@ -1,8 +1,9 @@
 using System.Net;
 using System.Net.Http.Json;
+using discipline.centre.activity_rules.infrastructure.DAL.Documents;
+using discipline.centre.activity_rules.tests.shared_kernel.Infrastructure;
 using discipline.centre.activityrules.application.ActivityRules.DTOs.Requests.Stages;
 using discipline.centre.activityrules.infrastructure.DAL.Documents;
-using discipline.centre.activityrules.tests.sharedkernel.Infrastructure;
 using discipline.centre.integrationtests.sharedkernel;
 using Microsoft.AspNetCore.Mvc;
 using MongoDB.Driver;

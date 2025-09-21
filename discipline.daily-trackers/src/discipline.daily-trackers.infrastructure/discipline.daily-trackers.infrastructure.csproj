@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <RootNamespace>discipline.daily_trackers.infrastructure</RootNamespace>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\discipline.libs\discipline.libs.cqrs\discipline.libs.cqrs.csproj" />
+      <ProjectReference Include="..\..\..\discipline.libs\discipline.libs.mongo-db\discipline.libs.mongo-db.csproj" />
+      <ProjectReference Include="..\..\..\discipline.libs\discipline.libs.rabbit-mq\discipline.libs.rabbit-mq.csproj" />
+      <ProjectReference Include="..\discipline.daily-trackers.application\discipline.daily-trackers.application.csproj" />
+      <ProjectReference Include="..\discipline.daily-trackers.domain\discipline.daily-trackers.domain\discipline.daily-trackers.domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="9.0.4" />
+      <PackageReference Include="Swashbuckle.AspNetCore.ReDoc" Version="9.0.4" />
+      <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="9.0.4" />
+      <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="9.0.4" />
+    </ItemGroup>
+
+</Project>

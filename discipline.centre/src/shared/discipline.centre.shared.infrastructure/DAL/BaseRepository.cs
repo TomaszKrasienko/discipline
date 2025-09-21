@@ -17,6 +17,13 @@ public abstract class BaseRepository<TDocument>(
         => await context.GetCollection<TDocument>()
             .Find(expression.ToFilterDefinition())
             .SingleOrDefaultAsync(cancellationToken);
+    
+    protected virtual async Task<List<TDocument>> SearchAsync(
+        Expression<Func<TDocument, bool>> expression,
+        CancellationToken cancellationToken = default)
+        => await context.GetCollection<TDocument>()
+            .Find(expression.ToFilterDefinition())
+            .ToListAsync(cancellationToken);
 
     protected virtual async Task AddAsync(TDocument document, CancellationToken cancellationToken = default)
     {

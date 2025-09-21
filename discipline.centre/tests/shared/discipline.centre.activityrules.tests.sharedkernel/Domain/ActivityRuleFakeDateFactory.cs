@@ -4,7 +4,7 @@ using discipline.centre.activityrules.domain.Enums;
 using discipline.centre.activityrules.domain.ValueObjects.ActivityRules;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 
-namespace discipline.centre.activityrules.tests.sharedkernel.Domain;
+namespace discipline.centre.activity_rules.tests.shared_kernel.Domain;
 
 public static class ActivityRuleFakeDataFactory
 {

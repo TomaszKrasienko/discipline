@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <RootNamespace>discipline.daily_trackers.application</RootNamespace>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\discipline.libs\discipline.libs.cqrs.abstractions\discipline.libs.cqrs.abstractions.csproj" />
+      <ProjectReference Include="..\..\..\discipline.libs\discipline.libs.exceptions\discipline.libs.exceptions.csproj" />
+      <ProjectReference Include="..\discipline.daily-trackers.domain\discipline.daily-trackers.domain\discipline.daily-trackers.domain.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <InternalsVisibleTo Include="discipline.daily-trackers.application.tests"/>
+    </ItemGroup>
+</Project>

@@ -1,8 +1,7 @@
-using discipline.centre.activityrules.application.ActivityRules.DTOs.Responses;
 using discipline.centre.activityrules.application.ActivityRules.DTOs.Responses.ActivityRules;
 using discipline.centre.activityrules.application.ActivityRules.Queries;
-using discipline.centre.shared.abstractions.CQRS;
 using discipline.centre.shared.abstractions.Modules;
+using discipline.libs.cqrs.Abstractions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

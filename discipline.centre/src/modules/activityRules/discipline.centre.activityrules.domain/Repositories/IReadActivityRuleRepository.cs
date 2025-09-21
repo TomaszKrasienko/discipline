@@ -4,6 +4,18 @@ namespace discipline.centre.activityrules.domain.Repositories;
 
 public interface IReadActivityRuleRepository
 {
-    Task<bool> ExistsAsync(string title, AccountId accountId, CancellationToken cancellationToken = default);
-    Task<ActivityRule?> GetByIdAsync(ActivityRuleId id, AccountId accountId, CancellationToken cancellationToken = default);
+    Task<bool> ExistsAsync(
+        string title,
+        AccountId accountId,
+        CancellationToken cancellationToken = default);
+    
+    Task<ActivityRule?> GetByIdAsync(
+        ActivityRuleId id,
+        AccountId accountId,
+        CancellationToken cancellationToken = default);
+    
+    Task<IReadOnlyCollection<ActivityRule>> GetByIdsAsync(
+        IReadOnlyCollection<ActivityRuleId> ids,
+        AccountId accountId,
+        CancellationToken cancellationToken = default);
 }

@@ -25,8 +25,7 @@ public sealed class Details : ValueObject
         Note = note;
     }
 
-    public static Details Create(string title, string? note)
-        => new Details(title, note);
+    public static Details Create(string title, string? note) => new(title, note);
 
     protected override IEnumerable<object?> GetAtomicValues()
     {

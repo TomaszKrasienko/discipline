@@ -2,10 +2,10 @@ using discipline.centre.shared.abstractions.Exceptions;
 using discipline.centre.users.domain.Subscriptions;
 using discipline.centre.users.domain.Subscriptions.Policies;
 using discipline.centre.users.domain.Subscriptions.Policies.Abstractions;
-using discipline.centre.users.tests.sharedkernel.Infrastructure;
+using discipline.centre.users.tests.shared_kernel.Infrastructure;
 using Shouldly;
 
-namespace discipline.centre.users.infrastructure.unittests.DAL.Subscriptions;
+namespace discipline.centre.users.infrastructure.unit_tests.DAL.Subscriptions;
 
 public sealed class SubscriptionDocumentsMapperExtensions
 {

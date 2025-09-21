@@ -9,8 +9,7 @@ public sealed class IsChecked : ValueObject
     private IsChecked(bool value) 
         => Value = value;
     
-    public static IsChecked Create(bool value) 
-        => new IsChecked(value);
+    public static IsChecked Create(bool value) => new(value);
 
     public static implicit operator bool(IsChecked isChecked)
         => isChecked.Value;

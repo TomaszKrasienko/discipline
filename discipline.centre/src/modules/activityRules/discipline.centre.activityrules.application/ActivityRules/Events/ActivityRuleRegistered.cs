@@ -1,5 +1,4 @@
-using discipline.centre.shared.abstractions.Events;
-using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
+using discipline.libs.events.abstractions;
 
 namespace discipline.centre.activityrules.application.ActivityRules.Events;
 

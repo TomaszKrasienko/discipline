@@ -1,7 +1,7 @@
 using Bogus;
 using discipline.centre.calendar.application.UserCalendar.TimeEvents.DTOs.Requests;
 
-namespace discipline.centre.calendar.tests.sharedkernel.Application.Requests;
+namespace discipline.centre.calendar.tests.shared_kernel.Application.Requests;
 
 public static class CreateTimeEventRequestDtoFakeDataFactory
 {

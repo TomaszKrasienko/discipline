@@ -5,7 +5,7 @@ using discipline.centre.users.domain.Accounts.Specifications.SubscriptionOrder;
 using discipline.centre.users.domain.Accounts.ValueObjects.Account;
 using discipline.centre.users.domain.Subscriptions.Enums;
 
-namespace discipline.centre.users.tests.sharedkernel.Domain;
+namespace discipline.centre.users.tests.shared_kernel.Domain;
 
 public static class AccountFakeDataFactory
 {

@@ -1,6 +1,7 @@
+using discipline.centre.activity_rules.infrastructure.DAL;
+using discipline.centre.activity_rules.infrastructure.DAL.Repositories;
 using discipline.centre.activityrules.domain.Repositories;
 using discipline.centre.activityrules.infrastructure.DAL;
-using discipline.centre.activityrules.infrastructure.DAL.Repositories;
 using discipline.centre.shared.infrastructure.DAL.Collections.Abstractions;
 using MongoDB.Driver;
 

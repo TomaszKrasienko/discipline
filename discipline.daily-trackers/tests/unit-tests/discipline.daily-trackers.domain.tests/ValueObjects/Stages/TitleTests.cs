@@ -20,7 +20,7 @@ public sealed class TitleTests
     }
     
     [Fact]
-    public void GivenEmptyValue_WhenCreate_ThenThrowDomainExceptionWithCodeActivityRuleStageTitleEmpty()
+    public void GivenEmptyValue_WhenCreate_ThenThrowsDomainExceptionWithCodeActivityRuleStageTitleEmpty()
     {
         // Act
         var exception = Record.Exception(() => Title.Create(string.Empty));
@@ -31,7 +31,7 @@ public sealed class TitleTests
     }
 
     [Fact]
-    public void GivenValueLongerThan30Characters_WhenCreate_ThenThrowDomainExceptionWithCodeActivityRuleStageTitleTooLong()
+    public void GivenValueLongerThan30Characters_WhenCreate_ThenThrowsDomainExceptionWithCodeActivityRuleStageTitleTooLong()
     {
         // Act
         var exception = Record.Exception(() => Title.Create(new string('a', 31)));

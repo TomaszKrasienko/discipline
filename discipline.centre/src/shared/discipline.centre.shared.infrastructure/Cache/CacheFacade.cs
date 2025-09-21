@@ -1,7 +1,7 @@
 using discipline.centre.shared.abstractions.Cache;
 using discipline.centre.shared.abstractions.Clock;
-using discipline.centre.shared.abstractions.Serialization;
 using discipline.centre.shared.infrastructure.Cache.Configuration;
+using discipline.libs.serializers.Abstractions;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Options;
 

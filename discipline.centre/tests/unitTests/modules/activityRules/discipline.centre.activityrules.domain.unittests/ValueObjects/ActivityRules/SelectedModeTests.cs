@@ -1,6 +1,6 @@
+using discipline.centre.activity_rules.tests.shared_kernel.DataValidators;
 using discipline.centre.activityrules.domain.Enums;
 using discipline.centre.activityrules.domain.ValueObjects.ActivityRules;
-using discipline.centre.activityrules.tests.sharedkernel.DataValidators;
 using discipline.centre.shared.abstractions.SharedKernel.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using Shouldly;

@@ -1,6 +1,6 @@
 namespace discipline.daily_trackers.domain.SharedKernel.TypeIdentifiers;
 
-public sealed record StageId(Ulid Value) : ITypeId<StageId, Ulid>
+public readonly record struct StageId(Ulid Value) : ITypeId<StageId, Ulid>
 {
     public static StageId New() => new(Ulid.NewUlid());
     
@@ -8,7 +8,7 @@ public sealed record StageId(Ulid Value) : ITypeId<StageId, Ulid>
     { 
         if (!Ulid.TryParse(stringTypedId, out var parsedId))
         {
-            throw new ArgumentException($"Can not parse stronglyTypedId of type: {nameof(StageId)}");
+            throw new ArgumentException("StageId.InvalidFormat");
         }
 
         return new StageId(parsedId);

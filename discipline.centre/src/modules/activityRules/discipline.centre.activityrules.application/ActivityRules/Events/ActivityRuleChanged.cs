@@ -1,4 +1,4 @@
-using discipline.centre.shared.abstractions.Events;
+using discipline.libs.events.abstractions;
 
 namespace discipline.centre.activityrules.application.ActivityRules.Events;
 

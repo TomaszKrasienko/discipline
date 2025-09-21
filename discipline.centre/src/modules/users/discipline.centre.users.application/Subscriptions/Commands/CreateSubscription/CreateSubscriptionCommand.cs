@@ -1,4 +1,3 @@
-using discipline.centre.shared.abstractions.CQRS.Commands;
 using discipline.centre.shared.abstractions.Exceptions;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.users.domain.Subscriptions;
@@ -6,7 +5,7 @@ using discipline.centre.users.domain.Subscriptions.Enums;
 using discipline.centre.users.domain.Subscriptions.Policies.Abstractions;
 using discipline.centre.users.domain.Subscriptions.Repositories;
 using discipline.centre.users.domain.Subscriptions.Specifications;
-using FluentValidation;
+using discipline.libs.cqrs.abstractions.Commands;
 
 namespace discipline.centre.users.application.Subscriptions.Commands.CreateSubscription;
 

@@ -5,7 +5,7 @@
 GET {{host_address}}/
 
 ###
-@email = tom.krasienko@gmail.com
+@email = test4@gmail.com
 @password = TomaszK123!
 
 
@@ -20,7 +20,7 @@ Content-Type: application/json
 {
   "email": "{{email}}",
   "password": "{{password}}",
-  "subscriptionId": "01K3B1HHVMJA576K7PAYY5GKAM",
+  "subscriptionId": "01K4ZSRJG2YVHBM8ZC7FC1E9KV",
   "period": null,
   "firstName": "FreeUserFirstName",
   "lastName": "FreeUserLastName",
@@ -44,12 +44,12 @@ Content-Type: application/json
 
 ###
 # @name refresh
-POST {{host_address}}/api/users/refresh-tokens
+POST {{host_address}}/api/accounts/refreshed
 Content-Type: application/json
 
 {
-  "refreshToken": "{{refresh_token}}",
-  "userId": "01JPQTFWDB91AF1QVHYP8T8Z36"
+  "accountId":"01K5JZ259KV046MADHY4NYAWVY",
+  "refreshToken": "{{refresh_token}}"
 }
 
 # ###
@@ -72,8 +72,8 @@ Content-Type: application/json
 
 {
   "details": {
-    "title": "My second test",
-    "note": "without any notes"
+    "title": "Test activity rule 5 name",
+    "note": null
   },
   "mode": {
     "mode": "EveryDay"

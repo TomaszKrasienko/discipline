@@ -1,8 +1,7 @@
-using discipline.centre.activityrules.domain.Repositories;
-using discipline.centre.shared.abstractions.CQRS.Commands;
+using discipline.centre.activityrules.domain.Repositories; 
 using discipline.centre.shared.abstractions.Exceptions;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
-using FluentValidation;
+using discipline.libs.cqrs.abstractions.Commands;
 
 namespace discipline.centre.activityrules.application.ActivityRules.Commands;
 

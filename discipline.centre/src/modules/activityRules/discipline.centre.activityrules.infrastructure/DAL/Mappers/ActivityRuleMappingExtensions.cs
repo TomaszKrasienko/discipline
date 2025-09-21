@@ -1,4 +1,5 @@
 using System.Collections.Immutable;
+using discipline.centre.activity_rules.infrastructure.DAL.Documents;
 using discipline.centre.activityrules.domain.ValueObjects.ActivityRules;
 using discipline.centre.activityrules.infrastructure.DAL.Documents;
 
