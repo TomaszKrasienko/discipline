@@ -24,6 +24,7 @@ public static class SharedServicesInfrastructureConfigExtensions
             .AddAppOptions(configuration)
             .AddUiDocumentation()
             .AddCorsPolicy()
+            .AddCommandsPublishing()
             .AddCqrs(assemblies)
             .AddSerialization()
             .AddDal(configuration)

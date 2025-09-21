@@ -20,12 +20,16 @@ internal sealed class MongoActivityRuleRepository(
 
     public async Task<IReadOnlyCollection<ActivityRule>> GetByIdsAsync(IReadOnlyCollection<ActivityRuleId> ids,
         AccountId accountId, CancellationToken cancellationToken = default)
-        => (await SearchAsync(x =>
-                x.AccountId == accountId.ToString() &&
-                ids.Select(id => id.ToString()).Contains(x.Id),
+    {
+        var activityRuleIds = ids.Select(x => x.ToString()).ToList();
+        
+        return (await SearchAsync(x =>
+                    x.AccountId == accountId.ToString() &&
+                    activityRuleIds.Contains(x.Id),
                 cancellationToken))
             .Select(x => x.AsEntity())
-            .ToList();
+            .ToList();  
+    } 
     
     public Task<bool> ExistsAsync(string title, AccountId accountId, CancellationToken cancellationToken = default)
         => AnyAsync(x 
