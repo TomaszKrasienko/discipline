@@ -1,6 +1,6 @@
+using discipline.centre.activity_rules.tests.shared_kernel.Domain;
 using discipline.centre.activityrules.application.ActivityRules.Commands;
 using discipline.centre.activityrules.domain.Repositories;
-using discipline.centre.activityrules.tests.sharedkernel.Domain;
 using discipline.centre.shared.abstractions.Exceptions;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using Microsoft.AspNetCore.Http.HttpResults;

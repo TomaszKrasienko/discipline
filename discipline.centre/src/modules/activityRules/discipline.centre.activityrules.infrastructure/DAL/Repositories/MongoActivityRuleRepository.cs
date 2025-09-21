@@ -1,3 +1,4 @@
+using discipline.centre.activity_rules.infrastructure.DAL.Documents;
 using discipline.centre.activityrules.domain;
 using discipline.centre.activityrules.domain.Repositories;
 using discipline.centre.activityrules.infrastructure.DAL.Documents;
@@ -5,7 +6,7 @@ using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.shared.infrastructure.DAL;
 using MongoDB.Driver;
 
-namespace discipline.centre.activityrules.infrastructure.DAL.Repositories;
+namespace discipline.centre.activity_rules.infrastructure.DAL.Repositories;
 
 internal sealed class MongoActivityRuleRepository(
     ActivityRulesMongoContext context) : BaseRepository<ActivityRuleDocument>(context), IReadWriteActivityRuleRepository 
@@ -17,6 +18,19 @@ internal sealed class MongoActivityRuleRepository(
                 cancellationToken))?
             .AsEntity();
 
+    public async Task<IReadOnlyCollection<ActivityRule>> GetByIdsAsync(IReadOnlyCollection<ActivityRuleId> ids,
+        AccountId accountId, CancellationToken cancellationToken = default)
+    {
+        var activityRuleIds = ids.Select(x => x.ToString()).ToList();
+        
+        return (await SearchAsync(x =>
+                    x.AccountId == accountId.ToString() &&
+                    activityRuleIds.Contains(x.Id),
+                cancellationToken))
+            .Select(x => x.AsEntity())
+            .ToList();  
+    } 
+    
     public Task<bool> ExistsAsync(string title, AccountId accountId, CancellationToken cancellationToken = default)
         => AnyAsync(x 
                 => x.Details.Title == title && 

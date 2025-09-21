@@ -10,4 +10,9 @@
       <PackageReference Include="System.Text.Json" />
       <PackageReference Include="Ulid"/>
     </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\..\discipline.libs\discipline.libs.cqrs.abstractions\discipline.libs.cqrs.abstractions.csproj" />
+      <ProjectReference Include="..\..\..\..\discipline.libs\discipline.libs.events.abstractions\discipline.libs.events.abstractions.csproj" />
+    </ItemGroup>
 </Project>

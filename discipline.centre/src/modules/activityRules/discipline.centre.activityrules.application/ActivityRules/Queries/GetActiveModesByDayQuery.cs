@@ -1,7 +1,6 @@
 using discipline.centre.activityrules.application.ActivityRules.DTOs;
 using discipline.centre.activityrules.domain.Enums;
-using discipline.centre.activityrules.domain.ValueObjects.ActivityRules;
-using discipline.centre.shared.abstractions.CQRS.Queries;
+using discipline.libs.cqrs.abstractions.Queries;
 
 namespace discipline.centre.activityrules.application.ActivityRules.Queries;
 

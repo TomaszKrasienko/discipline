@@ -1,6 +1,6 @@
+using discipline.centre.activity_rules.tests.shared_kernel.DataValidators;
+using discipline.centre.activity_rules.tests.shared_kernel.Infrastructure;
 using discipline.centre.activityrules.infrastructure.DAL.Documents;
-using discipline.centre.activityrules.tests.sharedkernel.DataValidators;
-using discipline.centre.activityrules.tests.sharedkernel.Infrastructure;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using Shouldly;
 using Xunit;

@@ -1,8 +1,7 @@
 using Bogus;
-using discipline.centre.calendar.infrastructure.DAL.Calendar.Documents;
 using discipline.centre.calendar.infrastructure.DAL.Documents;
 
-namespace discipline.centre.calendar.tests.sharedkernel.Infrastructure;
+namespace discipline.centre.calendar.tests.shared_kernel.Infrastructure;
 
 public static class UserCalendarDayDocumentFakeDataFactory
 {

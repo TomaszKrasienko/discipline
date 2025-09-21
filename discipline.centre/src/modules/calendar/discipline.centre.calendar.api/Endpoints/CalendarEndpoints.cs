@@ -1,12 +1,11 @@
 using discipline.centre.calendar.api;
 using discipline.centre.calendar.application.UserCalendar.TimeEvents.DTOs.Requests;
-using discipline.centre.shared.abstractions.CQRS;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.shared.infrastructure.Auth;
 using discipline.centre.shared.infrastructure.IdentityContext.Abstractions;
+using discipline.libs.cqrs.Abstractions;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 // ReSharper disable once CheckNamespace

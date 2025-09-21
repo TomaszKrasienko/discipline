@@ -1,4 +1,3 @@
-using discipline.centre.shared.abstractions.CQRS.Commands;
 using discipline.centre.shared.abstractions.Exceptions;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.users.application.Subscriptions.Commands.CreateSubscription;
@@ -7,6 +6,7 @@ using discipline.centre.users.domain.Subscriptions.Enums;
 using discipline.centre.users.domain.Subscriptions.Policies;
 using discipline.centre.users.domain.Subscriptions.Repositories;
 using discipline.centre.users.domain.Subscriptions.Specifications;
+using discipline.libs.cqrs.abstractions.Commands;
 using NSubstitute;
 using Shouldly;
 using Xunit;

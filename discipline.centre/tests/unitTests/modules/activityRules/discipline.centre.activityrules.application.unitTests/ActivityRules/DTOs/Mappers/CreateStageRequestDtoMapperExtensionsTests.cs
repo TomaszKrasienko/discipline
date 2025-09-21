@@ -1,5 +1,5 @@
+using discipline.centre.activity_rules.tests.shared_kernel.Application;
 using discipline.centre.activityrules.application.ActivityRules.DTOs.Mappers;
-using discipline.centre.activityrules.tests.sharedkernel.Application;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using Shouldly;
 using Xunit;

@@ -35,10 +35,10 @@ internal static class JwtServicesConfigurationExtensions
         
         var defaultValidationParameters = new TokenValidationParameters()
         {
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = false,
+            ValidateIssuerSigningKey = false,
             ValidIssuer = defaultAuthorizeParams.Issuer,
             ValidAudience = defaultAuthorizeParams.Audience,
             LogValidationExceptions = true,

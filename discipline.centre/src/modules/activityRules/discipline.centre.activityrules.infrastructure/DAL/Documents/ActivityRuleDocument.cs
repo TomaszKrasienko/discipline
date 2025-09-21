@@ -1,7 +1,7 @@
 using discipline.centre.shared.infrastructure.DAL;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace discipline.centre.activityrules.infrastructure.DAL.Documents;
+namespace discipline.centre.activity_rules.infrastructure.DAL.Documents;
 
 internal sealed record ActivityRuleDocument : IDocument
 {

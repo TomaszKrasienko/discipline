@@ -1,5 +1,6 @@
-using discipline.centre.shared.abstractions.Events;
+using discipline.centre.shared.abstractions.Messaging;
 using discipline.centre.shared.infrastructure.Messaging.Publishers.Abstractions;
+using discipline.libs.events.abstractions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace discipline.centre.shared.infrastructure.Events;

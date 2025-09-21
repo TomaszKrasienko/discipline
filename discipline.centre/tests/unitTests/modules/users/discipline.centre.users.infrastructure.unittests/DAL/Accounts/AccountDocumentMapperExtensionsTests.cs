@@ -1,9 +1,9 @@
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.users.infrastructure.DAL.Accounts.Documents;
-using discipline.centre.users.tests.sharedkernel.Infrastructure;
+using discipline.centre.users.tests.shared_kernel.Infrastructure;
 using Shouldly;
 
-namespace discipline.centre.users.infrastructure.unittests.DAL.Accounts;
+namespace discipline.centre.users.infrastructure.unit_tests.DAL.Accounts;
 
 public sealed class AccountDocumentMapperExtensionsTests
 {

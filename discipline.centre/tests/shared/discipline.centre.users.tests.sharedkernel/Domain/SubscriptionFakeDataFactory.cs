@@ -6,7 +6,7 @@ using discipline.centre.users.domain.Subscriptions.Policies;
 using discipline.centre.users.domain.Subscriptions.Policies.Abstractions;
 using discipline.centre.users.domain.Subscriptions.Specifications;
 
-namespace discipline.centre.users.tests.sharedkernel.Domain;
+namespace discipline.centre.users.tests.shared_kernel.Domain;
 
 public static class SubscriptionFakeDataFactory
 {

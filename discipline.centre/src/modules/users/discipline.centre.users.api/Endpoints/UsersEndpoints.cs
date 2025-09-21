@@ -1,12 +1,7 @@
-using discipline.centre.shared.abstractions.CQRS;
-using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.shared.infrastructure.IdentityContext.Abstractions;
-using discipline.centre.users.application.Accounts.Commands;
-using discipline.centre.users.application.Accounts.Services;
-using discipline.centre.users.application.Users.DTOs;
 using discipline.centre.users.application.Users.DTOs.Responses;
 using discipline.centre.users.application.Users.Queries;
-using Microsoft.AspNetCore.Builder;
+using discipline.libs.cqrs.Abstractions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 

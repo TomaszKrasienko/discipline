@@ -1,8 +1,8 @@
 using discipline.centre.activityrules.application.ActivityRules.Events;
 using discipline.centre.activityrules.domain.Repositories;
-using discipline.centre.shared.abstractions.CQRS.Commands;
-using discipline.centre.shared.abstractions.Events;
+using discipline.centre.shared.abstractions.Messaging;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
+using discipline.libs.cqrs.abstractions.Commands;
 
 namespace discipline.centre.activityrules.application.ActivityRules.Commands;
 

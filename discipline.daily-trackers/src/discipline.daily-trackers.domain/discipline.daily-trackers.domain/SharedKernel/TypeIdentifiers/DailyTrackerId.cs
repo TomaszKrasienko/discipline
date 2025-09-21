@@ -1,6 +1,6 @@
 namespace discipline.daily_trackers.domain.SharedKernel.TypeIdentifiers;
 
-public record DailyTrackerId(Ulid Value) : ITypeId<DailyTrackerId, Ulid>
+public readonly record struct DailyTrackerId(Ulid Value) : ITypeId<DailyTrackerId, Ulid>
 {
     public static DailyTrackerId New() => new(Ulid.NewUlid());
 

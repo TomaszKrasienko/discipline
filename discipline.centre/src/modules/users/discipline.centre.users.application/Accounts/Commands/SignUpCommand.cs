@@ -1,8 +1,7 @@
-using discipline.centre.shared.abstractions.CQRS.Commands;
-using discipline.centre.shared.abstractions.Events;
 using discipline.centre.shared.abstractions.Exceptions;
+using discipline.centre.shared.abstractions.Messaging;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
-using discipline.centre.shared.abstractions.UnitOfWork;
+using discipline.centre.users.application.Accounts.Events;
 using discipline.centre.users.domain.Accounts.Repositories;
 using discipline.centre.users.domain.Accounts.Services.Abstractions;
 using discipline.centre.users.domain.Accounts.Specifications.SubscriptionOrder;
@@ -11,6 +10,7 @@ using discipline.centre.users.domain.Subscriptions.Repositories;
 using discipline.centre.users.domain.Users;
 using discipline.centre.users.domain.Users.Repositories;
 using discipline.centre.users.domain.Users.Specifications;
+using discipline.libs.cqrs.abstractions.Commands;
 
 namespace discipline.centre.users.application.Accounts.Commands;
 
@@ -29,7 +29,8 @@ internal sealed class SignUpCommandHandler(
     IReadWriteAccountRepository accountRepository,
     IReadWriteUserRepository userRepository,
     IReadSubscriptionRepository subscriptionRepository,
-    IAccountService accountService) : ICommandHandler<SignUpCommand>
+    IAccountService accountService,
+    IEventProcessor eventProcessor) : ICommandHandler<SignUpCommand>
 {
     public async Task HandleAsync(SignUpCommand command, CancellationToken cancellationToken = default)
     {
@@ -81,8 +82,9 @@ internal sealed class SignUpCommandHandler(
 
         await Task.WhenAll(creationTasks);
 
-        //TODO: Sending an event
-        // await eventProcessor.PublishAsync(user.DomainEvents.Select(x 
-        //     => x.MapAsIntegrationEvent()).ToArray());
+        //TODO: Unit tests
+         await eventProcessor.PublishAsync(
+             cancellationToken,
+             account.DomainEvents.Select(x => x.MapAsIntegrationEvent()).ToArray());
     }
 }

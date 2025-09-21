@@ -1,8 +1,8 @@
 using discipline.centre.users.infrastructure.DAL.Subscriptions.Documents;
-using discipline.centre.users.tests.sharedkernel.Domain;
+using discipline.centre.users.tests.shared_kernel.Domain;
 using Shouldly;
 
-namespace discipline.centre.users.infrastructure.unittests.DAL.Subscriptions;
+namespace discipline.centre.users.infrastructure.unit_tests.DAL.Subscriptions;
 
 public sealed class SubscriptionMapperExtensionsTests
 {

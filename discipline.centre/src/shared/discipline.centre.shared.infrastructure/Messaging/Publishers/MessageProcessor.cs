@@ -1,7 +1,8 @@
-using discipline.centre.shared.abstractions.Messaging;
 using discipline.centre.shared.infrastructure.Messaging.Abstractions;
 using discipline.centre.shared.infrastructure.Messaging.Outbox.Configuration.Options;
 using discipline.centre.shared.infrastructure.Messaging.Publishers.Abstractions;
+using discipline.libs.messaging.Abstractions;
+using discipline.libs.rabbit_mq.Abstractions;
 using Microsoft.Extensions.Options;
 
 namespace discipline.centre.shared.infrastructure.Messaging.Publishers;
@@ -16,7 +17,7 @@ internal sealed class MessageProcessor(
     {
         if (outboxOptions.Value.IsEnabled)
         {
-            var outboxPublisher = publishers.Single(x => x.IsOutbox());
+            var outboxPublisher = publishers.Single(x => x is OutboxMessagePublisher);
             
             await outboxPublisher.PublishAsync(
                 message,
@@ -26,7 +27,7 @@ internal sealed class MessageProcessor(
         else
         {
             var directPublishers = publishers
-                .Where(x => !x.IsOutbox())
+                .Where(x => x is not OutboxMessagePublisher)
                 .ToList();
             
             var tasks = directPublishers

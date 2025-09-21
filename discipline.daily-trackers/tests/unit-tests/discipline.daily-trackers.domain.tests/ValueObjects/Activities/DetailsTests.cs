@@ -22,7 +22,7 @@ public sealed class DetailsTests
     }
     
     [Fact]
-    public void GivenEmptyTitle_WhenCreate_ThenThrowDomainExceptionWithCodeDailyTrackerActivityDetailsTitleEmpty()
+    public void GivenEmptyTitle_WhenCreate_ThenThrowsDomainExceptionWithCodeDailyTrackerActivityDetailsTitleEmpty()
     {
         // Act
         var exception = Record.Exception(() => Details.Create(string.Empty, null));
@@ -33,7 +33,7 @@ public sealed class DetailsTests
     }
 
     [Fact]
-    public void GivenTitleLongerThan30Characters_WhenCreate_TheneThrowDomainExceptionWithCodeDailyTrackerActivityDetailsTitleTooLong()
+    public void GivenTitleLongerThan30Characters_WhenCreate_ThenThrowsDomainExceptionWithCodeDailyTrackerActivityDetailsTitleTooLong()
     {
         // Act
         var exception = Record.Exception(() => Details.Create(new string('t', 31), null));

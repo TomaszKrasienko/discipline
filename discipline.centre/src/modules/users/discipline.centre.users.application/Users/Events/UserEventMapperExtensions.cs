@@ -1,6 +1,6 @@
-using discipline.centre.shared.abstractions.Events;
 using discipline.centre.shared.abstractions.SharedKernel;
 using discipline.centre.users.domain.Users.Events;
+using discipline.libs.events.abstractions;
 
 namespace discipline.centre.users.application.Users.Events;
 

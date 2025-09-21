@@ -1,8 +1,8 @@
 using System.Reflection;
-using discipline.centre.shared.abstractions.Events;
 using discipline.centre.shared.abstractions.Modules;
 using discipline.centre.shared.infrastructure.Modules;
 using discipline.centre.shared.infrastructure.Modules.Abstractions;
+using discipline.libs.events.abstractions;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection;
@@ -33,7 +33,7 @@ internal static class ModulesServicesConfigurationExtensions
             foreach (var type in types)
             {
                 registry.AddBroadcastingRegistration(type, @event => 
-                    (Task)eventDispatcherType?.GetMethod(nameof(eventDispatcher.PublishAsync))!
+                    (Task)eventDispatcherType?.GetMethod(nameof(eventDispatcher.HandleAsync))!
                         .MakeGenericMethod(type)
                         .Invoke(eventDispatcher, [@event])!);
             }

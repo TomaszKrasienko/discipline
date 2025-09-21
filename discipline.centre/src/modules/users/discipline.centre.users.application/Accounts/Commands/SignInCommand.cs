@@ -1,11 +1,10 @@
-using discipline.centre.shared.abstractions.CQRS.Commands;
 using discipline.centre.shared.abstractions.Exceptions;
 using discipline.centre.users.application.Accounts.DTOs;
 using discipline.centre.users.application.Accounts.Services;
-using discipline.centre.users.application.Users.DTOs;
 using discipline.centre.users.domain.Accounts.Repositories;
 using discipline.centre.users.domain.Accounts.Services.Abstractions;
 using discipline.centre.users.domain.Subscriptions.Repositories;
+using discipline.libs.cqrs.abstractions.Commands;
 
 namespace discipline.centre.users.application.Accounts.Commands;
 

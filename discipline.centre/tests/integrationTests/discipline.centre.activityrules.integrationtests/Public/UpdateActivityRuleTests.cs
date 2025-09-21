@@ -1,9 +1,10 @@
 using System.Net;
 using System.Net.Http.Json;
+using discipline.centre.activity_rules.infrastructure.DAL.Documents;
+using discipline.centre.activity_rules.tests.shared_kernel.Infrastructure;
 using discipline.centre.activityrules.application.ActivityRules.DTOs.Requests.ActivityRules;
 using discipline.centre.activityrules.domain.Enums;
 using discipline.centre.activityrules.infrastructure.DAL.Documents;
-using discipline.centre.activityrules.tests.sharedkernel.Infrastructure;
 using discipline.centre.integrationtests.sharedkernel;
 using MongoDB.Driver;
 using Shouldly;
@@ -28,7 +29,7 @@ public sealed class UpdateActivityRuleTests() : BaseTestsController("activity-ru
 
         var request = new ActivityRuleRequestDto(
             new ActivityRuleDetailsRequestDto("new_test_title", "new_test_note"),
-            new ActivityRuleModeRequestDto(RuleMode.Custom.Value, [0]));
+            new ActivityRuleModeRequestDto(RuleMode.Custom.Value, [1]));
 
         // Act
         var response = await HttpClient.PutAsJsonAsync($"api/activity-rules/{activityRuleDocument.Id}", request);

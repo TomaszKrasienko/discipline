@@ -1,5 +1,5 @@
 using System.Reflection;
-using discipline.centre.shared.abstractions.Events;
+using discipline.centre.shared.abstractions.Messaging;
 using discipline.centre.shared.infrastructure.Events;
 using Microsoft.Extensions.Configuration;
 
@@ -8,19 +8,11 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 internal static class EventsServicesConfigurationExtensions
 {
-    internal static IServiceCollection AddEvents(this IServiceCollection services, IConfiguration configuration,
+    internal static IServiceCollection AddEvents(
+        this IServiceCollection services,
+        IConfiguration configuration,
         IEnumerable<Assembly> assemblies)
         => services
             .AddSingleton<IEventProcessor, EventProcessor>()
-            .AddSingleton<IEventDispatcher, EventDispatcher>()
-            .AddEventHandlers(assemblies);
-
-    private static IServiceCollection AddEventHandlers(this IServiceCollection services, IEnumerable<Assembly> assemblies)
-    {
-        services.Scan(x => x.FromAssemblies(assemblies)
-            .AddClasses(c => c.AssignableTo(typeof(IEventHandler<>)))
-            .AsImplementedInterfaces()
-            .WithScopedLifetime());
-        return services;
-    }
+            .AddEvents(assemblies);
 }

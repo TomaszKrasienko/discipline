@@ -4,7 +4,6 @@ using discipline.centre.shared.infrastructure.Constraint.Configuration;
 using discipline.centre.shared.infrastructure.Converters.Configuration;
 using discipline.centre.shared.infrastructure.Logging.Configuration;
 using discipline.centre.shared.infrastructure.Messaging.Configuration;
-using discipline.centre.shared.infrastructure.Serialization.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
@@ -14,27 +13,34 @@ namespace Microsoft.Extensions.DependencyInjection;
 
 public static class SharedServicesInfrastructureConfigExtensions
 {
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IList<Assembly> assemblies,
+    public static IServiceCollection AddInfrastructure(
+        this IServiceCollection services,
+        IList<Assembly> assemblies,
         IConfiguration configuration)
-        => services
+    {
+        var appOptions = services.GetOptions<AppOptions>();
+        
+        return services
             .AddAppOptions(configuration)
             .AddUiDocumentation()
             .AddCorsPolicy()
+            .AddCommandsPublishing()
             .AddCqrs(assemblies)
+            .AddSerialization()
             .AddDal(configuration)
-            .AddMessaging(configuration)
+            .AddMessaging(configuration, appOptions.Name!)
             .AddEvents(configuration, assemblies)
             .AddClock()
             .AddJwtAuth(configuration)
-            .AddSerializer()
             .AddDistributedCache(configuration)
             .AddExceptionsHandling(assemblies)
             .AddValidation(assemblies)
             .AddIdentityContext()
             .AddConstraints()
-            .AddModule(assemblies) 
+            .AddModule(assemblies)
             .AddLogging(configuration)
             .AddConverters(assemblies);
+    }
 
     private static IServiceCollection AddAppOptions(this IServiceCollection services, IConfiguration configuration)
         => services.ValidateAndBind<AppOptions, AppOptionsValidator>(configuration);

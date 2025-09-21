@@ -16,6 +16,7 @@
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+        <PackageReference Include="NSubstitute" Version="5.3.0" />
         <PackageReference Include="Shouldly" Version="4.3.0" />
         <PackageReference Include="xunit" Version="2.9.3" />
         <PackageReference Include="xunit.runner.visualstudio" Version="3.1.4">
@@ -30,15 +31,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\src\discipline.daily-trackers.domain\discipline.daily-trackers.domain\discipline.daily-trackers.domain.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Update="StageTests\CreateTests.DataSeed.cs">
-        <DependentUpon>CreateTests.cs</DependentUpon>
-      </Compile>
-      <Compile Update="ActivityTests\CreateTests.TestDataSeed.cs">
-        <DependentUpon>CreateTests.cs</DependentUpon>
-      </Compile>
+      <ProjectReference Include="..\..\shared\discipline.daily-trackers.tests.shared-kernel\discipline.daily-trackers.tests.shared-kernel.csproj" />
     </ItemGroup>
 
 </Project>

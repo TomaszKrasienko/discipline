@@ -2,7 +2,7 @@ using Bogus;
 using discipline.centre.users.domain.Subscriptions.Enums;
 using discipline.centre.users.infrastructure.DAL.Subscriptions.Documents;
 
-namespace discipline.centre.users.tests.sharedkernel.Infrastructure;
+namespace discipline.centre.users.tests.shared_kernel.Infrastructure;
 
 public static class SubscriptionDocumentFakeDataFactory
 {

@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <RootNamespace>discipline.activity_scheduler.add_planned_tasks</RootNamespace>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+
+
+    <PropertyGroup>
+        <ManagePackageVersionsCentrally>false</ManagePackageVersionsCentrally>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Dapper" Version="2.1.66"/>
+      <PackageReference Include="OneOf" Version="3.0.271"/>
+      <PackageReference Include="Refit" Version="8.0.0"/>
+      <PackageReference Include="Refit.HttpClientFactory" Version="8.0.0"/>
+      <PackageReference Include="Ulid" Version="1.4.1"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\shared\discipline.activity-scheduler.shared.abstractions\discipline.activity-scheduler.shared.abstractions.csproj" />
+      <ProjectReference Include="..\..\shared\discipline.activity-scheduler.shared.infrastructure\discipline.activity-scheduler.shared.infrastructure.csproj" />
+    </ItemGroup>
+
+</Project>

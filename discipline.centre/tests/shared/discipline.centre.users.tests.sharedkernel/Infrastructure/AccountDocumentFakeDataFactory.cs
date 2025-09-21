@@ -3,10 +3,9 @@ using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.users.domain.Accounts;
 using discipline.centre.users.domain.Subscriptions.Enums;
 using discipline.centre.users.infrastructure.DAL.Accounts.Documents;
-using discipline.centre.users.infrastructure.Passwords;
 using Microsoft.AspNetCore.Identity;
 
-namespace discipline.centre.users.tests.sharedkernel.Infrastructure;
+namespace discipline.centre.users.tests.shared_kernel.Infrastructure;
 
 internal static class AccountDocumentFakeDataFactory
 {

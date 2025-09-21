@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <RootNamespace>discipline.centre.integrationtests.sharedkernel</RootNamespace>
+        <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-        <RootNamespace>discipline.centre.integrationtests.sharedkernel</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -15,9 +15,6 @@
       <PackageReference Include="Testcontainers" />
       <PackageReference Include="Testcontainers.MongoDb" />
       <PackageReference Include="Testcontainers.Redis" />
-    </ItemGroup>
-    <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer"/>
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\..\src\Bootstrappers\discipline.centre.bootstrappers.api\discipline.centre.bootstrappers.api.csproj" />

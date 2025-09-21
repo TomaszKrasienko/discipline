@@ -1,5 +1,6 @@
 using discipline.centre.shared.abstractions.SharedKernel.Aggregate;
 using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
+using discipline.centre.users.domain.Accounts.Events;
 using discipline.centre.users.domain.Accounts.Specifications.Account;
 using discipline.centre.users.domain.Accounts.Specifications.SubscriptionOrder;
 using discipline.centre.users.domain.Accounts.ValueObjects.Account;
@@ -65,6 +66,12 @@ public sealed class Account : AggregateRoot<AccountId, Ulid>
             SubscriptionOrderId.New(),
             timeProvider,
             order);
+        
+        //TODO: Unit tests
+        account.AddDomainEvent(new AccountCreated(
+            account.Id,
+            account.Login));
+        
         return account;
     }
 

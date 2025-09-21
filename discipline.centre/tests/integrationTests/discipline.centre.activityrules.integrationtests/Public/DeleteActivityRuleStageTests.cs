@@ -1,6 +1,7 @@
 using System.Net;
+using discipline.centre.activity_rules.infrastructure.DAL.Documents;
+using discipline.centre.activity_rules.tests.shared_kernel.Infrastructure;
 using discipline.centre.activityrules.infrastructure.DAL.Documents;
-using discipline.centre.activityrules.tests.sharedkernel.Infrastructure;
 using discipline.centre.integrationtests.sharedkernel;
 using MongoDB.Driver;
 using Shouldly;

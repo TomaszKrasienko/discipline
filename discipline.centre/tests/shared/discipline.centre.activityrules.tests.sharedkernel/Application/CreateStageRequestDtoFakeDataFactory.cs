@@ -1,7 +1,7 @@
 using Bogus;
 using discipline.centre.activityrules.application.ActivityRules.DTOs.Requests.Stages;
 
-namespace discipline.centre.activityrules.tests.sharedkernel.Application;
+namespace discipline.centre.activity_rules.tests.shared_kernel.Application;
 
 public static class CreateStageRequestDtoFakeDataFactory
 {

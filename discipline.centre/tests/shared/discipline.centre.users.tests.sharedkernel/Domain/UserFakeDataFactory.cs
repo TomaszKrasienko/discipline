@@ -3,7 +3,7 @@ using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
 using discipline.centre.users.domain.Users;
 using discipline.centre.users.domain.Users.Specifications;
 
-namespace discipline.centre.users.tests.sharedkernel.Domain;
+namespace discipline.centre.users.tests.shared_kernel.Domain;
 
 public static class UserFakeDataFactory
 {
