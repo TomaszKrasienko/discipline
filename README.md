@@ -1,43 +1,51 @@
 <div align="center">
-    <img src="assets/discipline_logo.png" width="500">
+    <img src="assets/logo.png" width="500">
 </div>
-
-<div align="center">
-    Discipline
+<br>
+<div align="center" style="font-size:30px">
+    <b>Discipline</b>
 </div>
 
 ### Purpose
-Discipline was created to enable users to monitor their daily tasks and support the formation of positive habits. With flexible activity rules, users can tailor schedules to their needs and effectively manage daily productivity.
+**Discipline** was created to help users track daily tasks and build positive habits. Thanks to flexible activity rules, schedules can be tailored to individual needs, making it easier to stay productive and organized.
 
 ### Implemented Features
-- **Activities:**
-    * Allowing users to add daily tasks,
-    * Marking Activities as Completed,
-    * Deleting Activities
-- **Activity Rules:**
-    * Users can define various activity rule modes, such as: Daily, First day of the week, Last day of the week, First day of the month,
-  Last day of the month, Custom - select specific days of the week
-    * Editing Activity Rules: Allows users to modify existing activity rules.
-    * Deleting Activity Rules: Users can remove activity rules.
-    * Generating activities from activity rules by themselfs
-- **Automatic Activity Generation:** The application automatically generates activities based on the defined rules for a given day.
+- **Activities**
+  - Add daily tasks  
+  - Mark activities as completed  
+  - Delete activities  
+  - Create sub-tasks (stages) to support task completion  
 
-### Features to be Implemented
-- **User Adaptation**: Modify the application to support multiple users with personalized settings.
+- **Activity Rules**
+  - Define activity recurrence modes: Daily, First/Last day of the week, First/Last day of the month, or custom-selected weekdays  
+  - Edit existing rules  
+  - Delete rules  
+  - Manually generate activities based on rules  
+
+- **Automatic Activity Generation**
+  - Activities are automatically created for each day according to defined rules  
+
+### Planned Features
+- **User Profiles**: Support for multiple users with personalized settings and activity management  
 
 ---
+
 ### Architecture
 
-- **Feature-Based Organization:** Each feature (or slice) of the application is encapsulated within its own module. This means that all relevant files—such as models, commands, validators, and controllers—are grouped together based on the feature they support.
+- **Hybrid Approach**: The main application follows a modular monolith architecture, while additional services are implemented as microservices  
 
-- **Domain Models:** The application employs domain models where domain rules are validated. This ensures that business logic is centralized within the domain layer, promoting a clean and maintainable codebase.
+- **Feature-Based Organization**: The `discipline.activity-schedule` module is implemented using a Vertical Slice approach, where each feature is encapsulated in its own project across all layers  
 
-- **Database:** Discipline uses MongoDB, a NoSQL database, which provides flexibility in handling diverse data types and structures. MongoDB's document-oriented storage is well-suited for the dynamic and evolving data models typical in modern applications.
+- **Domain Models**: Business rules are enforced within domain models, ensuring that logic remains centralized, clean, and maintainable  
 
-- **CQRS (Command Query Responsibility Segregation):** This pattern separates the read and write operations of the application, enhancing scalability and performance:
+- **Database**
+  - **MongoDB** stores the main application data  
+  - **PostgreSQL** is used for the Activity Scheduler, Hangfire structures, and the outbox pattern  
 
-- **Minimal API:** Each feature slice implements a minimal API to handle its specific functions. This keeps the API endpoints lean and focused, making it easier to manage and scale individual features.
+- **CQRS (Command Query Responsibility Segregation)**: Separates read and write operations, improving scalability and performance  
 
----
-### Discipline WebUI 
-https://github.com/TomaszKrasienko/discipline-web-ui-app
+- **Separeted shared libraries**: In project created shared separeted library projects with created solutions for infrastructure issues during working with project
+
+<div align="center">
+    <img src="assets/architecture.png" width="500">
+</div>
