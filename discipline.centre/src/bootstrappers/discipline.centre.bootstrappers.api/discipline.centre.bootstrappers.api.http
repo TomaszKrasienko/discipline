@@ -5,7 +5,7 @@
 GET {{host_address}}/
 
 ###
-@email = test4@gmail.com
+@email = test1@gmail.com
 @password = TomaszK123!
 
 
@@ -79,6 +79,9 @@ Content-Type: application/json
     "mode": "EveryDay"
   },
   "stages": [
+    {
+      "name": "stage 1"
+    }
   ]
 }
 
@@ -92,6 +95,17 @@ Authorization: Bearer {{token}}
 
 ###
 @activity_rule_id = {{create_activity_rule.response.headers.x-resource-id}}
+
+
+###
+POST {{host_address}}/api/activity-rules/{{activity_rule_id}}/stages
+Authorization: Bearer {{token}}
+Accept-Language: pl
+Content-Type: application/json
+
+{
+  "title": "stage 2"
+}
 
 ###
 PUT {{host_address}}/api/activity-rules/{{activity_rule_id}}
