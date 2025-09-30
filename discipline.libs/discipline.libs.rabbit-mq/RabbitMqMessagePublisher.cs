@@ -1,6 +1,4 @@
 using discipline.libs.messaging.Abstractions;
-using discipline.libs.rabbit_mq.Abstractions;
-using discipline.libs.rabbit_mq.Conventions.Abstractions;
 using discipline.libs.rabbit_mq.Factories;
 using discipline.libs.serializers.Abstractions;
 using RabbitMQ.Client;

@@ -1,6 +1,5 @@
 using discipline.libs.exceptions.Exceptions;
 using discipline.libs.messaging.Abstractions;
-using discipline.libs.rabbit_mq.Conventions.Abstractions;
 using discipline.libs.rabbit_mq.Factories;
 using discipline.libs.rabbit_mq.Registries.Abstractions;
 using discipline.libs.serializers.Abstractions;

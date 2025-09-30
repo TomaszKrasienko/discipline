@@ -3,7 +3,6 @@ using discipline.centre.shared.infrastructure.Messaging.Outbox.Configuration.Opt
 using discipline.centre.shared.infrastructure.Messaging.Outbox.DAL;
 using discipline.centre.shared.infrastructure.Messaging.Publishers;
 using discipline.libs.messaging.Abstractions;
-using discipline.libs.rabbit_mq.Abstractions;
 using discipline.libs.serializers.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

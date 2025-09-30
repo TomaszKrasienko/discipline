@@ -189,6 +189,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.libs.events", "d
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.libs.cqrs.abstractions", "discipline.libs\discipline.libs.cqrs.abstractions\discipline.libs.cqrs.abstractions.csproj", "{545C59D6-EC6E-49B3-9619-DD6751495274}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "discipline.libs.outbox", "discipline.libs\discipline.libs.outbox\discipline.libs.outbox.csproj", "{1A0F6648-5F67-4282-939E-3F5329C96B8F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -281,6 +283,7 @@ Global
 		{4B865275-6171-47E3-9128-EE1C0B98E45B} = {58317C2F-74B3-4527-B5A8-3DED99A38FFF}
 		{BE1798F9-2A00-4EA6-8B86-01BC3852F8DF} = {4461009C-015E-4983-BF81-292C86A133EC}
 		{545C59D6-EC6E-49B3-9619-DD6751495274} = {4461009C-015E-4983-BF81-292C86A133EC}
+		{1A0F6648-5F67-4282-939E-3F5329C96B8F} = {4461009C-015E-4983-BF81-292C86A133EC}
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{5E1B23AB-3288-4919-A3F9-C8E250F2F75D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -507,5 +510,9 @@ Global
 		{545C59D6-EC6E-49B3-9619-DD6751495274}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{545C59D6-EC6E-49B3-9619-DD6751495274}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{545C59D6-EC6E-49B3-9619-DD6751495274}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A0F6648-5F67-4282-939E-3F5329C96B8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A0F6648-5F67-4282-939E-3F5329C96B8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A0F6648-5F67-4282-939E-3F5329C96B8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A0F6648-5F67-4282-939E-3F5329C96B8F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

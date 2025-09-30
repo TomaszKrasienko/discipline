@@ -1,6 +1,5 @@
 using System.Reflection;
 using discipline.libs.messaging.Abstractions;
-using discipline.libs.rabbit_mq.Conventions.Abstractions;
 
 namespace discipline.libs.rabbit_mq.Conventions;
 

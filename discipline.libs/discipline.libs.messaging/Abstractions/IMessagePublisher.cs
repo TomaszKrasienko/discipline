@@ -1,6 +1,4 @@
-using discipline.libs.messaging.Abstractions;
-
-namespace discipline.libs.rabbit_mq.Abstractions;
+namespace discipline.libs.messaging.Abstractions;
 
 public interface IMessagePublisher
 {

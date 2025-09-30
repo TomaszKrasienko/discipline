@@ -2,25 +2,19 @@
 
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
-        <RootNamespace>discipline.libs.rabbit_mq</RootNamespace>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="RabbitMQ.Client" Version="7.1.2" />
-      <PackageReference Include="Ulid" Version="1.4.1" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\discipline.libs.configuration\discipline.libs.configuration.csproj" />
-      <ProjectReference Include="..\discipline.libs.exceptions\discipline.libs.exceptions.csproj" />
       <ProjectReference Include="..\discipline.libs.messaging\discipline.libs.messaging.csproj" />
       <ProjectReference Include="..\discipline.libs.serialization\discipline.libs.serialization.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Abstractions\" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.9" />
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
     </ItemGroup>
 
 </Project>

@@ -1,6 +1,5 @@
 using discipline.centre.shared.infrastructure.Messaging.Internal.Channels;
 using discipline.libs.messaging.Abstractions;
-using discipline.libs.rabbit_mq.Abstractions;
 
 namespace discipline.centre.shared.infrastructure.Messaging.Publishers;
 

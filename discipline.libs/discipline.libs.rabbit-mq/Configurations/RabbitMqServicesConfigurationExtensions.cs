@@ -1,12 +1,10 @@
 using discipline.libs.configuration;
 using discipline.libs.messaging.Abstractions;
 using discipline.libs.rabbit_mq;
-using discipline.libs.rabbit_mq.Abstractions;
 using discipline.libs.rabbit_mq.Configurations.Options;
 using discipline.libs.rabbit_mq.Configurations.Options.Validators;
 using discipline.libs.rabbit_mq.Connections;
 using discipline.libs.rabbit_mq.Conventions;
-using discipline.libs.rabbit_mq.Conventions.Abstractions;
 using discipline.libs.rabbit_mq.Factories;
 using discipline.libs.rabbit_mq.Registries;
 using discipline.libs.rabbit_mq.Registries.Abstractions;
