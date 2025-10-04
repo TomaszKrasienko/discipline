@@ -50,6 +50,12 @@ public sealed class Activity : Entity<ActivityId, Ulid>
         IReadOnlyCollection<StageSpecification> stages)
         => Create(activityId, ruleId, details, stages);
     
+    //TODO: Unit tests
+    internal static Activity Create(
+        ActivityId activityId,
+        ActivityDetailsSpecification details)
+        => Create(activityId, null, details, []); 
+    
     private static Activity Create(
         ActivityId activityId,
         ActivityRuleId? ruleId,

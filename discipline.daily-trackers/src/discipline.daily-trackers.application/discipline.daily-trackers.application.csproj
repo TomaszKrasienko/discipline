@@ -15,4 +15,7 @@
     <ItemGroup>
         <InternalsVisibleTo Include="discipline.daily-trackers.application.tests"/>
     </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="FluentValidation" Version="12.0.0" />
+    </ItemGroup>
 </Project>

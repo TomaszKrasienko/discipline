@@ -15,6 +15,9 @@ builder.Services
 
 var app = builder.Build();
 
+app.MapPost(
+    "/api/user-daily-trackers/activities")
+
 app.UseHttpsRedirection();
 app.UseInfrastructure();
 

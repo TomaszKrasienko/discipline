@@ -5,16 +5,15 @@ using discipline.daily_trackers.domain.SharedKernel.TypeIdentifiers;
 
 namespace discipline.daily_trackers.domain.DailyTrackers.Services;
 
+//TODO: Unit tests
 public interface IUserDailyTrackerFactory
 {
-    // Task<UserDailyTracker> Create(
-    //     DailyTrackerId id,
-    //     AccountId accountId,
-    //     Day day,
-    //     ActivityId activityId,
-    //     ActivityDetailsSpecification details,
-    //     ActivityRuleId? parentActivityRuleId,
-    //     CancellationToken cancellationToken = default);
+    Task<UserDailyTracker> Create(
+        AccountId accountId,
+        DateOnly day,
+        ActivityId activityId,
+        ActivityDetailsSpecification activityDetails,
+        CancellationToken cancellationToken = default);
     
     Task<UserDailyTracker> Create(
         DailyTrackerId id,
@@ -33,46 +32,48 @@ public interface IUserDailyTrackerFactory
 internal sealed class UserDailyTrackerFactory(
     IReadWriteUserDailyTrackerRepository userDailyTrackerRepository) : IUserDailyTrackerFactory
 {
-    // public async Task<UserDailyTracker> Create(
-    //     DailyTrackerId id,
-    //     AccountId accountId,
-    //     Day day,
-    //     ActivityId activityId,
-    //     ActivityDetailsSpecification details,
-    //     ActivityRuleId? parentActivityRuleId,
-    //     CancellationToken cancellationToken = default)
-    // {
-    //     var priorUserDailyTracker = await userDailyTrackerRepository.GetByDayAsync(
-    //         accountId,
-    //         day.GetPriorDay(),
-    //         cancellationToken);
-    //
-    //     DailyTrackerId? prior = null;
-    //     
-    //     if (priorUserDailyTracker is not null)
-    //     {
-    //         prior = priorUserDailyTracker.Id;
-    //         priorUserDailyTracker.SetNext(id);
-    //     }
-    //     
-    //     var userDailyTracker = UserDailyTracker.Create(
-    //         id,
-    //         accountId,
-    //         day,
-    //         activityId,
-    //         details,
-    //         parentActivityRuleId,
-    //         prior);
-    //     
-    //     await userDailyTrackerRepository.AddAsync(userDailyTracker, cancellationToken);
-    //
-    //     if (priorUserDailyTracker is not null)
-    //     {
-    //         await userDailyTrackerRepository.UpdateAsync(priorUserDailyTracker, cancellationToken);
-    //     }
-    //     
-    //     return userDailyTracker;
-    // }
+    public async Task<UserDailyTracker> Create(
+        AccountId accountId,
+        DateOnly day,
+        ActivityId activityId,
+        ActivityDetailsSpecification activityDetails,
+        CancellationToken cancellationToken = default)
+    {
+        var dailyTracker = await userDailyTrackerRepository
+            .GetByDayAsync(
+                accountId, 
+                day,
+                cancellationToken);
+
+        if (dailyTracker is null)
+        {
+            var currentDailyTrackerId = DailyTrackerId.New();
+        
+            var priorDailyTrackerId = await ResolvePriorAndSetNextAsync(
+                accountId,
+                currentDailyTrackerId,
+                day,
+                cancellationToken);    
+            
+            var userDailyTracker = UserDailyTracker.Create(
+                currentDailyTrackerId,
+                accountId,
+                day,
+                priorDailyTrackerId,
+                activityId,
+                activityDetails);
+            
+            await userDailyTrackerRepository.AddAsync(userDailyTracker);
+            
+            return userDailyTracker;
+        }
+        
+        dailyTracker.AddActivity(
+            activityId,
+            activityDetails);
+        
+        return dailyTracker;
+    }
 
     public async Task<UserDailyTracker> Create(
         DailyTrackerId id,
@@ -80,32 +81,20 @@ internal sealed class UserDailyTrackerFactory(
         Day day,
         CancellationToken cancellationToken = default)
     {
-        var priorUserDailyTracker = await userDailyTrackerRepository.GetByDayAsync(
+        var priorId = await ResolvePriorAndSetNextAsync(
             accountId,
-            day.GetPriorDay(),
+            id,
+            day,
             cancellationToken);
 
-        DailyTrackerId? prior = null;
-        
-        if (priorUserDailyTracker is not null)
-        {
-            prior = priorUserDailyTracker.Id;
-            priorUserDailyTracker.SetNext(id);
-        }
-        
         var userDailyTracker = UserDailyTracker.Create(
             id,
             accountId,
             day,
-            prior);
-        
+            priorId);
+
         await userDailyTrackerRepository.AddAsync(userDailyTracker, cancellationToken);
 
-        if (priorUserDailyTracker is not null)
-        {
-            await userDailyTrackerRepository.UpdateAsync(priorUserDailyTracker, cancellationToken);
-        }
-        
         return userDailyTracker;
     }
 
@@ -116,33 +105,46 @@ internal sealed class UserDailyTrackerFactory(
         IReadOnlyCollection<ActivitySpecification> activities,
         CancellationToken cancellationToken = default)
     {
-        var priorUserDailyTracker = await userDailyTrackerRepository.GetByDayAsync(
+        var priorId = await ResolvePriorAndSetNextAsync(
             accountId,
-            day.GetPriorDay(),
+            id,
+            day,
             cancellationToken);
-        
-        DailyTrackerId? prior = null;
-        
-        if (priorUserDailyTracker is not null)
-        {
-            prior = priorUserDailyTracker.Id;
-            priorUserDailyTracker.SetNext(id);
-        }
-        
+
         var userDailyTracker = UserDailyTracker.Create(
             id,
             accountId,
             day,
-            prior,
+            priorId,
             activities);
-        
+
         await userDailyTrackerRepository.AddAsync(userDailyTracker, cancellationToken);
+
+        return userDailyTracker;
+    }
+    
+    private async Task<DailyTrackerId?> ResolvePriorAndSetNextAsync(
+        AccountId accountId,
+        DailyTrackerId currentDailyTrackerId,
+        Day currentDay,
+        CancellationToken cancellationToken = default)
+    {
+        var priorDay = currentDay.GetPriorDay();
+        
+        var priorUserDailyTracker = await userDailyTrackerRepository.GetByDayAsync(
+            accountId,
+            priorDay,
+            cancellationToken);
+
+        DailyTrackerId? priorIdentifier = null;
 
         if (priorUserDailyTracker is not null)
         {
+            priorIdentifier = priorUserDailyTracker.Id;
+            priorUserDailyTracker.SetNext(currentDailyTrackerId);
             await userDailyTrackerRepository.UpdateAsync(priorUserDailyTracker, cancellationToken);
         }
-        
-        return userDailyTracker;
+
+        return priorIdentifier;
     }
 }

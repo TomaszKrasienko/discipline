@@ -74,6 +74,24 @@ public sealed class UserDailyTracker : AggregateRoot<DailyTrackerId, Ulid>
          
          return userDailyTracker;
      }
+
+     // TODO: Unit tests
+     internal static UserDailyTracker Create(
+         DailyTrackerId id,
+         AccountId accountId,
+         DateOnly day,
+         DailyTrackerId? prior,
+         ActivityId activityId,
+         ActivityDetailsSpecification activityDetails)
+     {
+         var userDailyTracker = Create(id, accountId, day, prior);
+         
+         userDailyTracker.AddActivity(
+             activityId,
+             activityDetails);
+         
+         return userDailyTracker;
+     }
      
      internal void SetNext(DailyTrackerId next)
         => Next = next;
@@ -94,6 +112,23 @@ public sealed class UserDailyTracker : AggregateRoot<DailyTrackerId, Ulid>
                  parentActivityRuleId,
                  details,
                  stages);
+         
+         _activities.Add(activity);
+         return activity;
+     }
+     
+     internal Activity AddActivity(
+         ActivityId activityId,
+         ActivityDetailsSpecification details)
+     {
+         if (_activities.Exists(x => x.Details.Title == details.Title))
+         {
+             throw new DomainException("DailyTracker.Activity.Title.AlreadyExists");
+         }
+         
+         var activity = Activity.Create(
+             activityId,
+             details);
          
          _activities.Add(activity);
          return activity;

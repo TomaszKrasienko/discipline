@@ -133,6 +133,8 @@ Authorization: Bearer {{token}}
 GET {{host_address}}/api/activity-rules/{{activity_rule_id}}
 Authorization: Bearer {{token}}
 
+### DAILY TRACKERS ###
+
 ###
 # @name create_activity_from_rule
 POST {{host_address}}/api/daily-trackers-module/daily-trackers/activities/{{activity_rule_id}}
@@ -142,12 +144,12 @@ Authorization: Bearer {{token}}
 
 ###
 # @name create_activity
-POST {{host_address}}/api/daily-trackers-module/daily-trackers/activities
+POST {{host_address}}/api/daily-trackers/activities
 Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "day": "2025-03-16",
+  "day": "2025-10-04",
   "details": {
     "title": "Pierwsze zadanie to do3",
     "note": "Pamiętać o odebraniu paczek, posprzątaniu i jedzeniu"

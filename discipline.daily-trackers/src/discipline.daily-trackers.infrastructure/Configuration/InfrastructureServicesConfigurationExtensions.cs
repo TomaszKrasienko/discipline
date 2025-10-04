@@ -3,6 +3,7 @@ using discipline.daily_trackers.application.UserDailyTrackers.Commands.External;
 using discipline.daily_trackers.infrastructure.Configuration.Options;
 using discipline.libs.configuration;
 using discipline.libs.cqrs.Abstractions;
+using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 
@@ -20,7 +21,8 @@ public static class InfrastructureServicesConfigurationExtensions
             .AddCqrs(allAssemblies)
             .AddDal(configuration)
             .AddUiDocumentation()
-            .AddRabbit(configuration);
+            .AddRabbit(configuration)
+            .AddValidation(allAssemblies);
     
     private static IServiceCollection AddUiDocumentation(this IServiceCollection services)
         => services.AddSwaggerGen(swagger =>
@@ -64,4 +66,10 @@ public static class InfrastructureServicesConfigurationExtensions
         
         return services;
     }
+
+    private static IServiceCollection AddValidation(
+        this IServiceCollection services,
+        IList<Assembly> allAssemblies)
+        => services.AddValidatorsFromAssemblies(allAssemblies, includeInternalTypes: true);
+    
 }
