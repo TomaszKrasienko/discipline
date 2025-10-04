@@ -1,5 +1,8 @@
 using System.Reflection;
+using discipline.daily_trackers.application.UserDailyTrackers.DTOs.Requests;
 using discipline.daily_trackers.infrastructure.Configuration;
+using discipline.libs.cqrs.Abstractions;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +19,11 @@ builder.Services
 var app = builder.Build();
 
 app.MapPost(
-    "/api/user-daily-trackers/activities")
+    "/api/user-daily-trackers/activities",
+    async (CreateActivityRequestDto request,
+        IValidator<CreateActivityRequestDto> validator,
+        ICqrsDispatcher dispatcher,
+        IHttpContextAccessor accessor) =>)
 
 app.UseHttpsRedirection();
 app.UseInfrastructure();

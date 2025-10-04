@@ -22,7 +22,8 @@ public static class InfrastructureServicesConfigurationExtensions
             .AddDal(configuration)
             .AddUiDocumentation()
             .AddRabbit(configuration)
-            .AddValidation(allAssemblies);
+            .AddValidation(allAssemblies)
+            .AddJwtAuthentication;
     
     private static IServiceCollection AddUiDocumentation(this IServiceCollection services)
         => services.AddSwaggerGen(swagger =>
@@ -70,6 +71,7 @@ public static class InfrastructureServicesConfigurationExtensions
     private static IServiceCollection AddValidation(
         this IServiceCollection services,
         IList<Assembly> allAssemblies)
-        => services.AddValidatorsFromAssemblies(allAssemblies, includeInternalTypes: true);
-    
+        => services.AddValidatorsFromAssemblies(
+            allAssemblies,
+            includeInternalTypes: true);
 }
