@@ -1,0 +1,35 @@
+@api_host = http://localhost:5124
+@host_address = http://localhost:7001
+
+###
+@email = test1@gmail.com
+@password = TomaszK123!
+
+
+### Gettings tokens for account
+# @name sign_in
+POST {{host_address}}/api/accounts/signed-in
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}"
+}
+
+###
+@token = {{sign_in.response.body.$.token}}
+
+@refresh_token = {{sign_in.response.body.$.refreshToken}}
+
+### Create activity
+POST {{api_host}}/api/user-daily-trackers/activities
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "day": "2024-10-05",
+  "activityDetails": {
+    "title": "test 1",
+    "note": null
+  }
+}

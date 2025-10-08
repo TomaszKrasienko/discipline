@@ -3,10 +3,10 @@ using discipline.libs.auth.Configuration.Options;
 using discipline.libs.configuration;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 
-namespace discipline.libs.auth.Configuration;
+// ReSharper disable once CheckNamespace
+namespace Microsoft.Extensions.DependencyInjection;
 
 public static class AuthServicesConfigurationExtensions
 {
@@ -15,7 +15,8 @@ public static class AuthServicesConfigurationExtensions
         IConfiguration configuration)
         => services
             .AddConfiguration(configuration)
-            .AddTokenValidation();
+            .AddTokenValidation()
+            .AddAuthorization();
 
     private static IServiceCollection AddConfiguration(
         this IServiceCollection services,
@@ -31,10 +32,10 @@ public static class AuthServicesConfigurationExtensions
 
         var validationParameters = new TokenValidationParameters
         {
-            ValidateIssuer = false,
-            ValidateAudience = false,
-            ValidateLifetime = false,
-            ValidateIssuerSigningKey = false,
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
             ValidIssuer = authOptions.Issuer,
             ValidAudience = authOptions.Audience,
             LogValidationExceptions = true,

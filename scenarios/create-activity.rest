@@ -1,0 +1,51 @@
+@gateway_url = http://localhost:7000
+# @gateway_url = http://localhost:9000
+
+
+###
+@email = test1@gmail.com
+@password = TomaszK123!
+
+
+### Gettings tokens for account
+# @name sign_in
+POST {{gateway_url}}/api/accounts/signed-in
+Content-Type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}"
+}
+
+###
+@token = {{sign_in.response.body.$.token}}
+
+###
+@refresh_token = {{sign_in.response.body.$.refreshToken}}
+
+### Create activity
+# @name create_activity
+POST {{gateway_url}}/api/user-daily-trackers/activities
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "day": "2024-10-08",
+  "activityDetails": {
+    "title": "test 1",
+    "note": null
+  }
+}
+
+###
+@activity_id = {{create_activity.response.headers.$.x-resource-id}}
+
+### Get user daily tracker by day
+# @name get_activity
+GET {{gateway_url}}/api/user-daily-trackers/2024-10-08
+Authorization: Bearer {{token}}
+
+### Get user daily tracker by id
+GET {{gateway_url}}/api/user-daily-trackers/01K6ZNV1C95YDEJE7HFMV2Q87P
+Authorization: Bearer {{token}}
+

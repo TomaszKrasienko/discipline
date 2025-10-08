@@ -1,4 +1,4 @@
-namespace discipline.centre.shared.infrastructure.IdentityContext.Abstractions;
+namespace discipline.daily_trackers.infrastructure.IdentityContext.Abstractions;
 
 public interface IIdentityContextFactory
 {

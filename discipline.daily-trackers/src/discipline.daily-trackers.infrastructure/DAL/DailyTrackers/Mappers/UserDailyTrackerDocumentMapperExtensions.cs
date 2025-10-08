@@ -1,3 +1,4 @@
+using discipline.daily_trackers.application.UserDailyTrackers.DTOs.Responses;
 using discipline.daily_trackers.domain.DailyTrackers;
 using discipline.daily_trackers.domain.DailyTrackers.ValueObjects.Activities;
 using discipline.daily_trackers.domain.DailyTrackers.ValueObjects.DailyTrackers;
@@ -32,4 +33,26 @@ internal static class UserDailyTrackerDocumentMapperExtensions
             document.Title,
             document.Index,
             document.IsChecked);
+
+    internal static UserDailyTrackerResponseDto ToResponseDto(this UserDailyTrackerDocument document)
+        => new(
+            document.Id,
+            document.AccountId,
+            document.Day,
+            document.Next,
+            document.Prior,
+            document.Activities.Select(a => a.ToResponseDto()).ToList());
+
+    private static ActivityResponseDto ToResponseDto(this ActivityDocument document)
+        => new(
+            new ActivityDetailsResponseDto(document.Details.Title, document.Details.Note),
+            document.IsChecked,
+            document.ParentActivityRuleId ?? string.Empty,
+            document.Stages
+                .OrderBy(s => s.Index)
+                .Select(s => s.ToResponseDto())
+                .ToList());
+
+    private static StageResponseDto ToResponseDto(this StageDocument document)
+        => new(document.Title, document.Index, document.IsChecked);
 }

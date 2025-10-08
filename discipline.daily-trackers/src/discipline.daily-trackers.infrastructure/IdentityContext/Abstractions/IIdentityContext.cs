@@ -1,6 +1,6 @@
-using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
+using discipline.daily_trackers.domain.SharedKernel.TypeIdentifiers;
 
-namespace discipline.centre.shared.infrastructure.IdentityContext.Abstractions;
+namespace discipline.daily_trackers.infrastructure.IdentityContext.Abstractions;
 
 public interface IIdentityContext
 {

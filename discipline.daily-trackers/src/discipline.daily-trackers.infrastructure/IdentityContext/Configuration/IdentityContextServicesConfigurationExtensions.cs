@@ -1,5 +1,5 @@
-using discipline.centre.shared.infrastructure.IdentityContext.Abstractions;
-using discipline.centre.shared.infrastructure.IdentityContext.Factories;
+using discipline.daily_trackers.infrastructure.IdentityContext.Abstractions;
+using discipline.daily_trackers.infrastructure.IdentityContext.Factories;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection;

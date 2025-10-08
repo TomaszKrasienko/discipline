@@ -1,7 +1,7 @@
-using discipline.centre.shared.infrastructure.IdentityContext.Abstractions;
+using discipline.daily_trackers.infrastructure.IdentityContext.Abstractions;
 using Microsoft.AspNetCore.Http;
 
-namespace discipline.centre.shared.infrastructure.IdentityContext.Factories;
+namespace discipline.daily_trackers.infrastructure.IdentityContext.Factories;
 
 internal sealed class IdentityContextFactory(
     IHttpContextAccessor httpContextAccessor) : IIdentityContextFactory

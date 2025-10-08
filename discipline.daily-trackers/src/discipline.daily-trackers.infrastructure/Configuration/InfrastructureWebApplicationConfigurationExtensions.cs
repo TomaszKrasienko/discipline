@@ -7,13 +7,15 @@ namespace discipline.daily_trackers.infrastructure.Configuration;
 
 public static class InfrastructureWebApplicationConfigurationExtensions
 {
-    public static IApplicationBuilder UseInfrastructure(this WebApplication app)
+    public static WebApplication UseInfrastructure(this WebApplication app)
         => app
+            .UseAuth()
             .UseUiDocumentation();
     
     private static WebApplication UseUiDocumentation(this WebApplication app)
     {
         var appOptions = app.Services.GetRequiredService<IOptions<AppOptions>>().Value;
+        
         app.UseSwagger();
         app.UseReDoc(reDoc =>
         {

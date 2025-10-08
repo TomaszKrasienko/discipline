@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\..\discipline.libs\discipline.libs.auth\discipline.libs.auth.csproj" />
       <ProjectReference Include="..\..\..\discipline.libs\discipline.libs.cqrs\discipline.libs.cqrs.csproj" />
       <ProjectReference Include="..\..\..\discipline.libs\discipline.libs.mongo-db\discipline.libs.mongo-db.csproj" />
       <ProjectReference Include="..\..\..\discipline.libs\discipline.libs.rabbit-mq\discipline.libs.rabbit-mq.csproj" />

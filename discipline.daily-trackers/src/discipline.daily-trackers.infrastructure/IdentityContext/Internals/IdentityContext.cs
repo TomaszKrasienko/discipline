@@ -1,9 +1,8 @@
-using discipline.centre.shared.abstractions.Exceptions;
-using discipline.centre.shared.abstractions.SharedKernel.TypeIdentifiers;
-using discipline.centre.shared.infrastructure.IdentityContext.Abstractions;
+using discipline.daily_trackers.domain.SharedKernel.TypeIdentifiers;
+using discipline.daily_trackers.infrastructure.IdentityContext.Abstractions;
 using Microsoft.AspNetCore.Http;
 
-namespace discipline.centre.shared.infrastructure.IdentityContext.Internals;
+namespace discipline.daily_trackers.infrastructure.IdentityContext.Internals;
 
 internal sealed class IdentityContext : IIdentityContext
 {

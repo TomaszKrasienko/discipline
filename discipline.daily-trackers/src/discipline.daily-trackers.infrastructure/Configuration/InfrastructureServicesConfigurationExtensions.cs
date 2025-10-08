@@ -23,7 +23,10 @@ public static class InfrastructureServicesConfigurationExtensions
             .AddUiDocumentation()
             .AddRabbit(configuration)
             .AddValidation(allAssemblies)
-            .AddJwtAuthentication;
+            .AddJwtAuthentication(configuration)
+            .AddHttpContextAccessor()
+            .AddIdentityContext()
+            .AddConstraints();
     
     private static IServiceCollection AddUiDocumentation(this IServiceCollection services)
         => services.AddSwaggerGen(swagger =>
