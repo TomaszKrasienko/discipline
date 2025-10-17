@@ -1,4 +1,5 @@
 using System.Reflection;
+using discipline.daily_trackers.application.UserDailyTrackers.Commands;
 using discipline.daily_trackers.application.UserDailyTrackers.DTOs.Requests;
 using discipline.daily_trackers.application.UserDailyTrackers.DTOs.Responses;
 using discipline.daily_trackers.application.UserDailyTrackers.Queries;
@@ -69,6 +70,43 @@ app.MapPost(
     .WithOpenApi(operation => new (operation)
     {
         Description = "Adds activity"
+    })
+    .RequireAuthorization();
+
+app.MapPost("/api/user-daily-trackers/{day:dateonly}",
+    async (DateOnly day,
+        ICqrsDispatcher cqrsDispatcher,
+        IIdentityContext identityContext,
+        IHttpContextAccessor httpContext,
+        CancellationToken cancellationToken) =>
+    {
+        var account = identityContext.GetAccount();
+
+        if (account is null)
+        {
+            return Results.Unauthorized();
+        }
+
+        var dailyTrackerId = DailyTrackerId.New();
+
+        await cqrsDispatcher.HandleAsync(new CreateUserDailyTrackerCommand(
+            dailyTrackerId,
+            account.Value,
+            day), cancellationToken);
+        
+        httpContext.AddResourceIdHeader(dailyTrackerId.ToString());
+        return Results.CreatedAtRoute(getById, new { day = dailyTrackerId.ToString() });
+    })    
+    .Produces(StatusCodes.Status201Created, typeof(void))
+    .Produces(StatusCodes.Status400BadRequest, typeof(ProblemDetails))
+    .Produces(StatusCodes.Status401Unauthorized, typeof(void))
+    .Produces(StatusCodes.Status403Forbidden, typeof(void))
+    .Produces(StatusCodes.Status422UnprocessableEntity, typeof(ProblemDetails))
+    .WithName("CreateUserDailyTracker")
+    .WithTags(tag)
+    .WithOpenApi(operation => new (operation)
+    {
+        Description = "Creates empty user daily tracker"
     })
     .RequireAuthorization();
 

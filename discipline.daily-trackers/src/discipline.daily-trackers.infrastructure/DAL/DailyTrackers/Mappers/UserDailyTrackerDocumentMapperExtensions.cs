@@ -45,6 +45,7 @@ internal static class UserDailyTrackerDocumentMapperExtensions
 
     private static ActivityResponseDto ToResponseDto(this ActivityDocument document)
         => new(
+            document.Id,
             new ActivityDetailsResponseDto(document.Details.Title, document.Details.Note),
             document.IsChecked,
             document.ParentActivityRuleId ?? string.Empty,
