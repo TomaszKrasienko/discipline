@@ -63,14 +63,20 @@ internal sealed class UserDailyTrackerFactory(
                 activityId,
                 activityDetails);
             
-            await userDailyTrackerRepository.AddAsync(userDailyTracker);
-            
+            await userDailyTrackerRepository.AddAsync(
+                userDailyTracker,
+                cancellationToken);
+                
             return userDailyTracker;
         }
         
         dailyTracker.AddActivity(
             activityId,
             activityDetails);
+        
+        await userDailyTrackerRepository.UpdateAsync(
+            dailyTracker,
+            cancellationToken);
         
         return dailyTracker;
     }

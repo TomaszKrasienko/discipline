@@ -9,6 +9,11 @@ public interface IReadUserDailyTrackerRepository
         AccountId  accountId,
         Day day,
         CancellationToken cancellationToken = default);
+
+    Task<UserDailyTracker?> GetByIdAsync(
+        AccountId accountId,
+        DailyTrackerId id,
+        CancellationToken cancellationToken = default);
     
     Task<bool> DoesExistAsync(
         AccountId accountId,

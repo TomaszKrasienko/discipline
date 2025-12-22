@@ -133,4 +133,16 @@ public sealed class UserDailyTracker : AggregateRoot<DailyTrackerId, Ulid>
          _activities.Add(activity);
          return activity;
      }
+
+     public void RemoveActivity(ActivityId activityId)
+     {
+         var activity = _activities.SingleOrDefault(x => x.Id == activityId);
+
+         if (activity is null)
+         {
+             return;
+         }
+         
+         _activities.Remove(activity);  
+     } 
 }

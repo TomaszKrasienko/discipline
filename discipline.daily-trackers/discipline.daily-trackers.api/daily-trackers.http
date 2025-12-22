@@ -1,4 +1,4 @@
-@api_host = http://localhost:5124
+@api_host = http://localhost:7000
 @host_address = http://localhost:7001
 
 ###
@@ -33,3 +33,12 @@ Authorization: Bearer {{token}}
     "note": null
   }
 }
+
+### Create empty user daily tracker
+# @name create_empty_user_daily_tracker
+POST {{api_host}}/api/user-daily-trackers/2025-10-22
+Authorization: Bearer {{token}}
+
+###
+POST http://localhost:7000/api/user-daily-trackers/2025-10-27
+Authorization: Bearer {{token}}

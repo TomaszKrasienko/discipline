@@ -11,12 +11,25 @@ namespace discipline.daily_trackers.infrastructure.DAL.Repositories;
 internal sealed class MongoUserDailyTrackerRepository(
     DailyTrackerMongoContext context) : IReadWriteUserDailyTrackerRepository
 {
-    public async Task<UserDailyTracker?> GetByDayAsync(AccountId accountId, Day day,
+    public async Task<UserDailyTracker?> GetByDayAsync(
+        AccountId accountId,
+        Day day,
         CancellationToken cancellationToken = default)
         => (await context
             .GetCollection<UserDailyTrackerDocument>()
             .Find(x
                 => x.Day == day &&
+                   x.AccountId == accountId.ToString())
+            .SingleOrDefaultAsync(cancellationToken))?.ToEntity();
+
+    public async Task<UserDailyTracker?> GetByIdAsync(
+        AccountId accountId,
+        DailyTrackerId id,
+        CancellationToken cancellationToken = default)
+        => (await context
+            .GetCollection<UserDailyTrackerDocument>()
+            .Find(x
+                => x.Id == id.ToString() &&
                    x.AccountId == accountId.ToString())
             .SingleOrDefaultAsync(cancellationToken))?.ToEntity();
 

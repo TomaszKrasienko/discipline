@@ -12,7 +12,7 @@ using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 
 const string tag = "daily-trackers";
-const string getById = "getUserDailyTrackerByIdQuery"; 
+const string getById = "GetUserDailyTrackerByIdQuery"; 
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -95,7 +95,7 @@ app.MapPost("/api/user-daily-trackers/{day:dateonly}",
             day), cancellationToken);
         
         httpContext.AddResourceIdHeader(dailyTrackerId.ToString());
-        return Results.CreatedAtRoute(getById, new { day = dailyTrackerId.ToString() });
+        return Results.CreatedAtRoute(getById, new { id = dailyTrackerId.ToString() });
     })    
     .Produces(StatusCodes.Status201Created, typeof(void))
     .Produces(StatusCodes.Status400BadRequest, typeof(ProblemDetails))
@@ -107,6 +107,64 @@ app.MapPost("/api/user-daily-trackers/{day:dateonly}",
     .WithOpenApi(operation => new (operation)
     {
         Description = "Creates empty user daily tracker"
+    })
+    .RequireAuthorization();
+
+app.MapPatch(
+    "api/user-daily-trackers/{dailyTrackerId:ulid}/activities/{activityId:ulid}",
+    async (
+        Ulid dailyTrackerId,
+        Ulid activityId,
+        ICqrsDispatcher cqrsDispatcher,
+        CancellationToken cancellationToken) =>
+    {
+        
+    })
+    .Produces(StatusCodes.Status201Created, typeof(void))
+    .Produces(StatusCodes.Status400BadRequest, typeof(ProblemDetails))
+    .Produces(StatusCodes.Status401Unauthorized, typeof(void))
+    .Produces(StatusCodes.Status403Forbidden, typeof(void))
+    .Produces(StatusCodes.Status422UnprocessableEntity, typeof(ProblemDetails))
+    .WithName("CheckUserDailyTrackerActivity")
+    .WithTags(tag)
+    .WithOpenApi(operation => new (operation)
+    {
+        Description = "Checks user daily tracker activity"
+    })
+    .RequireAuthorization();
+
+app.MapDelete("/api/user-daily-trackers/{dailyTrackerId:ulid}/activities/{activityId:ulid}",
+        async (
+            Ulid dailyTrackerId,
+            Ulid activityId,
+            ICqrsDispatcher cqrsDispatcher,
+            IIdentityContext identityContext,
+            IHttpContextAccessor httpContext,
+            CancellationToken cancellationToken) =>
+        {
+            var account = identityContext.GetAccount();
+
+            if (account is null)
+            {
+                return Results.Unauthorized();
+            }
+
+            await cqrsDispatcher.HandleAsync(new DeleteActivityCommand(
+                account.Value,
+                new DailyTrackerId(dailyTrackerId),
+                new ActivityId(activityId)), cancellationToken);
+        
+            httpContext.AddResourceIdHeader(dailyTrackerId.ToString());
+            return Results.NoContent();
+        })    
+    .Produces(StatusCodes.Status204NoContent, typeof(void))
+    .Produces(StatusCodes.Status401Unauthorized, typeof(void))
+    .Produces(StatusCodes.Status403Forbidden, typeof(void))
+    .WithName("DeleteActivity")
+    .WithTags(tag)
+    .WithOpenApi(operation => new (operation)
+    {
+        Description = "Deletes activity from user daily tracker"
     })
     .RequireAuthorization();
 
